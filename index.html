@@ -1,0 +1,2037 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
+<title>Security+ SY0-701</title>
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Share+Tech+Mono&family=Rajdhani:wght@400;600;700&display=swap');
+:root {
+  --bg:#060a12;--surface:#0d1420;--border:rgba(255,255,255,0.08);
+  --d1:#7C3AED;--d2:#DC2626;--d3:#0284C7;--d4:#D97706;--d5:#059669;
+  --green:#22c55e;--red:#ef4444;--amber:#f59e0b;--text:#e2e8f0;--muted:#64748b;
+  --mono:'Share Tech Mono',monospace;--sans:'Rajdhani',sans-serif;
+}
+*{box-sizing:border-box;margin:0;padding:0;-webkit-tap-highlight-color:transparent}
+html,body{height:100%;background:var(--bg);color:var(--text);font-family:var(--sans);overscroll-behavior:none}
+body::before{content:'';position:fixed;inset:0;z-index:9999;pointer-events:none;background:repeating-linear-gradient(0deg,transparent,transparent 2px,rgba(0,0,0,0.025) 2px,rgba(0,0,0,0.025) 4px)}
+.view{display:none;min-height:100vh;flex-direction:column}
+.view.active{display:flex}
+.hdr{position:sticky;top:0;z-index:100;background:rgba(6,10,18,0.96);backdrop-filter:blur(16px);border-bottom:1px solid var(--border);padding:12px 16px;display:flex;justify-content:space-between;align-items:center}
+.hdr-left .sub{font-family:var(--mono);font-size:9px;color:var(--muted)}
+.hdr-left .title{font-size:15px;font-weight:700;line-height:1.2}
+.hdr-back{background:none;border:1px solid var(--border);color:var(--muted);padding:7px 13px;border-radius:8px;cursor:pointer;font-family:var(--mono);font-size:11px;min-height:36px}
+.hdr-stats{display:flex;gap:14px}
+.stat .lbl{font-family:var(--mono);font-size:9px;color:#374151}
+.stat .val{font-family:var(--mono);font-size:13px;font-weight:700}
+.content{flex:1;max-width:680px;width:100%;margin:0 auto;padding:18px 13px 70px}
+/* REALM MAP */
+.hero{text-align:center;padding:24px 0 20px}
+.hero h1{font-size:22px;font-weight:700;margin-bottom:4px}
+.hero p{color:var(--muted);font-size:13px;margin-bottom:18px}
+.xp-wrap{max-width:240px;margin:0 auto}
+.xp-track{height:5px;background:rgba(255,255,255,0.08);border-radius:3px;overflow:hidden}
+.xp-fill{height:100%;border-radius:3px;background:linear-gradient(90deg,var(--d1),var(--d3));transition:width .6s ease}
+.xp-lbl{font-family:var(--mono);font-size:10px;color:var(--muted);margin-top:5px}
+.realm-list{display:flex;flex-direction:column;gap:10px}
+.realm-card{border-radius:14px;overflow:hidden;border:1.5px solid rgba(255,255,255,0.06);background:var(--surface);cursor:pointer;transition:transform .15s}
+.realm-card:active{transform:scale(0.98)}
+.realm-card.locked{opacity:.4;cursor:not-allowed}
+.realm-top{padding:14px 16px;display:flex;justify-content:space-between;align-items:center}
+.realm-card-left{display:flex;align-items:center;gap:12px;flex:1;min-width:0}
+.realm-icon{font-size:28px;flex-shrink:0}
+.realm-w{font-family:var(--mono);font-size:9px;font-weight:700;text-transform:uppercase;letter-spacing:.1em;margin-bottom:3px}
+.realm-n{font-size:15px;font-weight:700;line-height:1.3}
+.realm-ct .num{font-family:var(--mono);font-size:22px;font-weight:700;line-height:1;text-align:right}
+.realm-ct .lbl{font-family:var(--mono);font-size:9px;color:var(--muted);text-align:right}
+.realm-bot{padding:7px 16px 12px;display:flex;gap:6px;flex-wrap:wrap}
+.pip{padding:3px 10px;border-radius:20px;font-family:var(--mono);font-size:10px;font-weight:700;border:1px solid}
+/* LEVEL MAP */
+.lvl-list{display:flex;flex-direction:column;gap:9px}
+.lvl-card{padding:14px 15px;border-radius:12px;border:1.5px solid rgba(255,255,255,0.07);background:var(--surface);display:flex;justify-content:space-between;align-items:center;cursor:pointer;transition:all .15s;min-height:72px}
+.lvl-card:active{transform:scale(0.98)}
+.lvl-card.locked{opacity:.4;cursor:not-allowed}
+.lvl-left{display:flex;align-items:center;gap:11px;flex:1;min-width:0}
+.lvl-num{width:36px;height:36px;border-radius:50%;flex-shrink:0;display:flex;align-items:center;justify-content:center;font-family:var(--mono);font-size:13px;font-weight:700;border:1.5px solid}
+.lvl-name{font-size:14px;font-weight:700;line-height:1.3;margin-bottom:4px}
+.lvl-meta{display:flex;align-items:center;gap:7px;flex-wrap:wrap}
+.lvl-obj{font-family:var(--mono);font-size:10px;color:var(--muted)}
+.type-tag{font-family:var(--mono);font-size:9px;font-weight:700;padding:2px 7px;border-radius:4px;text-transform:uppercase;letter-spacing:.06em}
+.missed-badge{font-family:var(--mono);font-size:9px;font-weight:700;padding:2px 7px;border-radius:4px;background:rgba(239,68,68,.15);color:var(--red);border:1px solid rgba(239,68,68,.3)}
+.lvl-right{flex-shrink:0;margin-left:10px;display:flex;align-items:center;gap:8px}
+.lvl-mastery{font-family:var(--mono);font-size:18px;font-weight:700}
+/* RUNNER */
+.phase-bar{display:flex;gap:6px;margin-bottom:18px}
+.ph-seg{flex:1}
+.ph-track{height:4px;border-radius:2px;margin-bottom:4px;transition:background .3s}
+.ph-lbl{font-family:var(--mono);font-size:10px;font-weight:700;text-align:center}
+.scenario-box{background:rgba(0,0,0,0.4);border-radius:12px;padding:14px 15px;margin-bottom:14px}
+.sc-hdr{display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:7px}
+.sc-tag{font-family:var(--mono);font-size:9px;font-weight:700;text-transform:uppercase;letter-spacing:.1em}
+.sc-cia{font-family:var(--mono);font-size:9px;color:var(--muted);font-style:italic}
+.sc-txt{color:#CBD5E1;font-size:13px;line-height:1.72}
+.instr{font-family:var(--mono);font-size:11px;color:var(--muted);font-style:italic;text-align:center;margin-bottom:14px}
+.meta-pills{display:flex;gap:7px;flex-wrap:wrap;margin-bottom:6px}
+.mpill{font-family:var(--mono);font-size:9px;font-weight:700;padding:2px 9px;border-radius:4px;letter-spacing:.08em;border:1px solid}
+.meta-note{font-family:var(--mono);font-size:11px;color:var(--muted);margin-bottom:14px}
+.pbq-item{border-radius:12px;padding:13px;border:1.5px solid rgba(255,255,255,0.1);background:rgba(255,255,255,0.02);margin-bottom:10px;transition:border-color .2s,background .2s}
+.pbq-item.ok{border-color:var(--green);background:rgba(34,197,94,0.05)}
+.pbq-item.bad{border-color:var(--red);background:rgba(239,68,68,0.05)}
+.pbq-hdr{display:flex;gap:10px;align-items:flex-start;margin-bottom:12px}
+.pbq-num{width:26px;height:26px;border-radius:50%;flex-shrink:0;display:flex;align-items:center;justify-content:center;font-family:var(--mono);font-size:11px;font-weight:700}
+.pbq-lbl{flex:1}
+.pbq-lbl-t{font-size:13px;font-weight:600;line-height:1.4;margin-bottom:3px}
+.pbq-lbl-d{font-family:var(--mono);font-size:11px;color:var(--muted)}
+.pbq-ri{font-size:18px;flex-shrink:0}
+.axis-sec{margin-bottom:10px}
+.axis-lbl{font-family:var(--mono);font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:.08em;margin-bottom:6px;display:flex;align-items:center;gap:8px}
+.axis-fix{color:var(--red);font-size:10px;font-weight:600}
+.axis-pills{display:flex;flex-wrap:wrap;gap:7px}
+.apill{padding:7px 14px;border-radius:20px;font-size:12px;font-weight:600;font-family:var(--sans);cursor:pointer;border:2px solid rgba(255,255,255,0.12);background:transparent;color:#64748b;transition:all .12s;min-height:38px}
+.apill:disabled{cursor:default}
+.apill.pc{border-color:var(--green)!important;background:rgba(34,197,94,0.15)!important;color:var(--green)!important}
+.apill.pw{border-color:var(--red)!important;background:rgba(239,68,68,0.15)!important;color:var(--red)!important}
+.expl{margin-top:10px;padding:10px 12px;border-radius:8px;background:rgba(0,0,0,0.3);font-size:12px;color:#94A3B8;line-height:1.65;border-left:3px solid}
+.sbtn{width:100%;padding:15px;border-radius:10px;border:none;font-family:var(--mono);font-size:13px;font-weight:700;min-height:52px;cursor:pointer;transition:all .15s;letter-spacing:.05em;margin-top:4px}
+.sbtn:active:not(:disabled){opacity:.8;transform:scale(.99)}
+.sbtn:disabled{background:rgba(255,255,255,0.06)!important;color:#4B5563!important;cursor:not-allowed}
+/* MCQ */
+.mcq-prog{display:flex;justify-content:space-between;align-items:center;margin-bottom:14px}
+.mcq-dots{display:flex;gap:5px}
+.mcq-dot{width:8px;height:8px;border-radius:50%;transition:background .3s}
+.qbox{background:rgba(0,0,0,0.4);border-radius:12px;padding:14px 15px;margin-bottom:14px;border-left:3px solid}
+.qlbl{font-family:var(--mono);font-size:9px;font-weight:700;text-transform:uppercase;letter-spacing:.1em;margin-bottom:8px}
+.qtxt{font-size:14px;font-weight:600;line-height:1.6}
+.opts{display:flex;flex-direction:column;gap:9px;margin-bottom:14px}
+.opt{padding:12px 14px;border-radius:10px;border:2px solid rgba(255,255,255,0.1);background:rgba(255,255,255,0.03);cursor:pointer;display:flex;align-items:flex-start;gap:10px;font-size:13px;font-weight:600;line-height:1.45;min-height:48px;text-align:left;font-family:var(--sans);color:#94A3B8;width:100%;transition:all .15s}
+.opt:disabled{cursor:default}
+.opt.sel{border-color:var(--sel-c,var(--d1));background:rgba(124,58,237,0.12);color:#fff}
+.opt.oc{border-color:var(--green)!important;background:rgba(34,197,94,0.12)!important;color:var(--green)!important}
+.opt.ow{border-color:var(--red)!important;background:rgba(239,68,68,0.12)!important;color:var(--red)!important}
+.opt-lt{flex-shrink:0;width:22px;height:22px;border-radius:50%;margin-top:1px;display:flex;align-items:center;justify-content:center;font-family:var(--mono);font-size:11px;font-weight:700;background:rgba(255,255,255,0.07);color:#64748b;transition:all .15s}
+.expbox{padding:12px 14px;border-radius:10px;background:rgba(255,255,255,0.03);border:1px solid rgba(255,255,255,0.08);margin-bottom:14px}
+.exp-t{color:#CBD5E1;font-size:13px;line-height:1.65;margin-bottom:10px}
+.tip{padding:9px 12px;border-radius:8px;border-left:2px solid}
+.tip-lbl{font-family:var(--mono);font-size:11px;font-weight:700}
+.tip-txt{font-size:12px;color:#94A3B8}
+/* RESULT */
+.res-card{padding:26px 20px;border-radius:14px;text-align:center;border:2px solid;margin-bottom:14px}
+.res-obj{font-family:var(--mono);font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:.12em;margin-bottom:10px}
+.res-score{font-family:var(--mono);font-size:64px;font-weight:700;line-height:1;margin-bottom:6px}
+.res-sub{font-family:var(--mono);font-size:12px;color:var(--muted);margin-bottom:18px}
+.res-badge{display:inline-block;padding:7px 20px;border-radius:20px;font-family:var(--mono);font-size:11px;font-weight:700;border:1px solid}
+.bdown{padding:16px;border-radius:12px;background:rgba(0,0,0,0.35);border:1px solid rgba(255,255,255,0.07);margin-bottom:14px}
+.bdown-title{font-family:var(--mono);font-size:10px;color:var(--muted);font-weight:700;text-transform:uppercase;letter-spacing:.08em;margin-bottom:14px}
+.sbar{margin-bottom:12px}
+.sbar-hdr{display:flex;justify-content:space-between;margin-bottom:5px}
+.sbar-lbl{font-size:12px;color:#94A3B8;font-weight:600}
+.sbar-val{font-family:var(--mono);font-size:12px;font-weight:700}
+.sbar-track{height:6px;border-radius:3px;background:rgba(255,255,255,0.08);overflow:hidden}
+.sbar-fill{height:100%;border-radius:3px;transition:width .7s ease}
+.divider{height:1px;background:rgba(255,255,255,0.06);margin:14px 0}
+/* MISSED */
+.missed-sum{padding:12px 14px;border-radius:10px;margin-bottom:14px;background:rgba(239,68,68,0.08);border:1px solid rgba(239,68,68,0.25);display:flex;justify-content:space-between;align-items:center;cursor:pointer}
+.missed-sum-l{display:flex;align-items:center;gap:10px}
+.missed-circle{width:36px;height:36px;border-radius:50%;background:rgba(239,68,68,0.2);border:1.5px solid rgba(239,68,68,0.4);display:flex;align-items:center;justify-content:center;font-family:var(--mono);font-size:14px;font-weight:700;color:var(--red);flex-shrink:0}
+.missed-ttl{font-size:13px;font-weight:600;color:#CBD5E1}
+.missed-s{font-family:var(--mono);font-size:10px;color:var(--muted);margin-top:2px}
+.missed-ico{font-family:var(--mono);font-size:12px;color:var(--red);transition:transform .2s}
+.missed-ico.open{transform:rotate(180deg)}
+.missed-panel{display:none;margin-bottom:14px}
+.missed-panel.open{display:block}
+.m-sec-title{font-family:var(--mono);font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:.08em;color:var(--red);margin-bottom:10px;padding:0 2px}
+.m-item{padding:12px 13px;border-radius:10px;margin-bottom:8px;background:rgba(239,68,68,0.06);border:1px solid rgba(239,68,68,0.2)}
+.m-item-lbl{font-size:13px;font-weight:600;color:#E2E8F0;margin-bottom:8px;line-height:1.4}
+.m-axes{display:flex;flex-direction:column;gap:4px;margin-bottom:8px}
+.m-row{display:flex;gap:6px;align-items:center;flex-wrap:wrap;font-family:var(--mono);font-size:11px}
+.m-axis-name{color:var(--muted);width:70px;flex-shrink:0}
+.m-yours{color:var(--red)}
+.m-arr{color:var(--muted)}
+.m-correct{color:var(--green)}
+.m-exp{font-size:12px;color:#94A3B8;line-height:1.6;border-top:1px solid rgba(255,255,255,0.06);padding-top:8px}
+.m-mcq-item{padding:12px 13px;border-radius:10px;margin-bottom:8px;background:rgba(239,68,68,0.06);border:1px solid rgba(239,68,68,0.2)}
+.m-mcq-q{font-size:13px;font-weight:600;color:#E2E8F0;margin-bottom:8px;line-height:1.4}
+.m-mcq-ans{display:flex;flex-direction:column;gap:3px;margin-bottom:8px;font-family:var(--mono);font-size:11px}
+.m-mcq-tip{font-size:12px;color:#94A3B8;line-height:1.6;border-top:1px solid rgba(255,255,255,0.06);padding-top:8px}
+.focus-hint{padding:12px 14px;border-radius:10px;margin-bottom:14px;background:rgba(217,119,6,0.08);border:1px solid rgba(217,119,6,0.25);font-size:13px;color:#CBD5E1;line-height:1.65}
+.res-btns{display:flex;gap:10px}
+.btn-sec{flex:1;padding:14px;border-radius:10px;font-family:var(--mono);font-size:12px;font-weight:700;border:1.5px solid;background:transparent;cursor:pointer;min-height:52px;letter-spacing:.04em}
+.btn-pri{flex:1;padding:14px;border-radius:10px;font-family:var(--mono);font-size:12px;font-weight:700;border:none;cursor:pointer;min-height:52px;letter-spacing:.04em;color:#fff}
+.btn-sec:active,.btn-pri:active{opacity:.8}
+@keyframes fadeIn{from{opacity:0;transform:translateY(6px)}to{opacity:1;transform:none}}
+.ai{animation:fadeIn .25s ease both}
+::-webkit-scrollbar{width:3px}
+::-webkit-scrollbar-thumb{background:#1e293b;border-radius:2px}
+</style>
+</head>
+<body>
+
+<!-- REALM MAP -->
+<div id="v-realm" class="view active">
+  <div class="hdr">
+    <div class="hdr-left"><div class="sub">SY0-701 TRAINER</div><div class="title">Security+</div></div>
+    <div class="hdr-stats">
+      <div class="stat"><div class="lbl">TOTAL XP</div><div class="val" id="h-xp" style="color:var(--d1)">0</div></div>
+      <div class="stat"><div class="lbl">DONE</div><div class="val" id="h-done" style="color:var(--muted)">0/1</div></div>
+    </div>
+  </div>
+  <div class="content">
+    <div class="hero">
+      <div style="font-size:46px;margin-bottom:10px">🛡️</div>
+      <h1>Security+ Trainer</h1>
+      <p>SY0-701 · PBQ + MCQ · Realm by Realm</p>
+      <div class="xp-wrap">
+        <div class="xp-track"><div class="xp-fill" id="g-xp-bar" style="width:2%"></div></div>
+        <div class="xp-lbl" id="g-xp-lbl">0 / 100 XP</div>
+      </div>
+    </div>
+    <div class="realm-list" id="realm-list"></div>
+  </div>
+</div>
+
+<!-- LEVEL MAP -->
+<div id="v-level" class="view">
+  <div class="hdr">
+    <button class="hdr-back" onclick="showRealm()">← REALMS</button>
+    <div style="text-align:center">
+      <div class="sub" id="lm-sub" style="color:var(--d1)"></div>
+      <div class="title" id="lm-title"></div>
+    </div>
+    <div class="stat"><div class="lbl">DONE</div><div class="val" id="lm-done" style="color:var(--muted)">0/1</div></div>
+  </div>
+  <div class="content"><div class="lvl-list" id="level-list"></div></div>
+</div>
+
+<!-- RUNNER -->
+<div id="v-runner" class="view">
+  <div class="hdr">
+    <button class="hdr-back" id="r-back">← LEVELS</button>
+    <div style="text-align:center">
+      <div class="sub" id="r-obj"></div>
+      <div class="title" id="r-name"></div>
+    </div>
+    <div class="hdr-stats">
+      <div class="stat"><div class="lbl">PBQ</div><div class="val" id="r-pbq" style="color:var(--muted)">60</div></div>
+      <div class="stat"><div class="lbl">MCQ</div><div class="val" id="r-mcq" style="color:var(--muted)">40</div></div>
+    </div>
+  </div>
+  <div class="content" id="r-content"></div>
+</div>
+
+<script>
+// ── DATA ─────────────────────────────────────────────────────────────────────
+const REALMS=[
+  {id:"d1",num:"1.0",name:"General Security Concepts",weight:12,icon:"🔐",color:"var(--d1)",
+   levels:[{id:"d1l1",obj:"1.1",name:"Security Controls",type:"dual_classify",xp:100},{id:"d1l2",obj:"1.2",name:"Zero Trust Architecture",type:"classify",xp:100},{id:"d1l3",obj:"1.3",name:"Change Management",type:"triage",xp:100},{id:"d1l4",obj:"1.4",name:"Cryptographic Solutions",type:"match",xp:100},{id:"d1l5",obj:"1.0",name:"Realm 1 Review",type:"review",xp:150}]},
+  {id:"d2",num:"2.0",name:"Threats, Vulnerabilities & Mitigations",weight:22,icon:"⚠️",color:"var(--d2)",levels:[{id:"d2l1",obj:"2.1",name:"Threat Actors & Motivations",type:"dual_classify",xp:100},{id:"d2l2",obj:"2.2",name:"Threat Vectors & Attack Surfaces",type:"scenario_builder",xp:100},{id:"d2l3",obj:"2.3",name:"Vulnerability Types",type:"classify",xp:100}]},
+  {id:"d3",num:"3.0",name:"Security Architecture",weight:18,icon:"🏗️",color:"var(--d3)",levels:[]},
+  {id:"d4",num:"4.0",name:"Security Operations",weight:28,icon:"⚙️",color:"var(--d4)",levels:[]},
+  {id:"d5",num:"5.0",name:"Security Program Management",weight:20,icon:"📋",color:"var(--d5)",levels:[]},
+];
+const ALL_LEVELS=REALMS.flatMap(r=>r.levels);
+const TOTAL_XP=ALL_LEVELS.reduce((s,l)=>s+l.xp,0)||100;
+
+const D1L1={
+  pbq:{
+    cia_tag:"⚑ C · I · A",
+    scenario:"Following an independent security assessment, a mid-sized enterprise must formally document its control posture before submitting a remediation plan to the board. Each control must be classified across two independent axes. Axis 1: Category — how the control is implemented. Axis 2: Type — what the control does when activated. Both axes must be correct to receive credit.",
+    instruction:"For each control select its Category AND its Type. Both must be set before you can submit.",
+    items:[
+      {id:"i1",label:"Deploy automated patch management applying OS updates within 72 hours of critical advisory",desc:"System-driven remediation of known vulnerabilities"},
+      {id:"i2",label:"Enforce Acceptable Use Policy with documented disciplinary consequences, distributed at onboarding and annually",desc:"Policy mandate directing user behavior"},
+      {id:"i3",label:"Configure SIEM rules to alert when privileged accounts authenticate outside business hours or from unrecognized IPs",desc:"Event-driven alerting on anomalous authentication"},
+      {id:"i4",label:"Deploy DLP agent on all endpoints to inspect and block outbound transfers matching data classification labels",desc:"Content inspection with active blocking enforcement"},
+      {id:"i5",label:"Establish formal account remediation procedure requiring IT to disable, review, and document flagged accounts within 5 business days",desc:"Governance-mandated remediation SLA"},
+      {id:"i6",label:"Display legal warning banner on all system login screens stating unauthorized access is monitored and subject to prosecution",desc:"System-displayed legal notice at every authentication point"},
+      {id:"i7",label:"Implement mandatory security awareness training with documented completion tracking as a condition of system access",desc:"People-executed training with governance-enforced enrollment"},
+      {id:"i8",label:"Configure automated revocation of system access for accounts inactive for 45 or more consecutive days",desc:"System-enforced elimination of dormant credential risk"},
+    ],
+    categories:[{id:"c1",name:"Technical"},{id:"c2",name:"Managerial"},{id:"c3",name:"Operational"},{id:"c4",name:"Physical"}],
+    types:[{id:"t1",name:"Preventive"},{id:"t2",name:"Detective"},{id:"t3",name:"Corrective"},{id:"t4",name:"Deterrent"},{id:"t5",name:"Directive"},{id:"t6",name:"Compensating"}],
+    cat_answers:{i1:"c1",i2:"c2",i3:"c1",i4:"c1",i5:"c2",i6:"c1",i7:"c3",i8:"c1"},
+    type_answers:{i1:"t3",i2:"t5",i3:"t2",i4:"t1",i5:"t3",i6:"t4",i7:"t5",i8:"t1"},
+    explanations:{
+      i1:"TECHNICAL · CORRECTIVE — Strong Preventive trap. Patching corrects an existing identified vulnerability. Preventive stops attacks before they start; Corrective fixes a vulnerable state that already exists.",
+      i2:"MANAGERIAL · DIRECTIVE — Type trap: Deterrent feels right because the AUP signals consequences. Directive is more precise — the control works by telling people what they must do through formal mandate. Deterrent discourages through fear; Directive instructs through written rule.",
+      i3:"TECHNICAL · DETECTIVE — SIEM alerts after detection, it does not block the login. Detection after occurrence = Detective. If it blocked the authentication it would be Preventive.",
+      i4:"TECHNICAL · PREVENTIVE — Detective trap: DLP inspects content, which feels like detection. The stated function is blocking — the transfer is stopped before completion. Alert-only DLP = Detective. Blocking DLP = Preventive.",
+      i5:"MANAGERIAL · CORRECTIVE — Operational trap: IT staff execute this procedure. The control classified is the formal governance mandate with SLA and accountability = Managerial. Executing the procedure = Operational. Remediates accounts already flagged = Corrective.",
+      i6:"TECHNICAL · DETERRENT — Managerial trap: legal banners involve legal language, but the banner deployed by the system = Technical. Directive trap: the banner does not instruct behavior — it signals consequences without blocking = Deterrent.",
+      i7:"OPERATIONAL · DIRECTIVE — Hardest Managerial trap. People delivering and completing training = Operational. The policy mandating it = Managerial. The program itself = Operational. Type trap: feels Preventive because training reduces risk, but the mechanism is instruction — it tells people what they must do = Directive.",
+      i8:"TECHNICAL · PREVENTIVE — Corrective trap: revoking an inactive account could be framed as correcting over-privilege. Preventive is stronger: the control acts before any attack occurs, eliminating dormant credential risk proactively.",
+    },
+  },
+  mcqs:[
+    {id:"m1",q:"A security policy document defines the minimum password length for all systems. A separate automated script enforces those requirements at login. Which correctly classifies EACH component?",
+     options:[{id:"a",label:"Both are Managerial controls"},{id:"b",label:"The policy is Managerial; the script is Technical"},{id:"c",label:"The policy is Operational; the script is Technical"},{id:"d",label:"Both are Technical controls"}],
+     correct:"b",explanation:"The policy document is Managerial — a written directive governing behavior through organizational authority. The automated script enforcing those rules at login is Technical. Two distinct controls, two different categories, even though they address the same objective.",
+     exam_tip:"Policy = Managerial. What technically enforces the policy = Technical. Always classified separately."},
+    {id:"m2",q:"A vulnerability assessment identifies a critical unpatched CVE on a production server. After testing in staging, the security team deploys the patch. How should the patch deployment itself be classified?",
+     options:[{id:"a",label:"Preventive — it stops future exploitation of this vulnerability"},{id:"b",label:"Detective — it identifies the presence of the vulnerability"},{id:"c",label:"Corrective — it remediates a known vulnerable state"},{id:"d",label:"Deterrent — it discourages attackers from targeting the system"}],
+     correct:"c",explanation:"Patching is Corrective. The vulnerability already exists — the patch corrects that vulnerable state. Preventive stops attacks before they start. A patch applied after a vulnerability is identified is fixing something known to be broken.",
+     exam_tip:"Patch = Corrective. The vulnerability already exists. You are fixing a known problem, not preventing an unknown one."},
+    {id:"m3",q:"Which of the following BEST distinguishes a Directive control from a Deterrent control?",
+     options:[{id:"a",label:"Directive controls are always Technical; Deterrent controls are always Managerial"},{id:"b",label:"Directive controls instruct people what to do through mandate; Deterrent controls discourage action by signaling consequences"},{id:"c",label:"Deterrent controls are legally binding; Directive controls are advisory only"},{id:"d",label:"They are the same control type with different names"}],
+     correct:"b",explanation:"Directive controls work by telling people what they must do — policies, procedures, mandatory training. Deterrent controls discourage behavior by signaling consequences — warning banners, visible cameras, audit notices. An AUP is Directive. A login warning banner is Deterrent.",
+     exam_tip:"Directive = instructs behavior ('you must do X'). Deterrent = discourages behavior ('if you do X, consequences follow'). Both can exist across all four categories."},
+    {id:"m4",q:"A SIEM generates a real-time alert on impossible travel logins but does not block the session. What control type is this?",
+     options:[{id:"a",label:"Preventive — it identifies the condition before damage occurs"},{id:"b",label:"Detective — it identifies suspicious activity after it has occurred"},{id:"c",label:"Corrective — it remediates the compromised credential"},{id:"d",label:"Directive — it instructs the analyst to investigate"}],
+     correct:"b",explanation:"The SIEM detects anomalous activity and alerts — it does not block the session. Detection after occurrence = Detective. If it automatically terminated the session it would be Corrective. Alert-only = Detective.",
+     exam_tip:"Alert only = Detective. Blocks or terminates = Preventive. Fixes after the fact = Corrective."},
+    {id:"m5",q:"A legacy payroll application cannot support MFA. The organization deploys a VPN gateway requiring MFA before users can reach the application's network segment. The application itself is unchanged. This control is BEST described as:",
+     options:[{id:"a",label:"Preventive — it stops unauthorized access to the application"},{id:"b",label:"Directive — it mandates that users authenticate before access"},{id:"c",label:"Compensating — equivalent protection through an alternative mechanism because the primary control cannot be applied"},{id:"d",label:"Corrective — it patches the authentication vulnerability in the application"}],
+     correct:"c",explanation:"A compensating control is used when the primary control cannot be applied. The VPN gateway achieves equivalent MFA assurance without modifying the application. The original gap still exists — it is compensated for, not eliminated.",
+     exam_tip:"Compensating = primary control cannot be implemented, so you achieve equivalent protection another way. The original gap still exists."},
+  ],
+};
+
+const D1L2={
+  pbq:{
+    cia_tag:"⚑ Confidentiality + Availability",
+    scenario:"A mid-sized financial firm is transitioning from a traditional perimeter-based model to a Zero Trust architecture. The security team must document each observed behavior or design decision by mapping it to the correct Zero Trust principle or component. The board has asked for clear explanations — no vendor jargon, no acronym stacking. Just: what is this thing doing, and which Zero Trust concept does it represent?",
+    instruction:"For each statement, select the Zero Trust concept it BEST represents.",
+    items:[
+      {id:"z1",label:"Before granting access to the payroll application, the system evaluates the requesting user's role, device health score, and the sensitivity of the resource being requested",desc:"Multiple signals evaluated before an access decision is made"},
+      {id:"z2",label:"After the access decision is made, this component either opens or blocks the actual connection between the user and the application",desc:"The component that acts on the decision — not the one that makes it"},
+      {id:"z3",label:"A user connected directly to the corporate office network must still authenticate and be verified before accessing internal systems — being on-site grants nothing by itself",desc:"Location provides no inherent trust"},
+      {id:"z4",label:"A user's active session to the financial reporting system is automatically revoked mid-session when their device fails a scheduled compliance re-check",desc:"Trust is not permanent — it is re-assessed during active sessions"},
+      {id:"z5",label:"A remote contractor and an on-site executive are subject to identical verification requirements when requesting access to the same application",desc:"Identity and context determine access, not network location or job title"},
+      {id:"z6",label:"Access is evaluated each time a user requests a new resource during their session, not only at the moment of initial login",desc:"Every request is treated as potentially untrusted"},
+    ],
+    concepts:[
+      {id:"pe",  name:"Policy Engine"},
+      {id:"pep", name:"Policy Enforcement Point"},
+      {id:"ce",  name:"Continuous Evaluation"},
+      {id:"nit", name:"No Implicit Trust"},
+    ],
+    answers:{z1:"pe", z2:"pep", z3:"nit", z4:"ce", z5:"nit", z6:"ce"},
+    explanations:{
+      z1:"POLICY ENGINE — The Policy Engine is the decision-maker. It takes in multiple signals (user identity, device posture, resource sensitivity, location context) and produces an access decision: allow, deny, or allow with conditions. It does not enforce — it decides.",
+      z2:"POLICY ENFORCEMENT POINT — The PEP is the enforcer. Once the Policy Engine produces a decision, the PEP acts on it by opening or blocking the actual network path. Common trap: students assign enforcement to the Policy Engine. The PE thinks; the PEP acts.",
+      z3:"NO IMPLICIT TRUST — Zero Trust eliminates the assumption that internal network location equals trustworthiness. Being on the corporate LAN, on-site, or on a VPN does not grant access. Every subject must be explicitly verified regardless of where they are connecting from.",
+      z4:"CONTINUOUS EVALUATION — Trust is not a one-time decision at login. Zero Trust requires ongoing re-assessment during active sessions. If device posture degrades, compliance fails, or behavior changes, access can be revoked mid-session without waiting for re-authentication.",
+      z5:"NO IMPLICIT TRUST — Location, seniority, or job title do not grant implicit trust. A Zero Trust model applies consistent verification to all subjects regardless of physical location or organizational role. The access decision is based on verified identity and context, not assumed privilege.",
+      z6:"CONTINUOUS EVALUATION — Each new resource request triggers a fresh evaluation, not a pass-through based on an earlier login decision. This is distinct from session revocation (z4) — z6 is about per-request evaluation, z4 is about mid-session revocation when conditions change.",
+    },
+  },
+  mcqs:[
+    {
+      id:"m1",
+      q:"In a Zero Trust architecture, a component evaluates user identity, device compliance status, and resource sensitivity before producing an access decision. A separate component then blocks or permits the actual network connection based on that decision. Which correctly identifies each component?",
+      options:[
+        {id:"a", label:"The Policy Engine blocks or permits traffic; the Policy Enforcement Point produces the access decision"},
+        {id:"b", label:"The Policy Engine produces the access decision; the Policy Enforcement Point blocks or permits traffic"},
+        {id:"c", label:"Both functions are performed by the Policy Engine"},
+        {id:"d", label:"Both functions are performed by the Policy Enforcement Point"},
+      ],
+      correct:"b",
+      explanation:"The Policy Engine is the decision-maker — it evaluates signals and produces an allow/deny decision. The Policy Enforcement Point is the enforcer — it acts on that decision by opening or blocking the actual connection. They are distinct components with distinct roles.",
+      exam_tip:"PE = thinks (decides). PEP = acts (enforces). If a question describes evaluation of signals and producing a decision, that is the PE. If it describes blocking or permitting a connection, that is the PEP.",
+    },
+    {
+      id:"m2",
+      q:"A user sends a digitally signed email approving a large wire transfer. Later, the user claims they never sent it. The security team is able to prove the message originated from the user's private key. Which security concept does this scenario demonstrate?",
+      options:[
+        {id:"a", label:"Confidentiality — the message content was protected from third parties"},
+        {id:"b", label:"Integrity — the message was not altered in transit"},
+        {id:"c", label:"Non-repudiation — the sender cannot credibly deny having sent the message"},
+        {id:"d", label:"Authentication — the system verified the sender's identity at login"},
+      ],
+      correct:"c",
+      explanation:"Non-repudiation means a party cannot deny an action they took. Digital signatures provide non-repudiation because only the holder of the private key could have signed the message. Authentication verifies identity at a point in time; non-repudiation creates binding proof of a specific action.",
+      exam_tip:"Non-repudiation = cannot deny the action. Digital signatures are the primary mechanism. If a scenario involves proving someone did something they are now denying, the answer is non-repudiation.",
+    },
+    {
+      id:"m3",
+      q:"After successfully verifying a user's identity with a password and a hardware token, the system checks what file shares and applications the user is permitted to access based on their role. Which AAA function is being performed in this second step?",
+      options:[
+        {id:"a", label:"Authentication — confirming the user is who they claim to be"},
+        {id:"b", label:"Authorization — determining what the authenticated user is permitted to do"},
+        {id:"c", label:"Accounting — recording what the user accessed for audit purposes"},
+        {id:"d", label:"Non-repudiation — ensuring the user cannot deny accessing the resources"},
+      ],
+      correct:"b",
+      explanation:"Authentication answers 'who are you?' — it was completed in the first step with password and token. Authorization answers 'what are you allowed to do?' — that is the second step, where the system checks permissions based on role. Accounting would be logging the access after the fact.",
+      exam_tip:"AAA order: Authentication (prove identity) → Authorization (check permissions) → Accounting (log activity). The question describes a role-based permissions check after identity was already confirmed — that is Authorization.",
+    },
+    {
+      id:"m4",
+      q:"A security team places a realistic-looking but fake document labeled 'Q4 Acquisition Targets — CONFIDENTIAL' on a monitored file server. The document is never accessed during normal operations. Any access to it triggers an immediate alert. Which deception technology does this BEST represent?",
+      options:[
+        {id:"a", label:"Honeypot — a decoy system designed to attract and detect attackers"},
+        {id:"b", label:"Honeynet — a network of decoy systems used to observe attacker behavior"},
+        {id:"c", label:"Honeyfile — a fake file designed to detect unauthorized access"},
+        {id:"d", label:"Honeytoken — a fake credential used to detect credential theft"},
+      ],
+      correct:"c",
+      explanation:"A honeyfile is a fake file placed in a real environment to detect unauthorized access. Because legitimate users have no reason to open it, any access is suspicious and triggers an alert. A honeytoken is a fake credential or data element (like a fake API key or database entry), not a document file.",
+      exam_tip:"Honeyfile = fake file. Honeytoken = fake credential or data element (API key, DB record, fake username). Both detect by triggering alerts on access that should never happen in legitimate operations.",
+    },
+    {
+      id:"m5",
+      q:"An organization installs a physical security control at the main building entrance that requires visitors to pass through a first door, wait in a small enclosed space while their identity is verified, and only then allows them through a second door into the building. This control BEST describes which physical security measure?",
+      options:[
+        {id:"a", label:"Bollard — a barrier that prevents vehicle-based intrusion"},
+        {id:"b", label:"Fencing — a perimeter barrier that deters unauthorized entry"},
+        {id:"c", label:"Access control vestibule — an enclosed entry space that prevents tailgating by controlling one door at a time"},
+        {id:"d", label:"Badge reader — a device that authenticates users before granting access"},
+      ],
+      correct:"c",
+      explanation:"An access control vestibule (sometimes called a mantrap) is a small enclosed area between two doors. The first door must close and lock before the second opens, preventing tailgating. Badge readers may be part of the system, but the vestibule is the physical structure that controls one-person-at-a-time entry.",
+      exam_tip:"Vestibule = two-door entry trap that prevents tailgating. Key feature: second door cannot open until first is closed. Bollards stop vehicles. Fencing defines perimeters. Badge readers authenticate — they are components, not the enclosure itself.",
+    },
+  ],
+};
+
+
+const D1L3={
+  pbq:{
+    type:"triage",
+    cia_tag:"⚑ Availability + Integrity",
+    scenario:"A junior administrator has submitted the following change request for an after-hours firewall rule modification on the primary edge firewall. As the change control reviewer, examine each field of the request. Mark it APPROVE if it meets the standard for a properly documented change, or FLAG if it is missing, vague, or would put the organization at risk if the change proceeded as written.",
+    instruction:"Review each field. Tap APPROVE if it is acceptable or FLAG if it has a problem.",
+    fields:[
+      {id:"f1",
+       label:"Change Description",
+       value:"Update firewall ACL to allow inbound TCP 8443 from vendor CIDR block 203.0.113.0/24 to application server 10.10.5.22 for new vendor integration.",
+       answer:"approve",
+       explanation:"APPROVE — This is specific, technically precise, and unambiguous. It names the protocol, port, source CIDR, and destination. A reviewer can evaluate scope and risk from this description alone."},
+      {id:"f2",
+       label:"Business Justification / Ownership",
+       value:"Needed for the new integration.",
+       answer:"flag",
+       explanation:"FLAG — 'Needed for the new integration' identifies no owner, no stakeholder, no business driver, and no system name. A valid justification names who requested it, why it is needed, and which business process it supports. This would be rejected in any mature change process."},
+      {id:"f3",
+       label:"Impact Analysis",
+       value:"This change opens a new inbound port. It may affect the firewall. Legacy billing application on 10.10.5.22 shares this server — compatibility with new rule has not been verified. Downtime estimated at 0 minutes if implemented correctly.",
+       answer:"flag",
+       explanation:"FLAG — Partially correct but incomplete. The submitter identified the legacy application dependency but did not assess whether the legacy billing application accepts or conflicts with traffic on 8443, nor whether a service restart would be required. Noting a dependency exists without evaluating it is an insufficient impact analysis."},
+      {id:"f4",
+       label:"Backout Plan",
+       value:"If something goes wrong, we will revert the change.",
+       answer:"flag",
+       explanation:"FLAG — This is not a backout plan. A valid backout plan specifies: the exact commands or steps to reverse the change, who is responsible for executing them, under what conditions rollback is triggered, and how long rollback is expected to take. 'Revert if something goes wrong' provides no actionable guidance under pressure."},
+      {id:"f5",
+       label:"Maintenance Window",
+       value:"Saturday 02:00–04:00 local time. Change will be implemented by network engineer J. Torres. Monitoring team notified. Rollback decision point at 02:45 if testing is not complete.",
+       answer:"approve",
+       explanation:"APPROVE — This meets the standard. It specifies the date range, time window, responsible engineer, stakeholder notification, and a decision point for rollback. The rollback decision point at 02:45 is particularly strong — it prevents the team from drifting past the window without a conscious go/no-go call."},
+      {id:"f6",
+       label:"Test Results / Validation Plan",
+       value:"After implementation, J. Torres will confirm the vendor can reach the application server on 8443 and that existing firewall rules are unaffected. Test results will be documented in the change ticket before the window closes.",
+       answer:"approve",
+       explanation:"APPROVE — Validation is specific: named tester, named test (vendor connectivity on 8443), scope of regression check (existing rules unaffected), and documentation requirement before the window closes. This is what a complete validation plan looks like."},
+    ],
+    scoring:"1 point per correct triage decision. Partial credit: 5–6 correct = full PBQ score tier. Fewer than 4 correct = retry recommended.",
+  },
+  mcqs:[
+    {
+      id:"m1",
+      q:"A network engineer wants to apply a critical security patch to a production router immediately after a zero-day exploit is published. The standard change process requires a two-week review cycle. Which approach BEST balances security urgency with change management principles?",
+      options:[
+        {id:"a", label:"Skip the change management process entirely — security patches are exempt from change control"},
+        {id:"b", label:"Follow the standard two-week process regardless of urgency — exceptions create risk"},
+        {id:"c", label:"Use an expedited or emergency change process that compresses the approval timeline while still requiring documentation and a backout plan"},
+        {id:"d", label:"Apply the patch during the next available maintenance window without additional approval"},
+      ],
+      correct:"c",
+      explanation:"Change management processes typically include an emergency or expedited path for exactly this scenario. The patch still requires documentation, an owner, and a backout plan — the timeline is compressed, not eliminated. Bypassing change control entirely is what creates uncontrolled risk, even for security patches.",
+      exam_tip:"Emergency changes compress the process, they do not eliminate it. Documentation and backout plans are always required regardless of urgency.",
+    },
+    {
+      id:"m2",
+      q:"During a maintenance window, a technician applies an approved configuration change to a web application server. Immediately after the restart, a critical legacy reporting application that runs on the same server stops responding. Which change management element, if properly completed before the change, would MOST likely have prevented this outcome?",
+      options:[
+        {id:"a", label:"Version control — tracking the configuration state before and after the change"},
+        {id:"b", label:"Impact analysis — identifying dependencies including the legacy application before the change was approved"},
+        {id:"c", label:"Backout plan — defining steps to reverse the change if problems occurred"},
+        {id:"d", label:"Maintenance window — scheduling the change during low-usage hours"},
+      ],
+      correct:"b",
+      explanation:"Impact analysis is the pre-change process of identifying what else could be affected, including dependencies like legacy applications sharing the same server. If the legacy reporting application had been identified during impact analysis, the team could have tested compatibility or planned mitigation before the change was approved.",
+      exam_tip:"Impact analysis happens BEFORE approval. It identifies dependencies, affected systems, and downstream effects. A backout plan handles failure after the fact — impact analysis prevents the failure from being a surprise.",
+    },
+    {
+      id:"m3",
+      q:"A change request for a firewall rule modification is approved and implemented. Three days later, a security audit finds no record of the updated network diagram reflecting the new rule, and the change ticket was closed without documentation of test results. Which change management requirements were NOT met?",
+      options:[
+        {id:"a", label:"Backout plan and maintenance window"},
+        {id:"b", label:"Ownership and stakeholder notification"},
+        {id:"c", label:"Documentation — updated diagrams and recorded test results"},
+        {id:"d", label:"Impact analysis and approval process"},
+      ],
+      correct:"c",
+      explanation:"Change management requires that diagrams and policies/procedures are updated to reflect implemented changes, and that test results are documented before the change ticket is closed. Failing to update network diagrams creates a documentation gap that affects future incident response, audits, and further change planning.",
+      exam_tip:"Change management does not end at implementation. Documentation — updated diagrams, updated policies, recorded test results — must be completed before the change is considered closed.",
+    },
+    {
+      id:"m4",
+      q:"An organization's change management policy requires all production changes to be implemented only during approved maintenance windows. A developer argues that a minor CSS update to the public website should be exempt because it has no security impact. Which principle of change management BEST explains why the policy still applies?",
+      options:[
+        {id:"a", label:"All changes carry some risk of unintended consequences, and the approval process exists to evaluate that risk regardless of perceived severity"},
+        {id:"b", label:"CSS changes can introduce cross-site scripting vulnerabilities and must be treated as high-risk"},
+        {id:"c", label:"Maintenance windows exist only for hardware changes, not software updates"},
+        {id:"d", label:"The developer does not have the authority to assess security impact — only the CISO can make that determination"},
+      ],
+      correct:"a",
+      explanation:"The value of change management is consistent process application — not selective application based on individual judgment of severity. A 'minor' change can have unintended dependencies, cause application restarts, or introduce regressions. The process exists precisely because individuals are not reliable judges of their own change's risk.",
+      exam_tip:"Change management applies to ALL changes. The process determines risk level — not the person submitting the request. Selective application defeats the purpose of the control.",
+    },
+    {
+      id:"m5",
+      q:"After a change is successfully implemented and validated, the change ticket is updated with test results and closed. The network diagram is updated to reflect new firewall rules. The runbook for the affected system is revised. Which change management requirement does updating the runbook BEST satisfy?",
+      options:[
+        {id:"a", label:"Version control — maintaining a history of configuration states"},
+        {id:"b", label:"Standard operating procedure — ensuring documented procedures reflect the current operational state"},
+        {id:"c", label:"Impact analysis — recording the downstream effects of the change"},
+        {id:"d", label:"Backout plan — documenting how to reverse the change if needed in future"},
+      ],
+      correct:"b",
+      explanation:"A runbook is a standard operating procedure — it documents how to operate and maintain the system. Updating it after a change ensures that operators following the documented process are working from accurate, current information. Version control would track the history of the runbook itself; updating the content satisfies the SOP documentation requirement.",
+      exam_tip:"SOP / runbook updates = Standard Operating Procedure requirement. Diagram updates = Documentation requirement. Both are post-implementation change management obligations, not optional cleanup.",
+    },
+  ],
+};
+
+
+const D1L4={
+  pbq:{
+    type:"match",
+    cia_tag:"⚑ Confidentiality + Integrity",
+    scenario:"A security architect is reviewing cryptographic requirements across several systems at a mid-sized financial services firm. For each business or technical requirement below, select the cryptographic solution that BEST satisfies it. Each solution may only be used once. Not all solutions will be used.",
+    instruction:"Tap a requirement row to expand it, then tap the correct solution from the pool. Each solution can only be used once.",
+    rows:[
+      {id:"r1",
+       label:"Password Storage Protection",
+       requirement:"The firm's authentication database stores user passwords. A breach would expose all passwords to offline cracking. The security team needs to ensure that even identical passwords produce different stored values, and that brute-force attacks against the database are computationally expensive.",
+       answer:"s3",
+       explanation:"SALTING + KEY STRETCHING — Salting ensures identical passwords hash to different values, defeating rainbow table attacks. Key stretching (e.g., bcrypt, PBKDF2) makes each hash computation intentionally slow, increasing the cost of brute-force attacks against the database. Hashing alone is insufficient because it is fast and unsalted hashes are vulnerable to precomputed lookup tables."},
+      {id:"r2",
+       label:"Bulk Data Encryption at Rest",
+       requirement:"The firm needs to encrypt a large archive of financial records stored on an internal server. Performance is a priority — the solution must be fast enough to encrypt and decrypt large volumes of data efficiently without requiring separate key pairs for each user.",
+       answer:"s1",
+       explanation:"SYMMETRIC ENCRYPTION — Symmetric encryption (e.g., AES) uses a single shared key and is significantly faster than asymmetric encryption for bulk data. It is the standard choice for encrypting data at rest. Asymmetric encryption is computationally expensive and is not designed for bulk data — it is used for key exchange and digital signatures."},
+      {id:"r3",
+       label:"Secure Key Exchange Over Untrusted Network",
+       requirement:"Two parties need to establish a shared encryption key over a public network without ever transmitting the key itself. An attacker monitoring all traffic between them must not be able to derive the shared key from what they observe.",
+       answer:"s2",
+       explanation:"ASYMMETRIC ENCRYPTION — Asymmetric cryptography (e.g., RSA, Diffie-Hellman) enables secure key exchange over an untrusted channel because the public key can be shared openly while the private key never leaves the owner. The shared secret is derived mathematically without being transmitted. This is how TLS establishes session keys before switching to symmetric encryption for bulk transfer."},
+      {id:"r4",
+       label:"File Integrity Verification",
+       requirement:"The firm distributes software update packages to branch offices. The security team needs a way for recipients to verify that the package has not been modified or corrupted in transit, without needing to decrypt any content.",
+       answer:"s4",
+       explanation:"HASHING — A cryptographic hash (e.g., SHA-256) produces a fixed-length digest of the file. Recipients compute the hash of the received file and compare it to the published hash. Any modification changes the digest. Hashing is one-way — it does not encrypt content, it verifies integrity. Digital signatures add authentication on top of hashing, but the base requirement here is integrity verification."},
+      {id:"r5",
+       label:"Non-Repudiation for Financial Transactions",
+       requirement:"The firm processes high-value wire transfer approvals via email. Management requires proof that a specific authorized officer approved each transaction — proof that cannot be forged by a third party or later denied by the officer.",
+       answer:"s5",
+       explanation:"DIGITAL SIGNATURES — A digital signature is created using the signer's private key. It can be verified by anyone with the public key, but only the private key holder could have created it. This provides both authentication (proves who signed) and non-repudiation (the signer cannot credibly deny signing). Encryption alone does not provide non-repudiation."},
+      {id:"r6",
+       label:"Sensitive Data Substitution for Analytics",
+       requirement:"The firm's analytics team needs to run reports on customer transaction datasets. The actual account numbers must not be exposed to the analytics platform, but the substituted values must be consistent — the same account number must always map to the same substitute value so that transaction patterns remain analyzable.",
+       answer:"s6",
+       explanation:"TOKENIZATION — Tokenization replaces sensitive values (account numbers) with non-sensitive substitute tokens using a mapping table. The same input always produces the same token, preserving referential integrity for analytics. Unlike encryption, the token itself contains no mathematical relationship to the original value. Data masking typically obscures values in ways that break consistency; tokenization preserves it."},
+    ],
+    solutions:[
+      {id:"s1", name:"Symmetric Encryption"},
+      {id:"s2", name:"Asymmetric Encryption"},
+      {id:"s3", name:"Salting + Key Stretching"},
+      {id:"s4", name:"Hashing"},
+      {id:"s5", name:"Digital Signatures"},
+      {id:"s6", name:"Tokenization"},
+      {id:"s7", name:"Steganography"},
+      {id:"s8", name:"HSM"},
+      {id:"s9", name:"Data Masking"},
+    ],
+  },
+  mcqs:[
+    {
+      id:"m1",
+      q:"A company needs to send an encrypted message to a business partner they have never communicated with before. No shared secret has been established between them. Which cryptographic approach allows them to establish a secure communication channel without first exchanging a secret key through a separate secure channel?",
+      options:[
+        {id:"a", label:"Symmetric encryption using AES-256 with a pre-shared key"},
+        {id:"b", label:"Asymmetric encryption, where the sender encrypts using the recipient's public key"},
+        {id:"c", label:"Hashing the message content before transmission to verify integrity"},
+        {id:"d", label:"Tokenization of the message content before transmission"},
+      ],
+      correct:"b",
+      explanation:"Asymmetric encryption solves the key distribution problem. The recipient's public key is available openly. The sender encrypts with the public key; only the recipient's private key can decrypt it. No prior shared secret is needed. Symmetric encryption is faster for bulk data but requires a shared key to already exist — it cannot bootstrap a secure channel from scratch.",
+      exam_tip:"Asymmetric = solves key distribution. Symmetric = fast, bulk data, requires pre-shared key. When a scenario involves two parties with no prior relationship needing to communicate securely, the answer involves asymmetric cryptography.",
+    },
+    {
+      id:"m2",
+      q:"A forensic investigator needs to verify that a disk image collected as evidence has not been altered since acquisition. The original acquisition record includes a 256-bit value computed from the disk contents at the time of collection. Which cryptographic concept BEST describes what that 256-bit value represents and what it provides?",
+      options:[
+        {id:"a", label:"An encrypted copy of the disk — it can be decrypted to recover the original contents"},
+        {id:"b", label:"A digital signature — it proves the investigator's identity and prevents repudiation"},
+        {id:"c", label:"A hash — a fixed-length one-way digest that provides integrity verification"},
+        {id:"d", label:"A tokenized representation — it substitutes the disk contents with a non-sensitive equivalent"},
+      ],
+      correct:"c",
+      explanation:"A hash is a one-way function that produces a fixed-length digest. The same input always produces the same hash; any change to the input produces a different hash. It cannot be reversed to recover the original data. In forensics, hashing provides chain-of-custody integrity — if the hash of the image matches the original, the image is unaltered.",
+      exam_tip:"Hash = one-way, fixed-length, integrity verification. Cannot be decrypted. Encryption = two-way, requires a key. If a scenario involves verifying data has not changed without any mention of keys or identity, the answer is hashing.",
+    },
+    {
+      id:"m3",
+      q:"An employee digitally signs a contract authorizing a large equipment purchase. The signature is later verified using a key that is publicly available. Six months later, the employee claims they never signed the document. Which outcome does the digital signature provide in this scenario?",
+      options:[
+        {id:"a", label:"Confidentiality — the contract contents were protected from third-party access"},
+        {id:"b", label:"Non-repudiation — the employee cannot credibly deny signing because only their private key could have produced that signature"},
+        {id:"c", label:"Integrity — the document was verified as unmodified since it was created"},
+        {id:"d", label:"Authentication — the system confirmed the employee's identity at login"},
+      ],
+      correct:"b",
+      explanation:"Digital signatures provide non-repudiation. The signature is created with the signer's private key, which only they possess. Verification uses the public key. Because no one else could have produced that signature, the signer cannot credibly deny it. Integrity is a byproduct of signing, but the primary value in this scenario — where the question is about denial — is non-repudiation.",
+      exam_tip:"Digital signatures = authentication + integrity + non-repudiation. When a scenario involves someone denying an action they took, non-repudiation is the answer. Private key signs; public key verifies.",
+    },
+    {
+      id:"m4",
+      q:"A company is issuing TLS certificates for its internal web applications. The security team wants to avoid paying for individual certificates for each of the following subdomains: portal.corp.com, mail.corp.com, vpn.corp.com, and files.corp.com. Which certificate type BEST addresses this requirement?",
+      options:[
+        {id:"a", label:"Self-signed certificate — eliminates the need for a certificate authority entirely"},
+        {id:"b", label:"Root certificate — issued by the top-level CA to cover all subordinate domains"},
+        {id:"c", label:"Wildcard certificate — a single certificate that covers all subdomains under a common domain"},
+        {id:"d", label:"CSR — a certificate signing request that covers multiple domains in one submission"},
+      ],
+      correct:"c",
+      explanation:"A wildcard certificate (*.corp.com) covers all first-level subdomains under the specified domain with a single certificate. This eliminates the need to issue and manage individual certificates for portal, mail, vpn, and files. A self-signed certificate would not be trusted by clients by default. A CSR is a request, not a certificate type.",
+      exam_tip:"Wildcard = *.domain.com = one cert covers all subdomains. Self-signed = no CA involvement, not trusted by default. CSR = the request you submit to a CA, not the certificate itself.",
+    },
+    {
+      id:"m5",
+      q:"A browser attempts to connect to a banking website. Before completing the TLS handshake, the browser needs to verify that the site's certificate has not been revoked since it was issued. The browser sends a request directly to the issuing CA's infrastructure and receives a digitally signed response indicating the certificate's current status. Which certificate revocation mechanism does this describe?",
+      options:[
+        {id:"a", label:"CRL — the CA publishes a full list of revoked certificates that the browser downloads periodically"},
+        {id:"b", label:"OCSP — the browser queries the CA in real time and receives a signed status response for the specific certificate"},
+        {id:"c", label:"Key escrow — a trusted third party holds a copy of the private key for recovery purposes"},
+        {id:"d", label:"CSR — the browser submits a certificate signing request to verify the CA's identity"},
+      ],
+      correct:"b",
+      explanation:"OCSP (Online Certificate Status Protocol) allows a client to query the CA's OCSP responder in real time for the revocation status of a specific certificate. The response is digitally signed by the CA. A CRL is a periodic batch download of all revoked certificates — it is not real-time and not per-certificate. OCSP is more efficient and current than CRL for individual certificate checks.",
+      exam_tip:"CRL = full list, downloaded periodically, can be stale. OCSP = real-time, per-certificate query, digitally signed response. If a scenario describes checking a single certificate's status in real time, OCSP is the answer.",
+    },
+  ],
+};
+
+
+const D1L5={
+  pbq:null,
+  mcqs:[
+    {
+      id:"m1",
+      q:"During a routine audit, an organization discovers that a disgruntled employee modified financial reports stored on a shared drive without authorization. The files were accessed using valid credentials, and no alerts were triggered. Which component of the CIA triad was PRIMARILY compromised?",
+      options:[
+        {id:"a", label:"Confidentiality — unauthorized parties gained access to the data"},
+        {id:"b", label:"Integrity — the data was altered without authorization"},
+        {id:"c", label:"Availability — legitimate users were prevented from accessing the data"},
+        {id:"d", label:"Non-repudiation — the employee was able to deny making the changes"},
+      ],
+      correct:"b",
+      explanation:"Integrity refers to the assurance that data is accurate and has not been altered without authorization. The employee modified the reports without permission — that is an integrity violation. Confidentiality would be violated if the data was viewed by unauthorized parties. Availability would be violated if the data became inaccessible. Non-repudiation is a related concept but is not a CIA triad component.",
+      exam_tip:"CIA triad: Confidentiality = unauthorized viewing. Integrity = unauthorized modification. Availability = denial of access. When a scenario describes data being changed without permission, the answer is Integrity.",
+    },
+    {
+      id:"m2",
+      q:"A corporate headquarters installs a physical entry system where the exterior door must fully close and lock before the interior door can be opened. A security guard monitors the enclosed space via camera and can deny entry if identity cannot be confirmed. Which physical security control does this BEST describe?",
+      options:[
+        {id:"a", label:"Bollard — a barrier designed to prevent vehicle-based intrusion"},
+        {id:"b", label:"Fencing — a perimeter control that deters unauthorized physical access"},
+        {id:"c", label:"Access control vestibule — an enclosed entry point that prevents tailgating by controlling one door at a time"},
+        {id:"d", label:"Infrared sensor — a detection device that identifies unauthorized movement"},
+      ],
+      correct:"c",
+      explanation:"An access control vestibule (also called a mantrap) is a small enclosed space between two interlocked doors. The first door must close before the second opens, preventing tailgating. Guard monitoring and identity verification are common additions. Bollards address vehicle threats. Fencing defines perimeters. Sensors detect — they do not control entry.",
+      exam_tip:"Vestibule = two interlocked doors, one-at-a-time entry, prevents tailgating. The defining feature is the interlock — second door cannot open until first is closed.",
+    },
+    {
+      id:"m3",
+      q:"An organization displays a warning banner on every workstation login screen stating that unauthorized access is prohibited and that all activity is subject to monitoring and recording. A penetration tester notes that the banner does not block access — it only notifies users of the policy. Which control type does this BEST represent?",
+      options:[
+        {id:"a", label:"Preventive — it stops unauthorized users from accessing the system"},
+        {id:"b", label:"Detective — it identifies unauthorized access attempts in real time"},
+        {id:"c", label:"Deterrent — it discourages unauthorized access by signaling consequences"},
+        {id:"d", label:"Directive — it instructs authorized users on what they are required to do"},
+      ],
+      correct:"c",
+      explanation:"A login warning banner does not block access — it signals that unauthorized access carries consequences. That mechanism is deterrence: discouraging an action by making the potential cost visible. Preventive controls block access. Detective controls identify events after they occur. Directive controls instruct behavior through mandate — a banner that says 'you must do X' would be Directive. A banner that says 'if you do X, consequences follow' is Deterrent.",
+      exam_tip:"Deterrent = signals consequences, does not block. Directive = instructs behavior through mandate. If the control only warns or discourages without enforcing, it is Deterrent.",
+    },
+    {
+      id:"m4",
+      q:"A user successfully logs in to the corporate VPN using a password and a hardware token. The system then checks whether that user's account is permitted to access the payroll application based on their job role. An audit log records the timestamp, source IP, and resources accessed during the session. Which sequence CORRECTLY maps these three events to AAA functions?",
+      options:[
+        {id:"a", label:"Authorization → Authentication → Accounting"},
+        {id:"b", label:"Authentication → Accounting → Authorization"},
+        {id:"c", label:"Authentication → Authorization → Accounting"},
+        {id:"d", label:"Accounting → Authorization → Authentication"},
+      ],
+      correct:"c",
+      explanation:"AAA always follows this order: Authentication (prove who you are — password + token), Authorization (determine what you are permitted to access — role-based check against payroll app), Accounting (record what you did — audit log of session activity). The sequence is not interchangeable — you cannot authorize before authenticating, and accounting captures what happens after both are complete.",
+      exam_tip:"AAA order is fixed: Authentication → Authorization → Accounting. Who are you? → What can you do? → What did you do? If a question lists events out of order, the correct answer restores this sequence.",
+    },
+    {
+      id:"m5",
+      q:"A systems administrator applies an emergency patch to a production database server during business hours without submitting a change request. The patch causes an unexpected service dependency failure that takes the order processing system offline for four hours. Which change management element, if followed, would MOST likely have prevented the outage?",
+      options:[
+        {id:"a", label:"Backout plan — defining steps to reverse the patch if problems occurred"},
+        {id:"b", label:"Impact analysis — identifying service dependencies before the change was approved"},
+        {id:"c", label:"Maintenance window — scheduling the change during approved low-risk hours"},
+        {id:"d", label:"Version control — tracking configuration states before and after the patch"},
+      ],
+      correct:"b",
+      explanation:"Impact analysis is the pre-change process of identifying what other systems, services, or applications could be affected by a change. Had it been performed, the dependency between the database server and the order processing system would have been identified, and the team could have planned mitigation or tested in a non-production environment first. A backout plan addresses recovery after failure — it does not prevent the failure from being a surprise.",
+      exam_tip:"Impact analysis = pre-change, identifies dependencies and downstream effects. Backout plan = post-failure recovery. If the scenario describes an unexpected dependency causing an outage, the missing element is impact analysis.",
+    },
+    {
+      id:"m6",
+      q:"A software vendor publishes a SHA-256 hash value alongside each downloadable installer on their website. After downloading the installer, a security-conscious administrator computes the hash of the downloaded file and compares it to the published value. The values match. What has the administrator confirmed?",
+      options:[
+        {id:"a", label:"The installer is free of malware — the hash proves the software is safe to execute"},
+        {id:"b", label:"The installer has not been modified since the vendor published it — the hash confirms integrity"},
+        {id:"c", label:"The installer is encrypted — the hash value is the decryption key"},
+        {id:"d", label:"The vendor's identity has been verified — the hash functions as a digital certificate"},
+      ],
+      correct:"b",
+      explanation:"A cryptographic hash confirms integrity — that the file has not been modified since the hash was computed. A matching hash means the downloaded file is bit-for-bit identical to the original. It does not confirm the file is malware-free (the original could have been malicious), does not decrypt anything, and does not verify the vendor's identity. That would require a digital signature or certificate.",
+      exam_tip:"Hash = integrity only. It confirms the data has not changed — nothing more. It does not prove the data is safe, authentic, or from a trusted source. Digital signatures add authentication and non-repudiation on top of hashing.",
+    },
+    {
+      id:"m7",
+      q:"An organization deploys a network-based intrusion detection system (NIDS) that monitors all traffic crossing the perimeter firewall and generates alerts when signatures match known attack patterns. The NIDS does not block traffic — it only alerts. Which combination of control category and control type BEST classifies this control?",
+      options:[
+        {id:"a", label:"Technical — Preventive"},
+        {id:"b", label:"Operational — Detective"},
+        {id:"c", label:"Technical — Detective"},
+        {id:"d", label:"Managerial — Detective"},
+      ],
+      correct:"c",
+      explanation:"The NIDS is software/hardware-based — that is Technical. It monitors and alerts on known attack patterns without blocking traffic — that is Detective. Preventive would require it to block or stop the traffic. Operational controls involve people and procedures executing the work. Managerial controls are policy and governance documents. A NIDS is a technology system that detects — Technical + Detective.",
+      exam_tip:"Category: Technical = technology-implemented. Operational = people/procedures. Managerial = policy/governance. Type: Detective = identifies/alerts. Preventive = blocks/stops. A NIDS that only alerts is Technical + Detective. An IPS that blocks is Technical + Preventive.",
+    },
+    {
+      id:"m8",
+      q:"A remote employee connects to the corporate network through a VPN and attempts to access a sensitive internal database. Under the organization's Zero Trust architecture, access is denied despite the VPN connection being active and the employee being on record as an authorized database user. Which Zero Trust principle BEST explains why access was denied?",
+      options:[
+        {id:"a", label:"The VPN connection establishes implicit trust — the denial indicates a system misconfiguration"},
+        {id:"b", label:"Zero Trust requires that no implicit trust is granted based on network location — VPN access alone does not satisfy the access requirements"},
+        {id:"c", label:"The Policy Enforcement Point failed to receive the access decision from the Policy Engine"},
+        {id:"d", label:"Continuous evaluation revoked the user's credentials during the VPN session"},
+      ],
+      correct:"b",
+      explanation:"Zero Trust eliminates the assumption that network location — including VPN connections — confers trust. Being inside the network perimeter or connected via VPN does not automatically grant access to resources. Each access request is evaluated independently based on identity, device posture, and context. The denial is expected behavior, not a misconfiguration.",
+      exam_tip:"Zero Trust: network location grants nothing. VPN, LAN, on-site — none of these establish implicit trust. Every access request must be explicitly verified regardless of how the user is connected.",
+    },
+    {
+      id:"m9",
+      q:"A healthcare organization conducts a review comparing its current security controls against the requirements of a newly adopted compliance framework. The review identifies several areas where existing controls do not meet the framework's requirements and documents what additional controls are needed. Which security concept does this process BEST represent?",
+      options:[
+        {id:"a", label:"Risk assessment — evaluating the likelihood and impact of potential threats"},
+        {id:"b", label:"Penetration testing — actively attempting to exploit identified weaknesses"},
+        {id:"c", label:"Gap analysis — comparing the current security state against a desired or required state to identify deficiencies"},
+        {id:"d", label:"Vulnerability scan — using automated tools to identify known weaknesses in systems"},
+      ],
+      correct:"c",
+      explanation:"Gap analysis is the process of comparing the current state of security controls against a target state — a framework, standard, or policy — and identifying the gaps between them. It produces a list of what is missing or insufficient. Risk assessment evaluates threats and likelihood. Penetration testing actively exploits weaknesses. Vulnerability scanning uses automated tools against systems.",
+      exam_tip:"Gap analysis = current state vs desired state = what is missing. The output is a list of deficiencies and what is needed to close them. It is a comparison exercise, not an active test.",
+    },
+    {
+      id:"m10",
+      q:"In a Zero Trust architecture, two distinct components handle access control. One component receives signals about the user, device, and requested resource, then produces a decision about whether access should be granted. The other component receives that decision and either opens or blocks the actual connection to the resource. A security engineer wants to understand which component to configure in order to define the rules governing access decisions. Which component should they configure?",
+      options:[
+        {id:"a", label:"Policy Enforcement Point — it evaluates signals and produces access decisions based on configured rules"},
+        {id:"b", label:"Policy Engine — it evaluates signals and produces access decisions based on configured rules"},
+        {id:"c", label:"Policy Administrator — it manages user credentials and enforces session timeouts"},
+        {id:"d", label:"Data Plane — it handles all traffic enforcement and session management"},
+      ],
+      correct:"b",
+      explanation:"The Policy Engine is the decision-making component — it evaluates identity, device posture, and resource context against configured policy rules and produces an access decision. Configuring the rules that govern decisions means configuring the Policy Engine. The Policy Enforcement Point enforces the decision — it opens or blocks the connection — but it does not define the rules. The engineer needs to configure the brain, not the gate.",
+      exam_tip:"Policy Engine = the brain, makes decisions, where rules are configured. Policy Enforcement Point = the gate, enforces decisions. To change what access decisions are made, configure the Policy Engine. To change how enforcement happens, configure the PEP.",
+    },
+  ],
+};
+
+
+const D2L1={
+  pbq:{
+    type:"dual_classify",
+    cia_tag:"⚑ C · I · A",
+    scenario:"A threat intelligence team is reviewing six recent security incidents submitted by partner organizations. Each incident brief describes the observed attacker behavior, resources used, and apparent goal. For each incident, classify the most likely threat actor type and the primary motivation behind the attack. Both axes must be correct to receive credit.",
+    instruction:"For each incident select the Threat Actor AND the Motivation. Both must be set before you can submit.",cat_label:"Threat Actor",type_label:"Motivation",
+    items:[
+      {id:"t1",
+       label:"Attackers exfiltrated five years of diplomatic correspondence from a foreign ministry using custom-built malware that evaded all commercial endpoint tools. The campaign ran undetected for 14 months.",
+       desc:"Long dwell time, custom tooling, government target"},
+      {id:"t2",
+       label:"A group defaced the public website of a pharmaceutical company with messaging condemning animal testing practices. No data was stolen. A manifesto was posted claiming responsibility.",
+       desc:"Public-facing attack, ideological messaging, no financial motive"},
+      {id:"t3",
+       label:"An employee in the finance department copied the organization's client database to a personal USB drive two weeks before resigning. The data appeared on a competitor's systems shortly after.",
+       desc:"Authorized access abused, internal actor, pre-departure timing"},
+      {id:"t4",
+       label:"Attackers encrypted all files on a regional hospital's network and demanded payment in cryptocurrency within 72 hours, threatening to permanently delete backups if payment was not received.",
+       desc:"Ransomware, payment demand, criminal enterprise pattern"},
+      {id:"t5",
+       label:"A newly hired contractor installed an unauthorized cloud storage application on their workstation to make file sharing easier. The application synced sensitive project files to an unmanaged personal account.",
+       desc:"No malicious intent, policy violation, unauthorized technology"},
+      {id:"t6",
+       label:"An attacker used a purchased toolkit downloaded from an underground forum to scan for and exploit a known unpatched vulnerability in a small retail company's web server.",
+       desc:"Off-the-shelf tools, opportunistic targeting, low technical skill"},
+    ],
+    categories:[
+      {id:"a1", name:"Nation-state"},
+      {id:"a2", name:"Hacktivist"},
+      {id:"a3", name:"Insider Threat"},
+      {id:"a4", name:"Organized Crime"},
+      {id:"a5", name:"Unskilled Attacker"},
+      {id:"a6", name:"Shadow IT"},
+    ],
+    types:[
+      {id:"m1", name:"Espionage"},
+      {id:"m2", name:"Philosophical/Political"},
+      {id:"m3", name:"Data Exfiltration"},
+      {id:"m4", name:"Financial Gain"},
+      {id:"m5", name:"Disruption/Chaos"},
+      {id:"m6", name:"Service Disruption"},
+      {id:"m7", name:"Unintentional/Policy Violation"},
+    ],
+    cat_answers:{t1:"a1",t2:"a2",t3:"a3",t4:"a4",t5:"a6",t6:"a5"},
+    type_answers:{t1:"m1",t2:"m2",t3:"m3",t4:"m4",t5:"m7",t6:"m5"},
+    explanations:{
+      t1:"NATION-STATE · ESPIONAGE — Custom malware, 14-month dwell time, and a government target are hallmarks of a nation-state actor. Nation-states have the resources to build bespoke tools and the patience for long-term access. The target (diplomatic correspondence) and method (persistent, covert) confirm espionage as the motivation — not financial gain, which would characterize organized crime.",
+      t2:"HACKTIVIST · PHILOSOPHICAL/POLITICAL — The defacement, manifesto, and ideological messaging targeting a specific corporate practice are defining hacktivist characteristics. No data was stolen and no ransom was demanded, ruling out organized crime and financial gain. Hacktivists operate externally and are motivated by beliefs, not profit.",
+      t3:"INSIDER THREAT · DATA EXFILTRATION — The actor used legitimate authorized access — a defining insider threat attribute. The pre-resignation timing and data appearing at a competitor points to intentional exfiltration for competitive or personal gain. Motivation trap: this could feel like Financial Gain, but the objective is the data itself (exfiltration), not a ransom or payment demand.",
+      t4:"ORGANIZED CRIME · FINANCIAL GAIN — Ransomware with a cryptocurrency payment demand and a structured deadline is the signature of organized crime. These groups operate like businesses — they invest in tools, target vulnerable organizations, and optimize for payment. Nation-state trap: organized crime can be sophisticated, but the motivation is purely financial, not strategic or political.",
+      t5:"SHADOW IT · UNINTENTIONAL/POLICY VIOLATION — The contractor violated policy without malicious intent. Shadow IT is the use of unauthorized technology — hardware, software, or services — outside of IT governance. The actor is not trying to steal or damage; they are trying to work more conveniently. This is a governance and policy failure, not a deliberate attack. Insider threat trap: insider threat implies intentional harm or abuse of access.",
+      t6:"UNSKILLED ATTACKER · DISRUPTION/CHAOS — Purchased toolkits, opportunistic targeting, and exploitation of known unpatched vulnerabilities are unskilled attacker (script kiddie) characteristics. They lack the capability to build custom tools and rely on existing exploits. The motivation is typically disruption, notoriety, or curiosity — not organized financial gain or targeted espionage.",
+    },
+  },
+  mcqs:[
+    {
+      id:"m1",
+      q:"A threat intelligence report describes two separate intrusions. The first involved attackers who spent eight months inside a defense contractor's network, exfiltrating weapons research using custom malware that mimicked legitimate traffic. The second involved attackers who breached a retailer's payment system, harvested credit card numbers, and sold them within days of the breach. Which characteristic BEST distinguishes the first group from the second?",
+      options:[
+        {id:"a", label:"The first group is more sophisticated — nation-state actors prioritize long-term strategic objectives like espionage, while organized crime prioritizes rapid financial return"},
+        {id:"b", label:"The first group is organized crime — the use of custom malware indicates a profit-driven operation"},
+        {id:"c", label:"Both groups are nation-state actors — only governments have the resources for custom malware development"},
+        {id:"d", label:"The second group is a nation-state actor — targeting payment systems is a form of economic espionage"},
+      ],
+      correct:"a",
+      explanation:"Nation-state actors are characterized by high sophistication, significant resources, long dwell times, and strategic objectives such as espionage or intelligence gathering. Organized crime is also well-funded and capable, but the motivation is financial — rapid monetization of stolen data. The 8-month dwell time and weapons research target confirm nation-state espionage. The payment card harvest and quick resale confirm organized crime financial motivation.",
+      exam_tip:"Nation-state: long dwell time, strategic targets, espionage/intelligence motivation. Organized crime: financially motivated, rapid monetization, targets payment data, PII, or ransomware payments. Both can be sophisticated — motivation and target type are the differentiators.",
+    },
+    {
+      id:"m2",
+      q:"A long-tenured systems administrator resigns after being passed over for promotion. Two weeks after their departure, the organization discovers that critical configuration files were deleted and several backdoor accounts were created — actions traceable to the administrator's credentials during their final week of employment. Which threat actor type does this represent, and which control type would have been MOST effective at limiting the damage?",
+      options:[
+        {id:"a", label:"Insider threat — a Deterrent control such as an acceptable use policy would have prevented the action"},
+        {id:"b", label:"Insider threat — a Preventive control such as enforcing least privilege and access reviews would have limited what the administrator could modify"},
+        {id:"c", label:"Organized crime — external actors often use stolen credentials to create backdoors"},
+        {id:"d", label:"Nation-state — the sophistication of creating backdoors while employed indicates a state-sponsored operation"},
+      ],
+      correct:"b",
+      explanation:"This is a classic insider threat scenario — a trusted internal actor with legitimate access abusing that access before departure. The most effective control type is Preventive: enforcing least privilege would have limited the administrator's access to only what was necessary for their role, and regular access reviews would have flagged excessive permissions. A Deterrent (policy) cannot stop someone who has already decided to act maliciously.",
+      exam_tip:"Insider threats are dangerous precisely because they have legitimate access. Preventive controls — least privilege, access reviews, separation of duties — limit what damage is possible. Deterrent controls are ineffective against motivated insiders who have already decided to act.",
+    },
+    {
+      id:"m3",
+      q:"A project manager installs an unauthorized AI writing tool on their corporate laptop to help draft reports faster. The tool requires access to the user's files and sends document content to a third-party cloud service for processing. The project manager did not intend to violate policy and was unaware of the data sharing behavior. Which threat actor type BEST describes this situation, and why is it distinct from an insider threat?",
+      options:[
+        {id:"a", label:"Shadow IT — the actor introduced unauthorized technology without malicious intent; insider threat requires intentional abuse of access"},
+        {id:"b", label:"Insider threat — any policy violation by an employee constitutes an insider threat regardless of intent"},
+        {id:"c", label:"Unskilled attacker — the project manager lacked the technical knowledge to assess the tool's risk"},
+        {id:"d", label:"Organized crime — third-party cloud services that collect data are often fronts for criminal data harvesting"},
+      ],
+      correct:"a",
+      explanation:"Shadow IT refers to the use of unauthorized hardware, software, or services outside of IT governance — without malicious intent. The project manager was trying to work more efficiently, not steal or damage. Insider threat implies intentional abuse of authorized access for harmful purposes. The distinction is intent: Shadow IT is a governance failure; insider threat is a deliberate act. Both create risk, but the classification, detection approach, and response differ.",
+      exam_tip:"Shadow IT = unauthorized technology, no malicious intent, governance/policy failure. Insider threat = intentional misuse of authorized access. A well-meaning employee using an unapproved app is Shadow IT. An employee deliberately copying data to harm the organization is an insider threat.",
+    },
+    {
+      id:"m4",
+      q:"A hacktivist group gains access to a corporation's internal network by compromising a vendor's VPN credentials. Once inside, they move laterally through several systems before reaching and exfiltrating sensitive internal communications. The organization had treated the vendor connection as implicitly trusted because it originated from a known IP range. Which security principle, if implemented, would MOST directly have limited the attacker's ability to move laterally after the initial compromise?",
+      options:[
+        {id:"a", label:"Applying deterrent controls at the network perimeter to discourage unauthorized access attempts"},
+        {id:"b", label:"Zero Trust — eliminating implicit trust based on network location so that each lateral access request requires explicit verification"},
+        {id:"c", label:"Requiring the vendor to implement stronger authentication on their VPN endpoint"},
+        {id:"d", label:"Classifying the vendor connection as an external connection and blocking all inbound traffic"},
+      ],
+      correct:"b",
+      explanation:"The organization's failure was granting implicit trust to traffic based on its origin — a known IP range. Zero Trust eliminates this assumption: no connection is trusted by default, regardless of where it originates. Even after compromising the vendor's credentials, the attacker would have faced explicit verification requirements at each resource — limiting lateral movement. Stronger vendor authentication addresses the initial compromise but not post-compromise lateral movement.",
+      exam_tip:"Lateral movement after initial compromise is directly addressed by Zero Trust's no-implicit-trust principle. Once an attacker is inside a perimeter-trusting network, they move freely. Zero Trust requires every access request to be verified — origin does not grant trust.",
+    },
+    {
+      id:"m5",
+      q:"An attacker downloads a free automated scanning tool from a public forum and runs it against a list of randomly selected IP addresses, looking for systems running an unpatched version of a known web application. They successfully compromise a small business's server and deface the website. Which threat actor type does this BEST represent, and which control category addresses this threat most directly?",
+      options:[
+        {id:"a", label:"Unskilled attacker — Technical controls such as patching and firewall rules directly remove the vulnerability the attacker depends on"},
+        {id:"b", label:"Hacktivist — Managerial controls such as security policies deter ideologically motivated attackers"},
+        {id:"c", label:"Organized crime — Operational controls such as security awareness training prevent automated scanning attacks"},
+        {id:"d", label:"Unskilled attacker — Managerial controls such as acceptable use policies are the most effective defense"},
+      ],
+      correct:"a",
+      explanation:"An attacker using downloaded, automated tools against opportunistic targets with no specific motivation beyond disruption is an unskilled attacker (script kiddie). They depend entirely on unpatched, publicly known vulnerabilities — they cannot exploit what is not there. Technical controls — patching, firewall rules, and input validation — directly eliminate or reduce the attack surface these actors rely on. Managerial controls (policies) have no effect on external unskilled attackers.",
+      exam_tip:"Unskilled attackers exploit low-hanging fruit — unpatched systems, default credentials, known CVEs. Technical controls (patching, hardening, firewall rules) are the most direct defense because they remove the vulnerabilities these actors depend on. Policies only govern people inside the organization.",
+    },
+  ],
+};
+
+
+const D2L2={
+  pbq:{
+    type:"scenario_builder",
+    cia_tag:"⚑ Confidentiality + Integrity",
+    scenario:"A security operations team is reviewing two confirmed breach investigations. For each attack outcome, analyze the evidence and make three classifications: the Initial Vector that delivered the attack, the Technique the attacker used, and the Attack Surface that was exploited. All three selections must be correct to receive full credit for each scenario.",
+    instruction:"For each scenario select the Initial Vector, Technique, and Attack Surface. All three axes must be set before you can submit.",
+    scenarios:[
+      {
+        id:"s1",
+        title:"INCIDENT #IR-2024-0312 — Finance Director Account Compromise",
+        outcome:"A finance director's email account was used to authorize a $47,000 wire transfer to a fraudulent vendor account. The finance director has no recollection of approving the transfer. Investigation revealed the director received an email three days prior appearing to come from the CEO's personal assistant, requesting urgent wire transfer approval for a confidential acquisition. The sender domain was c0rpmail.com — the organization's actual domain is corpmail.com. The director clicked a link, entered credentials on a login page that mirrored the corporate portal, and replied with transfer authorization.",
+        evidence:[
+          "Sender domain: c0rpmail.com vs corpmail.com",
+          "Email impersonated a named internal executive assistant",
+          "Credential harvesting page mirrored corporate portal",
+          "Wire transfer authorized via email reply",
+          "No malware detected on endpoint",
+        ],
+        axes:{
+          vector:{label:"Initial Vector", answer:"iv2", explanation:"EMAIL — The attack was delivered entirely through email. The director received, interacted with, and responded to a malicious email. Message-based vectors include email, SMS, and IM — email is the correct classification here because that is the channel through which the attack arrived and through which the authorization was given."},
+          technique:{label:"Technique", answer:"tc3", explanation:"BUSINESS EMAIL COMPROMISE (BEC) — BEC is a targeted social engineering attack where the attacker impersonates a trusted internal figure (here, the CEO's assistant) to manipulate a victim into authorizing a financial transaction. It is distinct from generic phishing because it is highly targeted, involves financial fraud, and does not require malware. The typosquatted domain (c0rpmail.com) is the delivery mechanism that makes the impersonation believable."},
+          surface:{label:"Attack Surface", answer:"as2", explanation:"HUMAN VECTOR — The attack surface exploited was the human: the finance director's trust in the impersonated sender and urgency of the request. No technical vulnerability was exploited. The credential harvesting page worked because the director voluntarily entered credentials. Human vectors represent the largest and most consistently exploited attack surface in social engineering attacks."},
+        },
+      },
+      {
+        id:"s2",
+        title:"INCIDENT #IR-2024-0389 — Network Infrastructure Breach via HVAC Vendor",
+        outcome:"An attacker gained access to a retail organization's internal network segment containing point-of-sale systems. Forensic investigation traced the entry point to a third-party HVAC maintenance vendor with remote monitoring access. The vendor's technician account used the username 'admin' and password 'admin123' — the factory default for the remote access platform. The account had not been reviewed since onboarding 18 months prior. Once inside, the attacker moved laterally to the POS network segment, which was not isolated from the vendor access zone.",
+        evidence:[
+          "Entry via third-party vendor remote access account",
+          "Credentials: admin / admin123 — factory defaults unchanged",
+          "Vendor account active 18 months without review",
+          "Lateral movement from vendor zone to POS segment",
+          "No network segmentation between vendor access and POS systems",
+        ],
+        axes:{
+          vector:{label:"Initial Vector", answer:"iv5", explanation:"SUPPLY CHAIN — The attacker entered through a third-party vendor (the HVAC maintenance company) that had been granted remote access to the organization's systems. Supply chain attacks exploit trusted relationships with external partners — MSPs, vendors, and suppliers — to gain access that bypasses perimeter defenses. The vendor is the attack vector, not the organization's own systems."},
+          technique:{label:"Technique", answer:"tc6", explanation:"DEFAULT CREDENTIALS — The attacker authenticated using factory-default credentials (admin/admin123) that the vendor had never changed. Default credentials are a well-documented attack technique because they are publicly available in product documentation and are trivially easy to attempt. This is not brute force — the credentials were the known defaults, requiring no guessing."},
+          surface:{label:"Attack Surface", answer:"as4", explanation:"NETWORK MISCONFIGURATION — The attack surface that enabled lateral movement was the absence of network segmentation between the vendor remote access zone and the POS network. Even after gaining initial access through the vendor account, the attacker should have been contained. The lack of isolation between network segments is an unsecure network configuration exposure — a fundamental attack surface that allowed a limited vendor access to become a full POS system breach."},
+        },
+      },
+    ],
+    vector_options:[
+      {id:"iv1", name:"SMS / Text Message"},
+      {id:"iv2", name:"Email"},
+      {id:"iv3", name:"Removable Device"},
+      {id:"iv4", name:"Vulnerable Software"},
+      {id:"iv5", name:"Supply Chain / Vendor"},
+      {id:"iv6", name:"Voice Call"},
+      {id:"iv7", name:"Instant Messaging"},
+    ],
+    technique_options:[
+      {id:"tc1", name:"Phishing"},
+      {id:"tc2", name:"Pretexting"},
+      {id:"tc3", name:"Business Email Compromise"},
+      {id:"tc5", name:"Typosquatting"},
+      {id:"tc6", name:"Default Credentials"},
+      {id:"tc7", name:"Brand Impersonation"},
+      {id:"tc8", name:"Smishing"},
+      {id:"tc9", name:"Privilege Escalation"},
+    ],
+    surface_options:[
+      {id:"as1", name:"Unsupported System"},
+      {id:"as2", name:"Human / Social Engineering"},
+      {id:"as3", name:"Open Service Port"},
+      {id:"as4", name:"Network Misconfiguration"},
+      {id:"as5", name:"Default Credentials Exposure"},
+      {id:"as6", name:"Removable Media"},
+    ],
+  },
+  mcqs:[
+    {
+      id:"m1",
+      q:"A CFO receives an email that appears to come from the CEO's email address. The message references an ongoing acquisition deal by name, states that a wire transfer must be completed before markets open, and asks the CFO to bypass the normal approval process due to confidentiality requirements. No malicious links or attachments are present. Which attack technique does this BEST represent, and what distinguishes it from standard phishing?",
+      options:[
+        {id:"a", label:"Phishing — any fraudulent email requesting action is classified as phishing regardless of targeting or content"},
+        {id:"b", label:"Business Email Compromise — a targeted attack that impersonates a trusted authority figure to manipulate a specific victim into authorizing a financial transaction, without relying on malware or malicious links"},
+        {id:"c", label:"Pretexting — the attacker fabricated a scenario to manipulate the CFO, which is the defining characteristic of all social engineering"},
+        {id:"d", label:"Vishing — the urgency and authority impersonation are techniques associated with voice-based social engineering"},
+      ],
+      correct:"b",
+      explanation:"Business Email Compromise (BEC) is a targeted, financially motivated social engineering attack that impersonates a trusted figure — typically an executive — to manipulate a specific victim into authorizing a wire transfer or sensitive action. It is distinct from generic phishing in three ways: it is highly targeted (uses specific names and context), it does not require malware or malicious links, and the goal is financial fraud rather than credential harvesting. Pretexting is a component of BEC — the fabricated scenario is the pretext — but BEC is the specific classification.",
+      exam_tip:"BEC = targeted, executive impersonation, financial fraud goal, no malware required. Phishing = broad, credential harvesting, usually contains malicious link or attachment. If a scenario describes an executive impersonation requesting a wire transfer with no malicious payload, the answer is BEC.",
+    },
+    {
+      id:"m2",
+      q:"An employee receives a phone call from someone claiming to be from the IT help desk, stating that their account has been flagged for suspicious activity and must be verified immediately. The caller requests the employee's username and current password to 'unlock the account.' The employee complies. Which social engineering technique does this represent?",
+      options:[
+        {id:"a", label:"Phishing — the attacker used a fabricated scenario to obtain credentials"},
+        {id:"b", label:"Smishing — the attack was delivered through a voice-based communication channel"},
+        {id:"c", label:"Vishing — a voice call used to manipulate the victim into disclosing sensitive information"},
+        {id:"d", label:"Pretexting — the attacker created a false identity to manipulate the victim"},
+      ],
+      correct:"c",
+      explanation:"Vishing (voice phishing) is social engineering conducted over a voice call. The attacker impersonates a trusted authority (IT help desk) and uses urgency to pressure the victim into disclosing credentials. Smishing uses SMS. Phishing uses email. Pretexting is a technique used within vishing and other attacks — the fabricated IT help desk scenario is the pretext — but vishing is the correct classification because the vector is a voice call.",
+      exam_tip:"Channel determines the classification: Email = Phishing. SMS/Text = Smishing. Voice call = Vishing. Pretexting is the fabricated scenario used within any of these — it is a technique, not a channel. When a scenario specifies a phone call, the answer is Vishing.",
+    },
+    {
+      id:"m3",
+      q:"Attackers compromise a legitimate website frequently visited by security researchers — a niche conference registration portal. They inject malicious code that silently exploits a browser vulnerability when the page loads. Several researchers are compromised simply by visiting the site. Which attack technique does this BEST represent, and how does it differ from typosquatting?",
+      options:[
+        {id:"a", label:"Typosquatting — attackers registered a domain similar to the conference site to redirect traffic"},
+        {id:"b", label:"Watering hole — attackers compromised a legitimate site known to be visited by the target group; typosquatting uses a fake lookalike domain rather than compromising the real site"},
+        {id:"c", label:"Brand impersonation — the attackers impersonated the conference brand to lure victims"},
+        {id:"d", label:"Phishing — victims were directed to the malicious site via a phishing email campaign"},
+      ],
+      correct:"b",
+      explanation:"A watering hole attack compromises a legitimate website that the target group is known to visit, then waits for targets to come to it. No deception is needed to lure victims — they visit the site as part of normal activity. Typosquatting registers a lookalike domain (e.g., conf3rence.com instead of conference.com) to intercept users who mistype a URL or click a deceptive link. The key distinction: watering hole = real site compromised; typosquatting = fake site created.",
+      exam_tip:"Watering hole = real legitimate site compromised, victims visit normally. Typosquatting = fake lookalike domain, victims arrive by mistyping or deception. If the scenario says the real site was compromised and victims visited it legitimately, the answer is watering hole.",
+    },
+    {
+      id:"m4",
+      q:"An attacker gains access to the internal network of a financial services firm without targeting the firm directly. Instead, they compromise the firm's managed IT service provider, which has privileged remote access to the firm's systems for patching and monitoring. Which threat vector does this represent, and why is it particularly difficult to defend against?",
+      options:[
+        {id:"a", label:"Vulnerable software — the MSP's remote access tools contained exploitable vulnerabilities"},
+        {id:"b", label:"Supply chain — the attacker exploited a trusted third-party relationship to bypass the firm's perimeter defenses, making it difficult to detect because the access appears legitimate"},
+        {id:"c", label:"Default credentials — MSPs typically use factory default credentials on remote access platforms"},
+        {id:"d", label:"Open service ports — the MSP's remote access required open inbound ports that the attacker exploited"},
+      ],
+      correct:"b",
+      explanation:"A supply chain attack targets a trusted third party — in this case an MSP — to gain access to the ultimate target through an already-trusted relationship. MSPs are high-value targets because a single compromise can provide access to all of their clients. The attack is difficult to defend against because the access appears legitimate: the MSP's credentials, tools, and network paths are authorized. The organization's perimeter defenses are designed to block untrusted traffic — they are not designed to block their own service provider.",
+      exam_tip:"Supply chain attack = compromise a trusted third party (MSP, vendor, supplier) to reach the real target through a trusted relationship. The defining characteristic is that the access appears legitimate because it comes from a trusted source. MSPs are the highest-risk supply chain vector because of their privileged access breadth.",
+    },
+    {
+      id:"m5",
+      q:"A network security scan of a newly acquired subsidiary reveals that several network switches and a wireless access point are still configured with manufacturer default usernames and passwords. The devices are accessible from the internal network. Which TWO risks does this configuration present?",
+      options:[
+        {id:"a", label:"The devices are vulnerable to exploitation using publicly documented credentials, and any attacker with network access can gain administrative control without needing to perform reconnaissance or brute force"},
+        {id:"b", label:"The devices are running unsupported firmware that cannot receive security patches, making them permanently vulnerable"},
+        {id:"c", label:"Default credentials indicate the devices are using deprecated encryption protocols, exposing network traffic to interception"},
+        {id:"d", label:"The devices represent an open service port exposure because default configurations always enable unnecessary services"},
+      ],
+      correct:"a",
+      explanation:"Default credentials are publicly documented in manufacturer manuals and are trivially searchable. An attacker with any level of network access can authenticate immediately using known defaults without brute force or advanced tooling. This is compounded by the devices being accessible from the internal network — any compromised internal host, insider threat, or attacker who has breached the perimeter can reach them. Remediation is straightforward: change credentials during initial provisioning and enforce this in procurement standards.",
+      exam_tip:"Default credentials = publicly known, no brute force needed, trivially exploited. The attack surface is the combination of unchanged defaults AND network accessibility. This is an infrastructure hardening failure — the fix is changing credentials at provisioning, not patching.",
+    },
+  ],
+};
+
+
+const D2L3={
+  pbq:{
+    type:"classify",
+    cia_tag:"⚑ C · I · A",
+    scenario:"A security assessment team has completed a vulnerability review across a mid-sized organization's mixed environment. Six findings have been flagged for remediation prioritization. For each finding, identify the vulnerability type it BEST represents from the classification pool. Not all pool options will be used.",
+    instruction:"For each finding, select the vulnerability type it best represents. Not all pool options will be used.",
+    items:[
+      {id:"f1",
+       label:"Application Server Finding — Memory Write Violation",
+       value:"During dynamic analysis of a customer-facing web application, the team observed that a specific input field accepts data without validating length. When an oversized string is submitted, the application writes beyond the allocated memory buffer into adjacent memory space, causing unpredictable behavior and potential code execution.",
+       answer:"v1",
+       explanation:"BUFFER OVERFLOW — A buffer overflow occurs when a program writes more data to a memory buffer than it can hold, overflowing into adjacent memory. The key indicators here are: no input length validation, data written beyond allocated space, and potential for code execution. Memory injection is different — it involves injecting malicious code directly into a running process's memory space, not overflowing a buffer boundary."},
+      {id:"f2",
+       label:"Web Application Finding — Database Query Manipulation",
+       value:"The assessment team entered the value ' OR '1'='1 into a login form's username field. The application returned all user records from the database without requiring a valid password. The application is constructing database queries by directly concatenating user input without sanitization.",
+       answer:"v2",
+       explanation:"SQL INJECTION — The classic ' OR '1'='1 payload and direct concatenation of unsanitized user input into database queries are definitive SQLi indicators. The attacker is manipulating the query structure itself to bypass authentication and retrieve unauthorized data. XSS injects client-side scripts that execute in a victim's browser — it does not manipulate database queries or bypass server-side authentication logic."},
+      {id:"f3",
+       label:"Virtualization Infrastructure Finding — Hypervisor Boundary Breach",
+       value:"A proof-of-concept test on the organization's virtual infrastructure demonstrated that a process running inside a guest virtual machine was able to interact with the hypervisor layer and access memory regions belonging to a separate guest VM on the same physical host. The VMs are classified at different data sensitivity levels.",
+       answer:"v3",
+       explanation:"VM ESCAPE — VM escape occurs when a process inside a virtual machine breaks out of its isolated environment and interacts with the hypervisor or other VMs on the same host. The critical risk here is that two VMs at different sensitivity levels share a physical host — a successful escape collapses that security boundary. Resource reuse is a related virtualization risk where memory or storage from a deprovisioned VM is allocated to a new tenant without sanitization — different mechanism, different scenario."},
+      {id:"f4",
+       label:"Network Infrastructure Finding — Default and Unchanged Settings",
+       value:"A scan of network devices at a recently acquired subsidiary revealed that three switches and a wireless access point are running with factory-default SNMP community strings ('public' and 'private'), have remote management interfaces exposed on default ports, and have not had any hardening applied since deployment three years ago.",
+       answer:"v4",
+       explanation:"MISCONFIGURATION — Unchanged default settings, exposed management interfaces on default ports, and no hardening applied are all misconfiguration vulnerabilities. The devices are not unpatched or end-of-life — they are simply deployed without security configuration. End-of-life would apply if the devices were no longer receiving vendor support or patches. Misconfiguration is one of the most common and preventable vulnerability categories and is explicitly listed in the 2.3 objectives."},
+      {id:"f5",
+       label:"Operating System Finding — Permission Check Timing Flaw",
+       value:"Analysis of a privileged system utility revealed that the application checks whether the requesting user has write permission to a target file, then performs the write operation in a separate step. During the window between the permission check and the write, an attacker on the same system can replace the target file with a symbolic link pointing to a sensitive system file, causing the utility to write attacker-controlled content to the sensitive file instead.",
+       answer:"v5",
+       explanation:"RACE CONDITION (TOC/TOU) — This is a textbook Time-of-Check/Time-of-Use race condition. The vulnerability exists in the gap between when the permission is checked (TOC) and when the operation is performed (TOU). An attacker exploits that window to change the conditions — replacing the file with a symlink — so that the operation executes under different conditions than were checked. Malicious update involves compromising the software update delivery mechanism — entirely different attack vector."},
+      {id:"f6",
+       label:"Third-Party Software Finding — Unannounced Exploitation",
+       value:"Threat intelligence feeds flagged active exploitation of a critical remote code execution flaw in a widely used PDF rendering library embedded in the organization's document management system. The library vendor has confirmed the vulnerability exists but has not yet released a patch. The organization has no available workaround and the library cannot be disabled without breaking core functionality.",
+       answer:"v6",
+       explanation:"ZERO-DAY — A zero-day vulnerability is one that is being actively exploited before the vendor has released a patch — the vendor has zero days to have fixed it. The key indicators are: vendor has confirmed the vulnerability, no patch exists yet, and active exploitation is occurring. This is distinct from a cryptographic vulnerability, which involves weaknesses in encryption algorithms, key management, or protocol implementation — not an unpatched code flaw in a library."},
+    ],
+    concepts:[
+      {id:"v1",  name:"Buffer Overflow"},
+      {id:"v2",  name:"SQL Injection"},
+      {id:"v3",  name:"VM Escape"},
+      {id:"v4",  name:"Misconfiguration"},
+      {id:"v5",  name:"Race Condition"},
+      {id:"v6",  name:"Zero-Day"},
+      {id:"v7",  name:"XSS"},
+      {id:"v8",  name:"Memory Injection"},
+      {id:"v9",  name:"End-of-Life"},
+      {id:"v10", name:"Cryptographic Vulnerability"},
+    ],
+    answers:{f1:"v1",f2:"v2",f3:"v3",f4:"v4",f5:"v5",f6:"v6"},
+    explanations:{
+      f1:"BUFFER OVERFLOW — A buffer overflow occurs when a program writes more data to a memory buffer than it can hold, overflowing into adjacent memory. The key indicators here are: no input length validation, data written beyond allocated space, and potential for code execution. Memory injection is different — it involves injecting malicious code directly into a running process's memory space, not overflowing a buffer boundary.",
+      f2:"SQL INJECTION — The classic ' OR '1'='1 payload and direct concatenation of unsanitized user input into database queries are definitive SQLi indicators. The attacker is manipulating the query structure itself to bypass authentication and retrieve unauthorized data. XSS injects client-side scripts that execute in a victim's browser — it does not manipulate database queries or bypass server-side authentication logic.",
+      f3:"VM ESCAPE — VM escape occurs when a process inside a virtual machine breaks out of its isolated environment and interacts with the hypervisor or other VMs on the same host. The critical risk here is that two VMs at different sensitivity levels share a physical host — a successful escape collapses that security boundary. Resource reuse is a related virtualization risk where memory or storage from a deprovisioned VM is allocated to a new tenant without sanitization — different mechanism, different scenario.",
+      f4:"MISCONFIGURATION — Unchanged default settings, exposed management interfaces on default ports, and no hardening applied are all misconfiguration vulnerabilities. The devices are not unpatched or end-of-life — they are simply deployed without security configuration. End-of-life would apply if the devices were no longer receiving vendor support or patches.",
+      f5:"RACE CONDITION (TOC/TOU) — This is a textbook Time-of-Check/Time-of-Use race condition. The vulnerability exists in the gap between when the permission is checked (TOC) and when the operation is performed (TOU). An attacker exploits that window to change the conditions — replacing the file with a symlink — so that the operation executes under different conditions than were checked. Malicious update involves compromising the software update delivery mechanism — entirely different attack vector.",
+      f6:"ZERO-DAY — A zero-day vulnerability is one that is being actively exploited before the vendor has released a patch. The key indicators are: vendor has confirmed the vulnerability, no patch exists yet, and active exploitation is occurring. This is distinct from a cryptographic vulnerability, which involves weaknesses in encryption algorithms, key management, or protocol implementation — not an unpatched code flaw in a library.",
+    },
+  },
+  mcqs:[
+    {
+      id:"m1",
+      q:"A penetration tester submits an oversized input string to an application's login form. The application crashes and the tester observes that the instruction pointer has been overwritten with a value from the input string. In a separate test, the tester injects a crafted payload directly into a running process's memory space by exploiting a flaw in how the process handles inter-process communication. Which option CORRECTLY distinguishes these two vulnerability types?",
+      options:[
+        {id:"a", label:"Both are buffer overflows — any attack that targets application memory is classified as a buffer overflow"},
+        {id:"b", label:"The first is a buffer overflow — data written beyond an allocated boundary overwrites adjacent memory including the instruction pointer. The second is memory injection — malicious code is inserted directly into a running process without relying on a boundary violation"},
+        {id:"c", label:"The first is memory injection — the attacker injected an oversized string. The second is a buffer overflow — the payload overflowed the process communication buffer"},
+        {id:"d", label:"Both are race conditions — both attacks exploit timing gaps in how the application handles input"},
+      ],
+      correct:"b",
+      explanation:"Buffer overflow and memory injection are related but distinct. Buffer overflow writes data beyond an allocated memory boundary, corrupting adjacent memory — the overwritten instruction pointer is a classic indicator. Memory injection inserts malicious code directly into a running process's memory space through a separate mechanism, such as exploiting inter-process communication, without necessarily overflowing a buffer. The mechanism of the memory compromise is what distinguishes them.",
+      exam_tip:"Buffer overflow = writes beyond boundary, corrupts adjacent memory, overwrites instruction pointer. Memory injection = inserts code directly into running process memory. Both target memory — the mechanism differs.",
+    },
+    {
+      id:"m2",
+      q:"A web application displays a search results page that includes the user's search term in the page output. A security researcher enters the string <scr'+'ipt>alert('test')<\/script> as a search term. The string is stored in the database and every user who views the search results page executes the script in their browser. Which vulnerability does this represent, and how does it differ from SQL injection?",
+      options:[
+        {id:"a", label:"SQL injection — the script tag syntax is a form of database query manipulation"},
+        {id:"b", label:"Cross-site scripting (XSS) — malicious script is injected into content served to other users' browsers; SQL injection manipulates database query structure to extract or modify data, not execute client-side scripts"},
+        {id:"c", label:"Cross-site scripting (XSS) — but only because the script was stored; if it had been in the URL it would be SQL injection"},
+        {id:"d", label:"Both SQL injection and XSS — any unsanitized input that reaches the database is SQL injection by definition"},
+      ],
+      correct:"b",
+      explanation:"This is stored XSS — the malicious script is saved to the database and executes in every victim's browser when they load the page. XSS targets the client side: the browser executes attacker-controlled JavaScript. SQL injection targets the server side: attacker-controlled input manipulates the database query structure to bypass logic or extract data. Both exploit unsanitized input — the target and effect are different. XSS harms users; SQLi harms the database and server.",
+      exam_tip:"XSS = script executes in victim's browser, client-side attack, harms users. SQLi = manipulates database query, server-side attack, harms data. Both use unsanitized input — ask yourself: where does the payload execute?",
+    },
+    {
+      id:"m3",
+      q:"A company migrates its document management system to a cloud provider and configures a storage bucket to host internal policy documents. During a routine audit six months later, the security team discovers the bucket's access control was set to public-read during initial setup and was never changed. Thousands of internal documents have been accessible to anyone with the URL. Which vulnerability type does this BEST represent, and what characteristic makes it cloud-specific?",
+      options:[
+        {id:"a", label:"Zero-day — the cloud provider had an unpatched vulnerability that exposed the bucket contents"},
+        {id:"b", label:"Supply chain — the cloud provider is a third party and any exposure through their platform is a supply chain vulnerability"},
+        {id:"c", label:"Cloud-specific misconfiguration — the organization failed to properly configure access controls in the shared responsibility model, where securing data within cloud services is the customer's responsibility, not the provider's"},
+        {id:"d", label:"Cryptographic vulnerability — the documents were not encrypted at rest, making them readable once accessed"},
+      ],
+      correct:"c",
+      explanation:"Public-facing cloud storage due to incorrect access control settings is one of the most common and well-documented cloud-specific vulnerabilities. It is cloud-specific because it arises from the shared responsibility model — the cloud provider secures the infrastructure, but the customer is responsible for configuring access controls on their data. This is not a zero-day (no unpatched vulnerability), not a supply chain attack (no third-party compromise), and not primarily a cryptographic issue (the problem is access control, not encryption).",
+      exam_tip:"Cloud-specific vulnerabilities often stem from shared responsibility model failures — the customer misconfigures something they are responsible for securing. Misconfigured storage buckets, overpermissioned IAM roles, and exposed APIs are the most commonly tested cloud-specific vulnerability scenarios on SY0-701.",
+    },
+    {
+      id:"m4",
+      q:"A threat intelligence report describes attackers actively exploiting a critical vulnerability in an open-source JSON parsing library used by hundreds of commercial software products. The library maintainer confirmed the vulnerability three days ago and is working on a patch, but none is available yet. One of the affected commercial products is used by a managed service provider that has administrative access to dozens of client networks. Which combination of vulnerability types does this scenario represent?",
+      options:[
+        {id:"a", label:"Misconfiguration and supply chain — the library was improperly configured and distributed through vendor channels"},
+        {id:"b", label:"Zero-day and supply chain — an unpatched vulnerability in a third-party component is being exploited, and the MSP relationship means a single compromise could cascade to all client networks"},
+        {id:"c", label:"Cryptographic vulnerability and supply chain — open-source libraries commonly use weak encryption that attackers exploit"},
+        {id:"d", label:"Zero-day only — supply chain applies only to hardware components, not software libraries"},
+      ],
+      correct:"b",
+      explanation:"This scenario combines two distinct vulnerability types. Zero-day: the vulnerability is confirmed but unpatched — active exploitation is occurring before a fix exists. Supply chain: the vulnerable library is embedded in commercial products distributed through vendor and MSP channels — the MSP's privileged access means a single exploitation point could cascade to all of their clients. Supply chain vulnerabilities apply to software providers, hardware providers, and service providers — not hardware only.",
+      exam_tip:"Zero-day = confirmed, unpatched, actively exploited. Supply chain = vulnerability introduced or propagated through a third-party component — software libraries, hardware firmware, or MSP access. These two types frequently appear together in real-world breach scenarios and on SY0-701.",
+    },
+    {
+      id:"m5",
+      q:"A mobile device security assessment identifies two separate user behaviors on different devices. On the first device, a user installed a banking application downloaded directly from a third-party website rather than the official app store. On the second device, a user ran an exploit that removed the manufacturer's operating system restrictions, granting full administrative access to the device's file system and allowing any application to be installed from any source. Which option CORRECTLY matches each behavior to its vulnerability classification?",
+      options:[
+        {id:"a", label:"Both represent jailbreaking — any installation of unauthorized software constitutes jailbreaking"},
+        {id:"b", label:"The first is jailbreaking — bypassing app store controls is the definition of jailbreaking. The second is sideloading — running exploits to gain root access is sideloading"},
+        {id:"c", label:"The first is sideloading — installing an application from outside the official app store without modifying the OS. The second is jailbreaking — exploiting the OS to remove manufacturer restrictions and gain elevated access"},
+        {id:"d", label:"Both represent sideloading — installing any unverified application regardless of method is classified as sideloading"},
+      ],
+      correct:"c",
+      explanation:"Sideloading is installing an application from outside the official app store without modifying the operating system — the OS restrictions remain in place, but the user bypasses the app store vetting process. Jailbreaking (iOS) or rooting (Android) involves exploiting the OS itself to remove manufacturer-imposed restrictions and gain elevated/administrative access, fundamentally altering the device's security posture. Jailbreaking enables sideloading as a consequence — but the defining act of jailbreaking is the OS restriction removal, not the app installation.",
+      exam_tip:"Sideloading = app installed outside official store, OS unchanged. Jailbreaking/rooting = OS restrictions removed via exploit, elevated access gained. Jailbreaking enables sideloading — but they are not the same thing. The question is whether the OS itself was modified.",
+    },
+  ],
+};
+
+const LEVEL_DATA={d1l1:D1L1,d1l2:D1L2,d1l3:D1L3,d1l4:D1L4,d1l5:D1L5,d2l1:D2L1,d2l2:D2L2,d2l3:D2L3};
+
+// ── PROGRESS ─────────────────────────────────────────────────────────────────
+function loadP(){try{return JSON.parse(localStorage.getItem('sp_v2')||'{}')}catch{return{}}}
+function saveP(p){localStorage.setItem('sp_v2',JSON.stringify(p))}
+function getLP(id){return loadP()[id]||{completed:false,mastery:0,attempts:0,xp:0,missedPBQ:[],missedMCQ:[]}}
+function setLP(id,d){const p=loadP();p[id]=d;saveP(p)}
+function unlocked(id){
+  if(id==='d1l1'||id==='d1l2'||id==='d1l3'||id==='d1l4'||id==='d1l5'||id==='d2l1'||id==='d2l2'||id==='d2l3')return true;
+  for(const r of REALMS){
+    const i=r.levels.findIndex(l=>l.id===id);
+    if(i>0)return getLP(r.levels[i-1].id).completed;
+    if(i===0){const ri=REALMS.indexOf(r);return ri===0||REALMS[ri-1].levels.every(l=>getLP(l.id).completed)}
+  }
+  return false;
+}
+
+// ── NAV ───────────────────────────────────────────────────────────────────────
+let CR=null,CL=null;
+function show(id){document.querySelectorAll('.view').forEach(v=>v.classList.remove('active'));document.getElementById(id).classList.add('active');window.scrollTo(0,0)}
+function showRealm(){renderRealm();show('v-realm')}
+function showLevel(rid){CR=REALMS.find(r=>r.id===rid);if(CR){renderLevel();show('v-level')}}
+function showRunner(lid){CL=ALL_LEVELS.find(l=>l.id===lid);if(CL&&unlocked(lid)){initRunner();show('v-runner')}}
+
+// ── REALM MAP ─────────────────────────────────────────────────────────────────
+function renderRealm(){
+  const p=loadP();
+  const xpE=ALL_LEVELS.reduce((s,l)=>s+(p[l.id]?.xp||0),0);
+  const done=ALL_LEVELS.filter(l=>p[l.id]?.completed).length;
+  document.getElementById('h-xp').textContent=xpE;
+  document.getElementById('h-done').textContent=done+'/'+ALL_LEVELS.length;
+  document.getElementById('g-xp-bar').style.width=Math.max(2,(xpE/TOTAL_XP)*100)+'%';
+  document.getElementById('g-xp-lbl').textContent=xpE+' / '+TOTAL_XP+' XP';
+  const list=document.getElementById('realm-list');list.innerHTML='';
+  REALMS.forEach((r,ri)=>{
+    const done=r.levels.filter(l=>p[l.id]?.completed).length;
+    const lock=ri>0&&!REALMS[ri-1].levels.every(l=>p[l.id]?.completed)&&!['d2'].includes(r.id);
+    const c=r.color;
+    const card=document.createElement('div');
+    card.className='realm-card ai'+(lock?' locked':'');
+    card.style.cssText=`border-color:${lock?'rgba(255,255,255,0.06)':`color-mix(in srgb,${c} 35%,transparent)`};animation-delay:${ri*.05}s`;
+    if(!lock)card.onclick=()=>showLevel(r.id);
+    const pips=r.levels.map(l=>{
+      const lp=p[l.id];const lu=unlocked(l.id);
+      return`<div class="pip" style="background:${lp?.completed?`color-mix(in srgb,${c} 18%,transparent)`:'rgba(255,255,255,0.05)'};border-color:${lp?.completed?c:lu?'rgba(255,255,255,0.2)':'rgba(255,255,255,0.07)'};color:${lp?.completed?c:lu?'#94A3B8':'#374151'}">${lp?.completed?'✓ ':lu?'▶ ':'🔒 '}${l.obj}</div>`;
+    }).join('');
+    card.innerHTML=`<div class="realm-top" style="background:linear-gradient(135deg,color-mix(in srgb,${c} 7%,transparent),transparent)">
+      <div class="realm-card-left"><div class="realm-icon">${r.icon}</div>
+      <div><div class="realm-w" style="color:${c}">REALM ${ri+1} · ${r.weight}% OF EXAM${lock?' · 🔒':''}</div><div class="realm-n">${r.name}</div></div></div>
+      <div class="realm-ct"><div class="num" style="color:${c}">${done}/${r.levels.length}</div><div class="lbl">levels</div></div>
+    </div>
+    <div class="realm-bot">${r.levels.length?pips:'<div style="font-family:var(--mono);font-size:10px;color:var(--muted)">Coming soon</div>'}</div>`;
+    list.appendChild(card);
+  });
+}
+
+// ── LEVEL MAP ─────────────────────────────────────────────────────────────────
+function renderLevel(){
+  const r=CR;const c=r.color;const p=loadP();
+  const done=r.levels.filter(l=>p[l.id]?.completed).length;
+  document.getElementById('lm-sub').textContent=r.num+' · '+r.weight+'% OF EXAM';
+  document.getElementById('lm-sub').style.color=c;
+  document.getElementById('lm-title').textContent=r.name;
+  document.getElementById('lm-done').textContent=done+'/'+r.levels.length;
+  const list=document.getElementById('level-list');list.innerHTML='';
+  r.levels.forEach((lv,li)=>{
+    const lp=p[lv.id]||{};const lock=!unlocked(lv.id);
+    const missed=(lp.missedPBQ?.length||0)+(lp.missedMCQ?.length||0);
+    const mc=lp.mastery>=90?'var(--green)':lp.mastery>=70?c:'var(--amber)';
+    const card=document.createElement('div');
+    card.className='lvl-card ai'+(lock?' locked':'');
+    card.style.cssText=`border-color:${lock?'rgba(255,255,255,0.06)':lp.completed?`color-mix(in srgb,${c} 38%,transparent)`:`color-mix(in srgb,${c} 18%,transparent)`};background:${lp.completed?`color-mix(in srgb,${c} 5%,var(--surface))`:'var(--surface)'};animation-delay:${li*.05}s`;
+    if(!lock)card.onclick=()=>showRunner(lv.id);
+    card.innerHTML=`<div class="lvl-left">
+      <div class="lvl-num" style="background:${lp.completed?`color-mix(in srgb,${c} 20%,transparent)`:'rgba(255,255,255,0.06)'};border-color:${lp.completed?c:lock?'rgba(255,255,255,0.1)':'rgba(255,255,255,0.2)'};color:${lp.completed?c:'#64748b'}">${lock?'🔒':lp.completed?'✓':li+1}</div>
+      <div><div class="lvl-name">${lv.name}</div>
+      <div class="lvl-meta">
+        <span class="lvl-obj">OBJ ${lv.obj}</span>
+        <span class="type-tag" style="background:color-mix(in srgb,${c} 14%,transparent);color:${c};border:1px solid color-mix(in srgb,${c} 28%,transparent)">${lv.type==='review'?'REALM REVIEW':lv.type.replace('_',' ').toUpperCase()}</span>
+        <span class="lvl-obj">${lv.xp} XP</span>
+        ${missed>0?`<span class="missed-badge">⚑ ${missed} missed</span>`:''}
+      </div></div></div>
+    <div class="lvl-right">
+      ${lp.mastery?`<div class="lvl-mastery" style="color:${mc}">${lp.mastery}%</div>`:''}
+      ${!lock?`<div style="font-size:20px;color:${c}">›</div>`:''}
+    </div>`;
+    list.appendChild(card);
+  });
+}
+
+// ── RUNNER STATE ──────────────────────────────────────────────────────────────
+let RS={};
+function initRunner(){
+  const r=REALMS.find(r=>r.levels.some(l=>l.id===CL.id));
+  const c=r.color;
+  document.getElementById('r-obj').textContent=CL.type==='review'?'REALM REVIEW':'OBJ '+CL.obj;
+  document.getElementById('r-obj').style.color=c;
+  document.getElementById('r-name').textContent=CL.name;
+  const isRevLevel=!LEVEL_DATA[CL.id].pbq;document.getElementById('r-pbq').textContent=isRevLevel?'—':'60 pts';
+  document.getElementById('r-pbq').style.color='var(--muted)';
+  document.getElementById('r-mcq').textContent=isRevLevel?'100 pts':'40 pts';
+  document.getElementById('r-mcq').style.color='var(--muted)';
+  document.getElementById('r-back').onclick=()=>showLevel(r.id);
+  RS={phase:'pbq',color:c,data:LEVEL_DATA[CL.id],levelId:CL.id,conSels:{},triageSels:{},matchSels:{},scenarioSels:{},
+      pbqScore:0,mcqScore:0,missedPBQ:[],missedMCQ:[],
+      catSels:{},typeSels:{},pbqDone:false,
+      mcqIdx:0,mcqSel:null,mcqDone:false,mcqScores:[]};
+  renderPhase();
+}
+function renderPhase(){if(RS.phase==='pbq'){if(!RS.data.pbq){RS.phase='mcq';rMCQ();return;}if(RS.data.pbq.type==='triage')rTriagePBQ();else if(RS.data.pbq.type==='match')rMatchPBQ();else if(RS.data.pbq.type==='scenario_builder')rScenarioBuilder();else if(RS.data.pbq.concepts)rClassifyPBQ();else rPBQ();}else if(RS.phase==='mcq')rMCQ();else rResult();}
+
+// ── PHASE BAR ─────────────────────────────────────────────────────────────────
+function phaseBar(phase,c){
+  const ps=['pbq','mcq','result'];const labels=['PBQ','MCQ','Result'];
+  return`<div class="phase-bar">${labels.map((l,i)=>{
+    const idx=ps.indexOf(phase);
+    const done=i<idx;const active=i===idx;
+    const bg=done?'var(--green)':active?c:'rgba(255,255,255,0.1)';
+    const col=done?'var(--green)':active?c:'#374151';
+    return`<div class="ph-seg"><div class="ph-track" style="background:${bg}"></div><div class="ph-lbl" style="color:${col}">${l}</div></div>`;
+  }).join('')}</div>`;
+}
+
+// ── PBQ ───────────────────────────────────────────────────────────────────────
+function rPBQ(){
+  const s=RS;const pbq=s.data.pbq;const c=s.color;
+  const PPI=60/pbq.items.length;
+  const sc=Object.keys(s.catSels).length+Object.keys(s.typeSels).length;
+  const needed=pbq.items.length*2;const allSet=sc===needed;
+  let h=phaseBar('pbq',c);
+  h+=`<div class="meta-pills">
+    <span class="mpill" style="background:color-mix(in srgb,${c} 14%,transparent);color:${c};border-color:color-mix(in srgb,${c} 28%,transparent)">DUAL CLASSIFY</span>
+    <span class="mpill" style="background:rgba(217,119,6,0.14);color:var(--amber);border-color:rgba(217,119,6,0.28)">6 CONTROL TYPES</span>
+    <span class="mpill" style="background:rgba(2,132,199,0.14);color:var(--d3);border-color:rgba(2,132,199,0.28)">HARD</span>
+  </div><div class="meta-note">8 items · Category × Type · 7.5 pts per item · 60 pts total</div>`;
+  h+=`<div class="scenario-box">
+    <div class="sc-hdr"><span class="sc-tag" style="color:${c}">◉ SCENARIO</span><span class="sc-cia">${pbq.cia_tag}</span></div>
+    <div class="sc-txt">${pbq.scenario}</div>
+  </div><div class="instr">${pbq.instruction}</div>`;
+  pbq.items.forEach((it,idx)=>{
+    const cs=s.catSels[it.id];const ts=s.typeSels[it.id];
+    const sub=s.pbqDone;
+    const cok=sub&&cs===pbq.cat_answers[it.id];
+    const tok=sub&&ts===pbq.type_answers[it.id];
+    const aok=sub&&cok&&tok;
+    h+=`<div class="pbq-item${sub?(aok?' ok':' bad'):''}" id="pi-${it.id}">
+      <div class="pbq-hdr">
+        <div class="pbq-num" style="background:color-mix(in srgb,${c} 18%,transparent);border:1px solid color-mix(in srgb,${c} 40%,transparent);color:${c}">${idx+1}</div>
+        <div class="pbq-lbl"><div class="pbq-lbl-t">${it.label}</div><div class="pbq-lbl-d">${it.desc}</div></div>
+        ${sub?`<div class="pbq-ri">${aok?'✓':'✗'}</div>`:''}
+      </div>`;
+    // Category
+    h+=`<div class="axis-sec"><div class="axis-lbl" style="color:${c}">${pbq.cat_label||'Category'}`;
+    if(sub&&!cok)h+=` <span class="axis-fix">✗ → ${pbq.categories.find(x=>x.id===pbq.cat_answers[it.id])?.name}</span>`;
+    h+=`</div><div class="axis-pills">`;
+    pbq.categories.forEach(cat=>{
+      const sel=cs===cat.id;const ok=sub&&cat.id===pbq.cat_answers[it.id];const bad=sub&&sel&&!ok;
+      const st=(!sub&&sel)?`border-color:${c};background:color-mix(in srgb,${c} 18%,transparent);color:${c}`:'';
+      h+=`<button class="apill${ok?' pc':bad?' pw':''}" style="${st}" ${sub?'disabled':''} onclick="selCat('${it.id}','${cat.id}')">${cat.name}</button>`;
+    });
+    h+=`</div></div>`;
+    // Type
+    h+=`<div class="axis-sec"><div class="axis-lbl" style="color:var(--amber)">${pbq.type_label||'Type'}`;
+    if(sub&&!tok)h+=` <span class="axis-fix">✗ → ${pbq.types.find(x=>x.id===pbq.type_answers[it.id])?.name}</span>`;
+    h+=`</div><div class="axis-pills">`;
+    pbq.types.forEach(typ=>{
+      const sel=ts===typ.id;const ok=sub&&typ.id===pbq.type_answers[it.id];const bad=sub&&sel&&!ok;
+      const st=(!sub&&sel)?`border-color:var(--amber);background:rgba(217,119,6,0.17);color:var(--amber)`:'';
+      h+=`<button class="apill${ok?' pc':bad?' pw':''}" style="${st}" ${sub?'disabled':''} onclick="selTyp('${it.id}','${typ.id}')">${typ.name}</button>`;
+    });
+    h+=`</div></div>`;
+    if(sub)h+=`<div class="expl" style="border-color:${aok?'var(--green)':'var(--red)'}">${pbq.explanations[it.id]}</div>`;
+    h+=`</div>`;
+  });
+  if(!s.pbqDone){
+    h+=`<button class="sbtn" ${allSet?'':'disabled'} style="background:${allSet?`linear-gradient(135deg,color-mix(in srgb,${c} 90%,#000),${c})`:''}; color:${allSet?'#fff':''}" onclick="submitPBQ()">
+      ${allSet?'SUBMIT PBQ':`SET ALL AXES TO SUBMIT (${sc}/${needed})`}</button>`;
+  } else {
+    h+=`<button class="sbtn" onclick="gotoMCQ()" style="background:linear-gradient(135deg,color-mix(in srgb,${c} 90%,#000),${c});color:#fff">CONTINUE TO MCQ (${Math.round(s.pbqScore)}/60) →</button>`;
+  }
+  document.getElementById('r-content').innerHTML=h;
+}
+function selCat(id,val){if(RS.pbqDone)return;RS.catSels[id]=val;rPBQ()}
+function selTyp(id,val){if(RS.pbqDone)return;RS.typeSels[id]=val;rPBQ()}
+function submitPBQ(){
+  const s=RS;const pbq=s.data.pbq;const PPI=60/pbq.items.length;
+  let sc=0;s.missedPBQ=[];
+  pbq.items.forEach(it=>{
+    const cok=s.catSels[it.id]===pbq.cat_answers[it.id];
+    const tok=s.typeSels[it.id]===pbq.type_answers[it.id];
+    if(cok&&tok){sc+=PPI;}
+    else s.missedPBQ.push({id:it.id,label:it.label,
+      yourCat:pbq.categories.find(x=>x.id===s.catSels[it.id])?.name||'—',
+      correctCat:pbq.categories.find(x=>x.id===pbq.cat_answers[it.id])?.name,
+      yourType:pbq.types.find(x=>x.id===s.typeSels[it.id])?.name||'—',
+      correctType:pbq.types.find(x=>x.id===pbq.type_answers[it.id])?.name,
+      explanation:pbq.explanations[it.id]});
+  });
+  s.pbqScore=sc;s.pbqDone=true;
+  document.getElementById('r-pbq').textContent=Math.round(sc)+'/60';
+  document.getElementById('r-pbq').style.color=sc>=42?'var(--green)':'var(--amber)';
+  rPBQ();window.scrollTo(0,0);
+}
+function gotoMCQ(){RS.phase='mcq';RS.mcqIdx=0;RS.mcqSel=null;RS.mcqDone=false;RS.mcqScores=[];rMCQ();window.scrollTo(0,0);}
+
+// ── MCQ ───────────────────────────────────────────────────────────────────────
+function rMCQ(){
+  const s=RS;const mcqs=s.data.mcqs;const q=mcqs[s.mcqIdx];const c=s.color;
+  const isLast=s.mcqIdx===mcqs.length-1;const isReview=RS.data.pbq===null;const MPQ=isReview?100/mcqs.length:40/mcqs.length;
+  let h=phaseBar('mcq',c);
+  const dots=mcqs.map((_,i)=>`<div class="mcq-dot" style="background:${i<s.mcqIdx?'var(--green)':i===s.mcqIdx?c:'rgba(255,255,255,0.12)'}"></div>`).join('');
+  h+=`<div class="mcq-prog">
+    <span style="font-family:var(--mono);font-size:11px;color:${c};font-weight:700">MCQ ${s.mcqIdx+1} of ${mcqs.length}</span>
+    <div class="mcq-dots">${dots}</div>
+    <span style="font-family:var(--mono);font-size:11px;color:var(--muted)">8 pts each</span>
+  </div>`;
+  h+=`<div class="qbox" style="border-left-color:${c}"><div class="qlbl" style="color:${c}">◉ QUESTION</div><div class="qtxt">${q.q}</div></div>`;
+  h+=`<div class="opts">`;
+  q.options.forEach(opt=>{
+    const sel=s.mcqSel===opt.id;const ok=s.mcqDone&&opt.id===q.correct;const bad=s.mcqDone&&sel&&!ok;
+    const ltBg=ok?'rgba(34,197,94,0.25)':bad?'rgba(239,68,68,0.25)':sel?`color-mix(in srgb,${c} 25%,transparent)`:'rgba(255,255,255,0.07)';
+    const ltCol=ok?'var(--green)':bad?'var(--red)':sel?c:'#64748b';
+    h+=`<button class="opt${ok?' oc':bad?' ow':sel?' sel':''}" ${s.mcqDone?'disabled':''} onclick="selMCQ('${opt.id}')">
+      <span class="opt-lt" style="background:${ltBg};color:${ltCol}">${opt.id.toUpperCase()}</span>
+      <span>${opt.label}</span></button>`;
+  });
+  h+=`</div>`;
+  if(s.mcqDone){
+    h+=`<div class="expbox"><div class="exp-t">${q.explanation}</div>
+      <div class="tip" style="background:color-mix(in srgb,${c} 7%,transparent);border-left-color:${c}">
+        <span class="tip-lbl" style="color:${c}">EXAM TIP: </span>
+        <span class="tip-txt">${q.exam_tip}</span>
+      </div></div>`;
+  }
+  if(!s.mcqDone){
+    h+=`<button class="sbtn" ${s.mcqSel?'':'disabled'} style="background:${s.mcqSel?`linear-gradient(135deg,color-mix(in srgb,${c} 90%,#000),${c})`:''}; color:${s.mcqSel?'#fff':''}" onclick="submitMCQ()">SUBMIT ANSWER</button>`;
+  } else {
+    h+=`<button class="sbtn" onclick="nextMCQ()" style="background:linear-gradient(135deg,color-mix(in srgb,${c} 90%,#000),${c});color:#fff">${isLast?'VIEW RESULTS →':`NEXT QUESTION (${s.mcqIdx+2}/${mcqs.length}) →`}</button>`;
+  }
+  document.getElementById('r-content').innerHTML=h;
+}
+function selMCQ(id){if(RS.mcqDone)return;RS.mcqSel=id;rMCQ();}
+function submitMCQ(){
+  const s=RS;const q=s.data.mcqs[s.mcqIdx];const MPQ=40/s.data.mcqs.length;
+  const ok=s.mcqSel===q.correct;
+  s.mcqDone=true;s.mcqScores.push(ok?MPQ:0);
+  if(!ok)s.missedMCQ.push({id:q.id,q:q.q,
+    yourAnswer:q.options.find(o=>o.id===s.mcqSel)?.label||'—',
+    correctAnswer:q.options.find(o=>o.id===q.correct)?.label,
+    explanation:q.explanation,exam_tip:q.exam_tip});
+  rMCQ();
+}
+function nextMCQ(){
+  const s=RS;const isLast=s.mcqIdx===s.data.mcqs.length-1;
+  if(isLast){
+    s.mcqScore=s.mcqScores.reduce((a,b)=>a+b,0);
+    const isRev=RS.data.pbq===null;document.getElementById('r-mcq').textContent=Math.round(s.mcqScore)+(isRev?'/100':'/40');
+    document.getElementById('r-mcq').style.color=s.mcqScore>=(isRev?70:28)?'var(--green)':'var(--amber)';
+    s.phase='result';saveResult();rResult();window.scrollTo(0,0);
+  } else {
+    s.mcqIdx++;s.mcqSel=null;s.mcqDone=false;rMCQ();window.scrollTo(0,0);
+  }
+}
+
+
+
+
+
+// ── SCENARIO BUILDER PBQ ─────────────────────────────────────────────────────
+function rScenarioBuilder(){
+  const s=RS;const pbq=s.data.pbq;const c=s.color;
+  const axisKeys=['vector','technique','surface'];
+  const totalSels=pbq.scenarios.reduce((acc,sc)=>acc+axisKeys.filter(ax=>s.scenarioSels[sc.id]?.[ax]).length,0);
+  const totalNeeded=pbq.scenarios.length*axisKeys.length;
+  const allSet=totalSels===totalNeeded;
+  const PPS=60/pbq.scenarios.length; // pts per scenario (all 3 axes correct)
+
+  let h=phaseBar('pbq',c);
+  h+=`<div class="meta-pills">
+    <span class="mpill" style="background:color-mix(in srgb,${c} 14%,transparent);color:${c};border-color:color-mix(in srgb,${c} 28%,transparent)">SCENARIO BUILDER</span>
+    <span class="mpill" style="background:rgba(220,38,38,0.14);color:var(--d2);border-color:rgba(220,38,38,0.28)">${pbq.scenarios.length} INCIDENTS</span>
+    <span class="mpill" style="background:rgba(217,119,6,0.14);color:var(--amber);border-color:rgba(217,119,6,0.28)">HARD</span>
+  </div>
+  <div class="meta-note">${pbq.scenarios.length} scenarios · 3 selections each · ${Math.round(PPS)} pts per scenario · 60 pts total</div>`;
+
+  h+=`<div class="scenario-box">
+    <div class="sc-hdr"><span class="sc-tag" style="color:${c}">◉ SCENARIO</span><span class="sc-cia">${pbq.cia_tag}</span></div>
+    <div class="sc-txt">${pbq.scenario}</div>
+  </div><div class="instr">${pbq.instruction}</div>`;
+
+  pbq.scenarios.forEach((scenario,si)=>{
+    const sels=s.scenarioSels[scenario.id]||{};
+    const sub=s.pbqDone;
+
+    // Score this scenario
+    let scenCorrect=0;
+    if(sub){
+      axisKeys.forEach(ax=>{
+        if(sels[ax]===scenario.axes[ax].answer)scenCorrect++;
+      });
+    }
+    const scenScore=sub?Math.round((scenCorrect/3)*PPS):null;
+
+    let cardBorder,cardBg;
+    if(sub&&scenCorrect===3){cardBorder='rgba(34,197,94,0.5)';cardBg='rgba(34,197,94,0.04)';}
+    else if(sub&&scenCorrect===0){cardBorder='rgba(239,68,68,0.5)';cardBg='rgba(239,68,68,0.04)';}
+    else if(sub){cardBorder='rgba(245,158,11,0.5)';cardBg='rgba(245,158,11,0.04)';}
+    else{cardBorder=`color-mix(in srgb,${c} 30%,transparent)`;cardBg='rgba(255,255,255,0.02)';}
+
+    h+=`<div style="border-radius:14px;padding:16px;border:2px solid ${cardBorder};background:${cardBg};margin-bottom:16px">`;
+
+    // Incident header
+    h+=`<div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:12px;gap:10px">
+      <div style="font-family:var(--mono);font-size:10px;font-weight:700;color:${c};letter-spacing:.05em">${scenario.title}</div>
+      ${sub?`<div style="font-family:var(--mono);font-size:11px;font-weight:700;color:${scenCorrect===3?'var(--green)':scenCorrect>0?'var(--amber)':'var(--red)'};flex-shrink:0">${scenCorrect}/3 · ${scenScore}pts</div>`:''}
+    </div>`;
+
+    // Outcome block
+    h+=`<div style="font-size:13px;color:#CBD5E1;line-height:1.7;padding:12px 14px;background:rgba(0,0,0,0.35);border-radius:10px;border-left:3px solid ${cardBorder};margin-bottom:12px">${scenario.outcome}</div>`;
+
+    // Evidence pills
+    h+=`<div style="margin-bottom:14px">
+      <div style="font-family:var(--mono);font-size:9px;font-weight:700;color:var(--muted);letter-spacing:.08em;margin-bottom:6px">EVIDENCE</div>
+      <div style="display:flex;flex-wrap:wrap;gap:6px">`;
+    scenario.evidence.forEach(ev=>{
+      h+=`<div style="padding:4px 10px;border-radius:6px;font-size:11px;color:#94A3B8;background:rgba(255,255,255,0.05);border:1px solid rgba(255,255,255,0.1)">· ${ev}</div>`;
+    });
+    h+=`</div></div>`;
+
+    // Three axis selectors
+    const axisConfig=[
+      {key:'vector',   label:'Initial Vector',  opts:pbq.vector_options,    color:'var(--d3)'},
+      {key:'technique',label:'Technique',        opts:pbq.technique_options, color:'var(--d2)'},
+      {key:'surface',  label:'Attack Surface',   opts:pbq.surface_options,   color:'var(--d4)'},
+    ];
+
+    axisConfig.forEach(ax=>{
+      const sel=sels[ax.key];
+      const correct=scenario.axes[ax.key].answer;
+      const isOk=sub&&sel===correct;
+      const isBad=sub&&sel&&sel!==correct;
+      const correctOpt=ax.opts.find(o=>o.id===correct);
+      const selOpt=ax.opts.find(o=>o.id===sel);
+
+      h+=`<div style="margin-bottom:10px">
+        <div style="font-family:var(--mono);font-size:9px;font-weight:700;text-transform:uppercase;letter-spacing:.08em;color:${ax.color};margin-bottom:6px">
+          ${ax.label} ${sub?(isOk?'✓':'✗'):''}
+          ${sub&&isBad?`<span style="color:var(--muted);font-weight:400"> — correct: ${correctOpt?.name}</span>`:''}
+        </div>
+        <div style="display:flex;flex-wrap:wrap;gap:6px">`;
+
+      ax.opts.forEach(opt=>{
+        const isSel=sel===opt.id;
+        const isCorrectOpt=sub&&opt.id===correct;
+        const isWrongSel=sub&&isSel&&!isCorrectOpt;
+        let bg,border,color;
+        if(isCorrectOpt){bg='rgba(34,197,94,0.18)';border='var(--green)';color='var(--green)';}
+        else if(isWrongSel){bg='rgba(239,68,68,0.18)';border='var(--red)';color='var(--red)';}
+        else if(isSel){bg=`color-mix(in srgb,${ax.color} 18%,transparent)`;border=ax.color;color='#fff';}
+        else{bg='transparent';border='rgba(255,255,255,0.12)';color='#475569';}
+
+        h+=`<button onclick="selScenario('${scenario.id}','${ax.key}','${opt.id}')" 
+          ${sub?'disabled':''}
+          style="padding:7px 13px;border-radius:8px;font-family:var(--mono);font-size:11px;font-weight:600;
+          background:${bg};border:1.5px solid ${border};color:${color};
+          cursor:${sub?'default':'pointer'};transition:all .12s;min-height:36px">${opt.name}</button>`;
+      });
+      h+=`</div>`;
+
+      // Explanation per axis post-submit
+      if(sub){
+        h+=`<div class="expl" style="border-color:${isOk?'var(--green)':'var(--red)'};margin-top:8px;font-size:12px">${scenario.axes[ax.key].explanation}</div>`;
+      }
+      h+=`</div>`;
+    });
+
+    h+=`</div>`; // end scenario card
+  });
+
+  if(!s.pbqDone){
+    h+=`<button class="sbtn" ${allSet?'':'disabled'}
+      style="background:${allSet?`linear-gradient(135deg,color-mix(in srgb,${c} 90%,#000),${c})`:''}; color:${allSet?'#fff':''}"
+      onclick="submitScenarioBuilder()">
+      ${allSet?'SUBMIT ANALYSIS':`COMPLETE ALL SELECTIONS TO SUBMIT (${totalSels}/${totalNeeded})`}</button>`;
+  } else {
+    h+=`<button class="sbtn" onclick="gotoMCQ()" style="background:linear-gradient(135deg,color-mix(in srgb,${c} 90%,#000),${c});color:#fff">CONTINUE TO MCQ (${Math.round(s.pbqScore)}/60) →</button>`;
+  }
+  document.getElementById('r-content').innerHTML=h;
+}
+
+function selScenario(scenId,axisKey,optId){
+  if(RS.pbqDone)return;
+  if(!RS.scenarioSels[scenId])RS.scenarioSels[scenId]={};
+  RS.scenarioSels[scenId][axisKey]=optId;
+  rScenarioBuilder();
+}
+
+function submitScenarioBuilder(){
+  const s=RS;const pbq=s.data.pbq;
+  const axisKeys=['vector','technique','surface'];
+  const PPS=60/pbq.scenarios.length;
+  let sc=0;s.missedPBQ=[];
+
+  pbq.scenarios.forEach(scenario=>{
+    const sels=s.scenarioSels[scenario.id]||{};
+    let correct=0;
+    axisKeys.forEach(ax=>{if(sels[ax]===scenario.axes[ax].answer)correct++;});
+    const pts=Math.round((correct/3)*PPS);
+    sc+=pts;
+    if(correct<3){
+      s.missedPBQ.push({
+        id:scenario.id,
+        label:scenario.title,
+        yourCat:pts+'/'+Math.round(PPS)+' pts',
+        correctCat:'Review all three axes below',
+        yourType:'',correctType:'',
+        explanation:axisKeys.filter(ax=>sels[ax]!==scenario.axes[ax].answer)
+          .map(ax=>scenario.axes[ax].explanation).join(' | ')
+      });
+    }
+  });
+
+  s.pbqScore=sc;s.pbqDone=true;
+  document.getElementById('r-pbq').textContent=Math.round(sc)+'/60';
+  document.getElementById('r-pbq').style.color=sc>=42?'var(--green)':'var(--amber)';
+  rScenarioBuilder();window.scrollTo(0,0);
+}
+
+// ── MATCH PBQ (scenario-to-solution) ─────────────────────────────────────────
+function rMatchPBQ(){
+  const s=RS;const pbq=s.data.pbq;const c=s.color;
+  const PPI=60/pbq.rows.length;
+  const selCount=Object.keys(s.matchSels).length;
+  const allSet=selCount===pbq.rows.length;
+  const usedSols=Object.values(s.matchSels);
+
+  let h=phaseBar('pbq',c);
+  h+=`<div class="meta-pills">
+    <span class="mpill" style="background:color-mix(in srgb,${c} 14%,transparent);color:${c};border-color:color-mix(in srgb,${c} 28%,transparent)">SCENARIO MATCH</span>
+    <span class="mpill" style="background:rgba(220,38,38,0.14);color:var(--d2);border-color:rgba(220,38,38,0.28)">${pbq.solutions.length} SOLUTIONS</span>
+    <span class="mpill" style="background:rgba(217,119,6,0.14);color:var(--amber);border-color:rgba(217,119,6,0.28)">HARD</span>
+  </div>
+  <div class="meta-note">${pbq.rows.length} scenarios · ${Math.round(PPI)} pts each · not all solutions will be used · 60 pts total</div>`;
+
+  h+=`<div class="scenario-box">
+    <div class="sc-hdr"><span class="sc-tag" style="color:${c}">◉ SCENARIO</span><span class="sc-cia">${pbq.cia_tag}</span></div>
+    <div class="sc-txt">${pbq.scenario}</div>
+  </div><div class="instr">${pbq.instruction}</div>`;
+
+  // Solution pool
+  h+=`<div style="margin-bottom:16px">
+    <div style="font-family:var(--mono);font-size:9px;font-weight:700;text-transform:uppercase;letter-spacing:.1em;color:var(--muted);margin-bottom:8px">SOLUTION POOL — tap a row below, then tap your solution here</div>
+    <div style="display:flex;flex-wrap:wrap;gap:7px;">`;
+  pbq.solutions.forEach(sol=>{
+    const isUsed=!s.pbqDone&&usedSols.includes(sol.id);
+    const isActive=s.activeSel&&!s.pbqDone;
+    // post-submit coloring
+    let bg,border,color;
+    if(s.pbqDone){
+      const usedInRow=Object.entries(s.matchSels).find(([,v])=>v===sol.id);
+      if(usedInRow){
+        const rowId=usedInRow[0];
+        const correct=pbq.rows.find(r=>r.id===rowId)?.answer===sol.id;
+        bg=correct?'rgba(34,197,94,0.18)':'rgba(239,68,68,0.18)';
+        border=correct?'var(--green)':'var(--red)';
+        color=correct?'var(--green)':'var(--red)';
+      } else {
+        bg='transparent';border='rgba(255,255,255,0.08)';color='#374151';
+      }
+    } else if(isUsed){
+      bg=`color-mix(in srgb,${c} 20%,transparent)`;border=c;color='#fff';
+    } else {
+      bg='rgba(255,255,255,0.04)';border='rgba(255,255,255,0.18)';color='#94A3B8';
+    }
+    h+=`<button onclick="assignSol('${sol.id}')" ${s.pbqDone?'disabled':''} 
+      style="padding:8px 15px;border-radius:20px;font-family:var(--mono);font-size:11px;font-weight:700;
+      background:${bg};border:2px solid ${border};color:${color};cursor:${s.pbqDone?'default':'pointer'};
+      transition:all .12s;min-height:38px;${isUsed&&!s.pbqDone?'opacity:0.5;':''}">${sol.name}</button>`;
+  });
+  h+=`</div></div>`;
+
+  // Scenario rows
+  pbq.rows.forEach((row,idx)=>{
+    const selId=s.matchSels[row.id];
+    const selSol=pbq.solutions.find(x=>x.id===selId);
+    const isActive=s.activeSel===row.id&&!s.pbqDone;
+    const sub=s.pbqDone;
+    const isOk=sub&&selId===row.answer;
+    const isBad=sub&&selId&&selId!==row.answer;
+    const correctSol=pbq.solutions.find(x=>x.id===row.answer);
+
+    let cardBorder,cardBg;
+    if(sub&&isOk){cardBorder='rgba(34,197,94,0.5)';cardBg='rgba(34,197,94,0.05)';}
+    else if(sub&&isBad){cardBorder='rgba(239,68,68,0.5)';cardBg='rgba(239,68,68,0.05)';}
+    else if(isActive){cardBorder=c;cardBg=`color-mix(in srgb,${c} 6%,transparent)`;}
+    else if(selId){cardBorder=`color-mix(in srgb,${c} 40%,transparent)`;cardBg=`color-mix(in srgb,${c} 4%,transparent)`;}
+    else{cardBorder='rgba(255,255,255,0.1)';cardBg='rgba(255,255,255,0.02)';}
+
+    h+=`<div style="border-radius:12px;padding:14px;border:1.5px solid ${cardBorder};background:${cardBg};margin-bottom:10px;transition:all .2s;cursor:${sub?'default':'pointer'}" 
+      ${sub?'':` onclick="setActiveRow('${row.id}')"`}>
+      <div style="display:flex;justify-content:space-between;align-items:flex-start;gap:10px;margin-bottom:10px">
+        <div style="flex:1">
+          <div style="font-family:var(--mono);font-size:9px;font-weight:700;text-transform:uppercase;letter-spacing:.1em;color:${c};margin-bottom:4px">SCENARIO ${idx+1} — ${row.label}</div>
+          <div style="font-size:13px;color:#CBD5E1;line-height:1.65">${row.requirement}</div>
+        </div>
+        ${sub?`<div style="font-size:20px;flex-shrink:0">${isOk?'✓':'✗'}</div>`:''}
+      </div>`;
+
+    // Selection state
+    if(!sub){
+      if(isActive){
+        h+=`<div style="font-family:var(--mono);font-size:10px;color:${c};font-weight:700;padding:8px 12px;border-radius:8px;background:color-mix(in srgb,${c} 10%,transparent);border:1px solid color-mix(in srgb,${c} 30%,transparent)">
+          ${selSol?`✓ ${selSol.name} — tap another solution to change, or tap another scenario`:'▶ Now tap a solution from the pool above'}</div>`;
+      } else {
+        h+=`<div style="font-family:var(--mono);font-size:10px;padding:8px 12px;border-radius:8px;border:1px dashed rgba(255,255,255,0.1);color:${selSol?'#94A3B8':'#374151'}">
+          ${selSol?`→ ${selSol.name}`:'tap to select'}</div>`;
+      }
+    } else {
+      // Post-submit
+      h+=`<div style="display:flex;gap:7px;flex-wrap:wrap;margin-bottom:${isOk?'0':'8px'}">
+        <div style="padding:6px 13px;border-radius:20px;font-family:var(--mono);font-size:11px;font-weight:700;
+          background:${isOk?'rgba(34,197,94,0.18)':'rgba(239,68,68,0.18)'};
+          border:1.5px solid ${isOk?'var(--green)':'var(--red)'};
+          color:${isOk?'var(--green)':'var(--red)'}">
+          ${isOk?'✓':'✗'} ${selSol?.name||'No answer'}</div>
+        ${isBad?`<div style="padding:6px 13px;border-radius:20px;font-family:var(--mono);font-size:11px;font-weight:700;background:rgba(34,197,94,0.18);border:1.5px solid var(--green);color:var(--green)">→ ${correctSol?.name}</div>`:''}
+      </div>`;
+      h+=`<div class="expl" style="border-color:${isOk?'var(--green)':'var(--red)'};margin-top:8px">${row.explanation}</div>`;
+    }
+    h+=`</div>`;
+  });
+
+  if(!s.pbqDone){
+    h+=`<button class="sbtn" ${allSet?'':'disabled'} 
+      style="background:${allSet?`linear-gradient(135deg,color-mix(in srgb,${c} 90%,#000),${c})`:''}; color:${allSet?'#fff':''}" 
+      onclick="submitMatchPBQ()">
+      ${allSet?'SUBMIT MATCHES':`MATCH ALL SCENARIOS TO SUBMIT (${selCount}/${pbq.rows.length})`}</button>`;
+  } else {
+    h+=`<button class="sbtn" onclick="gotoMCQ()" style="background:linear-gradient(135deg,color-mix(in srgb,${c} 90%,#000),${c});color:#fff">CONTINUE TO MCQ (${Math.round(s.pbqScore)}/60) →</button>`;
+  }
+  document.getElementById('r-content').innerHTML=h;
+}
+
+function setActiveRow(rowId){
+  if(RS.pbqDone)return;
+  RS.activeSel=RS.activeSel===rowId?null:rowId;
+  rMatchPBQ();
+}
+
+function assignSol(solId){
+  if(RS.pbqDone||!RS.activeSel)return;
+  const rowId=RS.activeSel;
+  // Unassign if already used in a different row
+  for(const[k,v] of Object.entries(RS.matchSels)){if(v===solId&&k!==rowId)delete RS.matchSels[k];}
+  RS.matchSels[rowId]=solId;
+  RS.activeSel=null;
+  rMatchPBQ();
+}
+
+function submitMatchPBQ(){
+  const s=RS;const pbq=s.data.pbq;const PPI=60/pbq.rows.length;
+  let sc=0;s.missedPBQ=[];
+  pbq.rows.forEach(row=>{
+    const ok=s.matchSels[row.id]===row.answer;
+    if(ok){sc+=PPI;}
+    else s.missedPBQ.push({
+      id:row.id,
+      label:row.label,
+      yourCat:pbq.solutions.find(x=>x.id===s.matchSels[row.id])?.name||'—',
+      correctCat:pbq.solutions.find(x=>x.id===row.answer)?.name,
+      yourType:'',correctType:'',
+      explanation:row.explanation});
+  });
+  s.pbqScore=sc;s.pbqDone=true;
+  s.activeSel=null;
+  document.getElementById('r-pbq').textContent=Math.round(sc)+'/60';
+  document.getElementById('r-pbq').style.color=sc>=42?'var(--green)':'var(--amber)';
+  rMatchPBQ();window.scrollTo(0,0);
+}
+
+// ── TRIAGE PBQ (approve / flag per field) ────────────────────────────────────
+function rTriagePBQ(){
+  const s=RS;const pbq=s.data.pbq;const c=s.color;
+  const PPI=60/pbq.fields.length;
+  const selCount=Object.keys(s.triageSels).length;
+  const allSet=selCount===pbq.fields.length;
+  let h=phaseBar('pbq',c);
+
+  h+=`<div class="meta-pills">
+    <span class="mpill" style="background:color-mix(in srgb,${c} 14%,transparent);color:${c};border-color:color-mix(in srgb,${c} 28%,transparent)">CHANGE REVIEW</span>
+    <span class="mpill" style="background:rgba(34,197,94,0.14);color:var(--green);border-color:rgba(34,197,94,0.28)">${pbq.fields.length} FIELDS</span>
+    <span class="mpill" style="background:rgba(217,119,6,0.14);color:var(--amber);border-color:rgba(217,119,6,0.28)">MEDIUM</span>
+  </div>
+  <div class="meta-note">${pbq.fields.length} fields · ${Math.round(PPI)} pts each · approve or flag each entry · 60 pts total</div>`;
+
+  h+=`<div class="scenario-box">
+    <div class="sc-hdr"><span class="sc-tag" style="color:${c}">◉ CHANGE REQUEST #CR-2024-0847</span><span class="sc-cia">${pbq.cia_tag}</span></div>
+    <div class="sc-txt">${pbq.scenario}</div>
+  </div><div class="instr">${pbq.instruction}</div>`;
+
+  // Legend
+  h+=`<div style="display:flex;gap:10px;margin-bottom:16px">
+    <div style="flex:1;padding:8px 12px;border-radius:8px;background:rgba(34,197,94,0.1);border:1px solid rgba(34,197,94,0.3);text-align:center;font-family:var(--mono);font-size:11px;font-weight:700;color:var(--green)">✓ APPROVE — field is complete and acceptable</div>
+    <div style="flex:1;padding:8px 12px;border-radius:8px;background:rgba(239,68,68,0.1);border:1px solid rgba(239,68,68,0.3);text-align:center;font-family:var(--mono);font-size:11px;font-weight:700;color:var(--red)">⚑ FLAG — missing, vague, or insufficient</div>
+  </div>`;
+
+  pbq.fields.forEach((field,idx)=>{
+    const sel=s.triageSels[field.id];
+    const sub=s.pbqDone;
+    const isOk=sub&&sel===field.answer;
+    const isBad=sub&&sel&&sel!==field.answer;
+    const correctLabel=field.answer==='approve'?'APPROVE':'FLAG';
+    const correctColor=field.answer==='approve'?'var(--green)':'var(--red)';
+
+    // Card border state
+    let cardBorder='rgba(255,255,255,0.1)';let cardBg='rgba(255,255,255,0.02)';
+    if(sub&&isOk){cardBorder=field.answer==='approve'?'rgba(34,197,94,0.5)':'rgba(239,68,68,0.5)';cardBg=field.answer==='approve'?'rgba(34,197,94,0.05)':'rgba(239,68,68,0.05)';}
+    else if(sub&&isBad){cardBorder='rgba(245,158,11,0.5)';cardBg='rgba(245,158,11,0.05)';}
+    else if(!sub&&sel==='approve'){cardBorder='rgba(34,197,94,0.4)';cardBg='rgba(34,197,94,0.04)';}
+    else if(!sub&&sel==='flag'){cardBorder='rgba(239,68,68,0.4)';cardBg='rgba(239,68,68,0.04)';}
+
+    h+=`<div style="border-radius:12px;padding:14px;border:1.5px solid ${cardBorder};background:${cardBg};margin-bottom:10px;transition:all .2s">`;
+
+    // Field header
+    h+=`<div style="display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:10px;gap:10px">
+      <div style="flex:1">
+        <div style="font-family:var(--mono);font-size:9px;font-weight:700;text-transform:uppercase;letter-spacing:.1em;color:${c};margin-bottom:5px">FIELD ${idx+1} — ${field.label}</div>
+        <div style="font-size:13px;color:#CBD5E1;line-height:1.65;padding:10px 12px;background:rgba(0,0,0,0.3);border-radius:8px;border-left:3px solid rgba(255,255,255,0.1)">${field.value}</div>
+      </div>
+      ${sub?`<div style="font-size:20px;flex-shrink:0;margin-top:18px">${isOk?'✓':'✗'}</div>`:''}
+    </div>`;
+
+    // Triage buttons
+    if(!sub){
+      h+=`<div style="display:flex;gap:8px">
+        <button onclick="selTriage('${field.id}','approve')" style="flex:1;padding:11px;border-radius:9px;border:2px solid ${sel==='approve'?'var(--green)':'rgba(34,197,94,0.25)'};background:${sel==='approve'?'rgba(34,197,94,0.18)':'transparent'};color:${sel==='approve'?'var(--green)':'#64748b'};font-family:var(--mono);font-size:12px;font-weight:700;cursor:pointer;transition:all .12s;min-height:44px">✓ APPROVE</button>
+        <button onclick="selTriage('${field.id}','flag')" style="flex:1;padding:11px;border-radius:9px;border:2px solid ${sel==='flag'?'var(--red)':'rgba(239,68,68,0.25)'};background:${sel==='flag'?'rgba(239,68,68,0.18)':'transparent'};color:${sel==='flag'?'var(--red)':'#64748b'};font-family:var(--mono);font-size:12px;font-weight:700;cursor:pointer;transition:all .12s;min-height:44px">⚑ FLAG</button>
+      </div>`;
+    } else {
+      // Post-submit: show what they picked vs correct
+      const selLabel=sel==='approve'?'✓ APPROVE':'⚑ FLAG';
+      const selColor=sel==='approve'?'var(--green)':'var(--red)';
+      h+=`<div style="display:flex;gap:8px;margin-bottom:8px">
+        <div style="flex:1;padding:9px;border-radius:8px;border:2px solid ${isOk?selColor:'rgba(245,158,11,0.5)'};background:${isOk?'rgba(255,255,255,0.04)':'rgba(245,158,11,0.08)'};color:${isOk?selColor:'var(--amber)'};font-family:var(--mono);font-size:12px;font-weight:700;text-align:center">${isOk?selLabel:'✗ '+selLabel}</div>
+        ${isBad?`<div style="flex:1;padding:9px;border-radius:8px;border:2px solid ${correctColor};background:rgba(255,255,255,0.04);color:${correctColor};font-family:var(--mono);font-size:12px;font-weight:700;text-align:center">→ ${correctLabel}</div>`:''}
+      </div>`;
+      h+=`<div class="expl" style="border-color:${isOk?correctColor:'var(--amber)'}">${field.explanation}</div>`;
+    }
+
+    h+=`</div>`;
+  });
+
+  if(!s.pbqDone){
+    h+=`<button class="sbtn" ${allSet?'':'disabled'} style="background:${allSet?`linear-gradient(135deg,color-mix(in srgb,${c} 90%,#000),${c})`:''}; color:${allSet?'#fff':''}" onclick="submitTriagePBQ()">
+      ${allSet?'SUBMIT REVIEW':`REVIEW ALL FIELDS TO SUBMIT (${selCount}/${pbq.fields.length})`}</button>`;
+  } else {
+    h+=`<button class="sbtn" onclick="gotoMCQ()" style="background:linear-gradient(135deg,color-mix(in srgb,${c} 90%,#000),${c});color:#fff">CONTINUE TO MCQ (${Math.round(s.pbqScore)}/60) →</button>`;
+  }
+  document.getElementById('r-content').innerHTML=h;
+}
+
+function selTriage(fieldId,val){
+  if(RS.pbqDone)return;
+  RS.triageSels[fieldId]=val;
+  rTriagePBQ();
+}
+
+function submitTriagePBQ(){
+  const s=RS;const pbq=s.data.pbq;const PPI=60/pbq.fields.length;
+  let sc=0;s.missedPBQ=[];
+  pbq.fields.forEach(field=>{
+    const ok=s.triageSels[field.id]===field.answer;
+    if(ok){sc+=PPI;}
+    else s.missedPBQ.push({
+      id:field.id,
+      label:field.label+': "'+field.value.substring(0,60)+(field.value.length>60?'…':'')+'"',
+      yourCat:s.triageSels[field.id]==='approve'?'APPROVE':'FLAG',
+      correctCat:field.answer==='approve'?'APPROVE':'FLAG',
+      yourType:'',correctType:'',
+      explanation:field.explanation});
+  });
+  s.pbqScore=sc;s.pbqDone=true;
+  document.getElementById('r-pbq').textContent=Math.round(sc)+'/60';
+  document.getElementById('r-pbq').style.color=sc>=42?'var(--green)':'var(--amber)';
+  rTriagePBQ();window.scrollTo(0,0);
+}
+
+// ── CLASSIFY PBQ (single-axis concept picker) ─────────────────────────────────
+function rClassifyPBQ(){
+  const s=RS;const pbq=s.data.pbq;const c=s.color;
+  const PPI=60/pbq.items.length;
+  const selCount=Object.keys(s.conSels||{}).length;
+  const allSet=selCount===pbq.items.length;
+  let h=phaseBar('pbq',c);
+  h+=`<div class="meta-pills">
+    <span class="mpill" style="background:color-mix(in srgb,${c} 14%,transparent);color:${c};border-color:color-mix(in srgb,${c} 28%,transparent)">CLASSIFY</span>
+    <span class="mpill" style="background:rgba(2,132,199,0.14);color:var(--d3);border-color:rgba(2,132,199,0.28)">${pbq.concepts.length} CONCEPTS</span>
+    <span class="mpill" style="background:rgba(5,150,105,0.14);color:var(--d5);border-color:rgba(5,150,105,0.28)">MEDIUM</span>
+  </div><div class="meta-note">${pbq.items.length} items · ${Math.round(PPI)} pts per item · 60 pts total</div>`;
+  h+=`<div class="scenario-box">
+    <div class="sc-hdr"><span class="sc-tag" style="color:${c}">◉ SCENARIO</span><span class="sc-cia">${pbq.cia_tag}</span></div>
+    <div class="sc-txt">${pbq.scenario}</div>
+  </div><div class="instr">${pbq.instruction}</div>`;
+
+  // Concept legend
+  h+=`<div style="display:flex;flex-wrap:wrap;gap:7px;margin-bottom:16px">`;
+  pbq.concepts.forEach(con=>{
+    const cc=conceptColor(con.id,c);
+    h+=`<div style="padding:6px 13px;border-radius:20px;font-family:var(--mono);font-size:11px;font-weight:700;background:${cc.bg};color:${cc.fg};border:1.5px solid ${cc.border}">${con.name}</div>`;
+  });
+  h+=`</div>`;
+
+  pbq.items.forEach((it,idx)=>{
+    const sel=s.conSels?.[it.id];const sub=s.pbqDone;
+    const correct=pbq.answers[it.id];
+    const isOk=sub&&sel===correct;const isBad=sub&&sel&&sel!==correct;
+    h+=`<div class="pbq-item${sub?(isOk?' ok':' bad'):''}" id="pi-${it.id}">
+      <div class="pbq-hdr">
+        <div class="pbq-num" style="background:color-mix(in srgb,${c} 18%,transparent);border:1px solid color-mix(in srgb,${c} 40%,transparent);color:${c}">${idx+1}</div>
+        <div class="pbq-lbl"><div class="pbq-lbl-t">${it.label}</div>${it.desc?`<div class="pbq-lbl-d">${it.desc}</div>`:''}</div>
+        ${sub?`<div class="pbq-ri">${isOk?'✓':'✗'}</div>`:''}
+      </div>
+      ${it.value?`<div style="font-size:13px;color:#CBD5E1;line-height:1.65;padding:10px 12px;background:rgba(0,0,0,0.3);border-radius:8px;margin-bottom:10px">${it.value}</div>`:''}
+      <div class="axis-pills">`;
+    pbq.concepts.forEach(con=>{
+      const isSel=sel===con.id;
+      const isCorrect=sub&&con.id===correct;
+      const isWrong=sub&&isSel&&!isCorrect;
+      const cc=conceptColor(con.id,c);
+      let border,bg,color;
+      if(isCorrect){border='var(--green)';bg='rgba(34,197,94,0.15)';color='var(--green)';}
+      else if(isWrong){border='var(--red)';bg='rgba(239,68,68,0.15)';color='var(--red)';}
+      else if(isSel){border=cc.border;bg=cc.bg;color=cc.fg;}
+      else{border='rgba(255,255,255,0.12)';bg='transparent';color='#64748b';}
+      h+=`<button class="apill" style="border-color:${border};background:${bg};color:${color}" ${sub?'disabled':''} onclick="selCon('${it.id}','${con.id}')">${con.name}</button>`;
+    });
+    h+=`</div>`;
+    if(sub){
+      const corrName=pbq.concepts.find(c=>c.id===correct)?.name;
+      if(isBad){
+        const selName=pbq.concepts.find(c=>c.id===sel)?.name;
+        h+=`<div style="font-family:var(--mono);font-size:10px;color:var(--red);margin:6px 0 4px">✗ You selected: ${selName} → Correct: ${corrName}</div>`;
+      }
+      h+=`<div class="expl" style="border-color:${isOk?'var(--green)':'var(--red)'}">${pbq.explanations[it.id]}</div>`;
+    }
+    h+=`</div>`;
+  });
+
+  if(!s.pbqDone){
+    h+=`<button class="sbtn" ${allSet?'':'disabled'} style="background:${allSet?`linear-gradient(135deg,color-mix(in srgb,${c} 90%,#000),${c})`:''}; color:${allSet?'#fff':''}" onclick="submitClassifyPBQ()">
+      ${allSet?'SUBMIT PBQ':`SELECT ALL CONCEPTS TO SUBMIT (${selCount}/${pbq.items.length})`}</button>`;
+  } else {
+    h+=`<button class="sbtn" onclick="gotoMCQ()" style="background:linear-gradient(135deg,color-mix(in srgb,${c} 90%,#000),${c});color:#fff">CONTINUE TO MCQ (${Math.round(s.pbqScore)}/60) →</button>`;
+  }
+  document.getElementById('r-content').innerHTML=h;
+}
+
+function conceptColor(id,fallback){
+  const map={pe:{bg:'rgba(124,58,237,0.18)',fg:'#a78bfa',border:'rgba(124,58,237,0.4)'},
+             pep:{bg:'rgba(2,132,199,0.18)',fg:'#38bdf8',border:'rgba(2,132,199,0.4)'},
+             ce:{bg:'rgba(5,150,105,0.18)',fg:'#34d399',border:'rgba(5,150,105,0.4)'},
+             nit:{bg:'rgba(217,119,6,0.18)',fg:'#fbbf24',border:'rgba(217,119,6,0.4)'}};
+  return map[id]||{bg:`color-mix(in srgb,${fallback} 18%,transparent)`,fg:fallback,border:`color-mix(in srgb,${fallback} 40%,transparent)`};
+}
+
+function selCon(itemId,conId){
+  if(RS.pbqDone)return;
+  if(!RS.conSels)RS.conSels={};
+  RS.conSels[itemId]=conId;
+  rClassifyPBQ();
+}
+
+function submitClassifyPBQ(){
+  const s=RS;const pbq=s.data.pbq;const PPI=60/pbq.items.length;
+  let sc=0;s.missedPBQ=[];
+  pbq.items.forEach(it=>{
+    const ok=s.conSels?.[it.id]===pbq.answers[it.id];
+    if(ok){sc+=PPI;}
+    else s.missedPBQ.push({
+      id:it.id,label:it.label,
+      yourCat:pbq.concepts.find(c=>c.id===s.conSels?.[it.id])?.name||'—',
+      correctCat:pbq.concepts.find(c=>c.id===pbq.answers[it.id])?.name,
+      yourType:'',correctType:'',
+      explanation:pbq.explanations[it.id]});
+  });
+  s.pbqScore=sc;s.pbqDone=true;
+  document.getElementById('r-pbq').textContent=Math.round(sc)+'/60';
+  document.getElementById('r-pbq').style.color=sc>=42?'var(--green)':'var(--amber)';
+  rClassifyPBQ();window.scrollTo(0,0);
+}
+
+// ── SAVE ──────────────────────────────────────────────────────────────────────
+function saveResult(){
+  const s=RS;const total=Math.round(s.pbqScore+s.mcqScore);
+  const lp=getLP(s.levelId);
+  const xp=total>=70?Math.round(CL.xp*(total/100)):0;
+  setLP(s.levelId,{completed:total>=70||lp.completed,mastery:Math.max(lp.mastery||0,total),
+    attempts:(lp.attempts||0)+1,xp:Math.max(lp.xp||0,xp),
+    missedPBQ:s.missedPBQ,missedMCQ:s.missedMCQ});
+}
+
+// ── RESULT ────────────────────────────────────────────────────────────────────
+function rResult(){
+  const s=RS;const total=Math.round(s.pbqScore+s.mcqScore);const passed=total>=70;const c=s.color;
+  const mc=s.missedPBQ.length+s.missedMCQ.length;
+  const sc=passed?'var(--green)':'var(--amber)';
+  const bl=total>=90?'🔥 Exceptional':passed?'✓ Level Cleared':'↻ Not Yet — Retry';
+  function sbar(lbl,score,max,col){
+    return`<div class="sbar"><div class="sbar-hdr"><span class="sbar-lbl">${lbl}</span><span class="sbar-val" style="color:${col}">${Math.round(score)}/${max} pts</span></div>
+    <div class="sbar-track"><div class="sbar-fill" style="width:${Math.max(0,(score/max)*100)}%;background:${col}"></div></div></div>`;
+  }
+  let h=phaseBar('result',c);
+  h+=`<div class="res-card" style="border-color:${passed?'rgba(34,197,94,0.4)':'rgba(245,158,11,0.4)'};background:${passed?'rgba(34,197,94,0.05)':'rgba(245,158,11,0.05)'}">
+    <div class="res-obj" style="color:${c}">SY0-701 · OBJ ${CL.obj} · ${CL.name}</div>
+    <div class="res-score" style="color:${sc}">${total}</div>
+    <div class="res-sub">${RS.data.pbq?'out of 100 pts · 70 required to pass':'realm review · 70 required to pass'}</div>
+    <div class="res-badge" style="background:${passed?'rgba(34,197,94,0.15)':'rgba(245,158,11,0.15)'};border-color:${passed?'rgba(34,197,94,0.4)':'rgba(245,158,11,0.4)'};color:${sc}">${bl}</div>
+  </div>`;
+  h+=`<div class="bdown"><div class="bdown-title">Score Breakdown</div>
+    ${RS.data.pbq?sbar(RS.data.pbq.type==='triage'?'PBQ — Change Request Triage':RS.data.pbq.type==='match'?'PBQ — Scenario Match':RS.data.pbq.type==='scenario_builder'?'PBQ — Attack Scenario Builder':RS.data.pbq.concepts?'PBQ — Concept Classification':'PBQ — Dual-Axis Classification',s.pbqScore,60,c):''}
+    ${sbar(RS.data.pbq?'MCQ — 5 Questions':'MCQ — 10 Questions (Realm Review)',s.mcqScore,RS.data.pbq?40:100,'var(--d3)')}
+    <div class="divider"></div>${sbar('Total',total,100,sc)}</div>`;
+
+  // Missed summary
+  if(mc>0){
+    h+=`<div class="missed-sum" onclick="toggleMissed()">
+      <div class="missed-sum-l">
+        <div class="missed-circle">${mc}</div>
+        <div><div class="missed-ttl">Review Missed Questions</div>
+        <div class="missed-s">${s.missedPBQ.length} PBQ · ${s.missedMCQ.length} MCQ · tap to expand</div></div>
+      </div>
+      <div class="missed-ico" id="m-ico">▼</div>
+    </div>
+    <div class="missed-panel" id="m-panel">`;
+    if(s.missedPBQ.length){
+      h+=`<div class="m-sec-title">⚑ MISSED PBQ ITEMS (${s.missedPBQ.length})</div>`;
+      s.missedPBQ.forEach(m=>{
+        h+=`<div class="m-item">
+          <div class="m-item-lbl">${m.label}</div>
+          <div class="m-axes">
+            <div class="m-row"><span class="m-axis-name">${m.catLabel||m.yourType?'Category:':'Concept:'}</span><span class="m-yours">${m.yourCat}</span><span class="m-arr"> → </span><span class="m-correct">${m.correctCat} ✓</span></div>
+            ${m.yourType?`<div class="m-row"><span class="m-axis-name">Type:</span><span class="m-yours">${m.yourType}</span><span class="m-arr"> → </span><span class="m-correct">${m.correctType} ✓</span></div>`:''}
+          </div>
+          <div class="m-exp">${m.explanation}</div>
+        </div>`;
+      });
+    }
+    if(s.missedMCQ.length){
+      h+=`<div class="m-sec-title" style="margin-top:14px">⚑ MISSED MCQ (${s.missedMCQ.length})</div>`;
+      s.missedMCQ.forEach(m=>{
+        h+=`<div class="m-mcq-item">
+          <div class="m-mcq-q">${m.q}</div>
+          <div class="m-mcq-ans">
+            <span class="m-yours">✗ You: ${m.yourAnswer}</span>
+            <span class="m-correct">✓ Correct: ${m.correctAnswer}</span>
+          </div>
+          <div class="m-mcq-tip">${m.exam_tip}</div>
+        </div>`;
+      });
+    }
+    h+=`</div>`;
+  }
+
+  if(!passed){
+    h+=`<div class="focus-hint">${s.pbqScore<36?'Focus: PBQ. Key trap zones — Managerial vs Operational, and Directive vs Deterrent vs Preventive. Re-read each item explanation carefully.':'Focus: MCQs. Re-read each Exam Tip. The Directive/Deterrent distinction and the Compensating control definition are the sharpest edges in this objective.'}</div>`;
+  }
+
+  const r=REALMS.find(r=>r.levels.some(l=>l.id===RS.levelId));
+  h+=`<div class="res-btns">
+    <button class="btn-sec" style="border-color:${c};color:${c}" onclick="retryLevel()">↻ RETRY</button>
+    <button class="btn-pri" style="background:linear-gradient(135deg,color-mix(in srgb,${c} 90%,#000),${c})" onclick="showLevel('${r.id}')">← LEVELS</button>
+  </div>`;
+  document.getElementById('r-content').innerHTML=h;
+}
+
+function toggleMissed(){
+  const p=document.getElementById('m-panel');
+  const i=document.getElementById('m-ico');
+  if(p){p.classList.toggle('open');i.classList.toggle('open');}
+}
+function retryLevel(){
+  const lid=RS.levelId;
+  CL=ALL_LEVELS.find(l=>l.id===lid);
+  initRunner();window.scrollTo(0,0);
+}
+
+// ── INIT ──────────────────────────────────────────────────────────────────────
+showRealm();
+</script>
+</body>
+</html>
