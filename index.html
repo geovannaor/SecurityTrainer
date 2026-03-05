@@ -1,4 +1,5 @@
 <!DOCTYPE html>
+
 <html lang="en">
 <head>
 <meta charset="UTF-8">
@@ -167,6 +168,7 @@ body::before{content:'';position:fixed;inset:0;z-index:9999;pointer-events:none;
 <body>
 
 <!-- REALM MAP -->
+
 <div id="v-realm" class="view active">
   <div class="hdr">
     <div class="hdr-left"><div class="sub">SY0-701 TRAINER</div><div class="title">Security+</div></div>
@@ -190,6 +192,7 @@ body::before{content:'';position:fixed;inset:0;z-index:9999;pointer-events:none;
 </div>
 
 <!-- LEVEL MAP -->
+
 <div id="v-level" class="view">
   <div class="hdr">
     <button class="hdr-back" onclick="showRealm()">← REALMS</button>
@@ -203,6 +206,7 @@ body::before{content:'';position:fixed;inset:0;z-index:9999;pointer-events:none;
 </div>
 
 <!-- RUNNER -->
+
 <div id="v-runner" class="view">
   <div class="hdr">
     <button class="hdr-back" id="r-back">← LEVELS</button>
@@ -224,7 +228,7 @@ const REALMS=[
   {id:"d1",num:"1.0",name:"General Security Concepts",weight:12,icon:"🔐",color:"var(--d1)",
    levels:[{id:"d1l1",obj:"1.1",name:"Security Controls",type:"dual_classify",xp:100},{id:"d1l2",obj:"1.2",name:"Zero Trust Architecture",type:"classify",xp:100},{id:"d1l3",obj:"1.3",name:"Change Management",type:"triage",xp:100},{id:"d1l4",obj:"1.4",name:"Cryptographic Solutions",type:"match",xp:100},{id:"d1l5",obj:"1.0",name:"Realm 1 Review",type:"review",xp:150}]},
   {id:"d2",num:"2.0",name:"Threats, Vulnerabilities & Mitigations",weight:22,icon:"⚠️",color:"var(--d2)",levels:[{id:"d2l1",obj:"2.1",name:"Threat Actors & Motivations",type:"dual_classify",xp:100},{id:"d2l2",obj:"2.2",name:"Threat Vectors & Attack Surfaces",type:"scenario_builder",xp:100},{id:"d2l3",obj:"2.3",name:"Vulnerability Types",type:"classify",xp:100},{id:"d2l4",obj:"2.4",name:"Indicators of Malicious Activity",type:"soc_triage",xp:100},{id:"d2l5",obj:"2.5",name:"Mitigation Techniques",type:"match",xp:100},{id:"d2l6",obj:"2.0",name:"Realm 2 Review",type:"review",xp:150}]},
-  {id:"d3",num:"3.0",name:"Security Architecture",weight:18,icon:"🏗️",color:"var(--d3)",levels:[]},
+  {id:"d3",num:"3.0",name:"Security Architecture",weight:18,icon:"🏗️",color:"var(--d3)",levels:[{id:"d3l1",obj:"3.1",name:"Architecture Models & Implications",type:"match2",xp:125},{id:"d3l2",obj:"3.2",name:"Secure Enterprise Infrastructure",type:"match2",xp:125}]},
   {id:"d4",num:"4.0",name:"Security Operations",weight:28,icon:"⚙️",color:"var(--d4)",levels:[]},
   {id:"d5",num:"5.0",name:"Security Program Management",weight:20,icon:"📋",color:"var(--d5)",levels:[]},
 ];
@@ -1566,15 +1570,402 @@ const D2L6={
   ],
 };
 
-const LEVEL_DATA={d1l1:D1L1,d1l2:D1L2,d1l3:D1L3,d1l4:D1L4,d1l5:D1L5,d2l1:D2L1,d2l2:D2L2,d2l3:D2L3,d2l4:D2L4,d2l5:D2L5,d2l6:D2L6};
+
+const D3L1={
+  pbq:{
+    type:"match2",
+    cia_tag:"⚑ C · I · A",
+    scenario:"A security architect is reviewing six infrastructure and deployment scenarios submitted by engineering teams. For each scenario, identify the architecture model it represents AND the primary security implication associated with that model. Both selections must be correct to receive full credit. Not all pool options will be used.",
+    instruction:"For each scenario select the Architecture Model AND the Security Implication. Both axes must be set before you can submit.",
+    scenarios:[
+      {
+        id:"sc1",
+        label:"Cloud Deployment — Payment Processing",
+        description:"An organization migrates its payment processing application to a cloud provider. The provider manages the physical data centers, networking hardware, hypervisors, and virtualization layer. The organization retains control of the operating system, middleware, application code, and all customer payment data stored in the environment.",
+        model_answer:"am1",
+        implication_answer:"si1",
+        model_explanation:"CLOUD IaaS — Infrastructure as a Service provides virtualized compute, storage, and networking managed by the provider. The customer controls everything from the OS upward. The split described — provider owns physical and hypervisor layers, customer owns OS and above — is the defining IaaS responsibility boundary. PaaS would include the OS; SaaS would include the application.",
+        implication_explanation:"SHARED RESPONSIBILITY — IaaS creates a shared responsibility model where the provider secures the infrastructure and the customer secures everything they deploy on top of it. The customer is responsible for OS patching, application security, identity management, and data protection. Misunderstanding this boundary — assuming the provider handles OS security — is one of the most common and consequential cloud security failures.",
+      },
+      {
+        id:"sc2",
+        label:"Industrial Control System — Water Treatment",
+        description:"A municipal water treatment facility operates a network of sensors and actuators that control chemical dosing and filtration processes in real time. The control systems run specialized firmware that was certified by regulators at time of installation. The vendor no longer supports the firmware version in use and has not released updates in four years. Downtime for updates would require regulatory re-certification and weeks of manual operation.",
+        model_answer:"am2",
+        implication_answer:"si2",
+        model_explanation:"ICS/SCADA — Industrial Control Systems and SCADA are specialized architectures that monitor and control physical processes in critical infrastructure environments. The defining characteristics are: real-time operational requirements, specialized certified firmware, physical process control (chemical dosing, filtration), and regulatory constraints. This is distinct from IoT in that ICS/SCADA systems operate industrial processes at scale with safety and regulatory dimensions.",
+        implication_explanation:"INABILITY TO PATCH — The combination of regulatory certification requirements, vendor abandonment, and operational continuity constraints makes patching impossible in practice. This is the defining security implication of ICS/SCADA environments — vulnerabilities accumulate permanently because updates cannot be applied without disrupting certified operations. Air-gapping and network isolation are the primary compensating controls.",
+      },
+      {
+        id:"sc3",
+        label:"E-Commerce Platform — Independent Services",
+        description:"An e-commerce platform is redesigned so that the product catalog, shopping cart, payment processing, inventory management, and user authentication functions each run as independent services. Each service has its own codebase, deployment pipeline, and can be updated independently. Services communicate with each other over internal APIs.",
+        model_answer:"am3",
+        implication_answer:"si3",
+        model_explanation:"MICROSERVICES — Microservices architecture decomposes an application into independent, loosely coupled services that communicate via APIs. The defining characteristics are: each function is a separate deployable unit, independent update cycles, and inter-service communication over APIs. This is distinct from containerization (which is a deployment mechanism) and serverless (which abstracts infrastructure entirely).",
+        implication_explanation:"EXPANDED ATTACK SURFACE — Each service exposes its own API endpoints and communication paths, multiplying the number of potential entry points compared to a monolithic application. Inter-service API calls must be authenticated and encrypted, each service must be independently hardened, and lateral movement between services becomes a significant risk if one service is compromised. The attack surface grows proportionally with the number of services.",
+      },
+      {
+        id:"sc4",
+        label:"Enterprise Network — Centralized Traffic Control",
+        description:"A large enterprise replaces its traditional hardware routers and switches with a network architecture where all traffic forwarding decisions are made by a centralized controller. The controller dynamically programs network devices with routing and segmentation rules. Security policies are enforced through software rules pushed from the controller rather than hardware configuration.",
+        model_answer:"am4",
+        implication_answer:"si4",
+        model_explanation:"SDN — Software-Defined Networking separates the control plane (routing and forwarding decisions) from the data plane (physical traffic forwarding). A centralized controller makes all traffic decisions and programs network devices dynamically. The defining characteristic is the separation of control and data planes with a central controller managing policy. Traditional networks make forwarding decisions locally on each device.",
+        implication_explanation:"CENTRALIZED CONTROL PLANE RISK — When all routing and security policy decisions flow through a single controller, that controller becomes a high-value target. Compromise of the SDN controller gives an attacker the ability to reroute traffic, disable segmentation, or modify security policies across the entire network simultaneously. The centralization that makes SDN powerful also makes it a single point of failure and a critical attack target.",
+      },
+      {
+        id:"sc5",
+        label:"Application Deployment — Isolated Runtime Environments",
+        description:"A development team packages each of their applications with its dependencies, libraries, and configuration files into portable units that run in isolated processes on a shared host operating system. Multiple application units run simultaneously on the same host, each unaware of the others, sharing the host OS kernel but maintaining separate file systems and process spaces.",
+        model_answer:"am5",
+        implication_answer:"si5",
+        model_explanation:"CONTAINERIZATION — Containers package applications with their dependencies and run as isolated processes sharing the host OS kernel. The defining characteristics are: shared host OS kernel, separate process and file system namespaces, and portable deployment units. This is distinct from virtualization where each VM runs its own OS kernel — containers share the host kernel, VMs do not.",
+        implication_explanation:"SHARED KERNEL ISOLATION RISK — Because all containers share the host OS kernel, a kernel-level vulnerability or container escape exploit could allow a compromised container to affect the host or other containers on the same host. This is the fundamental security tradeoff of containerization versus full virtualization: containers are more efficient but the shared kernel is a shared trust boundary. VM escape requires breaking out of a hypervisor; container escape requires only a kernel vulnerability.",
+      },
+      {
+        id:"sc6",
+        label:"Financial Services — Continuous Operations Requirement",
+        description:"A financial services firm designs its trading platform so that no single component failure can cause a service outage. Critical services run across multiple nodes simultaneously. If one node fails, traffic is automatically redirected to remaining nodes within seconds. The system maintains redundant instances across two geographically separated data centers.",
+        model_answer:"am6",
+        implication_answer:"si6",
+        model_explanation:"HIGH AVAILABILITY — High availability architecture ensures continuous operation through redundancy and automatic failover. The defining characteristics are: multiple simultaneous active nodes, automatic failover on failure, and redundancy across failure domains. The goal is to eliminate single points of failure and minimize or eliminate downtime. This is distinct from backup and recovery which tolerates downtime.",
+        implication_explanation:"RESILIENCE DESIGN — High availability requires deliberate resilience design: redundant components, automatic failover logic, health monitoring, and geographic distribution. The security implication is that resilience must be designed into every layer — a single unredundant component anywhere in the chain breaks the availability guarantee. Resilience design also impacts security patching: rolling updates must be used so that redundancy is maintained during maintenance.",
+      },
+    ],
+    model_options:[
+      {id:"am7", name:"Serverless"},
+      {id:"am3", name:"Microservices"},
+      {id:"am8", name:"Virtualization"},
+      {id:"am2", name:"ICS / SCADA"},
+      {id:"am5", name:"Containerization"},
+      {id:"am9", name:"Embedded Systems"},
+      {id:"am1", name:"Cloud IaaS"},
+      {id:"am6", name:"High Availability"},
+      {id:"am4", name:"SDN"},
+    ],
+    implication_options:[
+      {id:"si8", name:"Scalability"},
+      {id:"si3", name:"Expanded Attack Surface"},
+      {id:"si7", name:"Cost"},
+      {id:"si5", name:"Shared Kernel Isolation Risk"},
+      {id:"si1", name:"Shared Responsibility"},
+      {id:"si9", name:"Ease of Deployment"},
+      {id:"si4", name:"Centralized Control Plane Risk"},
+      {id:"si2", name:"Inability to Patch"},
+      {id:"si6", name:"Resilience Design"},
+    ],
+  },
+  mcqs:[
+    {
+      id:"m1",
+      q:"A development team stores their entire infrastructure configuration — server specs, network rules, firewall policies, and application dependencies — as code files in a version-controlled repository. A security audit finds that database credentials and API keys are embedded directly in several configuration files, and that a misconfiguration pushed three weeks ago has been silently applied across all production environments. Which security implication does this scenario BEST represent for Infrastructure as Code?",
+      options:[
+        {id:"a", label:"IaC introduces risk of secrets exposure in code repositories and configuration drift — misconfigurations propagate automatically at scale, and sensitive credentials stored in code are accessible to anyone with repository access"},
+        {id:"b", label:"IaC eliminates security risk because version control provides a complete audit trail of all changes"},
+        {id:"c", label:"IaC is only a risk in cloud environments — on-premises IaC deployments are not affected by secrets exposure"},
+        {id:"d", label:"The primary IaC security risk is vendor lock-in, which limits the ability to switch providers if a security incident occurs"},
+      ],
+      correct:"a",
+      explanation:"Infrastructure as Code automates infrastructure provisioning through code — the same security risks that apply to application code apply to IaC. Secrets (credentials, API keys) stored directly in code files are exposed to anyone with repository access and are often inadvertently committed to shared or public repositories. Configuration drift risk is amplified because a single misconfigured template automatically propagates to all environments it governs — a small error has immediate infrastructure-wide impact. IaC does not eliminate risk; it shifts and in some cases amplifies it.",
+      exam_tip:"IaC security implications: secrets in code (credentials exposed in repositories), configuration drift (misconfigs propagate automatically at scale), and immutable infrastructure (replace rather than patch). Version control is a benefit but does not eliminate these risks.",
+    },
+    {
+      id:"m2",
+      q:"An organization deploys a new customer-facing application using a serverless architecture. The application logic runs as functions on a cloud provider's managed platform. The provider automatically scales execution, manages the runtime environment, patches the underlying infrastructure, and handles all operating system maintenance. A security review flags that the organization has no visibility into the underlying infrastructure and relies entirely on a single cloud provider for runtime security. Which security implication does this BEST represent?",
+      options:[
+        {id:"a", label:"Serverless eliminates all security responsibility for the organization because the provider manages the full stack"},
+        {id:"b", label:"The primary serverless security risk is the inability to patch, because the provider controls all updates"},
+        {id:"c", label:"Serverless shifts the shared responsibility boundary further toward the provider — the organization retains responsibility for function code and data, but depends heavily on a third-party vendor for runtime, OS, and infrastructure security with limited visibility into those layers"},
+        {id:"d", label:"Serverless architecture increases attack surface because each function requires its own dedicated server"},
+      ],
+      correct:"c",
+      explanation:"Serverless moves the shared responsibility boundary further toward the provider than IaaS or PaaS — the provider manages infrastructure, OS, runtime, and scaling. The organization is responsible only for function code, application logic, and data. This creates third-party vendor dependency risk: the organization has limited visibility into and control over the layers the provider manages. A security failure in the provider's runtime affects all tenants. The organization cannot independently verify the security of infrastructure it does not control.",
+      exam_tip:"Serverless shared responsibility: provider owns infrastructure, OS, runtime, scaling. Customer owns function code and data only. Security implication is vendor dependency and reduced visibility — not inability to patch (the provider patches) and not expanded attack surface (serverless reduces infrastructure footprint).",
+    },
+    {
+      id:"m3",
+      q:"A security engineer is comparing two deployment approaches for isolating workloads. In the first approach, each workload runs in its own fully independent operating system instance with dedicated virtualized hardware resources, managed by a hypervisor. In the second approach, workloads share a host operating system kernel but run in isolated process spaces. Which option CORRECTLY identifies both models and their primary isolation boundary?",
+      options:[
+        {id:"a", label:"Both are containerization — the hypervisor is simply a container orchestration tool"},
+        {id:"b", label:"The first is containerization — dedicated resources indicate container deployment. The second is virtualization — shared resources are a virtualization characteristic"},
+        {id:"c", label:"Both are virtualization — any workload running on shared physical hardware is virtualized by definition"},
+        {id:"d", label:"The first is virtualization — each VM runs its own OS kernel, isolated at the hypervisor boundary. The second is containerization — workloads share the host OS kernel, isolated at the process level. The hypervisor provides stronger isolation; shared kernel is the containerization tradeoff"},
+      ],
+      correct:"d",
+      explanation:"Virtualization runs each workload in a separate VM with its own OS kernel, isolated by the hypervisor. A compromised VM cannot directly affect the host or other VMs without exploiting the hypervisor itself — a strong isolation boundary. Containerization shares the host OS kernel across all containers, isolated only at the process level. A kernel vulnerability or container escape can affect all containers on the host. The tradeoff is efficiency versus isolation strength: containers are lighter and faster but share a trust boundary at the kernel.",
+      exam_tip:"Virtualization = each workload has its own OS kernel, hypervisor is the isolation boundary, stronger isolation. Containerization = shared host OS kernel, process-level isolation, more efficient but weaker isolation boundary. Exam pattern: identify the model from the isolation description.",
+    },
+    {
+      id:"m4",
+      q:"A hospital deploys a fleet of wireless patient monitoring devices throughout its wards. The devices run a real-time operating system optimized for continuous sensor data collection and transmission. The manufacturer states that the firmware cannot be updated in the field and that any changes require physical device replacement. The devices communicate directly with the hospital's clinical network. Which combination of architecture type and operational constraint does this scenario represent?",
+      options:[
+        {id:"a", label:"ICS/SCADA with centralized control plane risk — patient monitoring systems are industrial control systems"},
+        {id:"b", label:"IoT devices with RTOS running embedded firmware, subject to inability to patch — field-deployed devices with non-updatable firmware create a permanent vulnerability surface on the clinical network"},
+        {id:"c", label:"Containerized workloads with shared kernel risk — the RTOS shares a kernel with the hospital network"},
+        {id:"d", label:"Serverless architecture with vendor dependency — the manufacturer controls all updates"},
+      ],
+      correct:"b",
+      explanation:"This scenario combines three related architecture concepts. IoT: network-connected devices deployed in the physical environment for data collection. RTOS: a real-time operating system optimized for time-sensitive sensor operations — common in medical and industrial IoT. Embedded systems: firmware baked into hardware at manufacture. The operational constraint is inability to patch in the field — a defining characteristic of embedded IoT devices. The security implication is a permanent, growing vulnerability surface on the clinical network for devices that cannot be updated without physical replacement.",
+      exam_tip:"IoT + RTOS + embedded systems often appear together. The shared operational constraint is inability to patch. RTOS is a real-time OS for time-sensitive operations. Embedded means firmware is fixed at manufacture. When a scenario describes field-deployed connected devices that cannot receive updates, all three concepts apply.",
+    },
+    {
+      id:"m5",
+      q:"A government agency needs to deploy a classified intelligence analysis system that must have zero possibility of data exfiltration via network connections. A separate requirement calls for a corporate network to isolate its finance department systems from general employee access while still allowing authorized inter-department communication under controlled conditions. Which architecture BEST addresses each requirement?",
+      options:[
+        {id:"a", label:"SDN for both — software-defined networking can enforce strict segmentation for both requirements"},
+        {id:"b", label:"Logical segmentation for both — VLANs can be configured to completely prevent all communication if needed"},
+        {id:"c", label:"Air-gap for the classified system — physically removing all network connections eliminates the network exfiltration path. Logical segmentation (VLANs or SDN) for the finance department — allows controlled inter-department communication while isolating the segment from general access"},
+        {id:"d", label:"Air-gap for both — any system handling sensitive data should have all network connections removed"},
+      ],
+      correct:"c",
+      explanation:"Air-gapping physically removes all network connections — it is the only architecture that guarantees zero network-based exfiltration because there is no network path to exploit. It is appropriate when the security requirement is absolute isolation and operational connectivity is not needed. Logical segmentation (VLANs, SDN policies) divides a network into isolated segments while maintaining controlled routing between them — appropriate when inter-segment communication is required under specific conditions. Logical segmentation cannot achieve the same guarantee as an air-gap because logical controls can be misconfigured or bypassed.",
+      exam_tip:"Air-gap = physical network removal, zero network connectivity, strongest isolation, no inter-segment communication possible. Logical segmentation = software-enforced isolation with controlled communication paths. When a requirement specifies zero possibility of network exfiltration, the answer is air-gap. When controlled communication is required, the answer is logical segmentation.",
+    },
+    {
+      id:"m6",
+      q:"A security architect is evaluating two network management models. In the first, all security policy decisions, user authentication, and access logging are processed by a single centralized management server. In the second, security functions are distributed across multiple independent nodes with no single point of control. Which option CORRECTLY identifies the primary security tradeoff between these two models?",
+      options:[
+        {id:"a", label:"Centralized management provides consistent policy enforcement and simpler auditing but creates a single point of failure and a high-value attack target — compromising the central server affects the entire network. Decentralized distributes risk across nodes but introduces policy inconsistency and more complex auditing"},
+        {id:"b", label:"Centralized is always more secure because a single system is easier to monitor and audit than distributed systems"},
+        {id:"c", label:"Decentralized is always more secure because there is no single point of failure for attackers to target"},
+        {id:"d", label:"The models have equivalent security profiles — the choice is purely a performance and cost decision"},
+      ],
+      correct:"a",
+      explanation:"Centralized architecture concentrates control, which simplifies policy enforcement, monitoring, and auditing — all security benefits. The tradeoff is that the central server becomes a single point of failure and a high-value target: compromise of one system grants control over all managed resources. Decentralized architecture eliminates the single point of failure and limits the blast radius of any individual compromise, but policy consistency and audit integrity become harder to maintain across independent nodes. Neither model is unconditionally more secure — the choice depends on threat model and operational requirements.",
+      exam_tip:"Centralized: consistent policy, simple audit, single point of failure, high-value target. Decentralized: no single point of failure, limited blast radius, policy inconsistency risk, complex auditing. Exam pattern: recognize the tradeoff, not just the definition.",
+    },
+    {
+      id:"m7",
+      q:"An organization operates a hybrid cloud environment where sensitive customer data is processed in on-premises systems and less sensitive workloads run in a public cloud. The security team identifies that data moving between on-premises and cloud environments traverses a shared network connection, encryption key management is split between internal systems and the cloud provider, and compliance requirements mandate that certain data never leave the on-premises environment. Which security consideration is MOST specific to hybrid cloud architectures?",
+      options:[
+        {id:"a", label:"Hybrid cloud eliminates compliance risk because on-premises systems are always in scope and cloud systems are always out of scope"},
+        {id:"b", label:"The primary hybrid cloud security risk is inability to patch on-premises systems because cloud providers control the update schedule"},
+        {id:"c", label:"Hybrid cloud removes the shared responsibility model because the organization owns the on-premises component entirely"},
+        {id:"d", label:"Hybrid cloud introduces complexity at the boundary between environments — data in transit between on-premises and cloud must be secured, encryption key management spans two trust domains, and data residency controls must prevent regulated data from crossing into the cloud environment"},
+      ],
+      correct:"d",
+      explanation:"Hybrid cloud security complexity emerges at the boundary between environments. Data in transit between on-premises and cloud traverses a connection that must be encrypted and monitored. Key management spanning two environments creates split trust domains — keys managed on-premises cannot be assumed to be equally protected in the cloud, and vice versa. Data residency requirements add governance complexity: not all data can move freely between environments. These boundary challenges are specific to hybrid architectures and do not exist in purely on-premises or purely cloud deployments.",
+      exam_tip:"Hybrid cloud security = boundary complexity. Key risks: data in transit between environments, split key management, data residency and sovereignty requirements, inconsistent security controls across environments. The security challenge is managing the connection between two different trust domains.",
+    },
+    {
+      id:"m8",
+      q:"An organization decides to migrate its entire email infrastructure to a cloud-based service provider. The security team notes that the provider's SLA guarantees 99.9% uptime with automated backups, geographic redundancy, and a defined recovery time objective. The organization's CISO states that by moving to the cloud provider, the organization is transferring certain risks to the provider. Which concept does the CISO's statement reflect, and what is the important limitation of this approach?",
+      options:[
+        {id:"a", label:"Risk elimination — moving to a cloud provider removes all risk associated with email infrastructure"},
+        {id:"b", label:"Risk avoidance — the organization avoids email infrastructure risk by not operating the systems themselves"},
+        {id:"c", label:"Risk transference — contractually shifting the financial and operational responsibility for certain risks to the provider via the SLA. The limitation is that liability can be transferred but the reputational and regulatory consequences of a breach remain with the organization"},
+        {id:"d", label:"Risk acceptance — the organization accepts the provider's security posture without independent verification"},
+      ],
+      correct:"c",
+      explanation:"Risk transference shifts the financial and operational responsibility for defined risks to a third party — in this case the cloud provider via the SLA. The provider assumes responsibility for uptime, backup, and recovery within the contracted terms. The critical limitation: risk transference is not risk elimination. If the provider suffers a breach that exposes customer data, the organization still bears reputational damage, regulatory penalties, and customer notification obligations regardless of the SLA. Liability transfers; consequences do not.",
+      exam_tip:"Risk transference = shifting financial/operational responsibility to a third party via contract or SLA. Cloud adoption is a common risk transference mechanism. Critical limitation: liability can transfer but regulatory consequences, reputational damage, and customer trust remain with the organization. Risk is transferred, not eliminated.",
+    },
+  ],
+};
+
+
+const D3L2={
+  pbq:{
+    type:"match2",
+    cia_tag:"⚑ C · I · A",
+    scenario:"A security architect is designing the network infrastructure for a mid-sized financial services organization. Six security devices have been approved for deployment. For each device, identify the correct Security Zone it should be placed in AND its Deployment Mode. Both selections must be correct to receive full credit.",
+    instruction:"For each device select the correct Security Zone AND Deployment Mode. Both axes must be set before you can submit.",
+    scenarios:[
+      {
+        id:"sc1",
+        label:"Next-Generation Firewall",
+        description:"A stateful firewall with deep packet inspection, application awareness, and integrated intrusion prevention capabilities. It will inspect all traffic entering and leaving the organization's public-facing network boundary and enforce policy between the external internet and internal resources. If this device fails, no traffic should be permitted to pass until it is restored.",
+        model_answer:"am2",
+        implication_answer:"si1",
+        model_explanation:"DMZ — The NGFW sits at the boundary between the untrusted internet and the organization's network, inspecting traffic crossing into the DMZ and enforcing policy at the perimeter. It does not sit inside the internal network — it guards the entry point. Placing it Internal would mean external traffic reaches internal resources before inspection.",
+        implication_explanation:"INLINE — FAIL-CLOSED — The NGFW must be inline to actively inspect and block traffic in real time. Fail-closed means if the device fails, all traffic stops — appropriate for a perimeter firewall where an outage is preferable to an uncontrolled security gap. A failed firewall that passes all traffic (fail-open) would expose the entire internal network.",
+      },
+      {
+        id:"sc2",
+        label:"Web Application Firewall",
+        description:"A security device that inspects HTTP and HTTPS traffic at Layer 7, detecting and blocking web-specific attacks including SQL injection, cross-site scripting, and OWASP Top 10 vulnerabilities. It will be positioned to protect the organization's customer-facing web application servers from malicious requests.",
+        model_answer:"am2",
+        implication_answer:"si1",
+        model_explanation:"DMZ — The WAF protects public-facing web application servers, which live in the DMZ. Placing the WAF in the DMZ puts it between internet-facing traffic and the web servers it protects, inspecting requests before they reach application logic. Internal placement would mean external attack traffic passes through the perimeter before the WAF intercepts it.",
+        implication_explanation:"INLINE — FAIL-CLOSED — The WAF must be inline to intercept and block malicious requests before they reach the web servers. A WAF operating in tap/monitor mode could observe attacks but could not block them — defeating its purpose. Fail-closed ensures that if the WAF fails, web application traffic stops rather than reaching servers unfiltered.",
+      },
+      {
+        id:"sc3",
+        label:"IDS Sensor",
+        description:"A passive monitoring device that analyzes a copy of network traffic to detect suspicious patterns, anomalies, and known attack signatures. It generates alerts for the security operations team but does not take any action to block or modify traffic. The device receives traffic via a network tap on the core internal switch.",
+        model_answer:"am3",
+        implication_answer:"si3",
+        model_explanation:"INTERNAL — The IDS sensor monitors internal network traffic via a tap on the core switch, making the internal zone its correct placement. It is not a perimeter device — it provides visibility into traffic that has already passed the perimeter controls, detecting lateral movement, insider threats, and attacks that bypassed boundary defenses.",
+        implication_explanation:"TAP / MONITOR — An IDS is a passive detection device by definition. It receives a copy of traffic via a tap or SPAN port and analyzes it without being in the traffic path. Placing an IDS inline would convert it to an IPS role. Because it is not inline, fail-open and fail-closed do not apply — if the IDS fails, traffic continues normally and only detection capability is lost.",
+      },
+      {
+        id:"sc4",
+        label:"Load Balancer",
+        description:"A device that distributes incoming web application requests across multiple backend server instances to optimize performance and ensure no single server becomes a bottleneck. It handles high volumes of customer traffic continuously. If this device fails, the web application must remain accessible to customers — service continuity is the primary requirement.",
+        model_answer:"am2",
+        implication_answer:"si2",
+        model_explanation:"DMZ — The load balancer sits in front of the web application servers in the DMZ, distributing traffic across the server pool. It is a front-facing infrastructure component that handles public traffic, making the DMZ the correct zone. Placing it internally would mean traffic traverses additional network boundaries before being distributed.",
+        implication_explanation:"INLINE — FAIL-OPEN — The load balancer must be inline to actively distribute traffic across servers. Critically, it should be configured fail-open — if the load balancer fails, traffic should pass through to available servers rather than stopping entirely. For a customer-facing availability device, service continuity takes priority over strict traffic control. This is the only device in this deployment that should be fail-open.",
+      },
+      {
+        id:"sc5",
+        label:"Proxy Server",
+        description:"A forward proxy that intercepts all outbound web requests from internal employees, enforces acceptable use policies, filters malicious URLs, and provides SSL inspection of encrypted outbound traffic. Employees' browsers are configured to route all HTTP and HTTPS traffic through this device before it exits to the internet.",
+        model_answer:"am2",
+        implication_answer:"si1",
+        model_explanation:"DMZ — The proxy server sits between the internal network and the internet, making the DMZ the correct placement. It intercepts outbound traffic from internal users before it exits the organization, and receives return traffic from the internet before forwarding it internally. Placing it fully internally would mean internet-sourced return traffic reaches an internal device directly.",
+        implication_explanation:"INLINE — FAIL-CLOSED — The proxy must be inline because all outbound traffic is routed through it — it cannot intercept and inspect traffic it does not sit in the path of. Fail-closed means if the proxy fails, outbound internet access stops. This is the correct posture for a security enforcement device: an outage is preferable to employees bypassing URL filtering and SSL inspection entirely.",
+      },
+      {
+        id:"sc6",
+        label:"Jump Server",
+        description:"A hardened, dedicated server that administrators must connect to before accessing any other internal infrastructure device for management purposes. All SSH, RDP, and console access to servers, switches, routers, and firewalls is routed exclusively through this host. Direct administrative access to infrastructure from employee workstations is prohibited.",
+        model_answer:"am4",
+        implication_answer:"si1",
+        model_explanation:"MANAGEMENT ZONE — The jump server belongs in the dedicated management zone — a separate, highly restricted network segment used exclusively for administrative access to infrastructure. Placing it in the internal zone would expose it to general employee traffic and lateral movement risk. The management zone isolates administrative access paths from user traffic, limiting the blast radius if an employee workstation is compromised.",
+        implication_explanation:"INLINE — FAIL-CLOSED — The jump server is inline in the administrative access path — all management traffic flows through it, making it an active enforcement point. Fail-closed is correct: if the jump server fails, administrative access to infrastructure should stop entirely rather than falling back to direct connections from workstations, which would bypass the access control the jump server enforces.",
+      },
+    ],
+    model_options:[
+      {id:"am1", name:"Internet"},
+      {id:"am2", name:"DMZ"},
+      {id:"am3", name:"Internal"},
+      {id:"am4", name:"Management"},
+    ],
+    implication_options:[
+      {id:"si1", name:"Inline — Fail-Closed"},
+      {id:"si2", name:"Inline — Fail-Open"},
+      {id:"si3", name:"Tap / Monitor"},
+    ],
+  },
+  mcqs:[
+    {
+      id:"m1",
+      q:"An organization needs two separate administrative access controls. The first requires a dedicated hardened server that all administrators must connect through before accessing any infrastructure device — no direct SSH or RDP to servers is permitted. The second requires a server that retrieves web content on behalf of internal users, enforcing content filtering and caching responses to reduce bandwidth. Which option CORRECTLY matches each requirement to the appropriate network appliance?",
+      options:[
+        {id:"a", label:"Both are proxy servers — any server that intermediates connections between clients and destinations is a proxy"},
+        {id:"b", label:"The first is a jump server — it intermediates administrative access to infrastructure, creating a single controlled entry point for management. The second is a proxy server — it intermediates user web requests, enforcing policy and caching content on behalf of clients"},
+        {id:"c", label:"The first is a proxy server — it sits between administrators and servers. The second is a jump server — it retrieves content on behalf of users"},
+        {id:"d", label:"Both are jump servers — any server that administrators use to access other systems is a jump server"},
+      ],
+      correct:"b",
+      explanation:"Jump server: a hardened bastion host that administrators must connect through before accessing infrastructure devices — it enforces a single, auditable, controlled administrative access path. It does not serve users or cache content. Proxy server: intermediates user requests to external resources, enforcing acceptable use policy, filtering URLs, and optionally caching responses. Both are intermediary devices but serve completely different purposes: jump server = administrative access control, proxy server = user traffic control.",
+      exam_tip:"Jump server = administrative access intermediary, management zone, hardened, auditable. Proxy server = user web traffic intermediary, DMZ, content filtering, caching. Both sit between a client and a destination — the client type and purpose distinguish them.",
+    },
+    {
+      id:"m2",
+      q:"A hospital's security team is configuring failure modes for two critical devices. The first is a firewall protecting patient record systems — if it fails, the security team wants to ensure no unauthorized traffic can reach the records. The second is a network switch in the emergency department — if it fails, clinical staff must retain network access to life-critical patient monitoring systems. Which failure mode configuration is CORRECT for each device?",
+      options:[
+        {id:"a", label:"Both should be fail-closed — security devices should always block traffic on failure regardless of operational impact"},
+        {id:"b", label:"Both should be fail-open — availability is always the priority in healthcare environments"},
+        {id:"c", label:"The firewall should be fail-closed — a failed firewall that passes all traffic exposes patient records to unauthorized access. The switch should be fail-open — clinical availability for life-critical systems takes priority over network isolation when failure occurs"},
+        {id:"d", label:"The firewall should be fail-open — administrators need continued access to troubleshoot the failure. The switch should be fail-closed — containing the failure prevents it from spreading"},
+      ],
+      correct:"c",
+      explanation:"Fail-closed means a device blocks all traffic when it fails — appropriate for security enforcement devices where the cost of an uncontrolled security gap outweighs the cost of an outage. The firewall protecting patient records should fail-closed: an unauthorized data exposure is worse than a temporary access disruption. Fail-open means a device passes all traffic when it fails — appropriate for availability-critical infrastructure where blocking traffic causes greater harm than the security risk of uncontrolled flow. Emergency clinical systems are a textbook fail-open scenario: blocking life-critical monitoring traffic could harm patients.",
+      exam_tip:"Fail-closed = block all on failure, prioritizes security over availability. Fail-open = pass all on failure, prioritizes availability over security. The decision is a risk tradeoff: what is the cost of blocking traffic vs the cost of passing uncontrolled traffic? Security enforcement devices = fail-closed. Availability-critical infrastructure = fail-open.",
+    },
+    {
+      id:"m3",
+      q:"A security architect is comparing two network monitoring and response devices. The first device receives a copy of all network traffic via a SPAN port on the core switch, analyzes it for suspicious patterns, and sends alerts to the SOC when threats are detected — it never modifies or blocks traffic. The second device sits physically in the traffic path between network segments, analyzes all traffic in real time, and automatically drops packets matching known attack signatures. Which option CORRECTLY identifies both devices and the key operational distinction?",
+      options:[
+        {id:"a", label:"Both are IPS devices — any device that analyzes network traffic for threats is an intrusion prevention system"},
+        {id:"b", label:"The first is an IDS — passive, tap/monitor mode, detection only, no traffic modification. The second is an IPS — active, inline mode, real-time blocking. IDS provides visibility without impact; IPS provides protection but is a single point of failure if misconfigured"},
+        {id:"c", label:"The first is an IPS — it monitors all traffic. The second is an IDS — inline placement is an IDS characteristic"},
+        {id:"d", label:"Both are IDS devices — intrusion detection covers both passive monitoring and active blocking"},
+      ],
+      correct:"b",
+      explanation:"IDS (Intrusion Detection System): passive, operates in tap/monitor mode receiving a copy of traffic, detects and alerts, never modifies traffic. Its key advantage is zero network impact — a misconfigured or failed IDS does not disrupt traffic. IPS (Intrusion Prevention System): active, operates inline in the traffic path, detects and blocks in real time. Its key advantage is automated prevention; its risk is that misconfiguration or failure can disrupt legitimate traffic. The mode of deployment — tap vs inline — is the defining operational distinction.",
+      exam_tip:"IDS = passive, tap/monitor, detect and alert only. IPS = active, inline, detect and block. Mode determines capability: you cannot block traffic you are not inline to intercept. IDS failure = lost visibility. IPS failure = potential traffic disruption.",
+    },
+    {
+      id:"m4",
+      q:"A network engineer is implementing port-based access control to ensure that only authenticated devices can connect to the corporate network through physical switch ports. Unauthenticated devices should be blocked at the port level before receiving any network access. Which protocol framework governs this capability, and what role does EAP play within it?",
+      options:[
+        {id:"a", label:"802.1X governs port-based network access control — it defines the framework that blocks unauthenticated devices at the switch port. EAP (Extensible Authentication Protocol) is the authentication framework carried within 802.1X, providing the flexible mechanism for exchanging credentials between the client and authentication server"},
+        {id:"b", label:"EAP governs port-based access control independently — 802.1X is only required for wireless networks, not wired switch ports"},
+        {id:"c", label:"802.1X is a firewall protocol that controls which ports are open on a network device — EAP is the encryption protocol that secures the connection"},
+        {id:"d", label:"Both 802.1X and EAP are VPN protocols used to authenticate remote access users before granting network access"},
+      ],
+      correct:"a",
+      explanation:"802.1X is the IEEE standard for port-based network access control (PNAC). It defines the interaction between three entities: the supplicant (device requesting access), the authenticator (switch or access point enforcing access), and the authentication server (typically RADIUS). The authenticator blocks all traffic from an unauthenticated port until the supplicant successfully authenticates. EAP is the authentication framework that carries credential exchange within 802.1X — it is extensible, supporting multiple methods including certificates, tokens, and passwords. 802.1X applies to both wired and wireless environments.",
+      exam_tip:"802.1X = port-based network access control framework, three roles: supplicant/authenticator/authentication server. EAP = extensible authentication protocol carried within 802.1X, flexible credential exchange mechanism. 802.1X controls port access; EAP defines how authentication happens within that framework.",
+    },
+    {
+      id:"m5",
+      q:"A security engineer must select a firewall for three different deployment scenarios. The first scenario requires filtering web application traffic for OWASP Top 10 attacks including SQLi and XSS against a public API. The second scenario requires a single appliance that combines firewall, IPS, antivirus, URL filtering, and VPN into one device for a small branch office. The third scenario requires a firewall that can identify and control applications regardless of port — blocking BitTorrent even if it runs on port 443. Which option CORRECTLY matches each scenario to the appropriate firewall type?",
+      options:[
+        {id:"a", label:"WAF for all three — a web application firewall handles all Layer 7 inspection requirements"},
+        {id:"b", label:"First: NGFW — next-generation firewalls handle all advanced threats. Second: WAF — web application firewalls consolidate multiple functions. Third: UTM — unified threat management controls application traffic"},
+        {id:"c", label:"First: WAF — inspects HTTP/HTTPS for web application attacks at Layer 7. Second: UTM — consolidates multiple security functions into a single appliance for simplified branch deployment. Third: NGFW — identifies and controls applications by identity rather than port, blocking applications regardless of the port they use"},
+        {id:"d", label:"First: UTM — unified threat management includes web filtering. Second: NGFW — next-generation firewalls are designed for branch offices. Third: WAF — web application firewalls control application behavior"},
+      ],
+      correct:"c",
+      explanation:"WAF: purpose-built for HTTP/HTTPS web application traffic, inspects at Layer 7 for OWASP Top 10 attacks including SQLi, XSS, and CSRF — the correct choice when the requirement is specifically web application attack prevention. UTM: consolidates firewall, IPS, antivirus, URL filtering, VPN, and other functions into a single appliance — ideal for small/branch offices where simplicity and cost efficiency matter more than best-of-breed individual components. NGFW: adds application awareness to traditional stateful inspection — can identify applications by signature regardless of port, enabling policy enforcement by application identity rather than port number.",
+      exam_tip:"WAF = web application specific, Layer 7, OWASP Top 10. UTM = all-in-one consolidation, branch/SMB. NGFW = application awareness, controls apps by identity not port. Layer 4 firewall = port/protocol only, no application awareness. The scenario requirement determines the type.",
+    },
+    {
+      id:"m6",
+      q:"A security engineer needs to implement encrypted tunneling for two different requirements. The first requires securing communication between a web browser and a web server — the tunnel must operate at the application layer and protect HTTP traffic in transit. The second requires creating a secure tunnel between two network sites at the network layer, encrypting all IP traffic between the sites regardless of application protocol. Which tunneling protocol BEST addresses each requirement?",
+      options:[
+        {id:"a", label:"IPSec for both — IPSec is the standard for all encrypted network communications"},
+        {id:"b", label:"TLS for the first — operates at the transport/application layer, securing application protocols like HTTPS. IPSec for the second — operates at the network layer, encrypting all IP traffic between sites regardless of application, making it suitable for site-to-site VPN tunnels"},
+        {id:"c", label:"TLS for both — TLS is more modern and should replace IPSec in all use cases"},
+        {id:"d", label:"IPSec for the first — IPSec secures web traffic. TLS for the second — TLS is used for network-layer site-to-site connections"},
+      ],
+      correct:"b",
+      explanation:"TLS (Transport Layer Security) operates at the transport/application layer, securing specific application protocols — HTTPS is TLS-wrapped HTTP. TLS creates a secure channel between a client and server for a specific application session. IPSec operates at the network layer, encrypting all IP packets between two endpoints regardless of application protocol. This makes IPSec ideal for site-to-site VPN tunnels where all traffic between locations must be encrypted transparently to applications. The layer distinction determines the use case: TLS secures applications, IPSec secures network paths.",
+      exam_tip:"TLS = transport/application layer, secures specific application sessions (HTTPS, SMTPS), client-server. IPSec = network layer, encrypts all IP traffic between endpoints, site-to-site VPN. Layer determines scope: TLS protects one application's traffic; IPSec protects all traffic between two network points.",
+    },
+    {
+      id:"m7",
+      q:"An organization with 40 branch offices is evaluating two WAN connectivity approaches. The current infrastructure uses dedicated MPLS circuits with hardware VPN concentrators at each site routing all traffic through a central hub. The proposed replacement would use standard internet connections at each branch with intelligent software controlling traffic routing, dynamically directing traffic based on application type, link quality, and cost — without requiring all traffic to backhaul through headquarters. Which option CORRECTLY distinguishes these two approaches and their primary security and operational difference?",
+      options:[
+        {id:"a", label:"The current approach is a traditional hub-and-spoke VPN — all traffic routes through a central point, creating a bottleneck and single point of failure. SD-WAN uses software-defined routing to intelligently distribute traffic across multiple links, improving performance and resilience while reducing dependence on expensive dedicated circuits"},
+        {id:"b", label:"Both are equivalent VPN technologies — SD-WAN is simply a newer name for site-to-site VPN"},
+        {id:"c", label:"SD-WAN eliminates all security controls by routing traffic over the public internet without encryption"},
+        {id:"d", label:"Traditional VPN is always more secure than SD-WAN because dedicated circuits cannot be intercepted"},
+      ],
+      correct:"a",
+      explanation:"Traditional hub-and-spoke VPN routes all branch traffic through a central concentrator — simple but creates bandwidth bottlenecks, latency for cloud applications, and a single point of failure. SD-WAN uses software-defined control to make intelligent per-application routing decisions across multiple WAN links (MPLS, broadband, LTE), directing traffic along the optimal path without requiring central backhauling. SD-WAN includes integrated encryption and security policy enforcement — it does not eliminate security. The key advantages are cost reduction, performance optimization, and resilience through multi-link redundancy.",
+      exam_tip:"Traditional VPN = hub-and-spoke, central backhauling, dedicated circuits, simple but bottleneck risk. SD-WAN = software-defined routing, multiple WAN links, intelligent per-app routing, no mandatory central hub. SD-WAN does not eliminate encryption — it adds routing intelligence on top of it.",
+    },
+    {
+      id:"m8",
+      q:"A security architect is designing remote access for an organization where employees work from multiple locations and access cloud applications directly without routing through a corporate data center. The architect needs a solution that delivers network security, zero trust access control, cloud access security brokerage, and secure web gateway functions as a unified cloud-delivered service — positioned close to users regardless of location. Which architecture BEST meets this requirement?",
+      options:[
+        {id:"a", label:"Traditional VPN with a central concentrator — routes all remote traffic through the corporate data center before reaching cloud applications"},
+        {id:"b", label:"SD-WAN with MPLS circuits — provides intelligent routing between branch offices and headquarters"},
+        {id:"c", label:"IPSec tunneling between all remote users and a central firewall — encrypts all traffic at the network layer"},
+        {id:"d", label:"SASE (Secure Access Service Edge) — converges network security functions including ZTNA, CASB, SWG, and FWaaS into a cloud-delivered service, enforcing security at the edge close to users and cloud resources rather than backhauling traffic to a central data center"},
+      ],
+      correct:"d",
+      explanation:"SASE (Secure Access Service Edge) converges wide-area networking and network security into a single cloud-delivered service. It combines Zero Trust Network Access (ZTNA), Cloud Access Security Broker (CASB), Secure Web Gateway (SWG), and Firewall-as-a-Service (FWaaS) into a unified architecture. Because SASE is cloud-delivered, security enforcement happens at points of presence close to users and cloud resources — eliminating the latency and bottlenecks of backhauling traffic to a central data center. Traditional VPN and IPSec would require central routing, defeating the direct-to-cloud model.",
+      exam_tip:"SASE = cloud-delivered convergence of network security and WAN functions. Key components: ZTNA + CASB + SWG + FWaaS. Security enforced at the edge, close to users and cloud apps. No central data center backhaul. Designed for distributed workforces accessing cloud resources directly.",
+    },
+  ],
+};
+
+const LEVEL_DATA={d1l1:D1L1,d1l2:D1L2,d1l3:D1L3,d1l4:D1L4,d1l5:D1L5,d2l1:D2L1,d2l2:D2L2,d2l3:D2L3,d2l4:D2L4,d2l5:D2L5,d2l6:D2L6,d3l1:D3L1,d3l2:D3L2};
 
 // ── PROGRESS ─────────────────────────────────────────────────────────────────
 function loadP(){try{return JSON.parse(localStorage.getItem('sp_v2')||'{}')}catch{return{}}}
 function saveP(p){localStorage.setItem('sp_v2',JSON.stringify(p))}
 function getLP(id){return loadP()[id]||{completed:false,mastery:0,attempts:0,xp:0,missedPBQ:[],missedMCQ:[]}}
 function setLP(id,d){const p=loadP();p[id]=d;saveP(p)}
+function migrateXP(){
+  const p=loadP();let dirty=false;
+  ALL_LEVELS.forEach(lv=>{
+    const lp=p[lv.id];if(!lp||!lp.completed)return;
+    const xpMax=lv.xp;
+    const correct=lp.mastery===100?xpMax:lp.mastery>=70?(xpMax===125?95:xpMax===150?115:75):0;
+    if(lp.xp!==correct){lp.xp=correct;dirty=true;}
+  });
+  if(dirty)saveP(p);
+}
 function unlocked(id){
-  if(id==='d1l1'||id==='d1l2'||id==='d1l3'||id==='d1l4'||id==='d1l5'||id==='d2l1'||id==='d2l2'||id==='d2l3'||id==='d2l4'||id==='d2l5'||id==='d2l6')return true;
+  if(id==='d1l1'||id==='d1l2'||id==='d1l3'||id==='d1l4'||id==='d1l5'||id==='d2l1'||id==='d2l2'||id==='d2l3'||id==='d2l4'||id==='d2l5'||id==='d2l6'||id==='d3l1'||id==='d3l2')return true;
   for(const r of REALMS){
     const i=r.levels.findIndex(l=>l.id===id);
     if(i>0)return getLP(r.levels[i-1].id).completed;
@@ -1602,7 +1993,7 @@ function renderRealm(){
   const list=document.getElementById('realm-list');list.innerHTML='';
   REALMS.forEach((r,ri)=>{
     const done=r.levels.filter(l=>p[l.id]?.completed).length;
-    const lock=ri>0&&!REALMS[ri-1].levels.every(l=>p[l.id]?.completed)&&!['d2'].includes(r.id);
+    const lock=ri>0&&!REALMS[ri-1].levels.every(l=>p[l.id]?.completed)&&!['d2','d3'].includes(r.id);
     const c=r.color;
     const card=document.createElement('div');
     card.className='realm-card ai'+(lock?' locked':'');
@@ -1669,13 +2060,13 @@ function initRunner(){
   document.getElementById('r-mcq').textContent=isRevLevel?'100 pts':'40 pts';
   document.getElementById('r-mcq').style.color='var(--muted)';
   document.getElementById('r-back').onclick=()=>showLevel(r.id);
-  RS={phase:'pbq',color:c,data:LEVEL_DATA[CL.id],levelId:CL.id,conSels:{},triageSels:{},matchSels:{},scenarioSels:{},socSels:{},
+  RS={phase:'pbq',color:c,data:LEVEL_DATA[CL.id],levelId:CL.id,conSels:{},triageSels:{},matchSels:{},scenarioSels:{},socSels:{},match2Sels:{},
       pbqScore:0,mcqScore:0,missedPBQ:[],missedMCQ:[],
       catSels:{},typeSels:{},pbqDone:false,
       mcqIdx:0,mcqSel:null,mcqDone:false,mcqScores:[]};
   renderPhase();
 }
-function renderPhase(){if(RS.phase==='pbq'){if(!RS.data.pbq){RS.phase='mcq';rMCQ();return;}if(RS.data.pbq.type==='triage')rTriagePBQ();else if(RS.data.pbq.type==='match')rMatchPBQ();else if(RS.data.pbq.type==='scenario_builder')rScenarioBuilder();else if(RS.data.pbq.type==='soc_triage')rSOCTriage();else if(RS.data.pbq.concepts)rClassifyPBQ();else rPBQ();}else if(RS.phase==='mcq')rMCQ();else rResult();}
+function renderPhase(){if(RS.phase==='pbq'){if(!RS.data.pbq){RS.phase='mcq';rMCQ();return;}if(RS.data.pbq.type==='triage')rTriagePBQ();else if(RS.data.pbq.type==='match')rMatchPBQ();else if(RS.data.pbq.type==='match2')rMatch2PBQ();else if(RS.data.pbq.type==='scenario_builder')rScenarioBuilder();else if(RS.data.pbq.type==='soc_triage')rSOCTriage();else if(RS.data.pbq.concepts)rClassifyPBQ();else rPBQ();}else if(RS.phase==='mcq')rMCQ();else rResult();}
 
 // ── PHASE BAR ─────────────────────────────────────────────────────────────────
 function phaseBar(phase,c){
@@ -1780,7 +2171,7 @@ function rMCQ(){
   h+=`<div class="mcq-prog">
     <span style="font-family:var(--mono);font-size:11px;color:${c};font-weight:700">MCQ ${s.mcqIdx+1} of ${mcqs.length}</span>
     <div class="mcq-dots">${dots}</div>
-    <span style="font-family:var(--mono);font-size:11px;color:var(--muted)">8 pts each</span>
+    <span style="font-family:var(--mono);font-size:11px;color:var(--muted)">${Math.round(MPQ)} pts each</span>
   </div>`;
   h+=`<div class="qbox" style="border-left-color:${c}"><div class="qlbl" style="color:${c}">◉ QUESTION</div><div class="qtxt">${q.q}</div></div>`;
   h+=`<div class="opts">`;
@@ -1834,6 +2225,153 @@ function nextMCQ(){
 
 
 
+
+
+// ── MATCH2 PBQ (architecture model + security implication per scenario) ───────
+function rMatch2PBQ(){
+  const s=RS;const pbq=s.data.pbq;const c=s.color;
+  const PPS=60/pbq.scenarios.length;
+  const totalSels=pbq.scenarios.reduce((acc,sc)=>{
+    const sel=s.match2Sels[sc.id]||{};
+    return acc+(sel.model?1:0)+(sel.implication?1:0);
+  },0);
+  const totalNeeded=pbq.scenarios.length*2;
+  const allSet=totalSels===totalNeeded;
+
+  let h=phaseBar('pbq',c);
+  h+=`<div class="meta-pills">
+    <span class="mpill" style="background:color-mix(in srgb,${c} 14%,transparent);color:${c};border-color:color-mix(in srgb,${c} 28%,transparent)">ARCHITECTURE ANALYSIS</span>
+    <span class="mpill" style="background:rgba(220,38,38,0.14);color:var(--d2);border-color:rgba(220,38,38,0.28)">${pbq.scenarios.length} SCENARIOS</span>
+    <span class="mpill" style="background:rgba(217,119,6,0.14);color:var(--amber);border-color:rgba(217,119,6,0.28)">HARD</span>
+  </div>
+  <div class="meta-note">${pbq.scenarios.length} scenarios · model + implication per scenario · ${Math.round(PPS)} pts each · 60 pts total</div>`;
+
+  h+=`<div class="scenario-box">
+    <div class="sc-hdr"><span class="sc-tag" style="color:${c}">◉ SCENARIO</span><span class="sc-cia">${pbq.cia_tag}</span></div>
+    <div class="sc-txt">${pbq.scenario}</div>
+  </div><div class="instr">${pbq.instruction}</div>`;
+
+  pbq.scenarios.forEach((sc,si)=>{
+    const sel=s.match2Sels[sc.id]||{};
+    const sub=s.pbqDone;
+    const modOk=sub&&sel.model===sc.model_answer;
+    const impOk=sub&&sel.implication===sc.implication_answer;
+    const bothOk=modOk&&impOk;
+    const score=sub?Math.round((((modOk?1:0)+(impOk?1:0))/2)*PPS):null;
+
+    let cardBorder,cardBg;
+    if(sub&&bothOk){cardBorder='rgba(34,197,94,0.5)';cardBg='rgba(34,197,94,0.04)';}
+    else if(sub&&!modOk&&!impOk){cardBorder='rgba(239,68,68,0.5)';cardBg='rgba(239,68,68,0.04)';}
+    else if(sub){cardBorder='rgba(245,158,11,0.5)';cardBg='rgba(245,158,11,0.04)';}
+    else if(sel.model||sel.implication){cardBorder=`color-mix(in srgb,${c} 45%,transparent)`;cardBg=`color-mix(in srgb,${c} 3%,transparent)`;}
+    else{cardBorder='rgba(255,255,255,0.1)';cardBg='rgba(255,255,255,0.02)';}
+
+    h+=`<div style="border-radius:14px;padding:16px;border:2px solid ${cardBorder};background:${cardBg};margin-bottom:16px">`;
+
+    // Scenario header
+    h+=`<div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:10px;gap:8px;flex-wrap:wrap">
+      <div style="font-family:var(--mono);font-size:10px;font-weight:700;color:${c};letter-spacing:.05em">SCENARIO ${si+1} — ${sc.label}</div>
+      ${sub?`<div style="font-family:var(--mono);font-size:12px;font-weight:700;color:${bothOk?'var(--green)':score>0?'var(--amber)':'var(--red)'}">${score}/${Math.round(PPS)}pts</div>`:''}
+    </div>`;
+
+    // Description
+    h+=`<div style="font-size:13px;color:#CBD5E1;line-height:1.7;padding:12px 14px;background:rgba(0,0,0,0.35);border-radius:10px;border-left:3px solid ${cardBorder};margin-bottom:14px">${sc.description}</div>`;
+
+    // Model selector
+    const modSel=sel.model;const modCorrect=sc.model_answer;
+    h+=`<div style="margin-bottom:12px">
+      <div style="font-family:var(--mono);font-size:9px;font-weight:700;text-transform:uppercase;letter-spacing:.08em;color:var(--d3);margin-bottom:7px">
+        ARCHITECTURE MODEL ${sub?(modOk?'✓':'✗'):''}
+        ${sub&&!modOk?`<span style="color:var(--muted);font-weight:400"> — correct: ${pbq.model_options.find(x=>x.id===modCorrect)?.name}</span>`:''}
+      </div>
+      <div style="display:flex;flex-wrap:wrap;gap:6px">`;
+    pbq.model_options.forEach(opt=>{
+      const isSel=modSel===opt.id;
+      const isCorrectOpt=sub&&opt.id===modCorrect;
+      const isWrongSel=sub&&isSel&&!isCorrectOpt;
+      let bg,border,color;
+      if(isCorrectOpt){bg='rgba(34,197,94,0.18)';border='var(--green)';color='var(--green)';}
+      else if(isWrongSel){bg='rgba(239,68,68,0.18)';border='var(--red)';color='var(--red)';}
+      else if(isSel){bg='rgba(14,165,233,0.18)';border='var(--d3)';color='#fff';}
+      else{bg='transparent';border='rgba(255,255,255,0.12)';color='#475569';}
+      h+=`<button onclick="selMatch2('${sc.id}','model','${opt.id}')" ${sub?'disabled':''}
+        style="padding:7px 13px;border-radius:8px;font-family:var(--mono);font-size:11px;font-weight:600;
+        background:${bg};border:1.5px solid ${border};color:${color};cursor:${sub?'default':'pointer'};transition:all .12s">${opt.name}</button>`;
+    });
+    h+=`</div>`;
+    if(sub)h+=`<div class="expl" style="border-color:${modOk?'var(--green)':'var(--red)'};margin-top:8px;font-size:12px">${sc.model_explanation}</div>`;
+    h+=`</div>`;
+
+    // Implication selector
+    const impSel=sel.implication;const impCorrect=sc.implication_answer;
+    h+=`<div>
+      <div style="font-family:var(--mono);font-size:9px;font-weight:700;text-transform:uppercase;letter-spacing:.08em;color:var(--amber);margin-bottom:7px">
+        SECURITY IMPLICATION ${sub?(impOk?'✓':'✗'):''}
+        ${sub&&!impOk?`<span style="color:var(--muted);font-weight:400"> — correct: ${pbq.implication_options.find(x=>x.id===impCorrect)?.name}</span>`:''}
+      </div>
+      <div style="display:flex;flex-wrap:wrap;gap:6px">`;
+    pbq.implication_options.forEach(opt=>{
+      const isSel=impSel===opt.id;
+      const isCorrectOpt=sub&&opt.id===impCorrect;
+      const isWrongSel=sub&&isSel&&!isCorrectOpt;
+      let bg,border,color;
+      if(isCorrectOpt){bg='rgba(34,197,94,0.18)';border='var(--green)';color='var(--green)';}
+      else if(isWrongSel){bg='rgba(239,68,68,0.18)';border='var(--red)';color='var(--red)';}
+      else if(isSel){bg='rgba(217,119,6,0.18)';border='var(--amber)';color='#fff';}
+      else{bg='transparent';border='rgba(255,255,255,0.12)';color='#475569';}
+      h+=`<button onclick="selMatch2('${sc.id}','implication','${opt.id}')" ${sub?'disabled':''}
+        style="padding:7px 13px;border-radius:8px;font-family:var(--mono);font-size:11px;font-weight:600;
+        background:${bg};border:1.5px solid ${border};color:${color};cursor:${sub?'default':'pointer'};transition:all .12s">${opt.name}</button>`;
+    });
+    h+=`</div>`;
+    if(sub)h+=`<div class="expl" style="border-color:${impOk?'var(--green)':'var(--red)'};margin-top:8px;font-size:12px">${sc.implication_explanation}</div>`;
+    h+=`</div></div>`;
+  });
+
+  if(!s.pbqDone){
+    h+=`<button class="sbtn" ${allSet?'':'disabled'}
+      style="background:${allSet?`linear-gradient(135deg,color-mix(in srgb,${c} 90%,#000),${c})`:''}; color:${allSet?'#fff':''}"
+      onclick="submitMatch2PBQ()">
+      ${allSet?'SUBMIT ANALYSIS':`COMPLETE ALL SCENARIOS TO SUBMIT (${totalSels}/${totalNeeded})`}</button>`;
+  } else {
+    h+=`<button class="sbtn" onclick="gotoMCQ()" style="background:linear-gradient(135deg,color-mix(in srgb,${c} 90%,#000),${c});color:#fff">CONTINUE TO MCQ (${Math.round(s.pbqScore)}/60) →</button>`;
+  }
+  document.getElementById('r-content').innerHTML=h;
+}
+
+function selMatch2(scId,axis,optId){
+  if(RS.pbqDone)return;
+  if(!RS.match2Sels[scId])RS.match2Sels[scId]={};
+  RS.match2Sels[scId][axis]=optId;
+  rMatch2PBQ();
+}
+
+function submitMatch2PBQ(){
+  const s=RS;const pbq=s.data.pbq;
+  const PPS=60/pbq.scenarios.length;
+  let sc=0;s.missedPBQ=[];
+  pbq.scenarios.forEach(scenario=>{
+    const sel=s.match2Sels[scenario.id]||{};
+    const modOk=sel.model===scenario.model_answer;
+    const impOk=sel.implication===scenario.implication_answer;
+    const pts=Math.round((((modOk?1:0)+(impOk?1:0))/2)*PPS);
+    sc+=pts;
+    if(!modOk||!impOk){
+      s.missedPBQ.push({
+        id:scenario.id,label:scenario.label,
+        yourCat:pbq.model_options.find(x=>x.id===sel.model)?.name||'—',
+        correctCat:pbq.model_options.find(x=>x.id===scenario.model_answer)?.name,
+        yourType:pbq.implication_options.find(x=>x.id===sel.implication)?.name||'—',
+        correctType:pbq.implication_options.find(x=>x.id===scenario.implication_answer)?.name,
+        explanation:(!modOk?scenario.model_explanation:'')+(!modOk&&!impOk?' | ':'')+(!impOk?scenario.implication_explanation:''),
+      });
+    }
+  });
+  s.pbqScore=sc;s.pbqDone=true;
+  document.getElementById('r-pbq').textContent=Math.round(sc)+'/60';
+  document.getElementById('r-pbq').style.color=sc>=42?'var(--green)':'var(--amber)';
+  rMatch2PBQ();window.scrollTo(0,0);
+}
 
 // ── SOC TRIAGE PBQ (attack type + indicator per ticket) ──────────────────────
 function rSOCTriage(){
@@ -2528,7 +3066,8 @@ function submitClassifyPBQ(){
 function saveResult(){
   const s=RS;const total=Math.round(s.pbqScore+s.mcqScore);
   const lp=getLP(s.levelId);
-  const xp=total>=70?Math.round(CL.xp*(total/100)):0;
+  const xpMax=CL.xp;
+  const xp=total===100?xpMax:total>=70?(xpMax===125?95:xpMax===150?115:75):0;
   setLP(s.levelId,{completed:total>=70||lp.completed,mastery:Math.max(lp.mastery||0,total),
     attempts:(lp.attempts||0)+1,xp:Math.max(lp.xp||0,xp),
     missedPBQ:s.missedPBQ,missedMCQ:s.missedMCQ});
@@ -2550,10 +3089,11 @@ function rResult(){
     <div class="res-score" style="color:${sc}">${total}</div>
     <div class="res-sub">${RS.data.pbq?'out of 100 pts · 70 required to pass':'realm review · 70 required to pass'}</div>
     <div class="res-badge" style="background:${passed?'rgba(34,197,94,0.15)':'rgba(245,158,11,0.15)'};border-color:${passed?'rgba(34,197,94,0.4)':'rgba(245,158,11,0.4)'};color:${sc}">${bl}</div>
+    ${passed?`<div style="margin-top:12px;font-family:var(--mono);font-size:13px;font-weight:700;color:${total===100?'#fbbf24':sc}">+${total===100?CL.xp:CL.xp===125?95:CL.xp===150?115:75} XP ${total===100?'⭐ Perfect Score':'earned'}</div>`:'<div style="margin-top:10px;font-family:var(--mono);font-size:11px;color:var(--muted)">No XP awarded below 70 — retry to pass</div>'}
   </div>`;
   h+=`<div class="bdown"><div class="bdown-title">Score Breakdown</div>
-    ${RS.data.pbq?sbar(RS.data.pbq.type==='triage'?'PBQ — Change Request Triage':RS.data.pbq.type==='match'?'PBQ — Scenario Match':RS.data.pbq.type==='scenario_builder'?'PBQ — Attack Scenario Builder':RS.data.pbq.type==='soc_triage'?'PBQ — SOC Incident Triage':RS.data.pbq.concepts?'PBQ — Concept Classification':'PBQ — Dual-Axis Classification',s.pbqScore,60,c):''}
-    ${sbar(RS.data.pbq?'MCQ — 5 Questions':'MCQ — 10 Questions (Realm Review)',s.mcqScore,RS.data.pbq?40:100,'var(--d3)')}
+    ${RS.data.pbq?sbar(RS.data.pbq.type==='triage'?'PBQ — Change Request Triage':RS.data.pbq.type==='match'?'PBQ — Scenario Match':RS.data.pbq.type==='match2'?'PBQ — Architecture Analysis':RS.data.pbq.type==='scenario_builder'?'PBQ — Attack Scenario Builder':RS.data.pbq.type==='soc_triage'?'PBQ — SOC Incident Triage':RS.data.pbq.concepts?'PBQ — Concept Classification':'PBQ — Dual-Axis Classification',s.pbqScore,60,c):''}
+    ${sbar(RS.data.pbq?'MCQ — '+RS.data.mcqs.length+' Questions':'MCQ — 10 Questions (Realm Review)',s.mcqScore,RS.data.pbq?40:100,'var(--d3)')}
     <div class="divider"></div>${sbar('Total',total,100,sc)}</div>`;
 
   // Missed summary
@@ -2620,7 +3160,9 @@ function retryLevel(){
 }
 
 // ── INIT ──────────────────────────────────────────────────────────────────────
+migrateXP();
 showRealm();
 </script>
+
 </body>
 </html>
