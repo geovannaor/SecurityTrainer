@@ -228,7 +228,7 @@ const REALMS=[
   {id:"d1",num:"1.0",name:"General Security Concepts",weight:12,icon:"🔐",color:"var(--d1)",
    levels:[{id:"d1l1",obj:"1.1",name:"Security Controls",type:"dual_classify",xp:100},{id:"d1l2",obj:"1.2",name:"Zero Trust Architecture",type:"classify",xp:100},{id:"d1l3",obj:"1.3",name:"Change Management",type:"triage",xp:100},{id:"d1l4",obj:"1.4",name:"Cryptographic Solutions",type:"match",xp:100},{id:"d1l5",obj:"1.0",name:"Realm 1 Review",type:"review",xp:150}]},
   {id:"d2",num:"2.0",name:"Threats, Vulnerabilities & Mitigations",weight:22,icon:"⚠️",color:"var(--d2)",levels:[{id:"d2l1",obj:"2.1",name:"Threat Actors & Motivations",type:"dual_classify",xp:100},{id:"d2l2",obj:"2.2",name:"Threat Vectors & Attack Surfaces",type:"scenario_builder",xp:100},{id:"d2l3",obj:"2.3",name:"Vulnerability Types",type:"classify",xp:100},{id:"d2l4",obj:"2.4",name:"Indicators of Malicious Activity",type:"soc_triage",xp:100},{id:"d2l5",obj:"2.5",name:"Mitigation Techniques",type:"match",xp:100},{id:"d2l6",obj:"2.0",name:"Realm 2 Review",type:"review",xp:150}]},
-  {id:"d3",num:"3.0",name:"Security Architecture",weight:18,icon:"🏗️",color:"var(--d3)",levels:[{id:"d3l1",obj:"3.1",name:"Architecture Models & Implications",type:"match2",xp:125},{id:"d3l2",obj:"3.2",name:"Secure Enterprise Infrastructure",type:"match2",xp:125}]},
+  {id:"d3",num:"3.0",name:"Security Architecture",weight:18,icon:"🏗️",color:"var(--d3)",levels:[{id:"d3l1",obj:"3.1",name:"Architecture Models & Implications",type:"match2",xp:125},{id:"d3l2",obj:"3.2",name:"Secure Enterprise Infrastructure",type:"match2",xp:125},{id:"d3l3",obj:"3.3",name:"Data Protection Concepts",type:"hotspot",xp:125},{id:"d3l4",obj:"3.4",name:"Resilience & Recovery Architecture",type:"sequence",xp:125},{id:"d3l5",obj:"3.0",name:"Realm 3 Review",type:"review",xp:175}]},
   {id:"d4",num:"4.0",name:"Security Operations",weight:28,icon:"⚙️",color:"var(--d4)",levels:[]},
   {id:"d5",num:"5.0",name:"Security Program Management",weight:20,icon:"📋",color:"var(--d5)",levels:[]},
 ];
@@ -1947,7 +1947,568 @@ const D3L2={
   ],
 };
 
-const LEVEL_DATA={d1l1:D1L1,d1l2:D1L2,d1l3:D1L3,d1l4:D1L4,d1l5:D1L5,d2l1:D2L1,d2l2:D2L2,d2l3:D2L3,d2l4:D2L4,d2l5:D2L5,d2l6:D2L6,d3l1:D3L1,d3l2:D3L2};
+
+const D3L3={
+  pbq:{
+    type:"hotspot",
+    cia_tag:"⚑ C · I · A",
+    scenario:"A data governance team is reviewing a customer record export from the organization's CRM system. The export contains 12 fields. Your task is to identify every field that requires data protection, then assign the most appropriate protection method to each flagged field. Fields that are already non-sensitive public information do not require protection.",
+    instruction:"Tap each field that requires protection to flag it, then select the appropriate protection method. Fields that need no protection should be left unflagged.",
+    fields:[
+      {
+        id:"f1",
+        label:"Customer ID",
+        value:"CID-00847291",
+        requires_protection:false,
+        explanation:"Customer IDs are system-generated internal identifiers with no inherent sensitivity. They do not reveal personal information, financial data, or regulated attributes on their own. No protection method is required for this field in isolation.",
+      },
+      {
+        id:"f2",
+        label:"Full Name",
+        value:"Sarah Mitchell",
+        requires_protection:true,
+        method_answer:"pm3",
+        explanation:"Full name is personally identifiable information (PII) — a regulated data type that can identify an individual. It requires protection when stored in databases accessible beyond authorized personnel. Masking (e.g., S*** M*******) is appropriate for display contexts where the full name is not operationally required, while encryption protects the stored value.",
+        method_explanation:"MASKING — Masking replaces characters with neutral substitutes for display purposes, protecting PII in contexts where the full value is not needed. It is appropriate for name fields shown in support interfaces, reports, or exports where staff need to identify a record without seeing the full personal details.",
+      },
+      {
+        id:"f3",
+        label:"Email Address",
+        value:"s.mitchell@email.com",
+        requires_protection:true,
+        method_answer:"pm1",
+        explanation:"Email addresses are PII and may be regulated under frameworks such as GDPR. They are also a direct contact vector for phishing and social engineering. Encryption protects the stored value from unauthorized access.",
+        method_explanation:"ENCRYPTION — Email addresses stored at rest should be encrypted. Unlike masking, which is a display control, encryption protects the actual stored value from being read if the database is compromised. Email is a regulated PII field requiring confidentiality of the underlying data, not just its display.",
+      },
+      {
+        id:"f4",
+        label:"Account Creation Date",
+        value:"2019-03-14",
+        requires_protection:false,
+        explanation:"Account creation dates are operational metadata with no inherent sensitivity. They do not identify an individual, reveal financial information, or fall under regulated data categories. No protection is required.",
+      },
+      {
+        id:"f5",
+        label:"Credit Card Number",
+        value:"4111-1111-1111-1234",
+        requires_protection:true,
+        method_answer:"pm4",
+        explanation:"Credit card numbers are regulated financial data under PCI-DSS. Storing raw card numbers is prohibited by PCI-DSS. The correct protection method is tokenization — replacing the card number with a non-sensitive token that can be used for transaction processing without exposing the actual card data.",
+        method_explanation:"TOKENIZATION — PCI-DSS explicitly requires that primary account numbers (PANs) not be stored in recoverable form. Tokenization replaces the card number with a randomly generated token that has no mathematical relationship to the original value. The token can be used for recurring billing and transaction reference without exposing card data. Unlike encryption, tokenization produces a value that cannot be reversed without access to the token vault.",
+      },
+      {
+        id:"f6",
+        label:"Country",
+        value:"United States",
+        requires_protection:false,
+        explanation:"Country of residence at the country level is generally considered public or low-sensitivity information. It does not directly identify an individual or expose regulated data. No protection is required at this granularity.",
+      },
+      {
+        id:"f7",
+        label:"Date of Birth",
+        value:"1987-07-22",
+        requires_protection:true,
+        method_answer:"pm1",
+        explanation:"Date of birth is regulated PII under multiple frameworks including GDPR and HIPAA in healthcare contexts. Combined with other fields, it enables identity verification and is a common component of identity theft. It requires encryption at rest.",
+        method_explanation:"ENCRYPTION — Date of birth is a sensitive PII field that must be protected at the stored value level. Encryption ensures that even if the database is accessed without authorization, the date of birth cannot be read without the decryption key. Masking alone would not protect the stored value — only its display.",
+      },
+      {
+        id:"f8",
+        label:"Support Tier",
+        value:"Premium",
+        requires_protection:false,
+        explanation:"Support tier is a non-sensitive operational classification. It describes the customer's service level and contains no personal, financial, or regulated information. No protection is required.",
+      },
+      {
+        id:"f9",
+        label:"Social Security Number",
+        value:"XXX-XX-1234",
+        requires_protection:true,
+        method_answer:"pm3",
+        explanation:"Social Security Numbers are highly regulated PII under US law. Even partially displayed values require protection. The field shown uses partial masking (last 4 digits only) — this is correct for display but the stored value must be encrypted. SSNs are critical data requiring the strongest available protections.",
+        method_explanation:"MASKING — The displayed value already shows partial masking (XXX-XX-1234), which is the correct display standard for SSNs. For this PBQ the field is asking you to recognize that masking is the appropriate display-layer protection for SSNs — showing only enough for verification without exposing the full number. The underlying stored value would also require encryption.",
+      },
+      {
+        id:"f10",
+        label:"Transaction History Hash",
+        value:"a3f8c2d19e4b7f0...",
+        requires_protection:false,
+        explanation:"This field contains a cryptographic hash of the transaction history — not the transaction data itself. Hashes are one-way, non-reversible representations. The hash value itself reveals no transaction details and requires no additional protection. The original data that was hashed should be protected, but the hash output is non-sensitive.",
+      },
+      {
+        id:"f11",
+        label:"Proprietary Risk Score",
+        value:"847 / RISK-TIER-2",
+        requires_protection:true,
+        method_answer:"pm5",
+        explanation:"The risk score is a proprietary algorithmic output representing trade secret and intellectual property. Exposing the scoring methodology or raw score values could reveal competitive business logic. Obfuscation is appropriate — the value is transformed so it cannot be reverse-engineered to reveal the underlying model.",
+        method_explanation:"OBFUSCATION — The risk scoring algorithm and its outputs represent trade secret intellectual property. Obfuscation transforms the value to make the underlying logic unrecoverable, protecting the business methodology from exposure. Unlike encryption, which is intended to be reversible with a key, obfuscation in this context is about obscuring business logic from unauthorized analysis.",
+      },
+      {
+        id:"f12",
+        label:"Internal Notes",
+        value:"Escalated 2x — fraud flag reviewed",
+        requires_protection:true,
+        method_answer:"pm6",
+        explanation:"Internal notes referencing fraud investigations are sensitive operational data. Access should be restricted to authorized personnel only. Permission restrictions ensure only investigators and authorized staff can view fraud-related internal notes.",
+        method_explanation:"PERMISSION RESTRICTIONS — Internal fraud investigation notes require access control rather than data transformation. Permission restrictions limit which roles and users can read this field, ensuring sensitive operational information is visible only to authorized personnel. This is preferable to encryption or masking here because the data needs to be fully readable by authorized staff — the protection is about who can access it, not transforming the value.",
+      },
+    ],
+    protection_methods:[
+      {id:"pm1", name:"Encryption"},
+      {id:"pm2", name:"Tokenization"},
+      {id:"pm3", name:"Masking"},
+      {id:"pm4", name:"Tokenization"},
+      {id:"pm5", name:"Obfuscation"},
+      {id:"pm6", name:"Permission Restrictions"},
+    ],
+    method_options:[
+      {id:"pm1", name:"Encryption"},
+      {id:"pm2", name:"Hashing"},
+      {id:"pm3", name:"Masking"},
+      {id:"pm4", name:"Tokenization"},
+      {id:"pm5", name:"Obfuscation"},
+      {id:"pm6", name:"Permission Restrictions"},
+      {id:"pm7", name:"Segmentation"},
+    ],
+  },
+  mcqs:[
+    {
+      id:"m1",
+      q:"A data governance team is classifying three data assets. The first is the annual salary information for all employees including executives. The second is the proprietary source code for the company's core product, which has never been publicly disclosed. The third is the company's published privacy policy document. Which option CORRECTLY classifies all three assets?",
+      options:[
+        {id:"a", label:"All three are confidential — any company data is confidential by default"},
+        {id:"b", label:"Salary data: Restricted — access limited to HR and executives, regulated PII. Source code: Critical/Trade Secret — loss would cause severe competitive harm. Privacy policy: Public — intentionally disclosed to all users"},
+        {id:"c", label:"Salary data: Public — employees know their own salary. Source code: Confidential. Privacy policy: Restricted"},
+        {id:"d", label:"All three are restricted — proprietary business information requires the highest protection level"},
+      ],
+      correct:"b",
+      explanation:"Data classification requires matching sensitivity and disclosure risk to the appropriate label. Salary data is restricted PII — regulated, limited to specific roles, and not for general internal access. Proprietary source code is a trade secret and intellectual property — its classification is critical because unauthorized disclosure would cause irreversible competitive harm. A published privacy policy is public data — it is intentionally made available to all users and the general public. Applying the same classification to all three ignores the fundamentally different sensitivity and disclosure requirements of each.",
+      exam_tip:"Data classification is context-driven. Public = intentionally disclosed. Restricted = limited role access, regulated. Critical/Trade Secret = severe harm if disclosed. Apply the label that matches the disclosure risk and operational impact, not a blanket classification.",
+    },
+    {
+      id:"m2",
+      q:"A security policy document defines three data categories. The first covers data whose unauthorized disclosure would cause severe harm to the organization or individuals — including medical records, source code, and merger details. The second covers data whose unauthorized disclosure would cause significant harm but is less immediately damaging — internal financial reports and strategic plans. The third covers data that poses moderate risk if disclosed — internal policies and non-public operational procedures. Which option CORRECTLY maps these descriptions to their classification labels?",
+      options:[
+        {id:"a", label:"First: Confidential. Second: Sensitive. Third: Private"},
+        {id:"b", label:"First: Restricted. Second: Critical. Third: Confidential"},
+        {id:"c", label:"First: Critical — severe harm threshold. Second: Confidential — significant but not catastrophic harm. Third: Private — moderate internal risk with limited external impact"},
+        {id:"d", label:"All three are sensitive — sensitivity is a spectrum not a set of discrete labels"},
+      ],
+      correct:"c",
+      explanation:"Critical data has the highest protection requirement — its unauthorized disclosure causes severe, potentially irreversible harm to the organization or individuals. Medical records, unreleased source code, and M&A details fall into this category. Confidential data causes significant harm if disclosed but is recoverable — internal financial reports and strategic plans. Private data has moderate internal sensitivity — policies and operational procedures that should not be public but whose disclosure is not catastrophic. These distinctions reflect the tiered classification model explicitly listed in the 3.3 objectives.",
+      exam_tip:"Critical = severe irreversible harm. Confidential = significant recoverable harm. Private = moderate internal sensitivity. Sensitive is sometimes used as an umbrella term — when asked to distinguish between tiers, map to the harm severity level described in the scenario.",
+    },
+    {
+      id:"m3",
+      q:"A security engineer is reviewing three data protection requirements. The first requires protecting a database of customer records stored on disk from unauthorized access if the storage media is stolen. The second requires protecting customer payment data as it moves between the payment terminal and the processing server. The third requires protecting data currently loaded into memory and being processed by an active application. Which data state does each requirement represent?",
+      options:[
+        {id:"a", label:"All three are data at rest — data is always at rest when stored in any form"},
+        {id:"b", label:"First: Data at rest — stored on disk, not actively moving or processing. Second: Data in transit — actively moving between two endpoints over a network. Third: Data in use — actively loaded in memory and being processed by a running application"},
+        {id:"c", label:"First: Data in use — disk storage involves active read/write operations. Second: Data at rest — network packets are temporarily stationary during transmission. Third: Data in transit — memory data moves between CPU registers"},
+        {id:"d", label:"First: Data in transit — storage involves data movement. Second: Data in use — payment processing is active computation. Third: Data at rest — memory contents are stationary"},
+      ],
+      correct:"b",
+      explanation:"Data at rest: stored on persistent media (disk, SSD, backup tape) and not actively moving or being processed. Encryption at rest (e.g., full-disk encryption) is the primary control. Data in transit: actively moving between two endpoints over a network or communication channel. TLS and IPSec are primary controls. Data in use: loaded into memory and actively being processed by an application — the most difficult state to protect because the data must be decrypted to be usable. Controls include memory encryption, trusted execution environments, and access controls on running processes.",
+      exam_tip:"At rest = on disk, not moving. In transit = moving over a network between endpoints. In use = in memory, actively being processed. Each state has distinct controls: at rest = disk encryption; in transit = TLS/IPSec; in use = memory protection/TEE.",
+    },
+    {
+      id:"m4",
+      q:"A developer needs to choose between two cryptographic operations. The first requirement is to store user passwords so they can be verified at login without ever being recoverable — even by database administrators. The second requirement is to protect a customer's full name in the database so it can be decrypted and displayed when an authorized support agent retrieves the account. Which operation BEST addresses each requirement and why?",
+      options:[
+        {id:"a", label:"Hashing for the first — passwords should be stored as one-way hashes that cannot be reversed, only verified by re-hashing the input. Encryption for the second — the customer name must be recoverable by authorized staff, requiring a reversible operation with key management"},
+        {id:"b", label:"Hashing for both — hashing is always more secure than encryption"},
+        {id:"c", label:"Encryption for the first — passwords need to be decrypted for login verification. Hashing for the second — customer names should never be recoverable"},
+        {id:"d", label:"Both should use encryption with different key lengths — the key length determines whether the value is recoverable"},
+      ],
+      correct:"a",
+      explanation:"Hashing is a one-way operation — it produces a fixed-length digest that cannot be reversed to obtain the original input. Passwords should be hashed (with salt) so that even if the database is compromised, the original passwords cannot be recovered. Login verification works by hashing the submitted password and comparing it to the stored hash — no decryption needed. Encryption is reversible with the correct key — appropriate for data that must be recovered in its original form by authorized parties. Customer PII that support staff need to view requires encryption, not hashing.",
+      exam_tip:"Hashing = one-way, irreversible, used for verification not recovery. Encryption = reversible with key, used when data must be recovered. Passwords = hash. PII that must be displayed = encrypt. If a scenario says 'must never be recoverable' — hash. If it says 'must be retrieved by authorized staff' — encrypt.",
+    },
+    {
+      id:"m5",
+      q:"A payment processing company needs to protect credit card numbers in two different contexts. The first context is a recurring billing system that must process future charges using a stored reference — the original card number must never be stored but the reference must work for real transactions. The second context is a customer service interface where agents need to verify the last four digits of a card to confirm a customer's identity — agents should never see the full number. Which protection method BEST fits each context?",
+      options:[
+        {id:"a", label:"Masking for both — masking protects card numbers in all contexts"},
+        {id:"b", label:"Tokenization for the first — replaces the card number with a functional token that can be used for real transactions without storing the actual PAN. Masking for the second — displays only the last four digits for identity verification without revealing the full number"},
+        {id:"c", label:"Encryption for the first — encrypted card numbers can be used for transaction processing. Tokenization for the second — tokens are appropriate for display contexts"},
+        {id:"d", label:"Hashing for both — hashed card numbers provide the strongest protection"},
+      ],
+      correct:"b",
+      explanation:"Tokenization replaces a sensitive value with a randomly generated token that has no mathematical relationship to the original. The token vault maps tokens back to real values for actual transaction processing — so recurring billing works without storing the raw card number. This is the PCI-DSS compliant approach. Masking replaces characters with neutral substitutes for display — showing 4111-****-****-1234 lets agents verify the last four digits without seeing the full number. Masking is a display control; tokenization is a storage and functional control. The key distinction: tokenization enables functional use of a protected value; masking enables identification without full exposure.",
+      exam_tip:"Tokenization = replaces sensitive value with functional token, used for storage and processing (PCI-DSS). Masking = replaces characters for display only, used for visual protection in interfaces. Tokenization enables transactions; masking enables identification. Neither is reversible in the traditional sense — tokenization requires vault access, masking destroys the hidden characters.",
+    },
+    {
+      id:"m6",
+      q:"A security architect is selecting data protection techniques for three scenarios. The first involves a proprietary machine learning model whose internal parameters must be stored but cannot be reverse-engineered by anyone who accesses the file. The second involves displaying patient medical record numbers in a report where only the last three digits are needed for reference. The third involves protecting sensitive database fields so they cannot be read without an authorized key, but must be fully recoverable by authorized applications. Which option CORRECTLY matches each scenario to its protection technique?",
+      options:[
+        {id:"a", label:"First: Encryption. Second: Tokenization. Third: Masking"},
+        {id:"b", label:"First: Hashing. Second: Encryption. Third: Obfuscation"},
+        {id:"c", label:"First: Masking. Second: Obfuscation. Third: Tokenization"},
+        {id:"d", label:"First: Obfuscation — transforms the model parameters to make reverse engineering infeasible without destroying functionality. Second: Masking — displays partial values for reference without revealing the full record number. Third: Encryption — protects stored values with key-based access while allowing full recovery by authorized systems"},
+      ],
+      correct:"d",
+      explanation:"Obfuscation makes data or logic difficult to understand or reverse-engineer — appropriate for protecting proprietary algorithms and model parameters where the goal is preventing analysis of the underlying logic, not just controlling access. Masking replaces characters with neutral substitutes for display — showing only the needed portion of a reference number without exposing the full value. Encryption protects stored data with reversible key-based access — the correct choice when authorized systems need full value recovery. Each technique serves a distinct purpose: obfuscation = anti-analysis, masking = display control, encryption = reversible confidentiality.",
+      exam_tip:"Obfuscation = makes logic/data hard to analyze or reverse-engineer, protects intellectual property and algorithms. Masking = display control, partial value exposure. Encryption = reversible confidentiality with key. Match the technique to the protection goal: anti-analysis = obfuscate, display safety = mask, authorized recovery = encrypt.",
+    },
+    {
+      id:"m7",
+      q:"A multinational organization stores customer data in cloud infrastructure. A legal review identifies two requirements. The first requires that data belonging to EU citizens must remain within EU borders and cannot be transferred to US-based servers regardless of operational convenience. The second requires that the specific physical data center location where data is stored must be logged and auditable for compliance reporting. Which concepts do these two requirements represent?",
+      options:[
+        {id:"a", label:"The first is data sovereignty — the legal requirement that data remains under the jurisdiction of a specific nation or region, governed by that nation's laws. The second is geolocation — the specific physical location tracking of where data is stored, required for compliance auditing"},
+        {id:"b", label:"Both are geolocation requirements — any requirement involving geographic data storage is geolocation"},
+        {id:"c", label:"Both are data sovereignty requirements — all data location requirements fall under sovereignty"},
+        {id:"d", label:"The first is geolocation — tracking where EU citizens are located. The second is data sovereignty — auditing which country's laws apply"},
+      ],
+      correct:"a",
+      explanation:"Data sovereignty is the principle that data is subject to the laws of the nation where it resides — GDPR requires that EU citizen data remain in the EU or be transferred only to jurisdictions with equivalent protections. This is a legal jurisdiction requirement. Geolocation in the data protection context refers to tracking the physical location of data storage — knowing precisely which data center, region, or country stores specific data for compliance, auditing, and residency verification purposes. Data sovereignty determines where data must be; geolocation tracks where data actually is.",
+      exam_tip:"Data sovereignty = legal jurisdiction requirement, data must remain under specific national law. Geolocation = physical location tracking of where data is stored. Sovereignty is the rule; geolocation is the mechanism for verifying compliance with that rule.",
+    },
+    {
+      id:"m8",
+      q:"A database administrator needs to implement two controls for a sensitive financial database. The first control must ensure that only the finance team's application service account can read salary records — all other users and applications should be denied access at the data level. The second control must ensure that salary data is stored in a completely separate database instance from general HR records, with no network path between them. Which controls CORRECTLY address each requirement?",
+      options:[
+        {id:"a", label:"Permission restrictions for both — access control covers all data protection requirements"},
+        {id:"b", label:"Segmentation for the first — network segmentation controls which users reach the database. Permission restrictions for the second — restricting permissions separates the databases"},
+        {id:"c", label:"Encryption for both — encrypting data prevents unauthorized access regardless of other controls"},
+        {id:"d", label:"Permission restrictions for the first — defines which identities can access specific data fields or tables, enforced at the application or database level. Segmentation for the second — physically or logically separates data into isolated environments with no connectivity between them"},
+      ],
+      correct:"d",
+      explanation:"Permission restrictions control which identities — users, roles, service accounts — can access specific data objects. They operate at the database, application, or file system level, granting read/write/execute rights to authorized entities and denying all others. Segmentation physically or logically isolates data environments — separate database instances with no network path between them means a compromise of the HR database cannot pivot to the financial database. Both controls protect data but through different mechanisms: permissions control who can access data within a shared environment; segmentation eliminates the shared environment entirely.",
+      exam_tip:"Permission restrictions = identity-based access control, who can read/write specific data. Segmentation = environmental isolation, separate instances with no connectivity. Permissions control access within an environment; segmentation eliminates the possibility of cross-environment access.",
+    },
+  ],
+};
+
+
+const D3L4={
+  pbq:{
+    type:"sequence",
+    cia_tag:"⚑ C · I · A",
+    scenario:"A primary data center has suffered a complete infrastructure failure due to a power grid outage that bypassed UPS and generator systems. The disaster recovery team has been notified. The eight steps below represent the correct DR activation sequence but are currently displayed in a randomized order. Drag and drop each step into the correct position to reconstruct the proper recovery sequence.",
+    instruction:"Drag each step into the correct order. The sequence must reflect proper DR activation procedure following a primary site failure.",
+    steps:[
+      {id:"s1", order:1, text:"Detect and confirm primary site failure", detail:"Verify that the failure is real, widespread, and not a false alarm. Confirm through monitoring systems, alerts, and manual checks that the primary site is unavailable and recovery is required."},
+      {id:"s2", order:2, text:"Initiate the disaster recovery plan", detail:"Formally activate the DR plan — notify stakeholders, assemble the recovery team, declare a disaster event, and begin executing documented procedures. No recovery action should precede formal DR plan activation."},
+      {id:"s3", order:3, text:"Activate failover systems at the secondary site", detail:"Bring up the secondary site infrastructure — servers, networking, and compute. Failover systems must be operational before services can be restored or data recovered. Activating the site before the plan is declared creates uncoordinated recovery."},
+      {id:"s4", order:4, text:"Restore services from backup or replication", detail:"Load data from the most recent backup, snapshot, or replication target onto the now-active secondary systems. Services cannot be validated until data is restored — this step provides the content that the infrastructure will serve."},
+      {id:"s5", order:5, text:"Validate infrastructure capacity and availability", detail:"Confirm that the secondary site has sufficient compute, memory, storage, and network capacity to handle production load. Redirecting traffic before capacity validation risks overloading recovery systems under real load."},
+      {id:"s6", order:6, text:"Redirect traffic and users to recovery systems", detail:"Update DNS, load balancer configurations, or routing tables to direct users to the secondary site. This step makes the recovery site live-facing — it must follow capacity validation to prevent a cascading failure at the recovery site."},
+      {id:"s7", order:7, text:"Verify application and data integrity", detail:"Confirm that applications are functioning correctly and that restored data is consistent and uncorrupted. Integrity verification must precede final sign-off — monitoring without first verifying integrity could miss silent data corruption."},
+      {id:"s8", order:8, text:"Conduct post-recovery validation and ongoing monitoring", detail:"Perform final end-to-end validation, document the recovery event, establish enhanced monitoring, and begin planning for primary site restoration. This is the final step — the environment is stable and production is confirmed running on recovery systems."},
+    ],
+  },
+  mcqs:[
+    {
+      id:"m1",
+      q:"A security architect is comparing two high availability approaches. The first deploys multiple independent servers behind a single entry point that distributes incoming requests across all servers based on current load — if one server fails, the others continue handling requests. The second groups multiple servers so they appear and operate as a single logical unit, share state and resources, and automatically continue operations if one node fails. Which option CORRECTLY identifies both approaches and their primary distinction?",
+      options:[
+        {id:"a", label:"The first is clustering — grouped servers sharing state. The second is load balancing — distributing requests across servers"},
+        {id:"b", label:"Both are load balancing — any architecture with multiple servers distributes load by definition"},
+        {id:"c", label:"The first is load balancing — distributes requests across independent servers to optimize performance and availability. The second is clustering — groups servers into a single logical unit sharing state, enabling automatic failover and resource sharing"},
+        {id:"d", label:"Both are clustering — high availability always requires servers to share state"},
+      ],
+      correct:"c",
+      explanation:"Load balancing distributes incoming traffic across multiple independent servers — each server operates independently, and the load balancer routes requests based on availability and capacity. If one server fails, the load balancer routes around it. Clustering groups servers into a single logical system that shares state and resources — the cluster appears as one unit, and nodes can take over each other's workload automatically. Load balancing optimizes distribution; clustering provides shared-state failover. Both contribute to high availability but through different mechanisms.",
+      exam_tip:"Load balancing = traffic distribution across independent servers, no shared state. Clustering = servers grouped as one logical unit, shared state, automatic node failover. The key distinction: shared state. Load balancers don't share state between backends; clusters do.",
+    },
+    {
+      id:"m2",
+      q:"A business continuity planner is evaluating three recovery site options. The first maintains fully operational infrastructure with current data replication — it can take over within minutes of a failure declaration. The second maintains hardware and connectivity but requires data restoration and configuration before going live — recovery takes hours to a day. The third has only physical space and power — all hardware must be procured and installed, data restored, and systems configured before operations resume — recovery takes days to weeks. Which option CORRECTLY maps these descriptions to their site classifications and key characteristic?",
+      options:[
+        {id:"a", label:"First: Cold site — fastest recovery. Second: Warm site — moderate readiness. Third: Hot site — slowest recovery"},
+        {id:"b", label:"First: Hot site — fully operational, minutes to failover, highest cost and maintenance. Second: Warm site — hardware ready, hours to recover, moderate cost. Third: Cold site — space and power only, days to weeks, lowest cost"},
+        {id:"c", label:"First: Warm site — partially operational. Second: Hot site — requires minimal configuration. Third: Cold site — empty facility"},
+        {id:"d", label:"All three are hot sites — any site capable of recovery is classified as hot"},
+      ],
+      correct:"b",
+      explanation:"Hot site: fully operational mirror of the primary site with live data replication — recovery time objective (RTO) measured in minutes. Highest cost due to duplicate infrastructure and ongoing maintenance. Warm site: infrastructure installed and ready but data must be restored and configuration completed — RTO measured in hours to a day. Moderate cost. Cold site: empty facility with power and connectivity only — all hardware must be sourced, installed, configured, and data restored — RTO measured in days to weeks. Lowest cost. The tradeoff is cost versus recovery speed: hot sites cost the most but recover fastest; cold sites cost least but recover slowest.",
+      exam_tip:"Hot = live mirror, minutes RTO, highest cost. Warm = hardware ready, hours RTO, moderate cost. Cold = space and power only, days/weeks RTO, lowest cost. RTO and cost move inversely: faster recovery = higher cost.",
+    },
+    {
+      id:"m3",
+      q:"An organization operating critical financial services wants to eliminate both geographic single points of failure and vendor-specific platform risk. Their architect proposes deploying workloads across data centers in three different cities and using two separate cloud providers simultaneously. Which resilience strategies do these two design decisions represent and what risk does each address?",
+      options:[
+        {id:"a", label:"Geographic dispersion addresses the risk that a single location failure — natural disaster, power grid outage, regional network failure — takes down all operations. Multi-cloud addresses vendor risk — a cloud provider outage, pricing change, or service discontinuation affects only a portion of workloads, not all of them"},
+        {id:"b", label:"Both are multi-cloud strategies — any use of cloud infrastructure across locations is multi-cloud"},
+        {id:"c", label:"Geographic dispersion is a backup strategy — distributing backups across cities. Multi-cloud is a cost optimization strategy — using multiple providers reduces licensing costs"},
+        {id:"d", label:"Both are equivalent — geographic dispersion and multi-cloud protect against the same risks and are interchangeable strategies"},
+      ],
+      correct:"a",
+      explanation:"Geographic dispersion places infrastructure across multiple physical locations — protecting against location-specific failures including natural disasters, regional power outages, and network disruptions that affect a single area. Multi-cloud distributes workloads across multiple cloud providers — protecting against vendor-specific failures including provider outages, regional cloud failures, service discontinuations, and pricing dependencies. They address different failure domains: geographic dispersion eliminates location risk; multi-cloud eliminates vendor risk. A complete resilience strategy often combines both.",
+      exam_tip:"Geographic dispersion = protection against location failure (disaster, power, network). Multi-cloud = protection against vendor failure (outage, service change, dependency). Different failure domains, both contribute to resilience. Neither alone eliminates both risks.",
+    },
+    {
+      id:"m4",
+      q:"A security architect recommends that the organization deploy its critical application across three different operating system platforms and two different hypervisor vendors rather than standardizing on a single platform stack. A colleague argues this increases operational complexity. What is the PRIMARY security justification for platform diversity in resilience architecture?",
+      options:[
+        {id:"a", label:"Platform diversity is purely a cost strategy — using multiple vendors reduces licensing fees through competitive negotiation"},
+        {id:"b", label:"Platform diversity improves performance — different platforms are optimized for different workloads, improving overall throughput"},
+        {id:"c", label:"Platform diversity reduces systemic risk — a vulnerability, exploit, or failure specific to one platform does not affect systems running on different platforms, preventing a single weakness from cascading across the entire infrastructure"},
+        {id:"d", label:"Platform diversity is required by compliance frameworks — regulations mandate the use of multiple operating systems"},
+      ],
+      correct:"c",
+      explanation:"Platform diversity is a resilience strategy that reduces systemic risk — the risk that a single vulnerability, misconfiguration, or failure propagates across all systems simultaneously. If all systems run the same OS and a critical zero-day is discovered, all systems are vulnerable at once. Platform diversity means a platform-specific exploit or failure affects only a subset of infrastructure. The cost is operational complexity; the security benefit is blast radius limitation and resilience against monoculture vulnerabilities.",
+      exam_tip:"Platform diversity = reduces systemic/monoculture risk. One platform vulnerability cannot affect all systems simultaneously. The tradeoff is operational complexity vs resilience. Multi-cloud is vendor diversity; platform diversity is technology stack diversity.",
+    },
+    {
+      id:"m5",
+      q:"A data protection team is designing a backup strategy for a financial services organization. Requirements include: backups must survive a regional disaster, backup data must be unreadable if storage media is stolen, recovery point objectives require daily backups with weekly full backups, and a copy of all backups must remain immediately accessible on-site for rapid recovery. Which combination of backup strategy elements BEST meets all four requirements?",
+      options:[
+        {id:"a", label:"Onsite-only backups with daily frequency — local storage provides fastest recovery and daily backups meet the RPO requirement"},
+        {id:"b", label:"Offsite backups only with monthly frequency — offsite storage satisfies the regional disaster requirement"},
+        {id:"c", label:"Onsite and offsite backups with daily/weekly frequency and encryption — onsite copy enables rapid recovery, offsite copy survives regional disaster, frequency meets RPO, and encryption protects media from theft"},
+        {id:"d", label:"Onsite backups with encryption only — encryption eliminates the need for offsite storage by making stolen media unreadable"},
+      ],
+      correct:"c",
+      explanation:"Each requirement maps to a specific backup element. Surviving a regional disaster requires offsite backups — onsite-only backups are destroyed with the primary site. Protecting against media theft requires encryption — encrypted backups are unreadable without the key even if physically stolen. Meeting daily RPO with weekly full backups requires appropriate frequency — daily incrementals capture changes, weekly fulls provide restore baselines. Rapid on-site recovery requires an onsite copy — offsite retrieval introduces delay. No single element satisfies all requirements; the combination addresses all four.",
+      exam_tip:"Offsite = survives regional disaster. Encryption = protects stolen media. Frequency = determines RPO. Onsite copy = enables rapid recovery. A complete backup strategy addresses all four dimensions. Encryption does not replace offsite — it protects the backup regardless of location.",
+    },
+    {
+      id:"m6",
+      q:"A database administrator needs to choose between three data recovery technologies. The first captures the complete state of a system at a specific point in time and can restore the system to exactly that state. The second continuously copies data changes to a secondary system in near-real time, maintaining a synchronized copy that can take over immediately. The third records every individual transaction and change as it occurs, enabling recovery to any specific point by replaying the transaction log. Which option CORRECTLY matches each description to its recovery technology?",
+      options:[
+        {id:"a", label:"First: Snapshots — point-in-time capture of system state. Second: Replication — continuous near-real-time copy to secondary system. Third: Journaling — transaction log enabling point-in-time recovery by replaying changes"},
+        {id:"b", label:"First: Replication. Second: Journaling. Third: Snapshots"},
+        {id:"c", label:"First: Journaling. Second: Snapshots. Third: Replication"},
+        {id:"d", label:"All three are equivalent backup methods — the differences are only in storage format"},
+      ],
+      correct:"a",
+      explanation:"Snapshots capture the complete state of a system at a moment in time — they are point-in-time copies. Recovery restores to that exact state but loses all changes since the snapshot. Replication continuously copies data to a secondary system — the secondary is always near-current and can take over with minimal data loss. It does not provide point-in-time recovery to arbitrary past states. Journaling records every transaction as it occurs — the journal can be replayed from any point to reconstruct the database to any specific moment. It provides the most granular recovery capability but requires more storage and processing. Each serves a different recovery objective.",
+      exam_tip:"Snapshots = point-in-time state capture, restore to that exact moment. Replication = continuous copy to secondary, near-zero data loss failover. Journaling = transaction log, replay to any specific point. Match the technology to the recovery objective: point-in-time = snapshot, near-zero RPO failover = replication, granular transaction recovery = journaling.",
+    },
+    {
+      id:"m7",
+      q:"A business continuity team is reviewing three types of resilience testing. The first gathers key personnel in a meeting room to walk through a disaster scenario verbally — no systems are actually activated or moved. The second runs a full workload on the recovery systems simultaneously alongside the production systems to verify recovery capability under real load without cutting over. The third actually transfers production traffic to recovery systems to test the complete failover path end-to-end. Which option CORRECTLY identifies all three testing types?",
+      options:[
+        {id:"a", label:"First: Simulation. Second: Tabletop exercise. Third: Failover test"},
+        {id:"b", label:"First: Tabletop exercise — discussion-based, no system activation. Second: Parallel processing — production and recovery run simultaneously, no cutover. Third: Failover test — actual traffic transfer to recovery systems"},
+        {id:"c", label:"First: Failover test. Second: Tabletop exercise. Third: Parallel processing"},
+        {id:"d", label:"All three are equivalent — any test that evaluates recovery readiness is a tabletop exercise"},
+      ],
+      correct:"b",
+      explanation:"Tabletop exercise: discussion-based walkthrough with key personnel — no systems are activated, no traffic is moved. Tests procedural knowledge and decision-making without operational risk. Parallel processing: runs production and recovery environments simultaneously — verifies that recovery systems can handle real workloads without committing to a cutover. Higher confidence than tabletop, lower risk than full failover. Failover test: actually transfers production traffic to recovery systems — the most realistic test and highest risk. Validates the complete recovery path including DNS changes, routing, and user impact. Each testing type offers a different risk/realism tradeoff.",
+      exam_tip:"Tabletop = discussion only, no systems. Parallel processing = both environments run simultaneously, no cutover. Failover test = actual traffic transfer. Risk and realism increase together: tabletop (lowest) → parallel (medium) → failover (highest). Simulation typically involves injecting scenarios into a live-like environment — distinct from tabletop which is purely verbal.",
+    },
+    {
+      id:"m8",
+      q:"A data center facilities team is planning power resilience. During a review, the team identifies that the facility has UPS systems protecting all server racks but no backup generators. A consultant flags this as a significant gap. Which option CORRECTLY explains the distinct roles of UPS and generators and why having UPS alone is insufficient for sustained resilience?",
+      options:[
+        {id:"a", label:"UPS and generators serve identical functions — having one eliminates the need for the other"},
+        {id:"b", label:"Generators provide short-term bridge power measured in minutes — UPS provides sustained power for hours or days during extended outages"},
+        {id:"c", label:"UPS is only required for networking equipment — servers can tolerate brief power interruptions without UPS protection"},
+        {id:"d", label:"UPS provides immediate, instantaneous power during the transition from grid power to an alternative source — protecting against brief outages and power quality issues. Generators provide sustained power for extended outages measured in hours or days. UPS alone is insufficient because it has limited battery capacity — without a generator, a prolonged grid failure will exhaust UPS batteries and cause a full outage"},
+      ],
+      correct:"d",
+      explanation:"UPS and generators serve complementary but distinct roles. UPS provides instantaneous power switchover — when grid power fails, UPS supplies power within milliseconds, preventing the brief gap that would cause systems to shut down. UPS batteries typically sustain power for minutes to tens of minutes. Generators take time to start and reach stable output — during that startup window, UPS carries the load. Generators then sustain power for hours or days as long as fuel is available. Without generators, UPS batteries will exhaust during any extended outage and the facility loses power. The complete solution is UPS for instantaneous coverage plus generators for sustained coverage.",
+      exam_tip:"UPS = instantaneous switchover, short duration (minutes), protects against brief outages and generator startup gap. Generator = sustained power (hours/days), requires startup time, depends on fuel. Neither alone is sufficient for complete power resilience. UPS bridges the gap while the generator starts; generator sustains power after UPS capacity would be exhausted.",
+    },
+  ],
+};
+
+
+const D3L5={
+  pbq:null,
+  mcqs:[
+    {
+          id:"q1",
+          q:"A company migrates its e-commerce application to a cloud IaaS provider. The provider manages the physical hardware, networking, hypervisors, and storage infrastructure. The company manages the operating system, application code, and customer data. A breach occurs — attackers exploit an unpatched OS vulnerability and exfiltrate customer payment records. Which party bears primary responsibility for the breach and why?",
+          options:[
+            {id:"a", label:"The cloud provider — they are responsible for all security in cloud environments"},
+            {id:"b", label:"The company — under IaaS shared responsibility, the provider secures infrastructure up to the hypervisor. The customer owns OS, application, and data security. The unpatched OS is the customer's responsibility"},
+            {id:"c", label:"Neither party — cloud breaches are force majeure events with no clear responsible party"},
+            {id:"d", label:"The cloud provider — physical infrastructure ownership means responsibility for all layers above it"},
+          ],
+          correct:"b",
+          explanation:"IaaS shared responsibility divides security at the hypervisor boundary. The provider secures physical hardware, networking, and virtualization. The customer is responsible for everything above: OS patching, application security, identity management, and data protection. An unpatched OS vulnerability is squarely the customer's responsibility. This boundary is the most tested shared responsibility concept on SY0-701 — misunderstanding it is one of the most common and consequential cloud security failures.",
+          exam_tip:"IaaS: provider owns physical → hypervisor. Customer owns OS → data. Unpatched OS = customer responsibility. PaaS adds OS to provider scope. SaaS adds application. The higher the service model, the less the customer owns.",
+        },
+    {
+          id:"q5",
+          q:"A network architect is placing six devices in a new infrastructure deployment. A WAF protecting public web servers, an NGFW at the network perimeter, a jump server for administrative access, an IDS sensor monitoring internal traffic, a load balancer distributing customer requests, and a proxy server handling outbound employee traffic. Which placement is CORRECT for the jump server?",
+          options:[
+            {id:"a", label:"DMZ — the jump server handles external-facing administrative traffic"},
+            {id:"b", label:"Internal zone — administrators are internal users so the jump server belongs with internal systems"},
+            {id:"c", label:"Internet zone — administrative access must be reachable from outside the network"},
+            {id:"d", label:"Management zone — the jump server belongs in a dedicated, isolated management segment separate from user traffic, limiting blast radius if an employee workstation is compromised"},
+          ],
+          correct:"d",
+          explanation:"The management zone is a dedicated, highly restricted network segment used exclusively for administrative access to infrastructure. Placing the jump server in the internal zone exposes it to general employee traffic and lateral movement — a compromised workstation could pivot to the jump server and from there to all managed infrastructure. The management zone isolates the administrative access path, containing the blast radius. Students most commonly place the jump server in the internal zone — the management zone is the correct answer.",
+          exam_tip:"Jump server = management zone, not internal. Management zone = dedicated segment for infrastructure administration, isolated from user traffic. Internal zone = employee workstations and general systems. The isolation is the point — it limits lateral movement from compromised endpoints.",
+        },
+    {
+          id:"q13",
+          q:"A business continuity planner presents three recovery site options to leadership. Option 1 costs the most and can absorb production traffic within minutes of a failure declaration. Option 2 has hardware installed but requires data restoration and configuration — recovery takes several hours. Option 3 is an empty facility with power and connectivity — full recovery requires weeks. Leadership asks which option provides the best RTO. Which answer is CORRECT?",
+          options:[
+            {id:"a", label:"Option 3 — cold sites have the fastest recovery because they have no legacy configuration to migrate"},
+            {id:"b", label:"Option 2 — warm sites balance cost and recovery time better than hot sites"},
+            {id:"c", label:"Option 1 — the hot site provides the best RTO measured in minutes. Option 2 is a warm site with RTO of hours. Option 3 is a cold site with RTO of days to weeks. RTO and cost are directly correlated — faster recovery requires higher investment"},
+            {id:"d", label:"All three options have equivalent RTO — recovery time depends on staff skill, not site type"},
+          ],
+          correct:"c",
+          explanation:"Recovery Time Objective (RTO) measures how quickly operations can resume after a failure. Hot site: live mirror with real-time data replication, RTO in minutes, highest cost. Warm site: hardware ready but data must be restored and configured, RTO in hours, moderate cost. Cold site: empty facility, all hardware must be procured and installed, RTO in days to weeks, lowest cost. The relationship is direct: better RTO requires more infrastructure investment. The choice depends on the organization's tolerance for downtime versus cost.",
+          exam_tip:"Hot = minutes RTO, highest cost. Warm = hours RTO, moderate cost. Cold = days/weeks RTO, lowest cost. RTO and cost move together — faster recovery costs more. Best RTO = hot site always.",
+        },
+    {
+          id:"q2",
+          q:"A security engineer explains the isolation difference between two deployment technologies to a junior team member. The first runs each workload in a separate environment with its own complete operating system, managed by a hypervisor that prevents workloads from accessing each other. The second runs multiple workloads sharing the host operating system kernel, isolated only at the process level. A kernel exploit could allow a workload to escape its isolation and affect other workloads or the host. Which option CORRECTLY identifies both technologies?",
+          options:[
+            {id:"a", label:"Both are containerization — hypervisor-managed environments are a type of container"},
+            {id:"b", label:"Both are virtualization — any shared hardware environment uses virtualization"},
+            {id:"c", label:"First: Virtualization — each VM has its own OS kernel, hypervisor is the isolation boundary. Second: Containerization — workloads share the host OS kernel, process-level isolation, kernel exploit risk"},
+            {id:"d", label:"First: Containerization — dedicated resources indicate containers. Second: Virtualization — shared kernel is a virtualization characteristic"},
+          ],
+          correct:"c",
+          explanation:"Virtualization gives each workload a full OS kernel — the hypervisor is the isolation boundary. Breaking out requires exploiting the hypervisor, which is a hardened, minimal attack surface. Containerization shares the host OS kernel — isolation is at the process level only. A kernel vulnerability can allow container escape affecting the host and sibling containers. Containers are more efficient but have a weaker isolation boundary. The shared kernel is the defining security tradeoff of containerization.",
+          exam_tip:"VM = own OS kernel, hypervisor isolation boundary. Container = shared host kernel, process isolation only. Kernel exploit = container escape risk. Stronger isolation = VMs. Better efficiency = containers. The shared kernel is the exam signal.",
+        },
+    {
+          id:"q10",
+          q:"A security engineer must apply appropriate protections to data in three states. Customer records stored in an encrypted database on disk. Payment data being transmitted between a POS terminal and a payment processor. A user's session token actively held in application memory during an authenticated session. Which data state does each scenario represent?",
+          options:[
+            {id:"a", label:"All three are data at rest — data is at rest whenever it is not being actively transmitted over a network"},
+            {id:"b", label:"First: Data at rest — stored on disk, not actively moving. Second: Data in transit — actively moving between two endpoints over a network. Third: Data in use — actively held in memory during active processing"},
+            {id:"c", label:"First: Data in use — disk read/write operations make it active. Second: Data at rest — network packets are stationary during transmission. Third: Data in transit — memory data moves between processes"},
+            {id:"d", label:"First: Data in transit — stored data moves through storage systems. Second: Data in use — payment processing is active computation. Third: Data at rest — memory contents are stationary"},
+          ],
+          correct:"b",
+          explanation:"Data at rest: stored on persistent media and not actively moving or being processed — encrypted database on disk. Primary control: encryption at rest. Data in transit: actively moving between endpoints over a network — payment data crossing a network connection. Primary controls: TLS, IPSec. Data in use: loaded into memory and actively being processed by a running application — session token held in active memory. Data in use is the most difficult state to protect because data must be decrypted to be usable. Controls include memory encryption and trusted execution environments.",
+          exam_tip:"At rest = on disk, not moving. In transit = moving over network between endpoints. In use = in memory, actively processed. Each state has distinct primary controls: at rest = disk encryption; in transit = TLS/IPSec; in use = memory protection. Data in use is the hardest to protect.",
+        },
+    {
+          id:"q6",
+          q:"A SOC manager is reviewing two network monitoring deployments. The first device receives traffic via a SPAN port, analyzes it for threats, and sends alerts — it never touches live traffic. The second device sits physically between two network segments, analyzes all traffic in real time, and drops packets matching attack signatures before they reach their destination. A junior analyst asks why the first device didn't block an attack it detected. What is the CORRECT explanation?",
+          options:[
+            {id:"a", label:"The first device malfunctioned — all intrusion detection systems should block threats automatically"},
+            {id:"b", label:"The first device is an IDS — it operates in tap/monitor mode and is designed to detect and alert only. Blocking requires being inline in the traffic path, which is the IPS role. An IDS cannot block traffic it is not inline to intercept"},
+            {id:"c", label:"The first device is an IPS configured incorrectly — IPS systems can operate in tap mode and still block traffic"},
+            {id:"d", label:"Both devices are IDS — intrusion detection systems can block traffic when properly configured"},
+          ],
+          correct:"b",
+          explanation:"An IDS operates passively — it receives a copy of traffic via a tap or SPAN port and analyzes it without being in the traffic path. Detection and alerting are its only capabilities. Blocking requires interception, which requires being inline. An IPS is deployed inline and can drop malicious packets before they reach their destination. The IDS is working correctly — it detected and alerted as designed. Expecting blocking from a tap/monitor device reflects a misunderstanding of the architectural distinction between detection and prevention.",
+          exam_tip:"IDS = tap/monitor, passive, detect and alert only, cannot block. IPS = inline, active, detect and block. Mode determines capability. IDS failure to block is not a malfunction — it is by design. To block, you must be inline.",
+        },
+    {
+          id:"q14",
+          q:"A database administrator needs to choose recovery technologies for three different requirements. First: restore the database to exactly how it looked at 2:00 AM before a ransomware attack encrypted files at 3:00 AM. Second: maintain a secondary database that can take over within seconds with near-zero data loss if the primary fails. Third: recover the database to the exact state it was in after a specific transaction that completed at 2:47 AM — not the full 2:00 AM state and not the current state. Which technologies address each requirement?",
+          options:[
+            {id:"a", label:"First: Replication. Second: Journaling. Third: Snapshots"},
+            {id:"b", label:"First: Snapshots — point-in-time capture enables restore to the 2:00 AM state. Second: Replication — continuous copy to secondary enables near-zero RPO failover. Third: Journaling — transaction log replay enables recovery to any specific transaction point"},
+            {id:"c", label:"First: Journaling. Second: Snapshots. Third: Replication"},
+            {id:"d", label:"All three requirements can be met by replication alone"},
+          ],
+          correct:"b",
+          explanation:"Snapshots capture the complete system state at a moment in time — restoring to 2:00 AM requires a snapshot taken at that time. Replication continuously copies changes to a secondary system — it maintains a near-current synchronized copy for rapid failover with minimal data loss. Journaling records every individual transaction as it occurs — the transaction log can be replayed to reconstruct the database at any specific point, including after a particular transaction. Each technology serves a distinct recovery use case: snapshots for point-in-time restore, replication for failover, journaling for granular transaction-level recovery.",
+          exam_tip:"Snapshots = point-in-time restore to a specific captured state. Replication = continuous copy, near-zero RPO failover. Journaling = transaction log, replay to any transaction point. If the scenario says 'specific transaction' — journaling. 'Take over with minimal data loss' — replication. 'Restore to a specific time' — snapshot.",
+        },
+    {
+          id:"q3",
+          q:"A water treatment facility operates industrial control systems that manage chemical dosing in real time. The firmware was certified by regulators at installation five years ago. The vendor no longer supports the firmware version. A new critical vulnerability has been discovered affecting the firmware. The security team determines that patching would require regulatory re-certification and months of manual operation. What is the PRIMARY security implication of this scenario?",
+          options:[
+            {id:"a", label:"The vendor is liable for the vulnerability because they no longer support the firmware"},
+            {id:"b", label:"The facility should immediately apply the patch — regulatory re-certification is less important than security"},
+            {id:"c", label:"Inability to patch — ICS/SCADA environments accumulate permanent vulnerability exposure because certification requirements, operational continuity, and vendor abandonment make patching infeasible. Compensating controls like network isolation and air-gapping are the primary mitigations"},
+            {id:"d", label:"The vulnerability is not a risk because ICS systems are not connected to the internet"},
+          ],
+          correct:"c",
+          explanation:"Inability to patch is the defining security implication of ICS/SCADA environments. The combination of regulatory certification requirements (patching voids certification), operational continuity constraints (downtime disrupts physical processes), and vendor abandonment creates a situation where vulnerabilities accumulate permanently. This is not a failure of security policy — it is a structural characteristic of critical infrastructure control systems. Network isolation, air-gapping, and compensating controls are the standard mitigations.",
+          exam_tip:"ICS/SCADA = inability to patch. Three reasons: regulatory certification, operational continuity, vendor abandonment. Mitigations: air-gap, network isolation, monitoring. This is the highest-frequency ICS/SCADA concept on SY0-701.",
+        },
+    {
+          id:"q11",
+          q:"A developer is choosing between two cryptographic operations for two storage requirements. Passwords that must never be recoverable — only verifiable at login. Customer addresses that authorized support agents must be able to retrieve and display in full. Which option assigns the CORRECT operation to each requirement and explains the key distinction?",
+          options:[
+            {id:"a", label:"Encryption for passwords — stronger protection. Hashing for addresses — one-way transformation protects PII"},
+            {id:"b", label:"Hashing for both — hashing is always more secure than encryption for stored data"},
+            {id:"c", label:"Encryption for both — only encryption provides adequate protection for sensitive stored data"},
+            {id:"d", label:"Hashing for passwords — one-way, irreversible, verified by re-hashing the input. Encryption for addresses — reversible with authorized key, required when data must be fully recovered by authorized parties"},
+          ],
+          correct:"d",
+          explanation:"Hashing produces a one-way, fixed-length digest that cannot be reversed. Passwords are hashed so that even a database compromise cannot reveal original passwords — login verification works by hashing the submitted input and comparing to the stored hash. Encryption is reversible with the correct key — appropriate when authorized parties must recover the original value. Customer addresses displayed by support agents require decryption. Using hashing for the address would make it permanently unrecoverable. The distinction is recovery requirement: if the original value must ever be retrieved, encrypt. If it only needs to be verified, hash.",
+          exam_tip:"Hash = one-way, irreversible, verification only. Encrypt = reversible with key, recovery possible. Passwords = always hash. Data that must be displayed to authorized users = encrypt. 'Must never be recoverable' = hash. 'Must be retrieved' = encrypt.",
+        },
+    {
+          id:"q7",
+          q:"A security team must select firewalls for three scenarios. First: protect a public REST API from SQL injection and OWASP Top 10 attacks. Second: a small branch office needs firewall, IPS, antivirus, and VPN in a single appliance. Third: enforce a policy blocking a file-sharing application even when it runs on port 443 to evade detection. Which combination is CORRECT?",
+          options:[
+            {id:"a", label:"NGFW for all three — next-generation firewalls handle all advanced security requirements"},
+            {id:"b", label:"First: UTM. Second: WAF. Third: NGFW"},
+            {id:"c", label:"First: WAF — Layer 7 HTTP inspection for web application attacks. Second: UTM — single appliance consolidating multiple security functions for branch simplicity. Third: NGFW — application-aware, blocks by application identity regardless of port"},
+            {id:"d", label:"First: NGFW. Second: WAF. Third: UTM"},
+          ],
+          correct:"c",
+          explanation:"WAF: purpose-built for HTTP/HTTPS web application traffic, inspects for OWASP Top 10 including SQLi and XSS — the only correct choice when the requirement is specifically web application attack prevention. UTM: consolidates firewall, IPS, antivirus, URL filtering, and VPN into one appliance — ideal for branch offices where simplicity matters over best-of-breed. NGFW: adds application identity awareness — can identify and block applications by signature regardless of port, enabling policy enforcement that port-based firewalls cannot achieve.",
+          exam_tip:"WAF = web app specific, HTTP/HTTPS, OWASP Top 10. UTM = all-in-one, branch/SMB. NGFW = application identity, blocks apps regardless of port. The port-evasion scenario is always NGFW — only application-aware firewalls can block by identity rather than port number.",
+        },
+    {
+          id:"q15",
+          q:"A data center experiences a complete grid power failure. UPS systems activate immediately and sustain critical systems. Four minutes later, diesel generators reach stable output and take over the load. The following morning, a consultant reviews the event and notes that the facility would have been unprotected if the outage had lasted longer than the UPS battery capacity. What does this scenario illustrate about the complementary roles of UPS and generators?",
+          options:[
+            {id:"a", label:"UPS systems are unnecessary when generators are present — generators provide faster response than UPS"},
+            {id:"b", label:"Generators are unnecessary when UPS systems are present — UPS provides sufficient power for extended outages"},
+            {id:"c", label:"UPS and generators are interchangeable — either can fulfill the complete power resilience requirement alone"},
+            {id:"d", label:"UPS provides instantaneous bridge power during the generator startup gap — measured in minutes. Generators provide sustained power for extended outages — measured in hours or days. Neither alone is sufficient: UPS batteries exhaust without a generator; generators cannot respond instantly without UPS bridging the startup window"},
+          ],
+          correct:"d",
+          explanation:"UPS activates within milliseconds of grid failure — preventing the brief power interruption that would cause systems to shut down. UPS battery capacity is limited, typically sustaining load for minutes to tens of minutes. Generators require startup time — they cannot deliver stable power instantly. During that startup window, UPS carries the load. Once generators reach stable output, they sustain power as long as fuel is available. The complete solution requires both: UPS for instantaneous coverage, generators for sustained coverage. Either alone leaves a gap — UPS batteries exhaust in extended outages; generators have a startup delay that UPS must bridge.",
+          exam_tip:"UPS = instantaneous, millisecond response, minutes capacity, bridges generator startup. Generator = startup delay, hours/days capacity once running. Together they eliminate the gap. Scenario describing 'generator startup window' or 'battery exhaustion' tests this complementary relationship.",
+        },
+    {
+          id:"q4",
+          q:"An enterprise deploys a software-defined networking architecture where a central controller manages all traffic routing and security policy decisions across the network. A penetration tester flags the controller as the highest-priority target in their report, noting that its compromise would have network-wide impact. Which security implication does this BEST represent?",
+          options:[
+            {id:"a", label:"Centralized control plane risk — the SDN controller is a single point of failure and high-value target. Compromising it gives an attacker the ability to reroute traffic, disable segmentation, and modify security policies across the entire network simultaneously"},
+            {id:"b", label:"SDN increases attack surface because software controllers have more vulnerabilities than hardware routers"},
+            {id:"c", label:"SDN eliminates security risk by centralizing policy — a single controller is easier to secure than distributed devices"},
+            {id:"d", label:"SDN has no unique security implications compared to traditional networking architectures"},
+          ],
+          correct:"a",
+          explanation:"SDN centralizes the control plane — all routing and policy decisions flow through one controller. This is the source of both SDN's power and its primary risk. A compromised controller gives an attacker god-mode over network policy: traffic can be rerouted, segmentation disabled, and security rules modified across all devices simultaneously. The centralization that makes SDN operationally elegant makes it a critical attack target. This is the exam-canonical SDN security implication.",
+          exam_tip:"SDN = separated control plane and data plane. Central controller = single point of failure + high-value target. Compromise = network-wide policy control. The power and the risk are the same thing: centralization.",
+        },
+    {
+          id:"q12",
+          q:"A payment platform stores credit card numbers for recurring billing and displays partial card numbers to customer service agents for identity verification. A security architect specifies two different protection methods for these two contexts. Which combination is CORRECT and why?",
+          options:[
+            {id:"a", label:"Encryption for billing storage, hashing for display — hashed values can be compared for verification"},
+            {id:"b", label:"Masking for both — masking protects card numbers in all contexts"},
+            {id:"c", label:"Tokenization for billing storage — replaces the PAN with a functional token usable for real transactions without storing the actual card number, satisfying PCI-DSS. Masking for display — shows only the last four digits for identity verification without revealing the full number"},
+            {id:"d", label:"Hashing for billing storage, tokenization for display — hashed values enable transaction processing"},
+          ],
+          correct:"c",
+          explanation:"Tokenization replaces a card number with a randomly generated token that maps back to the real value only in a secure token vault. The token can be used for recurring billing without storing the actual PAN — this is the PCI-DSS compliant approach. Masking replaces characters with neutral substitutes for display — showing 4111-****-****-1234 enables identity verification without exposing the full number. Key distinction: tokenization enables functional use of a protected value for transactions; masking is a display-only control. Hashing cannot enable transactions because the hash bears no functional relationship to the card number.",
+          exam_tip:"Tokenization = functional replacement, enables transactions, PCI-DSS, token vault. Masking = display control, partial value exposure, identity verification. Tokenization for storage and processing. Masking for display. Hashing cannot support transaction processing.",
+        },
+    {
+          id:"q8",
+          q:"A hospital configures failure modes for two devices. A firewall protecting patient records is set to fail-closed. A network switch in the ICU providing connectivity to patient monitoring systems is set to fail-open. A compliance auditor questions why the switch isn't fail-closed. What is the CORRECT justification for the fail-open configuration on the ICU switch?",
+          options:[
+            {id:"a", label:"Fail-open is always correct for network infrastructure — blocking traffic on failure causes more harm than passing it"},
+            {id:"b", label:"The switch should be fail-closed — the auditor is correct, all devices should fail in a secure state"},
+            {id:"c", label:"Fail-open is correct for the ICU switch because blocking life-critical patient monitoring traffic during a device failure poses greater harm than the security risk of uncontrolled traffic flow. Availability takes priority over isolation for life-safety systems"},
+            {id:"d", label:"Fail-open is a compliance requirement for healthcare network infrastructure"},
+          ],
+          correct:"c",
+          explanation:"Fail mode selection is a risk tradeoff between security and availability. Fail-closed blocks all traffic on failure — appropriate when the cost of a security gap (uncontrolled access to patient records) outweighs the cost of an outage. Fail-open passes all traffic on failure — appropriate when blocking traffic causes greater harm than the security risk. For life-critical ICU monitoring, a network outage could directly harm patients — the availability risk outweighs the security risk. Context determines the correct fail mode, not a universal rule.",
+          exam_tip:"Fail-closed = security over availability, block on failure. Fail-open = availability over security, pass on failure. Security enforcement devices = fail-closed. Life-critical availability systems = fail-open. Always evaluate the harm of blocking vs passing — there is no universal answer.",
+        },
+    {
+          id:"q9",
+          q:"An organization with a distributed workforce needs a solution that enforces zero trust access, inspects cloud application traffic, filters web content, and provides firewall capabilities — all delivered as a cloud service without routing traffic through a central data center. Which architecture BEST meets this requirement?",
+          options:[
+            {id:"a", label:"SASE — converges ZTNA, CASB, SWG, and FWaaS into a cloud-delivered service enforcing security at the edge, close to users and cloud resources, without central data center backhauling"},
+            {id:"b", label:"Traditional site-to-site VPN with a central concentrator at headquarters"},
+            {id:"c", label:"SD-WAN with MPLS circuits connecting all remote workers to headquarters"},
+            {id:"d", label:"IPSec tunnels from each remote worker to a central firewall cluster"},
+          ],
+          correct:"a",
+          explanation:"SASE (Secure Access Service Edge) converges multiple security functions — Zero Trust Network Access, Cloud Access Security Broker, Secure Web Gateway, and Firewall-as-a-Service — into a single cloud-delivered architecture. Security is enforced at cloud points of presence close to users and cloud applications, eliminating the need to backhaul traffic to a central data center. Traditional VPN and IPSec force all traffic through a central point, creating latency and bottlenecks for cloud-native workforces. SASE is designed specifically for distributed users accessing cloud resources directly.",
+          exam_tip:"SASE = cloud-delivered security convergence. Components: ZTNA + CASB + SWG + FWaaS. No central backhaul. Enforced at the edge. Designed for distributed workforces and direct cloud access. When a scenario mentions cloud-delivered, edge-enforced, zero trust — the answer is SASE.",
+        }
+  ],
+};
+
+const LEVEL_DATA={d1l1:D1L1,d1l2:D1L2,d1l3:D1L3,d1l4:D1L4,d1l5:D1L5,d2l1:D2L1,d2l2:D2L2,d2l3:D2L3,d2l4:D2L4,d2l5:D2L5,d2l6:D2L6,d3l1:D3L1,d3l2:D3L2,d3l3:D3L3,d3l4:D3L4,d3l5:D3L5};
 
 // ── PROGRESS ─────────────────────────────────────────────────────────────────
 function loadP(){try{return JSON.parse(localStorage.getItem('sp_v2')||'{}')}catch{return{}}}
@@ -1959,13 +2520,13 @@ function migrateXP(){
   ALL_LEVELS.forEach(lv=>{
     const lp=p[lv.id];if(!lp||!lp.completed)return;
     const xpMax=lv.xp;
-    const correct=lp.mastery===100?xpMax:lp.mastery>=70?(xpMax===125?95:xpMax===150?115:75):0;
+    const correct=lp.mastery===100?xpMax:lp.mastery>=70?(xpMax===175?135:xpMax===125?95:xpMax===150?115:75):0;
     if(lp.xp!==correct){lp.xp=correct;dirty=true;}
   });
   if(dirty)saveP(p);
 }
 function unlocked(id){
-  if(id==='d1l1'||id==='d1l2'||id==='d1l3'||id==='d1l4'||id==='d1l5'||id==='d2l1'||id==='d2l2'||id==='d2l3'||id==='d2l4'||id==='d2l5'||id==='d2l6'||id==='d3l1'||id==='d3l2')return true;
+  if(id==='d1l1'||id==='d1l2'||id==='d1l3'||id==='d1l4'||id==='d1l5'||id==='d2l1'||id==='d2l2'||id==='d2l3'||id==='d2l4'||id==='d2l5'||id==='d2l6'||id==='d3l1'||id==='d3l2'||id==='d3l3'||id==='d3l4'||id==='d3l5')return true;
   for(const r of REALMS){
     const i=r.levels.findIndex(l=>l.id===id);
     if(i>0)return getLP(r.levels[i-1].id).completed;
@@ -2003,10 +2564,17 @@ function renderRealm(){
       const lp=p[l.id];const lu=unlocked(l.id);
       return`<div class="pip" style="background:${lp?.completed?`color-mix(in srgb,${c} 18%,transparent)`:'rgba(255,255,255,0.05)'};border-color:${lp?.completed?c:lu?'rgba(255,255,255,0.2)':'rgba(255,255,255,0.07)'};color:${lp?.completed?c:lu?'#94A3B8':'#374151'}">${lp?.completed?'✓ ':lu?'▶ ':'🔒 '}${l.obj}</div>`;
     }).join('');
+    const realmXP=r.levels.reduce((s,l)=>s+l.xp,0);
+    const earnedXP=r.levels.reduce((s,l)=>s+(p[l.id]?.xp||0),0);
     card.innerHTML=`<div class="realm-top" style="background:linear-gradient(135deg,color-mix(in srgb,${c} 7%,transparent),transparent)">
       <div class="realm-card-left"><div class="realm-icon">${r.icon}</div>
       <div><div class="realm-w" style="color:${c}">REALM ${ri+1} · ${r.weight}% OF EXAM${lock?' · 🔒':''}</div><div class="realm-n">${r.name}</div></div></div>
-      <div class="realm-ct"><div class="num" style="color:${c}">${done}/${r.levels.length}</div><div class="lbl">levels</div></div>
+      <div class="realm-ct">
+        <div class="num" style="color:${c}">${done}/${r.levels.length}</div><div class="lbl">levels</div>
+        <div style="font-family:var(--mono);font-size:10px;margin-top:4px;color:${earnedXP>0?c:'var(--muted)'}">
+          ${earnedXP>0?earnedXP+'/'+realmXP:realmXP} XP
+        </div>
+      </div>
     </div>
     <div class="realm-bot">${r.levels.length?pips:'<div style="font-family:var(--mono);font-size:10px;color:var(--muted)">Coming soon</div>'}</div>`;
     list.appendChild(card);
@@ -2060,13 +2628,13 @@ function initRunner(){
   document.getElementById('r-mcq').textContent=isRevLevel?'100 pts':'40 pts';
   document.getElementById('r-mcq').style.color='var(--muted)';
   document.getElementById('r-back').onclick=()=>showLevel(r.id);
-  RS={phase:'pbq',color:c,data:LEVEL_DATA[CL.id],levelId:CL.id,conSels:{},triageSels:{},matchSels:{},scenarioSels:{},socSels:{},match2Sels:{},
+  RS={phase:'pbq',color:c,data:LEVEL_DATA[CL.id],levelId:CL.id,conSels:{},triageSels:{},matchSels:{},scenarioSels:{},socSels:{},match2Sels:{},hotspotSels:{},sequenceOrder:[],
       pbqScore:0,mcqScore:0,missedPBQ:[],missedMCQ:[],
       catSels:{},typeSels:{},pbqDone:false,
       mcqIdx:0,mcqSel:null,mcqDone:false,mcqScores:[]};
   renderPhase();
 }
-function renderPhase(){if(RS.phase==='pbq'){if(!RS.data.pbq){RS.phase='mcq';rMCQ();return;}if(RS.data.pbq.type==='triage')rTriagePBQ();else if(RS.data.pbq.type==='match')rMatchPBQ();else if(RS.data.pbq.type==='match2')rMatch2PBQ();else if(RS.data.pbq.type==='scenario_builder')rScenarioBuilder();else if(RS.data.pbq.type==='soc_triage')rSOCTriage();else if(RS.data.pbq.concepts)rClassifyPBQ();else rPBQ();}else if(RS.phase==='mcq')rMCQ();else rResult();}
+function renderPhase(){if(RS.phase==='pbq'){if(!RS.data.pbq){RS.phase='mcq';rMCQ();return;}if(RS.data.pbq.type==='triage')rTriagePBQ();else if(RS.data.pbq.type==='match')rMatchPBQ();else if(RS.data.pbq.type==='match2')rMatch2PBQ();else if(RS.data.pbq.type==='scenario_builder')rScenarioBuilder();else if(RS.data.pbq.type==='soc_triage')rSOCTriage();else if(RS.data.pbq.type==='hotspot')rHotspotPBQ();else if(RS.data.pbq.type==='sequence')rSequencePBQ();else if(RS.data.pbq.concepts)rClassifyPBQ();else rPBQ();}else if(RS.phase==='mcq')rMCQ();else rResult();}
 
 // ── PHASE BAR ─────────────────────────────────────────────────────────────────
 function phaseBar(phase,c){
@@ -2226,6 +2794,358 @@ function nextMCQ(){
 
 
 
+
+
+
+// ── SEQUENCE PBQ (drag-and-drop ordering) ─────────────────────────────────────
+function initSequence(){
+  if(RS.sequenceOrder.length===0){
+    const steps=[...RS.data.pbq.steps];
+    // Fisher-Yates shuffle
+    for(let i=steps.length-1;i>0;i--){
+      const j=Math.floor(Math.random()*(i+1));
+      [steps[i],steps[j]]=[steps[j],steps[i]];
+    }
+    RS.sequenceOrder=steps.map(s=>s.id);
+  }
+}
+
+function rSequencePBQ(){
+  initSequence();
+  const s=RS;const pbq=s.data.pbq;const c=s.color;
+  const steps=pbq.steps;
+  const PPStep=Math.round(60/steps.length);
+  const sub=s.pbqDone;
+
+  let score=0;
+  if(sub){
+    s.sequenceOrder.forEach((id,idx)=>{
+      const step=steps.find(x=>x.id===id);
+      if(step&&step.order===idx+1)score+=PPStep;
+    });
+  }
+
+  let h=phaseBar('pbq',c);
+  h+=`<div class="meta-pills">
+    <span class="mpill" style="background:color-mix(in srgb,${c} 14%,transparent);color:${c};border-color:color-mix(in srgb,${c} 28%,transparent)">RECOVERY SEQUENCE</span>
+    <span class="mpill" style="background:rgba(220,38,38,0.14);color:var(--d2);border-color:rgba(220,38,38,0.28)">${steps.length} STEPS</span>
+    <span class="mpill" style="background:rgba(217,119,6,0.14);color:var(--amber);border-color:rgba(217,119,6,0.28)">HARD</span>
+  </div>
+  <div class="meta-note">${steps.length} steps · arrange in correct order · ${PPStep} pts per correct position · 60 pts total</div>`;
+
+  h+=`<div class="scenario-box">
+    <div class="sc-hdr"><span class="sc-tag" style="color:${c}">◉ SCENARIO</span><span class="sc-cia">${pbq.cia_tag}</span></div>
+    <div class="sc-txt">${pbq.scenario}</div>
+  </div><div class="instr">${pbq.instruction}</div>`;
+
+  if(!sub){
+    // Interactive drag-and-drop list
+    h+=`<div id="seq-list" style="display:flex;flex-direction:column;gap:8px;margin-bottom:16px">`;
+    s.sequenceOrder.forEach((id,idx)=>{
+      const step=steps.find(x=>x.id===id);
+      h+=`<div class="seq-item" draggable="true" data-id="${id}"
+        ontouchstart="seqTouchStart(event,'${id}')" ontouchmove="seqTouchMove(event)" ontouchend="seqTouchEnd(event)" ondragstart="seqDragStart(event,'${id}')"
+        ondragover="seqDragOver(event)"
+        ondrop="seqDrop(event,'${id}')"
+        ondragend="seqDragEnd(event)"
+        style="display:flex;align-items:flex-start;gap:12px;padding:12px 14px;border-radius:12px;
+        border:2px solid rgba(255,255,255,0.1);background:rgba(255,255,255,0.03);cursor:grab;transition:all .12s">
+        <div style="min-width:28px;height:28px;border-radius:50%;background:color-mix(in srgb,${c} 18%,transparent);
+          border:1.5px solid color-mix(in srgb,${c} 40%,transparent);
+          display:flex;align-items:center;justify-content:center;
+          font-family:var(--mono);font-size:11px;font-weight:700;color:${c}">${idx+1}</div>
+        <div style="flex:1">
+          <div style="font-size:13px;color:#E2E8F0;font-weight:600;line-height:1.4">${step.text}</div>
+        </div>
+        <div style="color:#334155;font-size:16px;cursor:grab">⠿</div>
+      </div>`;
+    });
+    h+=`</div>`;
+    h+=`<button class="sbtn" onclick="submitSequencePBQ()"
+      style="background:linear-gradient(135deg,color-mix(in srgb,${c} 90%,#000),${c});color:#fff">
+      SUBMIT SEQUENCE</button>`;
+  } else {
+    // Post-submit results
+    h+=`<div style="display:flex;flex-direction:column;gap:8px;margin-bottom:16px">`;
+    s.sequenceOrder.forEach((id,idx)=>{
+      const step=steps.find(x=>x.id===id);
+      const correct=step.order===idx+1;
+      h+=`<div style="display:flex;align-items:flex-start;gap:12px;padding:12px 14px;border-radius:12px;
+        border:2px solid ${correct?'rgba(34,197,94,0.45)':'rgba(239,68,68,0.45)'};
+        background:${correct?'rgba(34,197,94,0.04)':'rgba(239,68,68,0.04)'}">
+        <div style="min-width:28px;height:28px;border-radius:50%;
+          background:${correct?'rgba(34,197,94,0.18)':'rgba(239,68,68,0.18)'};
+          border:1.5px solid ${correct?'rgba(34,197,94,0.5)':'rgba(239,68,68,0.5)'};
+          display:flex;align-items:center;justify-content:center;
+          font-family:var(--mono);font-size:11px;font-weight:700;
+          color:${correct?'var(--green)':'var(--red)'}">${idx+1}</div>
+        <div style="flex:1">
+          <div style="font-size:13px;color:#E2E8F0;font-weight:600;line-height:1.4;margin-bottom:4px">
+            ${step.text}
+            ${!correct?`<span style="font-family:var(--mono);font-size:9px;color:var(--red);margin-left:8px">✗ CORRECT POSITION: ${step.order}</span>`:`<span style="font-family:var(--mono);font-size:9px;color:var(--green);margin-left:8px">✓</span>`}
+          </div>
+          <div style="font-size:12px;color:#64748B;line-height:1.6">${step.detail}</div>
+        </div>
+      </div>`;
+    });
+    h+=`</div>`;
+    h+=`<button class="sbtn" onclick="gotoMCQ()" style="background:linear-gradient(135deg,color-mix(in srgb,${c} 90%,#000),${c});color:#fff">CONTINUE TO MCQ (${Math.round(s.pbqScore)}/60) →</button>`;
+  }
+
+  document.getElementById('r-content').innerHTML=h;
+}
+
+let seqDragId=null;
+function seqDragStart(e,id){
+  seqDragId=id;
+  e.target.style.opacity='0.4';
+  e.dataTransfer.effectAllowed='move';
+}
+function seqDragEnd(e){e.target.style.opacity='1';}
+function seqDragOver(e){e.preventDefault();e.dataTransfer.dropEffect='move';}
+function seqDrop(e,targetId){
+  e.preventDefault();
+  if(seqDragId===targetId)return;
+  const order=RS.sequenceOrder;
+  const fromIdx=order.indexOf(seqDragId);
+  const toIdx=order.indexOf(targetId);
+  order.splice(fromIdx,1);
+  order.splice(toIdx,0,seqDragId);
+  seqDragId=null;
+  rSequencePBQ();
+}
+
+// Touch support for mobile drag-and-drop
+let touchDragId=null,touchClone=null;
+function seqTouchStart(e,id){
+  touchDragId=id;
+  const item=e.currentTarget;
+  touchClone=item.cloneNode(true);
+  touchClone.style.cssText=`position:fixed;opacity:0.8;pointer-events:none;width:${item.offsetWidth}px;z-index:9999;transform:scale(1.02);transition:none`;
+  document.body.appendChild(touchClone);
+  item.style.opacity='0.4';
+}
+function seqTouchMove(e){
+  if(!touchClone)return;
+  e.preventDefault();
+  const t=e.touches[0];
+  touchClone.style.left=(t.clientX-touchClone.offsetWidth/2)+'px';
+  touchClone.style.top=(t.clientY-30)+'px';
+}
+function seqTouchEnd(e){
+  if(!touchDragId)return;
+  if(touchClone){touchClone.remove();touchClone=null;}
+  const t=e.changedTouches[0];
+  const el=document.elementFromPoint(t.clientX,t.clientY);
+  const item=el?.closest('.seq-item');
+  if(item&&item.dataset.id&&item.dataset.id!==touchDragId){
+    const order=RS.sequenceOrder;
+    const fromIdx=order.indexOf(touchDragId);
+    const toIdx=order.indexOf(item.dataset.id);
+    order.splice(fromIdx,1);
+    order.splice(toIdx,0,touchDragId);
+  }
+  document.querySelectorAll('.seq-item').forEach(x=>x.style.opacity='1');
+  touchDragId=null;
+  rSequencePBQ();
+}
+
+function submitSequencePBQ(){
+  const s=RS;const pbq=s.data.pbq;
+  const PPStep=60/pbq.steps.length;
+  let sc=0;s.missedPBQ=[];
+  s.sequenceOrder.forEach((id,idx)=>{
+    const step=pbq.steps.find(x=>x.id===id);
+    const correct=step.order===idx+1;
+    if(correct){sc+=PPStep;}
+    else{
+      const correctStep=pbq.steps.find(x=>x.order===idx+1);
+      s.missedPBQ.push({
+        id:step.id,label:`Position ${idx+1}`,
+        yourCat:step.text,correctCat:correctStep.text,
+        yourType:'',correctType:'',
+        explanation:step.detail,
+      });
+    }
+  });
+  s.pbqScore=Math.round(sc);s.pbqDone=true;
+  document.getElementById('r-pbq').textContent=Math.round(sc)+'/60';
+  document.getElementById('r-pbq').style.color=sc>=42?'var(--green)':'var(--amber)';
+  rSequencePBQ();window.scrollTo(0,0);
+}
+
+// ── HOTSPOT PBQ (tap sensitive fields + assign protection method) ─────────────
+function rHotspotPBQ(){
+  const s=RS;const pbq=s.data.pbq;const c=s.color;
+  const sensitiveFields=pbq.fields.filter(f=>f.requires_protection);
+  const totalFields=sensitiveFields.length;
+  // Count correctly flagged + correctly assigned
+  const flagged=Object.keys(s.hotspotSels).filter(id=>{
+    const f=pbq.fields.find(x=>x.id===id);
+    return f&&f.requires_protection&&s.hotspotSels[id]!==undefined;
+  });
+  const wrongFlags=Object.keys(s.hotspotSels).filter(id=>{
+    const f=pbq.fields.find(x=>x.id===id);
+    return f&&!f.requires_protection;
+  });
+  const allFlagged=sensitiveFields.every(f=>s.hotspotSels[f.id]!==undefined);
+  const PPF=Math.round(60/totalFields);
+
+  let h=phaseBar('pbq',c);
+  h+=`<div class="meta-pills">
+    <span class="mpill" style="background:color-mix(in srgb,${c} 14%,transparent);color:${c};border-color:color-mix(in srgb,${c} 28%,transparent)">DATA FIELD ANALYSIS</span>
+    <span class="mpill" style="background:rgba(220,38,38,0.14);color:var(--d2);border-color:rgba(220,38,38,0.28)">${pbq.fields.length} FIELDS</span>
+    <span class="mpill" style="background:rgba(217,119,6,0.14);color:var(--amber);border-color:rgba(217,119,6,0.28)">HARD</span>
+  </div>
+  <div class="meta-note">${pbq.fields.length} fields · flag sensitive fields · assign protection method · ${PPF} pts per field · 60 pts total</div>`;
+
+  h+=`<div class="scenario-box">
+    <div class="sc-hdr"><span class="sc-tag" style="color:${c}">◉ SCENARIO</span><span class="sc-cia">${pbq.cia_tag}</span></div>
+    <div class="sc-txt">${pbq.scenario}</div>
+  </div><div class="instr">${pbq.instruction}</div>`;
+
+  // Field grid
+  h+=`<div style="display:flex;flex-direction:column;gap:10px;margin-bottom:16px">`;
+  pbq.fields.forEach(field=>{
+    const sel=s.hotspotSels[field.id];
+    const isFlagged=sel!==undefined;
+    const sub=s.pbqDone;
+    const isCorrectFlag=field.requires_protection;
+    const wrongFlag=sub&&isFlagged&&!isCorrectFlag;
+    const missedFlag=sub&&!isFlagged&&isCorrectFlag;
+    const methodCorrect=sub&&isFlagged&&isCorrectFlag&&sel===field.method_answer;
+    const methodWrong=sub&&isFlagged&&isCorrectFlag&&sel!==field.method_answer;
+
+    let cardBorder,cardBg,flagBtnStyle;
+    if(sub&&isCorrectFlag&&methodCorrect){
+      cardBorder='rgba(34,197,94,0.5)';cardBg='rgba(34,197,94,0.04)';
+    } else if(sub&&(wrongFlag||missedFlag||methodWrong)){
+      cardBorder='rgba(239,68,68,0.5)';cardBg='rgba(239,68,68,0.04)';
+    } else if(isFlagged){
+      cardBorder=`color-mix(in srgb,${c} 50%,transparent)`;cardBg=`color-mix(in srgb,${c} 5%,transparent)`;
+    } else {
+      cardBorder='rgba(255,255,255,0.1)';cardBg='rgba(255,255,255,0.02)';
+    }
+
+    h+=`<div style="border-radius:12px;padding:12px 14px;border:2px solid ${cardBorder};background:${cardBg};transition:all .15s">`;
+
+    // Field header row
+    h+=`<div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:8px;gap:8px;flex-wrap:wrap">
+      <div>
+        <div style="font-family:var(--mono);font-size:10px;font-weight:700;color:${c};letter-spacing:.05em;margin-bottom:2px">${field.label}</div>
+        <div style="font-size:12px;color:#94A3B8;font-family:var(--mono)">${field.value}</div>
+      </div>
+      <div style="display:flex;align-items:center;gap:8px">
+        ${sub&&wrongFlag?`<span style="font-family:var(--mono);font-size:9px;color:var(--red)">✗ NOT SENSITIVE</span>`:''}
+        ${sub&&missedFlag?`<span style="font-family:var(--mono);font-size:9px;color:var(--red)">✗ MISSED</span>`:''}
+        ${sub&&isCorrectFlag&&methodCorrect?`<span style="font-family:var(--mono);font-size:9px;color:var(--green)">✓</span>`:''}
+        ${!sub?`<button onclick="toggleHotspot('${field.id}')" style="padding:5px 12px;border-radius:20px;font-family:var(--mono);font-size:10px;font-weight:700;
+          border:1.5px solid ${isFlagged?c:'rgba(255,255,255,0.2)'};
+          background:${isFlagged?`color-mix(in srgb,${c} 20%,transparent)`:'transparent'};
+          color:${isFlagged?c:'#475569'};cursor:pointer">${isFlagged?'⚑ FLAGGED':'FLAG'}</button>`:''}
+      </div>
+    </div>`;
+
+    // Method selector — only shown when flagged
+    if(isFlagged&&!sub){
+      h+=`<div style="margin-top:8px">
+        <div style="font-family:var(--mono);font-size:9px;color:var(--muted);margin-bottom:6px;font-weight:700">SELECT PROTECTION METHOD:</div>
+        <div style="display:flex;flex-wrap:wrap;gap:5px">`;
+      pbq.method_options.forEach(opt=>{
+        const isSel=sel===opt.id;
+        h+=`<button onclick="selHotspotMethod('${field.id}','${opt.id}')"
+          style="padding:5px 11px;border-radius:7px;font-family:var(--mono);font-size:10px;font-weight:600;
+          border:1.5px solid ${isSel?c:'rgba(255,255,255,0.12)'};
+          background:${isSel?`color-mix(in srgb,${c} 20%,transparent)`:'transparent'};
+          color:${isSel?c:'#475569'};cursor:pointer">${opt.name}</button>`;
+      });
+      h+=`</div></div>`;
+    }
+
+    // Post-submit feedback
+    if(sub){
+      if(wrongFlag){
+        h+=`<div class="expl" style="border-color:var(--red);margin-top:8px;font-size:12px">${field.explanation}</div>`;
+      } else if(missedFlag){
+        h+=`<div class="expl" style="border-color:var(--red);margin-top:8px;font-size:12px">⚑ This field required protection. ${field.explanation}</div>`;
+      } else if(isCorrectFlag){
+        const corrMethod=pbq.method_options.find(x=>x.id===field.method_answer)?.name;
+        const selMethod=pbq.method_options.find(x=>x.id===sel)?.name;
+        if(methodWrong){
+          h+=`<div style="font-family:var(--mono);font-size:10px;color:var(--red);margin-top:6px">✗ You selected: ${selMethod} → Correct: ${corrMethod}</div>`;
+          h+=`<div class="expl" style="border-color:var(--red);margin-top:6px;font-size:12px">${field.method_explanation}</div>`;
+        } else {
+          h+=`<div style="display:flex;align-items:center;gap:6px;margin-top:6px">
+            <span style="font-family:var(--mono);font-size:10px;padding:3px 10px;border-radius:12px;background:rgba(34,197,94,0.15);color:var(--green);border:1px solid rgba(34,197,94,0.3)">${corrMethod}</span>
+          </div>`;
+          h+=`<div class="expl" style="border-color:var(--green);margin-top:6px;font-size:12px">${field.method_explanation||field.explanation}</div>`;
+        }
+      } else {
+        h+=`<div class="expl" style="border-color:var(--green);margin-top:8px;font-size:12px">${field.explanation}</div>`;
+      }
+    }
+
+    h+=`</div>`;
+  });
+  h+=`</div>`;
+
+  if(!s.pbqDone){
+    const readyCount=sensitiveFields.filter(f=>s.hotspotSels[f.id]!==undefined).length;
+    h+=`<button class="sbtn" ${allFlagged?'':'disabled'}
+      style="background:${allFlagged?`linear-gradient(135deg,color-mix(in srgb,${c} 90%,#000),${c})`:''}; color:${allFlagged?'#fff':''}"
+      onclick="submitHotspotPBQ()">
+      ${allFlagged?'SUBMIT ANALYSIS':`FLAG ALL SENSITIVE FIELDS AND ASSIGN METHODS (${readyCount}/${totalFields})`}</button>`;
+  } else {
+    h+=`<button class="sbtn" onclick="gotoMCQ()" style="background:linear-gradient(135deg,color-mix(in srgb,${c} 90%,#000),${c});color:#fff">CONTINUE TO MCQ (${Math.round(s.pbqScore)}/60) →</button>`;
+  }
+  document.getElementById('r-content').innerHTML=h;
+}
+
+function toggleHotspot(fieldId){
+  if(RS.pbqDone)return;
+  if(RS.hotspotSels[fieldId]!==undefined){
+    delete RS.hotspotSels[fieldId];
+  } else {
+    RS.hotspotSels[fieldId]=null;
+  }
+  rHotspotPBQ();
+}
+
+function selHotspotMethod(fieldId,methodId){
+  if(RS.pbqDone)return;
+  RS.hotspotSels[fieldId]=methodId;
+  rHotspotPBQ();
+}
+
+function submitHotspotPBQ(){
+  const s=RS;const pbq=s.data.pbq;
+  const sensitiveFields=pbq.fields.filter(f=>f.requires_protection);
+  const PPF=60/sensitiveFields.length;
+  let sc=0;s.missedPBQ=[];
+  pbq.fields.forEach(field=>{
+    const sel=s.hotspotSels[field.id];
+    const isFlagged=sel!==undefined;
+    if(field.requires_protection){
+      const methodOk=sel===field.method_answer;
+      const pts=isFlagged?(methodOk?PPF:PPF*0.5):0;
+      sc+=pts;
+      if(!isFlagged||!methodOk){
+        const corrMethod=pbq.method_options.find(x=>x.id===field.method_answer)?.name;
+        const selMethod=isFlagged?pbq.method_options.find(x=>x.id===sel)?.name:'Not flagged';
+        s.missedPBQ.push({
+          id:field.id,label:field.label,
+          yourCat:isFlagged?'Flagged':'Not flagged',correctCat:'Requires protection',
+          yourType:selMethod,correctType:corrMethod,
+          explanation:field.method_explanation||field.explanation,
+        });
+      }
+    }
+  });
+  s.pbqScore=Math.round(sc);s.pbqDone=true;
+  document.getElementById('r-pbq').textContent=Math.round(sc)+'/60';
+  document.getElementById('r-pbq').style.color=sc>=42?'var(--green)':'var(--amber)';
+  rHotspotPBQ();window.scrollTo(0,0);
+}
 
 // ── MATCH2 PBQ (architecture model + security implication per scenario) ───────
 function rMatch2PBQ(){
@@ -3067,7 +3987,7 @@ function saveResult(){
   const s=RS;const total=Math.round(s.pbqScore+s.mcqScore);
   const lp=getLP(s.levelId);
   const xpMax=CL.xp;
-  const xp=total===100?xpMax:total>=70?(xpMax===125?95:xpMax===150?115:75):0;
+  const xp=total===100?xpMax:total>=70?(xpMax===175?135:xpMax===125?95:xpMax===150?115:75):0;
   setLP(s.levelId,{completed:total>=70||lp.completed,mastery:Math.max(lp.mastery||0,total),
     attempts:(lp.attempts||0)+1,xp:Math.max(lp.xp||0,xp),
     missedPBQ:s.missedPBQ,missedMCQ:s.missedMCQ});
@@ -3089,10 +4009,10 @@ function rResult(){
     <div class="res-score" style="color:${sc}">${total}</div>
     <div class="res-sub">${RS.data.pbq?'out of 100 pts · 70 required to pass':'realm review · 70 required to pass'}</div>
     <div class="res-badge" style="background:${passed?'rgba(34,197,94,0.15)':'rgba(245,158,11,0.15)'};border-color:${passed?'rgba(34,197,94,0.4)':'rgba(245,158,11,0.4)'};color:${sc}">${bl}</div>
-    ${passed?`<div style="margin-top:12px;font-family:var(--mono);font-size:13px;font-weight:700;color:${total===100?'#fbbf24':sc}">+${total===100?CL.xp:CL.xp===125?95:CL.xp===150?115:75} XP ${total===100?'⭐ Perfect Score':'earned'}</div>`:'<div style="margin-top:10px;font-family:var(--mono);font-size:11px;color:var(--muted)">No XP awarded below 70 — retry to pass</div>'}
+    ${passed?`<div style="margin-top:12px;font-family:var(--mono);font-size:13px;font-weight:700;color:${total===100?'#fbbf24':sc}">+${total===100?CL.xp:CL.xp===175?135:CL.xp===125?95:CL.xp===150?115:75} XP ${total===100?'⭐ Perfect Score':'earned'}</div>`:'<div style="margin-top:10px;font-family:var(--mono);font-size:11px;color:var(--muted)">No XP awarded below 70 — retry to pass</div>'}
   </div>`;
   h+=`<div class="bdown"><div class="bdown-title">Score Breakdown</div>
-    ${RS.data.pbq?sbar(RS.data.pbq.type==='triage'?'PBQ — Change Request Triage':RS.data.pbq.type==='match'?'PBQ — Scenario Match':RS.data.pbq.type==='match2'?'PBQ — Architecture Analysis':RS.data.pbq.type==='scenario_builder'?'PBQ — Attack Scenario Builder':RS.data.pbq.type==='soc_triage'?'PBQ — SOC Incident Triage':RS.data.pbq.concepts?'PBQ — Concept Classification':'PBQ — Dual-Axis Classification',s.pbqScore,60,c):''}
+    ${RS.data.pbq?sbar(RS.data.pbq.type==='triage'?'PBQ — Change Request Triage':RS.data.pbq.type==='match'?'PBQ — Scenario Match':RS.data.pbq.type==='match2'?'PBQ — Architecture Analysis':RS.data.pbq.type==='scenario_builder'?'PBQ — Attack Scenario Builder':RS.data.pbq.type==='soc_triage'?'PBQ — SOC Incident Triage':RS.data.pbq.type==='hotspot'?'PBQ — Data Field Analysis':RS.data.pbq.type==='sequence'?'PBQ — Recovery Sequence':RS.data.pbq.concepts?'PBQ — Concept Classification':'PBQ — Dual-Axis Classification',s.pbqScore,60,c):''}
     ${sbar(RS.data.pbq?'MCQ — '+RS.data.mcqs.length+' Questions':'MCQ — 10 Questions (Realm Review)',s.mcqScore,RS.data.pbq?40:100,'var(--d3)')}
     <div class="divider"></div>${sbar('Total',total,100,sc)}</div>`;
 
