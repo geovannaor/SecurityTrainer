@@ -223,7 +223,7 @@ body::before{content:'';position:fixed;inset:0;z-index:9999;pointer-events:none;
 const REALMS=[
   {id:"d1",num:"1.0",name:"General Security Concepts",weight:12,icon:"🔐",color:"var(--d1)",
    levels:[{id:"d1l1",obj:"1.1",name:"Security Controls",type:"dual_classify",xp:100},{id:"d1l2",obj:"1.2",name:"Zero Trust Architecture",type:"classify",xp:100},{id:"d1l3",obj:"1.3",name:"Change Management",type:"triage",xp:100},{id:"d1l4",obj:"1.4",name:"Cryptographic Solutions",type:"match",xp:100},{id:"d1l5",obj:"1.0",name:"Realm 1 Review",type:"review",xp:150}]},
-  {id:"d2",num:"2.0",name:"Threats, Vulnerabilities & Mitigations",weight:22,icon:"⚠️",color:"var(--d2)",levels:[{id:"d2l1",obj:"2.1",name:"Threat Actors & Motivations",type:"dual_classify",xp:100},{id:"d2l2",obj:"2.2",name:"Threat Vectors & Attack Surfaces",type:"scenario_builder",xp:100},{id:"d2l3",obj:"2.3",name:"Vulnerability Types",type:"classify",xp:100}]},
+  {id:"d2",num:"2.0",name:"Threats, Vulnerabilities & Mitigations",weight:22,icon:"⚠️",color:"var(--d2)",levels:[{id:"d2l1",obj:"2.1",name:"Threat Actors & Motivations",type:"dual_classify",xp:100},{id:"d2l2",obj:"2.2",name:"Threat Vectors & Attack Surfaces",type:"scenario_builder",xp:100},{id:"d2l3",obj:"2.3",name:"Vulnerability Types",type:"classify",xp:100},{id:"d2l4",obj:"2.4",name:"Indicators of Malicious Activity",type:"soc_triage",xp:100},{id:"d2l5",obj:"2.5",name:"Mitigation Techniques",type:"match",xp:100},{id:"d2l6",obj:"2.0",name:"Realm 2 Review",type:"review",xp:150}]},
   {id:"d3",num:"3.0",name:"Security Architecture",weight:18,icon:"🏗️",color:"var(--d3)",levels:[]},
   {id:"d4",num:"4.0",name:"Security Operations",weight:28,icon:"⚙️",color:"var(--d4)",levels:[]},
   {id:"d5",num:"5.0",name:"Security Program Management",weight:20,icon:"📋",color:"var(--d5)",levels:[]},
@@ -1144,7 +1144,429 @@ const D2L3={
   ],
 };
 
-const LEVEL_DATA={d1l1:D1L1,d1l2:D1L2,d1l3:D1L3,d1l4:D1L4,d1l5:D1L5,d2l1:D2L1,d2l2:D2L2,d2l3:D2L3};
+
+const D2L4={
+  pbq:{
+    type:"soc_triage",
+    cia_tag:"⚑ C · I · A",
+    scenario:"A SOC analyst is reviewing three open incident tickets. Each ticket contains a summary of observed activity and a list of indicators reported by monitoring systems. For each ticket, identify the attack type AND the indicator that most strongly confirms it. Both selections must be correct to receive full credit for each ticket.",
+    instruction:"For each incident ticket, select the Attack Type AND the Confirming Indicator. Both axes must be set to submit.",
+    tickets:[
+      {
+        id:"tk1",
+        title:"TICKET #INC-2024-0441 — Authentication Anomaly",
+        priority:"HIGH",
+        summary:"The identity team flagged unusual authentication activity beginning at 02:14 UTC. Over a 40-minute window, 847 failed login attempts were recorded across 23 different user accounts. Each account received between 30-40 attempts before the system moved to the next. No single account was locked out during the attempt window. Source IPs rotated across multiple geographic regions. One account — a service desk operator — successfully authenticated at 03:01 UTC from an IP in Eastern Europe. The operator's last verified login was from the organization's headquarters in Chicago 4 hours prior.",
+        indicators:[
+          "847 failed attempts distributed across 23 accounts",
+          "No single account triggered lockout threshold",
+          "Successful authentication from Eastern Europe",
+          "Prior login from Chicago 4 hours earlier",
+          "Source IPs rotated across multiple regions",
+          "Single account compromise confirmed",
+        ],
+        attack_answer:"at2",
+        indicator_answer:"ci4",
+        attack_explanation:"CREDENTIAL SPRAYING — Spraying distributes a small number of password attempts across many accounts, deliberately staying below the lockout threshold per account. The signature here is 847 attempts across 23 accounts with no lockouts triggered — that is the defining operational pattern of spraying. Brute force concentrates many attempts against a single account until it either succeeds or locks out — the opposite distribution.",
+        indicator_explanation:"IMPOSSIBLE TRAVEL — The confirming indicator is the successful authentication from Eastern Europe 4 hours after a verified login from Chicago. It is physically impossible to travel between those locations in that timeframe. Impossible travel is one of the strongest behavioral indicators of account compromise and is explicitly listed in the 2.4 indicators objectives. Account lockout was deliberately avoided by the attacker, making it an absent indicator here — not a confirming one.",
+      },
+      {
+        id:"tk2",
+        title:"TICKET #INC-2024-0479 — File System Encryption Event",
+        priority:"CRITICAL",
+        summary:"Endpoint detection flagged mass file modification activity on a finance workstation at 11:47 UTC on a Saturday. Within 18 minutes, 14,200 files across mapped network drives were renamed with a .locked extension and their contents encrypted. A text file named RESTORE_YOUR_FILES.txt was written to the desktop and all shared drive roots. Windows Event Logs for the affected workstation show a gap from 11:32 to 11:47 UTC — 15 minutes of missing entries immediately before the encryption began. The workstation owner had not reported any issues and was not working that day.",
+        indicators:[
+          "14,200 files encrypted across network drives",
+          "Files renamed with .locked extension",
+          "Ransom note dropped to desktop and shared drives",
+          "15-minute gap in Windows Event Logs before encryption",
+          "Activity occurred on a Saturday outside business hours",
+          "Workstation owner not working that day",
+        ],
+        attack_answer:"at5",
+        indicator_answer:"ci3",
+        attack_explanation:"RANSOMWARE — Mass file encryption with a consistent extension rename, a ransom note, and network drive propagation are the definitive ransomware indicators. The Saturday timing and absent owner are consistent with ransomware operators timing execution for when detection and response are slowest. Logic bomb is a distractor — a logic bomb triggers a destructive payload based on a condition, but does not encrypt files for ransom.",
+        indicator_explanation:"OUT-OF-CYCLE LOGGING — The 15-minute gap in Windows Event Logs immediately before encryption began is the critical forensic indicator. Attackers frequently clear or suppress logs before executing a payload to reduce detection and complicate forensic reconstruction. This out-of-cycle logging gap — activity outside normal logging patterns — is a direct indicator of malicious pre-execution activity. Resource inaccessibility confirms the impact but not the attack itself.",
+      },
+      {
+        id:"tk3",
+        title:"TICKET #INC-2024-0512 — Network Infrastructure Saturation",
+        priority:"CRITICAL",
+        summary:"Network operations detected a sudden 4,200% spike in inbound UDP traffic at 14:22 UTC targeting the organization's public DNS resolver. Traffic analysis revealed that responses being returned to the resolver were 60-70x larger than the queries that triggered them. Source IP addresses on inbound packets were all spoofed to match the organization's resolver address. Third-party threat intelligence confirmed the same resolver IP was observed in attack traffic from 847 distinct open DNS resolvers worldwide within the same 3-minute window. The public-facing web application became unreachable at 14:23 UTC.",
+        indicators:[
+          "4,200% spike in inbound UDP traffic",
+          "Response packets 60-70x larger than queries",
+          "Source IPs spoofed to match resolver address",
+          "847 open DNS resolvers sending traffic simultaneously",
+          "Public web application became unreachable",
+          "Attack window: 3 minutes to full saturation",
+        ],
+        attack_answer:"at3",
+        indicator_answer:"ci1",
+        attack_explanation:"DNS AMPLIFICATION (AMPLIFIED DDoS) — DNS amplification is a reflected, amplified DDoS attack. The attacker spoofs the victim's IP as the source, sends small queries to open DNS resolvers, and the resolvers send large responses to the victim. The 60-70x response-to-query ratio is the amplification factor — the defining characteristic of amplification attacks. The spoofed source IPs and simultaneous traffic from 847 resolvers confirm the reflected amplification pattern. A standard DDoS would show direct traffic from many sources, not amplified responses through intermediaries.",
+        indicator_explanation:"RESOURCE CONSUMPTION — The 4,200% UDP traffic spike consuming the resolver's bandwidth and rendering the web application unreachable is resource consumption — the network and processing capacity of the target is exhausted by the volume of amplified traffic. Resource inaccessibility describes the outcome (web app unreachable) but resource consumption describes the mechanism of the attack — the bandwidth and processing resources are being consumed to the point of denial.",
+      },
+    ],
+    attack_options:[
+      {id:"at1", name:"Brute Force"},
+      {id:"at2", name:"Credential Spraying"},
+      {id:"at3", name:"DNS Amplification"},
+      {id:"at4", name:"On-Path Attack"},
+      {id:"at5", name:"Ransomware"},
+      {id:"at6", name:"Logic Bomb"},
+      {id:"at7", name:"Reflected DDoS"},
+      {id:"at8", name:"Credential Replay"},
+    ],
+    indicator_options:[
+      {id:"ci1", name:"Resource Consumption"},
+      {id:"ci2", name:"Account Lockout"},
+      {id:"ci3", name:"Out-of-Cycle Logging"},
+      {id:"ci4", name:"Impossible Travel"},
+      {id:"ci5", name:"Resource Inaccessibility"},
+      {id:"ci6", name:"Concurrent Session Usage"},
+      {id:"ci7", name:"Missing Logs"},
+      {id:"ci8", name:"Blocked Content"},
+    ],
+  },
+  mcqs:[
+    {
+      id:"m1",
+      q:"A SIEM alert fires on two separate events for the same user account within a 6-hour window. The first event shows an active authenticated session originating from an IP address in Sydney, Australia. The second event, 22 minutes later, shows a new session established from an IP address in London, UK. The account has no history of international access. Which TWO indicators of compromise does this scenario represent?",
+      options:[
+        {id:"a", label:"Impossible travel and concurrent session usage — the geographic distance cannot be covered in 22 minutes, and two active sessions exist simultaneously from different locations"},
+        {id:"b", label:"Account lockout and impossible travel — the failed authentication attempts triggered a lockout before the London session was established"},
+        {id:"c", label:"Impossible travel only — concurrent session usage requires both sessions to be active at exactly the same timestamp"},
+        {id:"d", label:"Resource consumption and blocked content — high authentication traffic triggered rate limiting on the account"},
+      ],
+      correct:"a",
+      explanation:"Two indicators are present simultaneously. Impossible travel: Sydney to London in 22 minutes is physically impossible — one or both sessions must involve a compromised or proxied credential. Concurrent session usage: two authenticated sessions exist for the same account from different geographic locations at the same time. Both are explicitly listed 2.4 indicators and both are confirmed by the evidence. Account lockout is absent — there is no indication of failed attempts.",
+      exam_tip:"Impossible travel = authentication from two locations that cannot be physically reached in the elapsed time. Concurrent session usage = same account authenticated from multiple locations simultaneously. These two indicators frequently appear together in credential compromise scenarios.",
+    },
+    {
+      id:"m2",
+      q:"During a penetration test, a tester positions themselves between a client workstation and an authentication server on the same network segment. The tester captures a valid Kerberos authentication token during the user's login. Later, the tester uses that captured token to authenticate to a file server as the same user without knowing the user's password. Which TWO attack types does this scenario demonstrate?",
+      options:[
+        {id:"a", label:"On-path attack and credential replay — the tester intercepted traffic by positioning between endpoints, then reused a captured authentication token"},
+        {id:"b", label:"Brute force and on-path attack — the tester used the network position to guess the user's password"},
+        {id:"c", label:"Credential spraying and replay — distributing the token across multiple accounts is spraying"},
+        {id:"d", label:"DNS amplification and credential replay — DNS was used to redirect traffic to the tester's system"},
+      ],
+      correct:"a",
+      explanation:"Two distinct attack types are demonstrated. On-path attack: the tester positioned themselves between the client and server to intercept network traffic — this is the defining characteristic of an on-path (formerly man-in-the-middle) attack. Credential replay: the captured Kerberos token was reused to authenticate without the original password — replaying a valid credential captured from a previous session. These two attacks are frequently chained: on-path enables the capture; replay is the exploitation of what was captured.",
+      exam_tip:"On-path = attacker intercepts traffic between two parties. Credential replay = captured authentication token reused without knowing the original password. On-path enables replay — they are distinct attack types that are commonly chained together.",
+    },
+    {
+      id:"m3",
+      q:"A security researcher discovers that two different inputs to a widely used password hashing algorithm produce identical hash outputs. A separate finding reveals that a TLS connection between a client and server was downgraded from TLS 1.3 to SSL 3.0 by an attacker who intercepted the handshake. Which option CORRECTLY matches each finding to its cryptographic attack type?",
+      options:[
+        {id:"a", label:"The first is a birthday attack — two inputs producing the same hash output exploits the statistical probability of hash collisions. The second is a downgrade attack — forcing negotiation to a weaker protocol version"},
+        {id:"b", label:"The first is a downgrade attack — the hash collision degrades the algorithm's security. The second is a collision attack — reducing protocol version is a form of collision"},
+        {id:"c", label:"Both are collision attacks — any cryptographic weakness that reduces security strength is classified as a collision"},
+        {id:"d", label:"The first is a replay attack — reusing hash values is credential replay. The second is an on-path attack — intercepting the handshake requires network positioning"},
+      ],
+      correct:"a",
+      explanation:"Birthday attack: exploits the statistical probability that two different inputs will produce the same hash output (a collision). The name refers to the birthday paradox — the probability of a collision is higher than intuition suggests. When two inputs produce identical hashes, the integrity of the hash function is compromised. Downgrade attack: an attacker forces a protocol negotiation to use a weaker, older version — here from TLS 1.3 to SSL 3.0, which has known exploitable vulnerabilities. The attacker intercepts the handshake and manipulates the negotiation.",
+      exam_tip:"Birthday attack = two inputs, same hash output, exploits collision probability. Collision attack = broader term for finding any two inputs with the same hash. Downgrade attack = forces negotiation to weaker protocol version. If a scenario describes identical hash outputs from different inputs, the answer is birthday attack.",
+    },
+    {
+      id:"m4",
+      q:"A user connects to a coffee shop's public WiFi network. An attacker on the same network has set up a tool that captures all unencrypted HTTP traffic. The attacker captures the user's session cookie from a retail website and uses it to access the user's account on that site without logging in. Which combination of attack types does this represent?",
+      options:[
+        {id:"a", label:"DNS amplification and credential replay — the WiFi network was used to amplify the attack and the cookie was replayed"},
+        {id:"b", label:"On-path attack and credential replay — the attacker intercepted unencrypted wireless traffic to capture a session token, then replayed it to gain unauthorized access"},
+        {id:"c", label:"Wireless attack and brute force — capturing WiFi traffic requires guessing the encryption key"},
+        {id:"d", label:"Credential spraying and on-path attack — the attacker distributed the captured cookie across multiple accounts"},
+      ],
+      correct:"b",
+      explanation:"This scenario demonstrates a wireless network attack enabling credential replay. The wireless attack component: the attacker exploits the unencrypted public WiFi to intercept HTTP traffic — wireless networks without encryption or with weak encryption are a named attack surface in 2.4. The credential replay component: the captured session cookie is a valid authentication token — using it to access the account without the password is credential replay. The cookie represents proof of prior authentication that is being replayed.",
+      exam_tip:"Wireless attacks exploit unsecured or weakly secured wireless networks to intercept traffic. Credential replay reuses captured authentication tokens. Public WiFi + session cookie capture + reuse is a textbook wireless-enabled credential replay chain. The wireless network is the attack surface; replay is the exploitation technique.",
+    },
+    {
+      id:"m5",
+      q:"A security analyst investigating a compromised workstation finds a hidden process running at the kernel level that is actively concealing itself from the operating system's process list and file system. On a second workstation, a process is running silently in the background, recording every keystroke made by the user and periodically transmitting the captured data to an external IP address. Which option CORRECTLY classifies each piece of malware?",
+      options:[
+        {id:"a", label:"Both are spyware — any malware that conceals itself and transmits data is classified as spyware"},
+        {id:"b", label:"The first is a rootkit — it operates at kernel level and hides from the OS. The second is a keylogger — it records keystrokes and exfiltrates them, which is distinct from broader spyware that monitors general activity"},
+        {id:"c", label:"The first is a trojan — it disguises itself as a legitimate process. The second is spyware — all keystroke capture is spyware"},
+        {id:"d", label:"The first is a logic bomb — kernel-level processes are triggered by system conditions. The second is a rootkit — it captures and transmits system data"},
+      ],
+      correct:"b",
+      explanation:"Rootkit: operates at the kernel or OS level to conceal itself and other malicious processes from detection — it manipulates the OS so that the malware is invisible to standard tools. The kernel-level operation and active concealment from the process list are the defining characteristics. Keylogger: specifically records keystrokes and exfiltrates them — it is a targeted surveillance tool focused on input capture. Spyware is broader — it monitors general user activity including browsing, location, and communications. A keylogger is a specific type within the spyware category, but CompTIA lists them separately because the mechanism and forensic indicators differ.",
+      exam_tip:"Rootkit = kernel-level, conceals itself and other processes from the OS, hardest to detect and remove. Keylogger = records keystrokes specifically, exfiltrates input data. Spyware = broader surveillance malware. CompTIA tests the distinction between keylogger and spyware — keylogger is input-specific, spyware is activity-general.",
+    },
+  ],
+};
+
+
+const D2L5={
+  pbq:{
+    type:"match",
+    cia_tag:"⚑ C · I · A",
+    scenario:"A security team has completed a risk assessment of a mid-sized enterprise and identified six security gaps requiring remediation. For each gap description, select the mitigation technique that BEST addresses it. Each solution may only be used once. Not all solutions will be used.",
+    instruction:"Tap a gap row to select it, then tap the correct mitigation from the pool. Each mitigation can only be used once.",
+    rows:[
+      {
+        id:"r1",
+        label:"Guest Network Exposure",
+        requirement:"The organization's guest WiFi network shares the same network segment as internal employee workstations and file servers. A security assessment confirmed that a guest device was able to reach internal file shares directly. The team needs to ensure guest traffic cannot reach internal resources under any circumstances.",
+        answer:"s1",
+        explanation:"SEGMENTATION — Network segmentation divides the network into separate zones, preventing traffic from one segment reaching another without explicit routing and access control. Placing the guest network on a separate segment with no routing path to internal resources directly addresses the exposure. Isolation would remove the guest network entirely from all connectivity — appropriate for quarantine scenarios but not for a guest network that still needs internet access.",
+      },
+      {
+        id:"r2",
+        label:"Unpatched Critical Vulnerability",
+        requirement:"Vulnerability scans identified that 34 servers across the environment are running software versions with publicly disclosed critical CVEs. Exploit code for two of the CVEs is available in public repositories. The organization has no documented patch cycle and updates are applied ad hoc.",
+        answer:"s2",
+        explanation:"PATCHING — Patching directly remediates publicly disclosed CVEs by applying vendor-released fixes. The availability of public exploit code makes this urgent — the attack surface is well-documented and the remediation is available. Configuration enforcement addresses settings and baseline compliance but does not apply software fixes. Hardening reduces attack surface but does not close specific known vulnerabilities the way patching does.",
+      },
+      {
+        id:"r3",
+        label:"Excessive User Permissions",
+        requirement:"An access review found that 60% of standard users have read and write access to all department file shares, including HR, Finance, and Legal. Most users only require access to their own department's files. A former employee's account retained full access for 47 days after termination before being discovered.",
+        answer:"s3",
+        explanation:"LEAST PRIVILEGE — Least privilege restricts users to only the access required for their specific role. Applying least privilege would limit standard users to their own department's shares and eliminate the retained access risk by ensuring access is scoped tightly enough that a missed deprovisioning has limited blast radius. ACL and permissions are the technical implementation — least privilege is the principle that determines what those permissions should be set to.",
+      },
+      {
+        id:"r4",
+        label:"Unauthorized Software Execution",
+        requirement:"The security team discovered that several employees had installed unapproved applications including a cryptocurrency miner, a remote access tool, and multiple browser extensions with broad system permissions. The organization needs a control that prevents any software not explicitly approved by IT from executing on endpoints.",
+        answer:"s4",
+        explanation:"APPLICATION ALLOW LIST — An application allow list permits only explicitly approved applications to execute, blocking everything else by default. This directly prevents unauthorized software — cryptocurrency miners, unapproved remote access tools, and unauthorized extensions — from running regardless of how they were installed. A host-based firewall controls network traffic but does not prevent local application execution. HIPS detects suspicious behavior but does not prevent execution of applications that have not yet exhibited malicious behavior.",
+      },
+      {
+        id:"r5",
+        label:"Legacy System Risk",
+        requirement:"An inventory audit identified three servers running Windows Server 2008 R2, which reached end-of-life in January 2020 and no longer receives security updates. The servers host internal applications that the business states are still in use. The security team needs to contain the risk these systems pose to the broader environment while a migration plan is developed.",
+        answer:"s5",
+        explanation:"ISOLATION — Isolation removes a system from general network access while keeping it operational. Legacy end-of-life systems cannot be patched and represent a permanent vulnerability. Isolating them — removing their network connectivity or placing them in a completely air-gapped segment with no routing to other systems — contains the risk while migration is planned. Segmentation still allows controlled traffic flow between segments. Isolation eliminates that access entirely, which is appropriate for systems that cannot be secured.",
+      },
+      {
+        id:"r6",
+        label:"Inconsistent Security Baseline",
+        requirement:"A review of 200 workstations found significant variance in security settings: 43 had Windows Firewall disabled, 67 had unnecessary services enabled, 29 had outdated local security policy settings, and 18 had non-standard registry configurations. There is no automated mechanism ensuring workstations maintain an approved security baseline.",
+        answer:"s6",
+        explanation:"CONFIGURATION ENFORCEMENT — Configuration enforcement uses tools such as Group Policy, MDM, or configuration management platforms to automatically apply and maintain approved security baselines across all endpoints. It ensures that deviations — disabled firewalls, enabled unnecessary services, non-standard settings — are detected and remediated automatically rather than discovered in periodic audits. Hardening defines what the baseline should be; configuration enforcement ensures it stays enforced.",
+      },
+    ],
+    solutions:[
+      {id:"s1", name:"Segmentation"},
+      {id:"s2", name:"Patching"},
+      {id:"s3", name:"Least Privilege"},
+      {id:"s4", name:"Application Allow List"},
+      {id:"s5", name:"Isolation"},
+      {id:"s6", name:"Configuration Enforcement"},
+      {id:"s7", name:"Encryption"},
+      {id:"s8", name:"Decommissioning"},
+      {id:"s9", name:"Monitoring"},
+    ],
+  },
+  mcqs:[
+    {
+      id:"m1",
+      q:"A hospital's security team discovers that a workstation in the radiology department has been infected with malware that is actively attempting to spread laterally across the network. The team needs to immediately stop the spread while preserving the system for forensic investigation and keeping the rest of the network fully operational. Which mitigation technique BEST addresses this requirement?",
+      options:[
+        {id:"a", label:"Segmentation — place the radiology department on a separate network segment to limit lateral movement"},
+        {id:"b", label:"Isolation — remove the infected workstation from all network connectivity immediately to contain the active threat while preserving it for forensics"},
+        {id:"c", label:"Patching — apply the latest security updates to close the vulnerability the malware exploited"},
+        {id:"d", label:"Decommissioning — permanently remove the infected system from the environment to eliminate the threat"},
+      ],
+      correct:"b",
+      explanation:"Isolation removes a specific system from all network access immediately — it is the correct response to an actively spreading infection that must be contained without disrupting the rest of the network. Segmentation is a proactive architectural control that limits blast radius across departments — it does not address an active infection on a specific host. Patching remediates the vulnerability but does not stop active malware. Decommissioning permanently removes the system — the requirement specifies preserving it for forensics.",
+      exam_tip:"Isolation = immediate containment of a specific system, all connectivity removed, system preserved. Segmentation = architectural control, limits lateral movement between zones, does not isolate individual hosts. When a scenario describes active spread from a single host requiring immediate containment, the answer is isolation.",
+    },
+    {
+      id:"m2",
+      q:"An access review reveals that a junior analyst in the IT department has read and write access to the HR database, financial records system, and all executive file shares — far beyond what is needed to perform their job. The analyst's role requires access only to the ticketing system and internal knowledge base. Which principle has been violated, and what is the correct remediation?",
+      options:[
+        {id:"a", label:"Separation of duties has been violated — the analyst should be assigned to a different team to prevent conflicts of interest"},
+        {id:"b", label:"Least privilege has been violated — access should be reduced to only what is required for the analyst's specific role, removing all permissions to HR, financial, and executive resources"},
+        {id:"c", label:"Configuration enforcement has been violated — the permissions were applied inconsistently across systems"},
+        {id:"d", label:"Access control list misconfiguration — the ACL entries need to be rebuilt from scratch across all affected systems"},
+      ],
+      correct:"b",
+      explanation:"Least privilege is the principle that users should have access to only the resources and functions required for their specific role — nothing more. The junior analyst's access to HR, financial, and executive systems violates this principle. Remediation is scoping permissions down to ticketing and knowledge base only. Separation of duties addresses splitting sensitive tasks between multiple people to prevent fraud — it does not apply here. ACLs are the technical mechanism that would implement the fix, but least privilege is the principle being violated.",
+      exam_tip:"Least privilege = access scoped to role requirements only. When a scenario describes a user with more access than their job requires, the violated principle is least privilege. ACLs and permissions are the technical implementation — least privilege is the governing principle.",
+    },
+    {
+      id:"m3",
+      q:"A security engineer is tasked with preventing users from running any software that has not been reviewed and approved by the IT security team. The organization has experienced incidents involving employees installing unapproved remote access tools and personal VPN clients. Which control BEST enforces this requirement, and how does it differ from its conceptual opposite?",
+      options:[
+        {id:"a", label:"Application deny list — blocking known malicious applications prevents unapproved software from running while allowing everything else by default"},
+        {id:"b", label:"Application allow list — only explicitly approved applications are permitted to execute; everything not on the list is blocked by default, which is more effective than a deny list that can never account for all possible unauthorized software"},
+        {id:"c", label:"Host-based firewall — blocking inbound network connections prevents remote access tools from receiving connections"},
+        {id:"d", label:"HIPS — behavioral monitoring detects and blocks unapproved applications based on suspicious activity patterns"},
+      ],
+      correct:"b",
+      explanation:"An application allow list operates on a default-deny model: only applications explicitly approved and listed are permitted to execute. Everything else is blocked regardless of whether it is known to be malicious. A deny list blocks known bad applications but permits everything else by default — it cannot account for the infinite number of possible unauthorized applications and will always miss new or unknown software. For an organization that has been compromised by unapproved tools, allow listing is the correct control because it eliminates the unknown-unknown problem entirely.",
+      exam_tip:"Allow list = default deny, only approved apps run, most restrictive. Deny list = default allow, only known bad apps blocked, least restrictive. When the requirement is to prevent any unauthorized software regardless of whether it is known to be malicious, the answer is application allow list.",
+    },
+    {
+      id:"m4",
+      q:"During an incident investigation, a forensic team discovers that the attacker's initial foothold was a server running an application that the business had stopped using 14 months ago. The server had never been formally retired — it remained network-connected, had not received patches in over a year, and still had active service accounts with domain privileges. A documented process for retiring systems existed but had not been followed. Which TWO security failures does this scenario represent?",
+      options:[
+        {id:"a", label:"Failure to decommission the system when it was no longer needed, and failure of configuration enforcement to ensure the decommissioning policy was applied consistently"},
+        {id:"b", label:"Failure to patch the server and failure to implement network segmentation around legacy systems"},
+        {id:"c", label:"Failure to apply least privilege to service accounts and failure to monitor the server for suspicious activity"},
+        {id:"d", label:"Failure to encrypt the server's data and failure to implement a host-based firewall"},
+      ],
+      correct:"a",
+      explanation:"Two distinct mitigation failures are present. Decommissioning: the server was no longer in use but was never formally retired — it remained connected, unpatched, and with active privileged accounts. Proper decommissioning would have removed it from the network, disabled accounts, and eliminated the attack surface entirely. Configuration enforcement: a documented decommissioning process existed but was not followed consistently — configuration enforcement ensures that security policies and lifecycle processes are applied automatically and verifiably, not left to manual execution that can be skipped.",
+      exam_tip:"Decommissioning = formal process to retire systems no longer in use — remove from network, disable accounts, eliminate attack surface. Configuration enforcement = ensures policies and baselines are applied consistently and automatically. When a scenario describes a forgotten system that should have been retired, both decommissioning and configuration enforcement failures are present.",
+    },
+    {
+      id:"m5",
+      q:"A security architect is selecting endpoint controls for a fleet of corporate laptops. The first control should monitor all processes running on each endpoint, detect suspicious behavior in real time, and automatically block activity that matches known attack patterns — without requiring a separate network device. The second control should ensure that network traffic originating from or destined to the endpoint is filtered based on defined rules, independent of the corporate network perimeter. Which controls BEST match these two requirements?",
+      options:[
+        {id:"a", label:"Endpoint protection platform (EPP) and network-based IPS — EPP handles host monitoring and a network IPS handles traffic filtering"},
+        {id:"b", label:"HIPS and host-based firewall — HIPS monitors and blocks suspicious process behavior on the host; host-based firewall filters network traffic at the endpoint level independent of network perimeter controls"},
+        {id:"c", label:"HIPS and network segmentation — HIPS handles process monitoring and segmentation handles traffic filtering between network zones"},
+        {id:"d", label:"Host-based firewall and patch management — the firewall handles traffic and patching addresses behavioral anomalies"},
+      ],
+      correct:"b",
+      explanation:"HIPS (Host-based Intrusion Prevention System) monitors processes and system activity on the endpoint itself, detects suspicious behavior in real time, and actively blocks matching attack patterns — all without requiring a network device. Host-based firewall filters inbound and outbound network traffic at the endpoint level using defined rules, providing traffic control that travels with the device regardless of what network it is connected to. Together they provide host-level behavioral protection and host-level traffic filtering — two distinct layers of endpoint hardening.",
+      exam_tip:"HIPS = host-based, monitors processes and behavior, actively blocks suspicious activity. Host-based firewall = host-based, filters network traffic by rule, travels with the device. Both operate at the endpoint independently of network infrastructure. HIPS addresses behavior; firewall addresses traffic.",
+    },
+  ],
+};
+
+
+const D2L6={
+  pbq:null,
+  mcqs:[
+    {
+      id:"m1",
+      q:"A SIEM alert fires on a user account that shows a successful authentication from an IP address geolocated to São Paulo, Brazil at 09:14 UTC. At 09:31 UTC — 17 minutes later — the same account authenticates successfully from an IP address geolocated to Amsterdam, Netherlands. No VPN usage is recorded for this account. Which indicator of compromise does this BEST represent, and why is it significant even though both authentications were successful?",
+      options:[
+        {id:"a", label:"Account lockout — repeated authentication attempts triggered a temporary lockout between the two sessions"},
+        {id:"b", label:"Impossible travel — the geographic distance between São Paulo and Amsterdam cannot be covered in 17 minutes, indicating that at least one session involves a compromised or proxied credential, regardless of authentication success"},
+        {id:"c", label:"Concurrent session usage — two sessions from different locations are active simultaneously"},
+        {id:"d", label:"Blocked content — the authentication system flagged the foreign IP addresses as restricted regions"},
+      ],
+      correct:"b",
+      explanation:"Impossible travel flags authentication events from two geographic locations that cannot be physically reached within the elapsed time — regardless of whether both authentications succeeded. Successful authentication does not indicate legitimacy; it indicates the correct credential was used. In this case, the credential is likely compromised and being used from a proxied or attacker-controlled location. Impossible travel is a behavioral indicator that triggers even when no technical control was bypassed.",
+      exam_tip:"Impossible travel = two successful authentications from locations that cannot be physically reached in the elapsed time. Authentication success does not rule out compromise — it confirms the credential was valid, not that the user was legitimate.",
+    },
+    {
+      id:"m2",
+      q:"A threat intelligence report describes a group that has conducted a multi-year campaign targeting aerospace and defense contractors across five countries. The group uses custom-developed malware that evades commercial detection tools, maintains persistent access for an average of 14 months before detection, and has been linked to the theft of classified weapons system designs. The campaign shows no evidence of financial motivation. Which threat actor type does this BEST represent?",
+      options:[
+        {id:"a", label:"Organized crime — the scale and sophistication of the operation indicates a well-funded criminal enterprise"},
+        {id:"b", label:"Hacktivist — targeting defense contractors aligns with political opposition to military programs"},
+        {id:"c", label:"Nation-state — the combination of custom tooling, long dwell time, strategic targets, and non-financial motivation is consistent with state-sponsored espionage"},
+        {id:"d", label:"Insider threat — sustained multi-year access requires someone with ongoing internal access"},
+      ],
+      correct:"c",
+      explanation:"Nation-state actors are characterized by high resources and funding, advanced technical capability, strategic long-term objectives, and motivations tied to espionage, intelligence gathering, or geopolitical advantage — not financial gain. Custom malware, 14-month average dwell time, classified weapons design theft, and multi-country targeting all align with nation-state attributes. Organized crime is also sophisticated and well-funded but is financially motivated — this campaign shows no financial motivation.",
+      exam_tip:"Nation-state: custom tooling, long dwell time, strategic government or defense targets, espionage motivation, no financial gain. Organized crime: financially motivated, rapid monetization. Both are sophisticated — motivation and target type are the differentiators.",
+    },
+    {
+      id:"m3",
+      q:"A web application security assessment identifies two separate vulnerabilities. In the first, a tester enters ' OR '1'='1'-- into a login field and retrieves all user records from the database. In the second, a tester enters an HTML script tag as a product review, which is stored and executes in every customer's browser when they view that product page. Which option CORRECTLY classifies both vulnerabilities and distinguishes their mechanisms?",
+      options:[
+        {id:"a", label:"Both are SQL injection — any unsanitized input that manipulates application behavior is SQL injection"},
+        {id:"b", label:"The first is XSS and the second is SQL injection — XSS manipulates database queries and SQLi injects browser scripts"},
+        {id:"c", label:"The first is SQL injection — unsanitized input manipulates the database query structure on the server. The second is stored XSS — malicious script is injected into stored content and executes in victims' browsers client-side"},
+        {id:"d", label:"Both are XSS — both vulnerabilities exploit unsanitized user input in web applications"},
+      ],
+      correct:"c",
+      explanation:"SQL injection manipulates server-side database query structure by injecting SQL syntax into unsanitized input fields — the attack target is the database. The ' OR '1'='1'-- payload alters query logic to return all records. Stored XSS injects malicious client-side script into content that is stored and later served to other users — the attack target is the victim's browser. Both exploit unsanitized input but attack different layers: SQLi attacks the server/database, XSS attacks the client/browser.",
+      exam_tip:"SQLi = server-side, manipulates database query, target is the database. XSS = client-side, executes script in victim browser, target is the user. Both use unsanitized input — ask where the payload executes: database server or browser.",
+    },
+    {
+      id:"m4",
+      q:"An attacker sends a small DNS query with a spoofed source IP set to a target organization's address. The query is sent to thousands of open DNS resolvers, each of which sends a response many times larger than the query back to the spoofed address. The target's network is overwhelmed by the volume of DNS responses. Which network attack type does this represent, and what two characteristics define it?",
+      options:[
+        {id:"a", label:"Reflected DDoS — traffic is reflected off third-party servers, but there is no amplification because DNS responses are the same size as queries"},
+        {id:"b", label:"DNS amplification — a form of amplified and reflected DDoS where spoofed queries cause DNS resolvers to send disproportionately large responses to the victim, combining reflection (traffic redirected via third parties) and amplification (response much larger than query)"},
+        {id:"c", label:"Credential replay — DNS tokens are captured and replayed to overwhelm the target"},
+        {id:"d", label:"On-path attack — the attacker positions between the DNS resolver and the target to intercept and amplify traffic"},
+      ],
+      correct:"b",
+      explanation:"DNS amplification is both reflected and amplified. Reflected: the attacker spoofs the victim's IP so that third-party DNS resolvers unknowingly send traffic to the victim — the attacker never directly attacks the target. Amplified: DNS responses are significantly larger than the queries that triggered them — the attacker sends a small query and the victim receives a large response, multiplying the attack volume. These two characteristics — reflection and amplification — are explicitly listed in the 2.4 objectives as sub-types of DDoS.",
+      exam_tip:"Amplified DDoS = response is much larger than the query, multiplies attack volume. Reflected DDoS = traffic is redirected through third-party servers to the victim. DNS amplification combines both — spoofed source causes resolvers to send large responses to the victim.",
+    },
+    {
+      id:"m5",
+      q:"A group of activists who oppose a corporation's environmental practices gains access to the company's internal systems and publishes confidential internal communications on a public website. The group releases a statement claiming the action was taken to expose the company's concealment of pollution data. No ransom is demanded and no financial accounts are accessed. Which threat actor type and motivation does this BEST represent?",
+      options:[
+        {id:"a", label:"Organized crime motivated by data exfiltration — publishing stolen data is a common extortion precursor"},
+        {id:"b", label:"Hacktivist motivated by philosophical and political beliefs — the group acted to advance an ideological cause rather than for financial gain"},
+        {id:"c", label:"Insider threat motivated by revenge — the access and knowledge of internal systems suggests an insider"},
+        {id:"d", label:"Nation-state motivated by espionage — environmental data has strategic intelligence value"},
+      ],
+      correct:"b",
+      explanation:"Hacktivists are threat actors motivated by philosophical or political beliefs — they use hacking as a form of activism or protest. Publishing internal communications to expose perceived wrongdoing, releasing a manifesto, and having no financial motivation are defining hacktivist characteristics. Organized crime would seek financial gain. Nation-state would pursue strategic intelligence objectives. The ideological motivation and public disclosure method are the key distinguishing attributes.",
+      exam_tip:"Hacktivist = motivated by philosophical/political beliefs, uses attacks to promote a cause, typically external, often involves data disclosure or defacement rather than financial crime. The absence of financial motivation and presence of ideological messaging are the key indicators.",
+    },
+    {
+      id:"m6",
+      q:"An attacker calls an employee at a financial services firm, identifying themselves as a senior IT security analyst conducting an urgent account security review. The caller states that the employee's account has been flagged for suspicious activity and that their password must be reset immediately to prevent a lockout. The employee provides their current password. Which social engineering technique does this represent, and what role does pretexting play?",
+      options:[
+        {id:"a", label:"Phishing — the attack used a fabricated scenario delivered over a communication channel"},
+        {id:"b", label:"Vishing — the attack was conducted over a voice call. Pretexting is the fabricated scenario (fake IT analyst identity and urgent account review) used to make the vishing call convincing"},
+        {id:"c", label:"Smishing — the employee received the request via a text message follow-up after the call"},
+        {id:"d", label:"Pretexting — pretexting and vishing are the same technique applied to voice calls"},
+      ],
+      correct:"b",
+      explanation:"Vishing is social engineering conducted over a voice call — the channel classification is voice, therefore vishing. Pretexting is the fabricated scenario used within the attack: the fake IT analyst identity, the false claim of suspicious activity, and the manufactured urgency are all components of the pretext. Pretexting is a technique that supports vishing — it is not a separate attack type here. The distinction: vishing identifies the channel, pretexting identifies the deception mechanism used within that channel.",
+      exam_tip:"Channel determines the top-level classification: voice call = vishing, SMS = smishing, email = phishing. Pretexting is the fabricated scenario used within any of these attacks — it is a supporting technique, not a channel classification. Vishing + pretexting frequently appear together.",
+    },
+    {
+      id:"m7",
+      q:"A company's IT team discovers that three servers in a legacy data center are running an operating system version that the vendor stopped supporting and patching 26 months ago. The servers host an internal application that the business requires for daily operations and cannot be migrated for at least 6 months. Which vulnerability type do these servers represent, and which mitigation technique is MOST appropriate given the migration timeline?",
+      options:[
+        {id:"a", label:"Zero-day vulnerability — unsupported systems have unpatched vulnerabilities that are unknown to the vendor"},
+        {id:"b", label:"End-of-life vulnerability — the OS no longer receives security updates, making any newly discovered vulnerabilities permanently unpatched. Isolation is the most appropriate mitigation: removing the servers from general network access contains the risk without decommissioning systems that are still operationally required"},
+        {id:"c", label:"Misconfiguration vulnerability — running an old OS version is a configuration choice that can be corrected by updating settings"},
+        {id:"d", label:"End-of-life vulnerability — decommissioning is the most appropriate mitigation because EOL systems should always be immediately removed"},
+      ],
+      correct:"b",
+      explanation:"End-of-life (EOL) systems are those no longer receiving vendor security updates — any newly discovered vulnerabilities will never be patched, creating a permanent and growing attack surface. The correct mitigation when decommissioning is not immediately possible is isolation: removing network connectivity from the EOL systems to contain the risk while the migration plan is completed. Decommissioning is the ultimate solution but cannot be applied when the systems are still operationally required — isolation bridges the gap.",
+      exam_tip:"EOL = no more vendor patches, permanent vulnerability accumulation. Isolation = remove from network access to contain risk when immediate decommissioning is not possible. This is a 2.3 + 2.5 integration: identify the vulnerability type, then select the appropriate mitigation given operational constraints.",
+    },
+    {
+      id:"m8",
+      q:"An attacker compromises a small software development firm that produces a widely used open-source code library. The attacker injects malicious code into a legitimate update of the library. The update is downloaded and integrated by hundreds of organizations that depend on the library for their applications. Which threat vector does this BEST represent?",
+      options:[
+        {id:"a", label:"Vulnerable software — the library contained an exploitable vulnerability that was not discovered during code review"},
+        {id:"b", label:"Supply chain — the attacker compromised a software provider whose product is trusted and distributed to many downstream organizations, using that trust relationship to propagate malicious code"},
+        {id:"c", label:"Malicious update — the attack vector is the update mechanism itself, which is a separate category from supply chain"},
+        {id:"d", label:"Watering hole — the attacker compromised a resource known to be used by the target organizations"},
+      ],
+      correct:"b",
+      explanation:"Supply chain attacks target a trusted third-party software, hardware, or service provider to reach downstream organizations through the existing trust relationship. A software provider whose library is integrated by hundreds of organizations is a high-value supply chain target — a single compromise propagates to all consumers of that library. The malicious update is the delivery mechanism, but the attack vector is the supply chain relationship between the library provider and its consumers.",
+      exam_tip:"Supply chain = attacker compromises a trusted provider to reach downstream targets through the trust relationship. Software providers, hardware manufacturers, and MSPs are the three supply chain categories in 2.2. Malicious update is a malware delivery mechanism — supply chain is the attack vector that enabled it.",
+    },
+    {
+      id:"m9",
+      q:"A forensic analyst investigating a compromised executive workstation finds a hidden process that has been running for 11 weeks. The process is not visible in the task manager, does not appear in the running services list, and has modified system calls to hide its presence from the operating system. A separate investigation on another workstation finds a process silently capturing every keystroke and transmitting the data to an external IP every 6 hours. Which option CORRECTLY identifies both malware types?",
+      options:[
+        {id:"a", label:"Both are spyware — any malware that operates silently and transmits data is classified as spyware"},
+        {id:"b", label:"The first is a trojan — it disguised itself as a legitimate process. The second is spyware — it monitors and transmits user activity"},
+        {id:"c", label:"The first is a rootkit — it operates at a system level to conceal itself from the OS by modifying system calls. The second is a keylogger — it specifically captures keystrokes and exfiltrates them, distinct from broader spyware"},
+        {id:"d", label:"Both are rootkits — any malware that hides itself from detection tools is a rootkit"},
+      ],
+      correct:"c",
+      explanation:"Rootkit: modifies system calls and OS structures to conceal itself and other processes from detection tools including task manager and service lists. Kernel or OS-level self-concealment is the defining rootkit characteristic — it attacks the integrity of the OS itself. Keylogger: specifically captures keystrokes and exfiltrates them — it is targeted input surveillance. Spyware is a broader category covering general activity monitoring. CompTIA lists keylogger and spyware separately because their mechanisms, detection signatures, and forensic indicators differ. A keylogger is a specific type within the spyware family but is classified independently on the exam.",
+      exam_tip:"Rootkit = OS/kernel-level, conceals itself by modifying system calls, invisible to standard tools. Keylogger = captures keystrokes specifically, exfiltrates input data. Spyware = broader surveillance category. When a scenario describes self-concealment via system call modification, the answer is rootkit.",
+    },
+    {
+      id:"m10",
+      q:"A security administrator needs to prevent users from executing any software that has not been explicitly approved by the IT security team. The environment has experienced incidents involving unapproved remote access tools and cryptocurrency miners installed by end users. Which control BEST meets this requirement?",
+      options:[
+        {id:"a", label:"Endpoint protection platform — scans for known malware signatures and blocks detected threats before execution"},
+        {id:"b", label:"Application allow list — permits only explicitly approved applications to execute and blocks everything else by default, regardless of whether it is known to be malicious"},
+        {id:"c", label:"Host-based firewall — blocks inbound and outbound network connections from unauthorized applications"},
+        {id:"d", label:"Patching — keeping software up to date prevents exploitation of the vulnerabilities that unauthorized tools rely on"},
+      ],
+      correct:"b",
+      explanation:"An application allow list operates on a default-deny model: only applications explicitly approved and listed are permitted to execute. Everything else is blocked regardless of whether it is known malicious software. Endpoint protection blocks known threats based on signatures or behavior — it cannot block unknown or legitimately appearing unauthorized software. A host-based firewall controls network traffic but does not prevent local application execution. Patching closes known vulnerabilities but does not prevent unauthorized software from running.",
+      exam_tip:"Allow list = default deny, only approved apps execute, blocks unknown and unauthorized software regardless of malicious intent. Endpoint protection = blocks known threats only, default allow for unknown software. When the requirement is to prevent any unauthorized software from executing, the answer is application allow list.",
+    },
+  ],
+};
+
+const LEVEL_DATA={d1l1:D1L1,d1l2:D1L2,d1l3:D1L3,d1l4:D1L4,d1l5:D1L5,d2l1:D2L1,d2l2:D2L2,d2l3:D2L3,d2l4:D2L4,d2l5:D2L5,d2l6:D2L6};
 
 // ── PROGRESS ─────────────────────────────────────────────────────────────────
 function loadP(){try{return JSON.parse(localStorage.getItem('sp_v2')||'{}')}catch{return{}}}
@@ -1152,7 +1574,7 @@ function saveP(p){localStorage.setItem('sp_v2',JSON.stringify(p))}
 function getLP(id){return loadP()[id]||{completed:false,mastery:0,attempts:0,xp:0,missedPBQ:[],missedMCQ:[]}}
 function setLP(id,d){const p=loadP();p[id]=d;saveP(p)}
 function unlocked(id){
-  if(id==='d1l1'||id==='d1l2'||id==='d1l3'||id==='d1l4'||id==='d1l5'||id==='d2l1'||id==='d2l2'||id==='d2l3')return true;
+  if(id==='d1l1'||id==='d1l2'||id==='d1l3'||id==='d1l4'||id==='d1l5'||id==='d2l1'||id==='d2l2'||id==='d2l3'||id==='d2l4'||id==='d2l5'||id==='d2l6')return true;
   for(const r of REALMS){
     const i=r.levels.findIndex(l=>l.id===id);
     if(i>0)return getLP(r.levels[i-1].id).completed;
@@ -1247,13 +1669,13 @@ function initRunner(){
   document.getElementById('r-mcq').textContent=isRevLevel?'100 pts':'40 pts';
   document.getElementById('r-mcq').style.color='var(--muted)';
   document.getElementById('r-back').onclick=()=>showLevel(r.id);
-  RS={phase:'pbq',color:c,data:LEVEL_DATA[CL.id],levelId:CL.id,conSels:{},triageSels:{},matchSels:{},scenarioSels:{},
+  RS={phase:'pbq',color:c,data:LEVEL_DATA[CL.id],levelId:CL.id,conSels:{},triageSels:{},matchSels:{},scenarioSels:{},socSels:{},
       pbqScore:0,mcqScore:0,missedPBQ:[],missedMCQ:[],
       catSels:{},typeSels:{},pbqDone:false,
       mcqIdx:0,mcqSel:null,mcqDone:false,mcqScores:[]};
   renderPhase();
 }
-function renderPhase(){if(RS.phase==='pbq'){if(!RS.data.pbq){RS.phase='mcq';rMCQ();return;}if(RS.data.pbq.type==='triage')rTriagePBQ();else if(RS.data.pbq.type==='match')rMatchPBQ();else if(RS.data.pbq.type==='scenario_builder')rScenarioBuilder();else if(RS.data.pbq.concepts)rClassifyPBQ();else rPBQ();}else if(RS.phase==='mcq')rMCQ();else rResult();}
+function renderPhase(){if(RS.phase==='pbq'){if(!RS.data.pbq){RS.phase='mcq';rMCQ();return;}if(RS.data.pbq.type==='triage')rTriagePBQ();else if(RS.data.pbq.type==='match')rMatchPBQ();else if(RS.data.pbq.type==='scenario_builder')rScenarioBuilder();else if(RS.data.pbq.type==='soc_triage')rSOCTriage();else if(RS.data.pbq.concepts)rClassifyPBQ();else rPBQ();}else if(RS.phase==='mcq')rMCQ();else rResult();}
 
 // ── PHASE BAR ─────────────────────────────────────────────────────────────────
 function phaseBar(phase,c){
@@ -1411,6 +1833,173 @@ function nextMCQ(){
 
 
 
+
+
+// ── SOC TRIAGE PBQ (attack type + indicator per ticket) ──────────────────────
+function rSOCTriage(){
+  const s=RS;const pbq=s.data.pbq;const c=s.color;
+  const PPS=60/pbq.tickets.length;
+  const totalSels=pbq.tickets.reduce((acc,tk)=>{
+    const sel=s.socSels[tk.id]||{};
+    return acc+(sel.attack?1:0)+(sel.indicator?1:0);
+  },0);
+  const totalNeeded=pbq.tickets.length*2;
+  const allSet=totalSels===totalNeeded;
+
+  let h=phaseBar('pbq',c);
+  h+=`<div class="meta-pills">
+    <span class="mpill" style="background:color-mix(in srgb,${c} 14%,transparent);color:${c};border-color:color-mix(in srgb,${c} 28%,transparent)">SOC INCIDENT TRIAGE</span>
+    <span class="mpill" style="background:rgba(220,38,38,0.14);color:var(--d2);border-color:rgba(220,38,38,0.28)">${pbq.tickets.length} TICKETS</span>
+    <span class="mpill" style="background:rgba(217,119,6,0.14);color:var(--amber);border-color:rgba(217,119,6,0.28)">HARD</span>
+  </div>
+  <div class="meta-note">${pbq.tickets.length} incident tickets · attack type + indicator per ticket · ${Math.round(PPS)} pts each · 60 pts total</div>`;
+
+  h+=`<div class="scenario-box">
+    <div class="sc-hdr"><span class="sc-tag" style="color:${c}">◉ SCENARIO</span><span class="sc-cia">${pbq.cia_tag}</span></div>
+    <div class="sc-txt">${pbq.scenario}</div>
+  </div><div class="instr">${pbq.instruction}</div>`;
+
+  pbq.tickets.forEach((tk,ti)=>{
+    const sel=s.socSels[tk.id]||{};
+    const sub=s.pbqDone;
+    const atkOk=sub&&sel.attack===tk.attack_answer;
+    const indOk=sub&&sel.indicator===tk.indicator_answer;
+    const bothOk=atkOk&&indOk;
+    const score=sub?Math.round((((atkOk?1:0)+(indOk?1:0))/2)*PPS):null;
+
+    let cardBorder,cardBg;
+    if(sub&&bothOk){cardBorder='rgba(34,197,94,0.5)';cardBg='rgba(34,197,94,0.04)';}
+    else if(sub&&!atkOk&&!indOk){cardBorder='rgba(239,68,68,0.5)';cardBg='rgba(239,68,68,0.04)';}
+    else if(sub){cardBorder='rgba(245,158,11,0.5)';cardBg='rgba(245,158,11,0.04)';}
+    else if(sel.attack||sel.indicator){cardBorder=`color-mix(in srgb,${c} 45%,transparent)`;cardBg=`color-mix(in srgb,${c} 3%,transparent)`;}
+    else{cardBorder='rgba(255,255,255,0.1)';cardBg='rgba(255,255,255,0.02)';}
+
+    const priorityColor=tk.priority==='CRITICAL'?'var(--red)':'var(--amber)';
+
+    h+=`<div style="border-radius:14px;padding:16px;border:2px solid ${cardBorder};background:${cardBg};margin-bottom:16px">`;
+
+    // Ticket header
+    h+=`<div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:12px;gap:8px;flex-wrap:wrap">
+      <div>
+        <div style="font-family:var(--mono);font-size:10px;font-weight:700;color:${c};letter-spacing:.05em;margin-bottom:3px">${tk.title}</div>
+        <div style="display:inline-block;padding:2px 10px;border-radius:12px;font-family:var(--mono);font-size:9px;font-weight:700;
+          background:${tk.priority==='CRITICAL'?'rgba(239,68,68,0.18)':'rgba(245,158,11,0.18)'};
+          color:${priorityColor};border:1px solid ${priorityColor}">● ${tk.priority}</div>
+      </div>
+      ${sub?`<div style="font-family:var(--mono);font-size:12px;font-weight:700;color:${bothOk?'var(--green)':score>0?'var(--amber)':'var(--red)'}">${score}/${Math.round(PPS)}pts</div>`:''}
+    </div>`;
+
+    // Summary
+    h+=`<div style="font-size:13px;color:#CBD5E1;line-height:1.7;padding:12px 14px;background:rgba(0,0,0,0.35);border-radius:10px;border-left:3px solid ${cardBorder};margin-bottom:12px">${tk.summary}</div>`;
+
+    // Observed indicators list
+    h+=`<div style="margin-bottom:14px">
+      <div style="font-family:var(--mono);font-size:9px;font-weight:700;color:var(--muted);letter-spacing:.08em;margin-bottom:6px">OBSERVED INDICATORS</div>
+      <div style="display:flex;flex-direction:column;gap:4px">`;
+    tk.indicators.forEach(ind=>{
+      h+=`<div style="padding:5px 10px;border-radius:6px;font-size:12px;color:#94A3B8;background:rgba(255,255,255,0.04);border:1px solid rgba(255,255,255,0.08)">· ${ind}</div>`;
+    });
+    h+=`</div></div>`;
+
+    // Attack type selector
+    const atkSel=sel.attack;
+    const atkCorrect=tk.attack_answer;
+    h+=`<div style="margin-bottom:12px">
+      <div style="font-family:var(--mono);font-size:9px;font-weight:700;text-transform:uppercase;letter-spacing:.08em;color:var(--d2);margin-bottom:7px">
+        ATTACK TYPE ${sub?(atkOk?'✓':'✗'):''}
+        ${sub&&!atkOk?`<span style="color:var(--muted);font-weight:400"> — correct: ${pbq.attack_options.find(x=>x.id===atkCorrect)?.name}</span>`:''}
+      </div>
+      <div style="display:flex;flex-wrap:wrap;gap:6px">`;
+    pbq.attack_options.forEach(opt=>{
+      const isSel=atkSel===opt.id;
+      const isCorrectOpt=sub&&opt.id===atkCorrect;
+      const isWrongSel=sub&&isSel&&!isCorrectOpt;
+      let bg,border,color;
+      if(isCorrectOpt){bg='rgba(34,197,94,0.18)';border='var(--green)';color='var(--green)';}
+      else if(isWrongSel){bg='rgba(239,68,68,0.18)';border='var(--red)';color='var(--red)';}
+      else if(isSel){bg='rgba(220,38,38,0.18)';border='var(--d2)';color='#fff';}
+      else{bg='transparent';border='rgba(255,255,255,0.12)';color='#475569';}
+      h+=`<button onclick="selSOC('${tk.id}','attack','${opt.id}')" ${sub?'disabled':''}
+        style="padding:7px 13px;border-radius:8px;font-family:var(--mono);font-size:11px;font-weight:600;
+        background:${bg};border:1.5px solid ${border};color:${color};cursor:${sub?'default':'pointer'};transition:all .12s">${opt.name}</button>`;
+    });
+    h+=`</div>`;
+    if(sub)h+=`<div class="expl" style="border-color:${atkOk?'var(--green)':'var(--red)'};margin-top:8px;font-size:12px">${tk.attack_explanation}</div>`;
+    h+=`</div>`;
+
+    // Confirming indicator selector
+    const indSel=sel.indicator;
+    const indCorrect=tk.indicator_answer;
+    h+=`<div style="margin-bottom:4px">
+      <div style="font-family:var(--mono);font-size:9px;font-weight:700;text-transform:uppercase;letter-spacing:.08em;color:var(--d3);margin-bottom:7px">
+        CONFIRMING INDICATOR ${sub?(indOk?'✓':'✗'):''}
+        ${sub&&!indOk?`<span style="color:var(--muted);font-weight:400"> — correct: ${pbq.indicator_options.find(x=>x.id===indCorrect)?.name}</span>`:''}
+      </div>
+      <div style="display:flex;flex-wrap:wrap;gap:6px">`;
+    pbq.indicator_options.forEach(opt=>{
+      const isSel=indSel===opt.id;
+      const isCorrectOpt=sub&&opt.id===indCorrect;
+      const isWrongSel=sub&&isSel&&!isCorrectOpt;
+      let bg,border,color;
+      if(isCorrectOpt){bg='rgba(34,197,94,0.18)';border='var(--green)';color='var(--green)';}
+      else if(isWrongSel){bg='rgba(239,68,68,0.18)';border='var(--red)';color='var(--red)';}
+      else if(isSel){bg='rgba(14,165,233,0.18)';border='var(--d3)';color='#fff';}
+      else{bg='transparent';border='rgba(255,255,255,0.12)';color='#475569';}
+      h+=`<button onclick="selSOC('${tk.id}','indicator','${opt.id}')" ${sub?'disabled':''}
+        style="padding:7px 13px;border-radius:8px;font-family:var(--mono);font-size:11px;font-weight:600;
+        background:${bg};border:1.5px solid ${border};color:${color};cursor:${sub?'default':'pointer'};transition:all .12s">${opt.name}</button>`;
+    });
+    h+=`</div>`;
+    if(sub)h+=`<div class="expl" style="border-color:${indOk?'var(--green)':'var(--red)'};margin-top:8px;font-size:12px">${tk.indicator_explanation}</div>`;
+    h+=`</div>`;
+
+    h+=`</div>`; // end ticket card
+  });
+
+  if(!s.pbqDone){
+    h+=`<button class="sbtn" ${allSet?'':'disabled'}
+      style="background:${allSet?`linear-gradient(135deg,color-mix(in srgb,${c} 90%,#000),${c})`:''}; color:${allSet?'#fff':''}"
+      onclick="submitSOCTriage()">
+      ${allSet?'SUBMIT TRIAGE':`COMPLETE ALL TICKETS TO SUBMIT (${totalSels}/${totalNeeded})`}</button>`;
+  } else {
+    h+=`<button class="sbtn" onclick="gotoMCQ()" style="background:linear-gradient(135deg,color-mix(in srgb,${c} 90%,#000),${c});color:#fff">CONTINUE TO MCQ (${Math.round(s.pbqScore)}/60) →</button>`;
+  }
+  document.getElementById('r-content').innerHTML=h;
+}
+
+function selSOC(tkId, axis, optId){
+  if(RS.pbqDone)return;
+  if(!RS.socSels[tkId])RS.socSels[tkId]={};
+  RS.socSels[tkId][axis]=optId;
+  rSOCTriage();
+}
+
+function submitSOCTriage(){
+  const s=RS;const pbq=s.data.pbq;
+  const PPS=60/pbq.tickets.length;
+  let sc=0;s.missedPBQ=[];
+  pbq.tickets.forEach(tk=>{
+    const sel=s.socSels[tk.id]||{};
+    const atkOk=sel.attack===tk.attack_answer;
+    const indOk=sel.indicator===tk.indicator_answer;
+    const pts=Math.round((((atkOk?1:0)+(indOk?1:0))/2)*PPS);
+    sc+=pts;
+    if(!atkOk||!indOk){
+      s.missedPBQ.push({
+        id:tk.id,label:tk.title,
+        yourCat:pbq.attack_options.find(x=>x.id===sel.attack)?.name||'—',
+        correctCat:pbq.attack_options.find(x=>x.id===tk.attack_answer)?.name,
+        yourType:pbq.indicator_options.find(x=>x.id===sel.indicator)?.name||'—',
+        correctType:pbq.indicator_options.find(x=>x.id===tk.indicator_answer)?.name,
+        explanation:(atkOk?'':tk.attack_explanation)+(!atkOk&&!indOk?' | ':'')+(!indOk?tk.indicator_explanation:''),
+      });
+    }
+  });
+  s.pbqScore=sc;s.pbqDone=true;
+  document.getElementById('r-pbq').textContent=Math.round(sc)+'/60';
+  document.getElementById('r-pbq').style.color=sc>=42?'var(--green)':'var(--amber)';
+  rSOCTriage();window.scrollTo(0,0);
+}
 
 // ── SCENARIO BUILDER PBQ ─────────────────────────────────────────────────────
 function rScenarioBuilder(){
@@ -1963,7 +2552,7 @@ function rResult(){
     <div class="res-badge" style="background:${passed?'rgba(34,197,94,0.15)':'rgba(245,158,11,0.15)'};border-color:${passed?'rgba(34,197,94,0.4)':'rgba(245,158,11,0.4)'};color:${sc}">${bl}</div>
   </div>`;
   h+=`<div class="bdown"><div class="bdown-title">Score Breakdown</div>
-    ${RS.data.pbq?sbar(RS.data.pbq.type==='triage'?'PBQ — Change Request Triage':RS.data.pbq.type==='match'?'PBQ — Scenario Match':RS.data.pbq.type==='scenario_builder'?'PBQ — Attack Scenario Builder':RS.data.pbq.concepts?'PBQ — Concept Classification':'PBQ — Dual-Axis Classification',s.pbqScore,60,c):''}
+    ${RS.data.pbq?sbar(RS.data.pbq.type==='triage'?'PBQ — Change Request Triage':RS.data.pbq.type==='match'?'PBQ — Scenario Match':RS.data.pbq.type==='scenario_builder'?'PBQ — Attack Scenario Builder':RS.data.pbq.type==='soc_triage'?'PBQ — SOC Incident Triage':RS.data.pbq.concepts?'PBQ — Concept Classification':'PBQ — Dual-Axis Classification',s.pbqScore,60,c):''}
     ${sbar(RS.data.pbq?'MCQ — 5 Questions':'MCQ — 10 Questions (Realm Review)',s.mcqScore,RS.data.pbq?40:100,'var(--d3)')}
     <div class="divider"></div>${sbar('Total',total,100,sc)}</div>`;
 
