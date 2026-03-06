@@ -1,5 +1,4 @@
 <!DOCTYPE html>
-
 <html lang="en">
 <head>
 <meta charset="UTF-8">
@@ -19,17 +18,17 @@ body::before{content:'';position:fixed;inset:0;z-index:9999;pointer-events:none;
 .view{display:none;min-height:100vh;flex-direction:column}
 .view.active{display:flex}
 .hdr{position:sticky;top:0;z-index:100;background:rgba(6,10,18,0.96);backdrop-filter:blur(16px);border-bottom:1px solid var(--border);padding:12px 16px;display:flex;justify-content:space-between;align-items:center}
-.hdr-left .sub{font-family:var(--mono);font-size:9px;color:var(--muted)}
-.hdr-left .title{font-size:15px;font-weight:700;line-height:1.2}
+.hdr-left .sub{font-family:var(--mono);font-size:11px;color:var(--muted)}
+.hdr-left .title{font-size:18px;font-weight:700;line-height:1.2}
 .hdr-back{background:none;border:1px solid var(--border);color:var(--muted);padding:7px 13px;border-radius:8px;cursor:pointer;font-family:var(--mono);font-size:11px;min-height:36px}
 .hdr-stats{display:flex;gap:14px}
-.stat .lbl{font-family:var(--mono);font-size:9px;color:#374151}
-.stat .val{font-family:var(--mono);font-size:13px;font-weight:700}
+.stat .lbl{font-family:var(--mono);font-size:11px;color:#374151}
+.stat .val{font-family:var(--mono);font-size:15px;font-weight:700}
 .content{flex:1;max-width:680px;width:100%;margin:0 auto;padding:18px 13px 70px}
 /* REALM MAP */
 .hero{text-align:center;padding:24px 0 20px}
 .hero h1{font-size:22px;font-weight:700;margin-bottom:4px}
-.hero p{color:var(--muted);font-size:13px;margin-bottom:18px}
+.hero p{color:var(--muted);font-size:15px;margin-bottom:18px}
 .xp-wrap{max-width:240px;margin:0 auto}
 .xp-track{height:5px;background:rgba(255,255,255,0.08);border-radius:3px;overflow:hidden}
 .xp-fill{height:100%;border-radius:3px;background:linear-gradient(90deg,var(--d1),var(--d3));transition:width .6s ease}
@@ -70,7 +69,7 @@ body::before{content:'';position:fixed;inset:0;z-index:9999;pointer-events:none;
 .sc-hdr{display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:7px}
 .sc-tag{font-family:var(--mono);font-size:9px;font-weight:700;text-transform:uppercase;letter-spacing:.1em}
 .sc-cia{font-family:var(--mono);font-size:9px;color:var(--muted);font-style:italic}
-.sc-txt{color:#CBD5E1;font-size:13px;line-height:1.72}
+.sc-txt{color:#CBD5E1;font-size:15px;line-height:1.72}
 .instr{font-family:var(--mono);font-size:11px;color:var(--muted);font-style:italic;text-align:center;margin-bottom:14px}
 .meta-pills{display:flex;gap:7px;flex-wrap:wrap;margin-bottom:6px}
 .mpill{font-family:var(--mono);font-size:9px;font-weight:700;padding:2px 9px;border-radius:4px;letter-spacing:.08em;border:1px solid}
@@ -81,7 +80,7 @@ body::before{content:'';position:fixed;inset:0;z-index:9999;pointer-events:none;
 .pbq-hdr{display:flex;gap:10px;align-items:flex-start;margin-bottom:12px}
 .pbq-num{width:26px;height:26px;border-radius:50%;flex-shrink:0;display:flex;align-items:center;justify-content:center;font-family:var(--mono);font-size:11px;font-weight:700}
 .pbq-lbl{flex:1}
-.pbq-lbl-t{font-size:13px;font-weight:600;line-height:1.4;margin-bottom:3px}
+.pbq-lbl-t{font-size:15px;font-weight:600;line-height:1.4;margin-bottom:3px}
 .pbq-lbl-d{font-family:var(--mono);font-size:11px;color:var(--muted)}
 .pbq-ri{font-size:18px;flex-shrink:0}
 .axis-sec{margin-bottom:10px}
@@ -102,16 +101,16 @@ body::before{content:'';position:fixed;inset:0;z-index:9999;pointer-events:none;
 .mcq-dot{width:8px;height:8px;border-radius:50%;transition:background .3s}
 .qbox{background:rgba(0,0,0,0.4);border-radius:12px;padding:14px 15px;margin-bottom:14px;border-left:3px solid}
 .qlbl{font-family:var(--mono);font-size:9px;font-weight:700;text-transform:uppercase;letter-spacing:.1em;margin-bottom:8px}
-.qtxt{font-size:14px;font-weight:600;line-height:1.6}
+.qtxt{font-size:16px;font-weight:600;line-height:1.6}
 .opts{display:flex;flex-direction:column;gap:9px;margin-bottom:14px}
-.opt{padding:12px 14px;border-radius:10px;border:2px solid rgba(255,255,255,0.1);background:rgba(255,255,255,0.03);cursor:pointer;display:flex;align-items:flex-start;gap:10px;font-size:13px;font-weight:600;line-height:1.45;min-height:48px;text-align:left;font-family:var(--sans);color:#94A3B8;width:100%;transition:all .15s}
+.opt{padding:12px 14px;border-radius:10px;border:2px solid rgba(255,255,255,0.1);background:rgba(255,255,255,0.03);cursor:pointer;display:flex;align-items:flex-start;gap:10px;font-size:15px;font-weight:600;line-height:1.45;min-height:48px;text-align:left;font-family:var(--sans);color:#94A3B8;width:100%;transition:all .15s}
 .opt:disabled{cursor:default}
 .opt.sel{border-color:var(--sel-c,var(--d1));background:rgba(124,58,237,0.12);color:#fff}
 .opt.oc{border-color:var(--green)!important;background:rgba(34,197,94,0.12)!important;color:var(--green)!important}
 .opt.ow{border-color:var(--red)!important;background:rgba(239,68,68,0.12)!important;color:var(--red)!important}
 .opt-lt{flex-shrink:0;width:22px;height:22px;border-radius:50%;margin-top:1px;display:flex;align-items:center;justify-content:center;font-family:var(--mono);font-size:11px;font-weight:700;background:rgba(255,255,255,0.07);color:#64748b;transition:all .15s}
 .expbox{padding:12px 14px;border-radius:10px;background:rgba(255,255,255,0.03);border:1px solid rgba(255,255,255,0.08);margin-bottom:14px}
-.exp-t{color:#CBD5E1;font-size:13px;line-height:1.65;margin-bottom:10px}
+.exp-t{color:#CBD5E1;font-size:15px;line-height:1.65;margin-bottom:10px}
 .tip{padding:9px 12px;border-radius:8px;border-left:2px solid}
 .tip-lbl{font-family:var(--mono);font-size:11px;font-weight:700}
 .tip-txt{font-size:12px;color:#94A3B8}
@@ -134,7 +133,7 @@ body::before{content:'';position:fixed;inset:0;z-index:9999;pointer-events:none;
 .missed-sum{padding:12px 14px;border-radius:10px;margin-bottom:14px;background:rgba(239,68,68,0.08);border:1px solid rgba(239,68,68,0.25);display:flex;justify-content:space-between;align-items:center;cursor:pointer}
 .missed-sum-l{display:flex;align-items:center;gap:10px}
 .missed-circle{width:36px;height:36px;border-radius:50%;background:rgba(239,68,68,0.2);border:1.5px solid rgba(239,68,68,0.4);display:flex;align-items:center;justify-content:center;font-family:var(--mono);font-size:14px;font-weight:700;color:var(--red);flex-shrink:0}
-.missed-ttl{font-size:13px;font-weight:600;color:#CBD5E1}
+.missed-ttl{font-size:15px;font-weight:600;color:#CBD5E1}
 .missed-s{font-family:var(--mono);font-size:10px;color:var(--muted);margin-top:2px}
 .missed-ico{font-family:var(--mono);font-size:12px;color:var(--red);transition:transform .2s}
 .missed-ico.open{transform:rotate(180deg)}
@@ -151,10 +150,10 @@ body::before{content:'';position:fixed;inset:0;z-index:9999;pointer-events:none;
 .m-correct{color:var(--green)}
 .m-exp{font-size:12px;color:#94A3B8;line-height:1.6;border-top:1px solid rgba(255,255,255,0.06);padding-top:8px}
 .m-mcq-item{padding:12px 13px;border-radius:10px;margin-bottom:8px;background:rgba(239,68,68,0.06);border:1px solid rgba(239,68,68,0.2)}
-.m-mcq-q{font-size:13px;font-weight:600;color:#E2E8F0;margin-bottom:8px;line-height:1.4}
+.m-mcq-q{font-size:15px;font-weight:600;color:#E2E8F0;margin-bottom:8px;line-height:1.4}
 .m-mcq-ans{display:flex;flex-direction:column;gap:3px;margin-bottom:8px;font-family:var(--mono);font-size:11px}
 .m-mcq-tip{font-size:12px;color:#94A3B8;line-height:1.6;border-top:1px solid rgba(255,255,255,0.06);padding-top:8px}
-.focus-hint{padding:12px 14px;border-radius:10px;margin-bottom:14px;background:rgba(217,119,6,0.08);border:1px solid rgba(217,119,6,0.25);font-size:13px;color:#CBD5E1;line-height:1.65}
+.focus-hint{padding:12px 14px;border-radius:10px;margin-bottom:14px;background:rgba(217,119,6,0.08);border:1px solid rgba(217,119,6,0.25);font-size:15px;color:#CBD5E1;line-height:1.65}
 .res-btns{display:flex;gap:10px}
 .btn-sec{flex:1;padding:14px;border-radius:10px;font-family:var(--mono);font-size:12px;font-weight:700;border:1.5px solid;background:transparent;cursor:pointer;min-height:52px;letter-spacing:.04em}
 .btn-pri{flex:1;padding:14px;border-radius:10px;font-family:var(--mono);font-size:12px;font-weight:700;border:none;cursor:pointer;min-height:52px;letter-spacing:.04em;color:#fff}
@@ -168,7 +167,6 @@ body::before{content:'';position:fixed;inset:0;z-index:9999;pointer-events:none;
 <body>
 
 <!-- REALM MAP -->
-
 <div id="v-realm" class="view active">
   <div class="hdr">
     <div class="hdr-left"><div class="sub">SY0-701 TRAINER</div><div class="title">Security+</div></div>
@@ -192,7 +190,6 @@ body::before{content:'';position:fixed;inset:0;z-index:9999;pointer-events:none;
 </div>
 
 <!-- LEVEL MAP -->
-
 <div id="v-level" class="view">
   <div class="hdr">
     <button class="hdr-back" onclick="showRealm()">← REALMS</button>
@@ -206,7 +203,6 @@ body::before{content:'';position:fixed;inset:0;z-index:9999;pointer-events:none;
 </div>
 
 <!-- RUNNER -->
-
 <div id="v-runner" class="view">
   <div class="hdr">
     <button class="hdr-back" id="r-back">← LEVELS</button>
@@ -229,7 +225,7 @@ const REALMS=[
    levels:[{id:"d1l1",obj:"1.1",name:"Security Controls",type:"dual_classify",xp:100},{id:"d1l2",obj:"1.2",name:"Zero Trust Architecture",type:"classify",xp:100},{id:"d1l3",obj:"1.3",name:"Change Management",type:"triage",xp:100},{id:"d1l4",obj:"1.4",name:"Cryptographic Solutions",type:"match",xp:100},{id:"d1l5",obj:"1.0",name:"Realm 1 Review",type:"review",xp:150}]},
   {id:"d2",num:"2.0",name:"Threats, Vulnerabilities & Mitigations",weight:22,icon:"⚠️",color:"var(--d2)",levels:[{id:"d2l1",obj:"2.1",name:"Threat Actors & Motivations",type:"dual_classify",xp:100},{id:"d2l2",obj:"2.2",name:"Threat Vectors & Attack Surfaces",type:"scenario_builder",xp:100},{id:"d2l3",obj:"2.3",name:"Vulnerability Types",type:"classify",xp:100},{id:"d2l4",obj:"2.4",name:"Indicators of Malicious Activity",type:"soc_triage",xp:100},{id:"d2l5",obj:"2.5",name:"Mitigation Techniques",type:"match",xp:100},{id:"d2l6",obj:"2.0",name:"Realm 2 Review",type:"review",xp:150}]},
   {id:"d3",num:"3.0",name:"Security Architecture",weight:18,icon:"🏗️",color:"var(--d3)",levels:[{id:"d3l1",obj:"3.1",name:"Architecture Models & Implications",type:"match2",xp:125},{id:"d3l2",obj:"3.2",name:"Secure Enterprise Infrastructure",type:"match2",xp:125},{id:"d3l3",obj:"3.3",name:"Data Protection Concepts",type:"hotspot",xp:125},{id:"d3l4",obj:"3.4",name:"Resilience & Recovery Architecture",type:"sequence",xp:125},{id:"d3l5",obj:"3.0",name:"Realm 3 Review",type:"review",xp:175}]},
-  {id:"d4",num:"4.0",name:"Security Operations",weight:28,icon:"⚙️",color:"var(--d4)",levels:[]},
+  {id:"d4",num:"4.0",name:"Security Operations",weight:28,icon:"⚙️",color:"var(--d4)",levels:[{id:"d4l1",obj:"4.1",name:"Security Techniques & Hardening",type:"yesno",xp:125},{id:"d4l2",obj:"4.2",name:"Asset Management Lifecycle",type:"fillagap",xp:100},{id:"d4l3",obj:"4.3",name:"Vulnerability Management",type:"match",xp:125},{id:"d4l4",obj:"4.4",name:"Security Alerting & Monitoring",type:"alert_triage",xp:125}]},
   {id:"d5",num:"5.0",name:"Security Program Management",weight:20,icon:"📋",color:"var(--d5)",levels:[]},
 ];
 const ALL_LEVELS=REALMS.flatMap(r=>r.levels);
@@ -2508,7 +2504,698 @@ const D3L5={
   ],
 };
 
-const LEVEL_DATA={d1l1:D1L1,d1l2:D1L2,d1l3:D1L3,d1l4:D1L4,d1l5:D1L5,d2l1:D2L1,d2l2:D2L2,d2l3:D2L3,d2l4:D2L4,d2l5:D2L5,d2l6:D2L6,d3l1:D3L1,d3l2:D3L2,d3l3:D3L3,d3l4:D3L4,d3l5:D3L5};
+
+const D4L1={
+  pbq:{
+    type:"yesno",
+    cia_tag:"⚑ C · I · A",
+    scenario:"A security team is reviewing ten proposed configuration changes submitted by junior administrators across different device types. For each configuration statement, determine whether it HARDENS the security baseline or WEAKENS it. Consider the security implications for each device type in context.",
+    instruction:"Mark each configuration change as HARDENS or WEAKENS the security baseline.",
+    statements:[
+      {
+        id:"yn1",
+        text:"Disable unused switch ports and enable port security on all remaining active ports.",
+        device:"Network Switch",
+        answer:"hardens",
+        explanation:"Disabling unused ports eliminates physical access points that unauthorized devices could use to connect to the network. Port security limits the MAC addresses permitted on each active port, preventing rogue device connections and containing the blast radius of a compromised endpoint. Both are foundational switch hardening controls.",
+      },
+      {
+        id:"yn2",
+        text:"Allow administrative access to routers using Telnet for legacy system compatibility.",
+        device:"Router",
+        answer:"weakens",
+        explanation:"Telnet transmits all data including credentials in plaintext — any attacker with network visibility can capture router credentials through passive sniffing. SSH is the required replacement for all router administrative access. Legacy compatibility is not a valid justification for plaintext credential transmission on administrative interfaces.",
+      },
+      {
+        id:"yn3",
+        text:"Enforce automatic operating system updates on all corporate workstations.",
+        device:"Workstation",
+        answer:"hardens",
+        explanation:"Automatic OS updates ensure that known vulnerabilities are patched promptly, reducing the window of exposure between patch release and deployment. Unpatched workstations are one of the most common initial access vectors — enforcing updates is a core workstation hardening control that directly reduces attack surface.",
+      },
+      {
+        id:"yn4",
+        text:"Disable system logging on production servers to reduce storage consumption.",
+        device:"Server",
+        answer:"weakens",
+        explanation:"System logging is a critical security control — logs provide the audit trail necessary for incident detection, forensic investigation, and compliance. Disabling logging to save storage eliminates visibility into unauthorized access, privilege escalation, and anomalous activity. The correct approach is log management and rotation, not disabling logging.",
+      },
+      {
+        id:"yn5",
+        text:"Require cryptographically signed firmware updates for all IoT devices before installation.",
+        device:"IoT Device",
+        answer:"hardens",
+        explanation:"Signed firmware updates ensure that only vendor-authorized firmware can be installed — unsigned firmware could contain malicious code, backdoors, or unauthorized modifications. Firmware signing is a critical IoT hardening control because IoT devices often cannot run endpoint security agents and firmware is a primary attack vector in IoT environments.",
+      },
+      {
+        id:"yn6",
+        text:"Allow corporate mobile devices to install applications from unverified third-party sources outside the official app store.",
+        device:"Mobile Device",
+        answer:"weakens",
+        explanation:"Permitting installation from unknown sources bypasses the vetting processes of official app stores, exposing devices to malware, spyware, and trojanized applications. MDM policies should enforce app store restrictions to ensure only vetted applications are installed on corporate devices. This is a direct violation of mobile device hardening principles.",
+      },
+      {
+        id:"yn7",
+        text:"Enable WPA3 encryption on all corporate wireless networks, replacing legacy WPA2 deployments.",
+        device:"Wireless Network",
+        answer:"hardens",
+        explanation:"WPA3 provides stronger cryptographic protections than WPA2 — including Simultaneous Authentication of Equals (SAE) which replaces the Pre-Shared Key handshake and eliminates offline dictionary attacks. WPA3 also provides forward secrecy, ensuring that session keys cannot be derived even if the network password is later compromised.",
+      },
+      {
+        id:"yn8",
+        text:"Disable Secure Boot on embedded systems to simplify firmware maintenance and reduce update complexity.",
+        device:"Embedded System",
+        answer:"weakens",
+        explanation:"Secure Boot verifies that firmware has not been tampered with before execution — it ensures only cryptographically signed, authorized code runs at startup. Disabling it to simplify maintenance removes a critical integrity control, allowing unauthorized or malicious firmware to execute. Operational convenience is not a valid justification for disabling boot integrity verification.",
+      },
+      {
+        id:"yn9",
+        text:"Implement server-side input validation on all web application forms before processing user-submitted data.",
+        device:"Web Application",
+        answer:"hardens",
+        explanation:"Input validation prevents malicious data from being processed by the application — it is the primary defense against injection attacks including SQL injection, XSS, and command injection. Server-side validation is essential because client-side validation can be bypassed. Without input validation, every form field is a potential attack vector.",
+      },
+      {
+        id:"yn10",
+        text:"Disable Bluetooth on corporate laptops that do not require it for any business function.",
+        device:"Workstation",
+        answer:"hardens",
+        explanation:"Disabling unused Bluetooth eliminates an attack surface that provides no operational value for users who do not need it. Bluetooth has a history of vulnerabilities including BlueBorne, BIAS, and KNOB attacks that can enable unauthorized access without user interaction. Reducing attack surface by disabling unused wireless interfaces is a standard workstation hardening control.",
+      },
+    ],
+  },
+  mcqs:[
+    {
+      id:"q1",
+      q:"A security manager is establishing a baseline configuration program for the organization. The program has three phases: defining the approved configuration state for each system type, deploying that configuration across all systems, and ensuring configurations remain compliant over time. A new administrator asks what happens if the baseline becomes outdated as new threats emerge. Which option CORRECTLY describes all three phases and how the program handles evolving threats?",
+      options:[
+        {id:"a", label:"Establish: define the approved secure configuration state for each system type based on security requirements and vendor guidance. Deploy: apply the baseline consistently across all in-scope systems. Maintain: continuously monitor for configuration drift, remediate deviations, and update the baseline as threats, vulnerabilities, and business requirements evolve"},
+        {id:"b", label:"Establish: install all vendor-recommended software on each system. Deploy: test configurations in a sandbox before production. Maintain: replace systems when baselines become outdated"},
+        {id:"c", label:"All three phases are the same — baseline management is a one-time activity completed during initial system deployment"},
+        {id:"d", label:"Establish: purchase security tools. Deploy: run vulnerability scans. Maintain: patch systems monthly"},
+      ],
+      correct:"a",
+      explanation:"Secure baseline lifecycle has three distinct phases. Establish: define the approved configuration state — OS settings, enabled services, access controls, logging configuration — based on security frameworks, vendor hardening guides, and organizational requirements. Deploy: apply the baseline consistently across all applicable systems, ensuring uniformity. Maintain: monitor for configuration drift (deviations from baseline), remediate unauthorized changes, and update the baseline itself as new vulnerabilities, threats, and business needs emerge. The maintain phase is what prevents baselines from becoming obsolete — it is an ongoing process, not a one-time activity.",
+      exam_tip:"Baseline lifecycle: Establish = define approved state. Deploy = apply consistently. Maintain = monitor drift + remediate + update. The maintain phase is ongoing — baselines must evolve with threats. Configuration drift = deviation from established baseline.",
+    },
+    {
+      id:"q2",
+      q:"A hardening team is reviewing configuration requirements for three device categories. The first category requires disabling unused services, enforcing least privilege for service accounts, enabling audit logging, and applying CIS benchmark settings. The second category requires disabling unused ports, removing default credentials, enabling SSH instead of Telnet, and applying ACLs. The third category requires disabling unused features, enforcing full-disk encryption, requiring screen lock, and managing app permissions. Which option CORRECTLY maps each category to its device type?",
+      options:[
+        {id:"a", label:"First: Workstation. Second: Server. Third: Mobile device"},
+        {id:"b", label:"First: Server — service account management and CIS benchmarks are server-specific controls. Second: Network device (switch/router) — port management, credential hardening, and SSH are network device controls. Third: Mobile device — encryption, screen lock, and app permissions are mobile-specific controls"},
+        {id:"c", label:"First: Mobile device. Second: Workstation. Third: Server"},
+        {id:"d", label:"All three categories apply to all device types — hardening controls are universal"},
+      ],
+      correct:"b",
+      explanation:"Hardening controls are tailored to device type and attack surface. Servers: service hardening, least-privilege service accounts, audit logging, CIS benchmark application — servers run persistent services that must be individually assessed. Network devices: port security, default credential removal, SSH over Telnet, ACLs — network devices control traffic flow and are targeted for credential attacks and unauthorized access. Mobile devices: full-disk encryption, screen lock, app permission management — mobile devices face physical theft, lost device scenarios, and malicious app risks. Each device type has a distinct threat model driving its hardening priorities.",
+      exam_tip:"Server hardening = services, accounts, logging, CIS. Network device hardening = ports, credentials, SSH not Telnet, ACLs. Mobile hardening = encryption, screen lock, app control. Match the control to the threat model of the device type.",
+    },
+    {
+      id:"q3",
+      q:"A security engineer is documenting patching constraints for three specialized environments. ICS/SCADA systems controlling a power grid, RTOS firmware in medical infusion pumps, and IoT sensors deployed across a smart building. All three environments have critical vulnerabilities with available patches. The engineer determines that standard patch deployment is not feasible for any of them. Which combination of constraints BEST explains why patching is not feasible across all three?",
+      options:[
+        {id:"a", label:"All three can be patched normally — specialized environments follow the same patch cycle as general IT systems"},
+        {id:"b", label:"All three cannot be patched because they are air-gapped — air-gapped systems never receive patches"},
+        {id:"c", label:"ICS/SCADA: regulatory certification requirements mean patching voids certification and requires re-certification, combined with operational continuity requirements for critical infrastructure. RTOS/Medical: FDA approval processes mean firmware changes require regulatory re-approval before deployment. IoT sensors: devices often lack update mechanisms, are physically inaccessible, or run vendor-abandoned firmware with no patches available"},
+        {id:"d", label:"Patching is only constrained for ICS/SCADA — RTOS and IoT devices follow standard patch processes"},
+      ],
+      correct:"c",
+      explanation:"Each specialized environment has distinct patching constraints. ICS/SCADA: certified configurations cannot be changed without regulatory re-certification — patching would void operational certification and require months of re-validation while critical infrastructure remains offline. RTOS in regulated medical devices: firmware changes require FDA or equivalent regulatory approval — unauthorized firmware changes to medical devices are illegal. IoT: many devices have no update mechanism by design, are physically deployed in inaccessible locations, or run firmware the vendor no longer supports. All three share the defining characteristic of inability to patch — but for different structural reasons.",
+      exam_tip:"ICS/SCADA = regulatory certification blocks patching. Medical RTOS = FDA approval required for firmware changes. IoT = no update mechanism, physical inaccessibility, vendor abandonment. All three = inability to patch, compensating controls required: network isolation, monitoring, segmentation.",
+    },
+    {
+      id:"q4",
+      q:"A wireless network engineer is planning access point placement for a new office building. Before ordering hardware, they conduct a site survey and generate heat maps of the proposed deployment. A project manager asks why this step is necessary — can't access points just be placed in the ceiling at regular intervals? Which option BEST explains the purpose and value of site surveys and heat maps in wireless deployment?",
+      options:[
+        {id:"a", label:"Site surveys and heat maps are only required for outdoor wireless deployments — indoor environments have predictable signal propagation"},
+        {id:"b", label:"Site surveys are a compliance requirement with no practical security value — they document that wireless planning was performed"},
+        {id:"c", label:"Heat maps show which areas of the building have the most employees — AP placement follows occupancy density only"},
+        {id:"d", label:"Site surveys identify physical obstacles, interference sources, and RF propagation characteristics specific to the environment — concrete walls, metal infrastructure, and competing wireless signals all affect coverage. Heat maps visualize signal strength across the floor plan, identifying dead zones, overlap areas, and optimal AP placement before hardware is installed, preventing costly post-installation rework"},
+      ],
+      correct:"d",
+      explanation:"Regular-interval ceiling placement ignores the physical reality of RF propagation — walls, floors, metal structures, elevators, and competing RF sources all affect signal in unpredictable ways. A site survey physically measures RF characteristics of the specific environment, identifying interference sources and propagation barriers. Heat maps translate this data into visual coverage models, showing signal strength across the floor plan before hardware is committed. This prevents dead zones (coverage gaps), excessive overlap (interference), and identifies optimal AP count and placement. Post-installation rework is significantly more expensive than pre-deployment planning.",
+      exam_tip:"Site survey = physical RF environment assessment, identifies obstacles and interference. Heat map = visual signal strength model across floor plan. Both are pre-deployment planning tools. Purpose: eliminate dead zones, optimize AP placement, avoid costly post-installation changes.",
+    },
+    {
+      id:"q5",
+      q:"A CISO is evaluating MDM solutions for the organization's mobile fleet. The security team lists requirements: remotely wipe lost or stolen devices, enforce screen lock and encryption policies, control which applications can be installed, and manage connectivity settings including Wi-Fi, Bluetooth, and cellular profiles. An administrator asks whether MDM can also manage non-corporate devices employees bring to work. Which option BEST describes MDM capabilities and its scope?",
+      options:[
+        {id:"a", label:"MDM only manages hardware settings — it cannot control applications or network connectivity"},
+        {id:"b", label:"MDM is a network monitoring tool — it tracks which devices connect to corporate Wi-Fi but cannot enforce device-level policies"},
+        {id:"c", label:"MDM provides centralized management of mobile device security policies — enabling remote wipe, encryption and screen lock enforcement, application control, and connectivity profile management. MDM can manage both corporate-owned and enrolled personal devices, though policy scope on personal devices depends on the deployment model (BYOD vs COPE vs CYOD)"},
+        {id:"d", label:"MDM can only manage iOS devices — Android devices require a separate management platform"},
+      ],
+      correct:"c",
+      explanation:"MDM provides centralized policy enforcement across a mobile fleet. Core capabilities: remote wipe (full device or corporate data only), encryption and screen lock enforcement, application allowlisting/blocklisting, and connectivity profile management (Wi-Fi, VPN, Bluetooth, cellular APN). MDM can manage both corporate-owned devices and personally-owned enrolled devices, but policy depth varies by deployment model — BYOD MDM typically manages only the corporate container rather than the full device. The deployment model determines what the organization can and cannot control.",
+      exam_tip:"MDM capabilities: remote wipe, encryption enforcement, screen lock, app control, connectivity profiles. Applies to both corporate and personal enrolled devices. Policy scope depends on deployment model — BYOD limits MDM to corporate container; COPE/CYOD allows fuller device management.",
+    },
+    {
+      id:"q6",
+      q:"A company is choosing a mobile deployment model for three employee groups. Group 1: executives who want to use their personal premium smartphones for work — the company will not own the device. Group 2: field technicians who need company-issued devices but may also use them for personal use within policy limits. Group 3: employees who may choose their preferred device from a company-approved list — the company purchases and owns the device. Which deployment model applies to each group?",
+      options:[
+        {id:"a", label:"All three groups should use BYOD — personal device preference should always be accommodated"},
+        {id:"b", label:"Group 1: BYOD — employee owns the device, company has limited MDM control, personal and corporate data coexist with containerization. Group 2: COPE — company owns and issues the device, permits limited personal use within defined policy boundaries. Group 3: CYOD — company owns the device purchased from an approved list the employee selects from"},
+        {id:"c", label:"Group 1: COPE. Group 2: CYOD. Group 3: BYOD"},
+        {id:"d", label:"Group 1: CYOD. Group 2: BYOD. Group 3: COPE"},
+      ],
+      correct:"b",
+      explanation:"BYOD: employee owns and selects the device — the company enrolls it in MDM but has limited control, typically managing only a corporate container. Privacy considerations limit what the company can enforce on the personal device. COPE: company owns and issues the device — full MDM control is possible. Personal use is permitted within defined limits, making it suitable for employees who need full device management with some personal use flexibility. CYOD: company owns the device but the employee selects from a pre-approved list — combines employee preference with full corporate ownership and control. Ownership determines the depth of MDM control available.",
+      exam_tip:"BYOD = employee owns device, limited MDM scope, containerization. COPE = company owns, issues device, permits personal use, full MDM. CYOD = company owns, employee chooses from approved list, full MDM. Ownership = control depth. BYOD least control, COPE/CYOD full control.",
+    },
+    {
+      id:"q7",
+      q:"A network administrator is securing corporate wireless infrastructure. They implement WPA3 on all access points, deploy a RADIUS server for authentication, and configure AAA policies requiring certificate-based authentication before network access is granted. A colleague asks how these three components relate to each other. Which option CORRECTLY explains the relationship and role of each component?",
+      options:[
+        {id:"a", label:"WPA3, RADIUS, and AAA are three names for the same protocol — they can be used interchangeably"},
+        {id:"b", label:"WPA3 is the encryption and authentication framework for wireless — it secures the wireless channel. RADIUS is the backend authentication server that WPA3 Enterprise mode communicates with to verify credentials. AAA is the framework (Authentication, Authorization, Accounting) that RADIUS implements — defining who can access the network, what they can do, and logging what they did"},
+        {id:"c", label:"RADIUS replaces WPA3 — organizations must choose one or the other for wireless security"},
+        {id:"d", label:"AAA is only required for wired networks — wireless networks use WPA3 exclusively for all security functions"},
+      ],
+      correct:"b",
+      explanation:"These three components operate at different layers of wireless security. WPA3 is the wireless security protocol — it defines how the wireless channel is encrypted and how devices authenticate to the access point. WPA3 has two modes: Personal (pre-shared key) and Enterprise (802.1X with RADIUS). RADIUS is the authentication server used in WPA3 Enterprise — access points forward authentication requests to RADIUS, which verifies credentials against a directory. AAA is the overarching framework that RADIUS implements: Authentication (verify identity), Authorization (define access rights), and Accounting (log activity). They work in concert: WPA3 secures the channel, RADIUS verifies identity, AAA governs the complete access lifecycle.",
+      exam_tip:"WPA3 = wireless channel encryption and authentication protocol. WPA3 Enterprise uses 802.1X + RADIUS. RADIUS = backend authentication server, verifies credentials. AAA = framework: Authentication + Authorization + Accounting. RADIUS implements AAA. They layer: WPA3 secures channel → RADIUS authenticates → AAA governs access lifecycle.",
+    },
+    {
+      id:"q8",
+      q:"A code review identifies three security gaps in a web application. First: user-submitted form data is passed directly to a database query without any processing. Second: session cookies are transmitted over HTTP and are accessible to JavaScript running on the page. Third: the development team deploys compiled application binaries without any verification mechanism — a compromised build pipeline could distribute malicious binaries undetected. Which controls address each gap?",
+      options:[
+        {id:"a", label:"Encryption for all three — all web application security gaps are addressed by encrypting data"},
+        {id:"b", label:"First: input validation — sanitize and validate all user-supplied data before processing to prevent injection attacks. Second: secure cookie attributes — set the Secure flag (HTTPS only) and HttpOnly flag (blocks JavaScript access) on session cookies. Third: static code analysis — automated scanning of source code to detect vulnerabilities before deployment"},
+        {id:"c", label:"First: input validation. Second: secure cookie attributes (Secure + HttpOnly flags). Third: code signing — digitally signing binaries so recipients can verify they were produced by a trusted build pipeline and have not been tampered with"},
+        {id:"d", label:"First: sandboxing. Second: code signing. Third: input validation"},
+      ],
+      correct:"c",
+      explanation:"Each gap requires a specific control. Input validation prevents injection attacks by ensuring user-supplied data is checked, sanitized, and constrained before being processed — raw form data passed to a database query is the classic SQL injection setup. Secure cookie attributes: the Secure flag prevents cookies from being transmitted over unencrypted HTTP; the HttpOnly flag prevents JavaScript from accessing cookie values, blocking XSS-based session theft. Code signing digitally signs compiled binaries — recipients verify the signature before execution, detecting tampering or substitution in the build pipeline. Static code analysis scans source code before compilation — it addresses code quality and vulnerability patterns but does not verify binary integrity post-build.",
+      exam_tip:"Input validation = prevent injection, sanitize user input before processing. Secure cookie: Secure flag = HTTPS only, HttpOnly flag = no JavaScript access. Code signing = binary integrity verification, detects build pipeline compromise. Static code analysis = source code scanning pre-compilation, different from code signing.",
+    },
+    {
+      id:"q9",
+      q:"A security architect is evaluating two application security controls. The first digitally signs application code so that the operating system and end users can verify the software came from a trusted publisher and has not been modified since signing. The second executes untrusted or potentially malicious code in an isolated environment where it cannot access the host system, other processes, or network resources beyond what is explicitly permitted. Which option CORRECTLY identifies both controls and their primary security purpose?",
+      options:[
+        {id:"a", label:"First: code signing — provides integrity and authenticity verification for software binaries, enabling trust decisions before execution. Second: sandboxing — isolates execution of untrusted code, containing any malicious behavior within the sandbox and preventing impact to the host system"},
+        {id:"b", label:"Both are forms of encryption — code signing encrypts the binary, sandboxing encrypts the execution environment"},
+        {id:"c", label:"First: static code analysis — scanning signed code for vulnerabilities. Second: sandboxing — isolating code execution"},
+        {id:"d", label:"First: sandboxing — digital signatures create isolated execution environments. Second: code signing — execution isolation verifies publisher identity"},
+      ],
+      correct:"a",
+      explanation:"Code signing uses asymmetric cryptography — the publisher signs the binary with their private key, and the operating system or user verifies with the public key. This provides two assurances: authenticity (the software came from the claimed publisher) and integrity (it has not been modified since signing). It supports trust decisions before execution. Sandboxing restricts what code can do during execution — it runs the code in an isolated environment with constrained access to system resources, preventing malicious code from escaping its container to affect the host. Code signing answers 'can I trust this software before I run it'; sandboxing answers 'how do I limit damage if the software is malicious while it runs'.",
+      exam_tip:"Code signing = pre-execution trust: authenticity + integrity verification via digital signature. Sandboxing = execution-time containment: isolates running code from host system. Code signing is a trust decision; sandboxing is a damage limitation control. Both are application security controls but operate at different points in the execution lifecycle.",
+    },
+  ],
+};
+
+
+const D4L2={
+  pbq:{
+    type:"fillagap",
+    cia_tag:"⚑ C · I · A",
+    scenario:"A newly hired security manager is formalizing the organization's hardware procurement process. The document below outlines the required steps but is missing key security controls and process elements. Select the correct term for each blank from the option pool.",
+    instruction:"Select the correct term for each numbered blank. Each option may only be used once.",
+    document:`
+<div style="font-family:var(--mono);font-size:12px;line-height:2;color:#CBD5E1">
+<div style="color:#94A3B8;font-size:10px;font-weight:700;letter-spacing:.08em;margin-bottom:12px">HARDWARE PROCUREMENT SECURITY POLICY — DRAFT v1.0</div>
+
+<div style="margin-bottom:10px"><span style="color:var(--fg-gap)">1. VENDOR APPROVAL</span><br>
+All hardware vendors must undergo a formal <span class="gap-slot" data-id="g1">___</span> process before being added to the approved vendor list. This includes reviewing the vendor's security posture, country of origin, and potential for tampering in the <span class="gap-slot" data-id="g2">___</span>.</div>
+
+<div style="margin-bottom:10px"><span style="color:var(--fg-gap)">2. PURCHASE AUTHORIZATION</span><br>
+All hardware purchases must receive documented <span class="gap-slot" data-id="g3">___</span> before an order is placed. Unauthorized purchases introduce unvetted hardware into the environment and bypass security review.</div>
+
+<div style="margin-bottom:10px"><span style="color:var(--fg-gap)">3. RECEIPT AND VERIFICATION</span><br>
+Upon delivery, each asset must be inspected for physical tampering and assigned a unique <span class="gap-slot" data-id="g4">___</span> for tracking purposes. The asset is then logged into the centralized <span class="gap-slot" data-id="g5">___</span>.</div>
+
+<div style="margin-bottom:10px"><span style="color:var(--fg-gap)">4. CLASSIFICATION AND ASSIGNMENT</span><br>
+Each asset must be assigned a data <span class="gap-slot" data-id="g6">___</span> label reflecting the sensitivity of data it will process. An <span class="gap-slot" data-id="g7">___</span> must be formally designated as accountable for the asset throughout its lifecycle.</div>
+
+<div style="margin-bottom:10px"><span style="color:var(--fg-gap)">5. BASELINE CONFIGURATION</span><br>
+Before deployment, each asset must be configured to the organization's approved <span class="gap-slot" data-id="g8">___</span> to ensure consistent security settings across all deployed hardware.</div>
+</div>`,
+    gaps:[
+      {
+        id:"g1",
+        answer:"vetting",
+        explanation:"Vendor vetting is the formal process of evaluating a supplier's security posture, financial stability, country of origin, and risk profile before approving them as a hardware supplier. Skipping vetting is a supply chain risk — compromised or counterfeit hardware can be introduced before it ever reaches the organization.",
+      },
+      {
+        id:"g2",
+        answer:"supply chain",
+        explanation:"Supply chain risk refers to the possibility that hardware is tampered with, counterfeited, or compromised during manufacturing, shipping, or distribution — before it reaches the organization. Hardware implants and counterfeit components are real supply chain threats addressed in SY0-701.",
+      },
+      {
+        id:"g3",
+        answer:"approval",
+        explanation:"Formal purchase approval ensures that all hardware acquisitions are reviewed by authorized personnel before purchase. This gate prevents unauthorized or unvetted hardware from entering the environment and ensures budget and security requirements are met.",
+      },
+      {
+        id:"g4",
+        answer:"asset tag",
+        explanation:"An asset tag is a unique identifier — physical label, barcode, or RFID — assigned to each hardware item on receipt. It enables tracking, inventory management, and accountability throughout the asset lifecycle. Assets without tags cannot be reliably monitored or located.",
+      },
+      {
+        id:"g5",
+        answer:"inventory",
+        explanation:"The centralized asset inventory is the authoritative record of all hardware in the organization — including asset tags, assigned owners, classification, location, and status. It is the foundation of asset accountability and monitoring. An asset not in inventory is effectively unmanaged.",
+      },
+      {
+        id:"g6",
+        answer:"classification",
+        explanation:"Data classification labels (public, internal, confidential, restricted, critical) applied to assets indicate the sensitivity of data the asset will process or store. Classification determines the appropriate security controls, handling requirements, and disposal method required for the asset.",
+      },
+      {
+        id:"g7",
+        answer:"owner",
+        explanation:"Asset ownership designates a specific individual or role as formally accountable for an asset's security, configuration, and appropriate use throughout its lifecycle. Without a designated owner, no one is accountable for maintaining the asset's security posture or ensuring proper disposal.",
+      },
+      {
+        id:"g8",
+        answer:"secure baseline",
+        explanation:"A secure baseline is the approved, standardized configuration applied to all assets of a given type before deployment. It ensures consistent security settings, disables unnecessary services, and meets the organization's minimum security requirements. Deploying without a baseline creates configuration inconsistency and unknown risk.",
+      },
+    ],
+    options:[
+      "vetting","supply chain","approval","asset tag","inventory",
+      "classification","owner","secure baseline","enumeration","sanitization",
+    ],
+  },
+  mcqs:[
+    {
+      id:"q1",
+      q:"A security team is updating the organization's hardware procurement policy. They add a requirement that all new hardware vendors must be evaluated for security posture, country of manufacture, and evidence of secure handling during shipping before being approved. A second requirement mandates that all purchased hardware be inspected for physical tampering upon delivery. Which threats do these two requirements PRIMARILY address?",
+      options:[
+        {id:"a", label:"Both requirements address insider threat — employees bypassing procurement policy and introducing unapproved hardware into the environment without security review"},
+        {id:"b", label:"The first requirement addresses regulatory compliance — vendor approval lists satisfy audit requirements. The second addresses warranty verification — physical inspection confirms hardware condition for returns and claims"},
+        {id:"c", label:"Both requirements address supply chain risk — hardware compromised, counterfeited, or tampered with during manufacturing or distribution before reaching the organization. Vendor vetting reduces source risk; delivery inspection catches in-transit tampering"},
+        {id:"d", label:"The first requirement addresses software licensing compliance — approved vendors supply properly licensed software. The second addresses asset inventory accuracy — inspecting deliveries ensures received items match purchase orders"},
+      ],
+      correct:"c",
+      explanation:"Supply chain risk is the threat that hardware or software is compromised before it reaches the organization — during manufacturing, packaging, shipping, or distribution. Vendor vetting evaluates whether the supplier's security posture and origin create acceptable risk. Physical inspection on delivery detects tampering that may have occurred in transit. Both controls address the same threat domain: ensuring that assets arriving in the organization have not been compromised upstream in the supply chain.",
+      exam_tip:"Supply chain risk = hardware/software compromised before delivery. Vendor vetting = evaluate source risk. Delivery inspection = detect in-transit tampering. Both are procurement-phase supply chain controls. Hardware implants and counterfeit components are the canonical supply chain threats.",
+    },
+    {
+      id:"q2",
+      q:"An audit finding states that the organization cannot determine who is responsible for 34 servers because no individual was ever formally designated as accountable for them. A second finding states that the same servers have no sensitivity labels, making it impossible to determine appropriate security controls or disposal requirements. Which asset management concepts are missing and what is the security impact of each gap?",
+      options:[
+        {id:"a", label:"Asset ownership is missing — no designated individual is accountable for security posture, patching, or lifecycle decisions. Asset classification is missing — without a sensitivity label the organization cannot determine required controls, handling procedures, or the correct disposal method at decommissioning"},
+        {id:"b", label:"Asset inventory records are missing — adding the servers to the inventory database would automatically resolve both the accountability gap and the missing sensitivity labels by populating all required fields"},
+        {id:"c", label:"Asset tagging is missing — applying physical barcode or RFID labels to each server would resolve both the accountability gap and the missing classification labels in a single remediation step"},
+        {id:"d", label:"Both gaps are compliance documentation issues — ownership and classification labels affect audit findings and reporting but have no direct impact on the operational security posture of the servers"},
+      ],
+      correct:"a",
+      explanation:"Asset ownership designates a responsible individual or role accountable for each asset's security, maintenance, and lifecycle decisions. Without ownership, no one is responsible for patching, configuration review, or decommissioning — creating accountability gaps that persist until exploited. Asset classification assigns sensitivity labels that determine security control requirements and disposal methods. An unclassified server might be sanitized when destruction is required, or vice versa. Both missing controls create concrete security and operational failures, not just compliance gaps.",
+      exam_tip:"Ownership = designated accountable individual, responsible for lifecycle security. Classification = sensitivity label, determines controls and disposal method. Missing ownership = no accountability. Missing classification = wrong controls applied, incorrect disposal. Both are assignment/accounting objective items.",
+    },
+    {
+      id:"q3",
+      q:"A security team uses two different processes to maintain awareness of assets in their environment. The first process maintains a database updated whenever assets are purchased, assigned, moved, or decommissioned — it reflects what the organization believes it owns. The second process actively scans the network to discover every device currently present — it reveals what is actually connected, including devices not in the first process's database. Which terms describe each process and why is the second process security-relevant?",
+      options:[
+        {id:"a", label:"Both are equivalent inventory processes — active and passive approaches achieve the same result and the gap between them has no security significance for a mature asset management program"},
+        {id:"b", label:"First: enumeration — active network scanning is what creates and populates the inventory database record. Second: inventory — the maintained database performs active discovery by querying connected management agents on each device"},
+        {id:"c", label:"First: inventory — the maintained record of known, registered assets reflecting what the organization believes it owns. Second: enumeration — active discovery of all devices currently present. Enumeration reveals unauthorized devices, shadow IT, and unmanaged assets absent from inventory that may be unpatched or misconfigured"},
+        {id:"d", label:"First: asset tagging — physical labeling of hardware creates the database records that form the inventory. Second: classification — active network scanning assigns sensitivity labels to discovered devices based on their observed network behavior"},
+      ],
+      correct:"c",
+      explanation:"Inventory is the maintained authoritative record — updated through formal processes when assets are acquired, moved, or removed. It reflects organizational knowledge of what should exist. Enumeration is active discovery — scanning the environment to find what actually exists. The gap between inventory and enumeration reveals unknown assets: shadow IT devices employees connected without authorization, forgotten test systems never decommissioned, or malicious devices placed by attackers. Unmanaged devices are security risks because they are outside policy enforcement, patch management, and monitoring scope.",
+      exam_tip:"Inventory = maintained record of known assets (what should be there). Enumeration = active discovery of present devices (what is actually there). Gap between them = shadow IT, unauthorized devices, forgotten systems. Enumeration finds what inventory misses.",
+    },
+    {
+      id:"q4",
+      q:"A security assessment reveals three asset management failures. First: the organization's inventory shows 847 active servers but a network scan finds 923 — 76 servers have no inventory records. Second: 12 laptops assigned to employees who left the company six months ago are still listed as active assets with no follow-up. Third: a department purchased and deployed 8 workstations without going through the procurement process — they have no asset tags, no classification, and no owner assignment. Which failure modes do these three findings represent?",
+      options:[
+        {id:"a", label:"All three are procurement failures — a stricter purchase approval process with mandatory asset registration at point of sale would have prevented the inventory discrepancy, the stale laptop records, and the unregistered workstation deployment simultaneously"},
+        {id:"b", label:"First: enumeration gap — the scan found more devices than inventory because enumeration was not run frequently enough. Second: classification failure — departed employee laptops were never given sensitivity labels. Third: ownership gap — the workstations lack a designated owner, which is the primary control missing"},
+        {id:"c", label:"All three are monitoring failures — deploying a continuous monitoring platform with automated alerts would detect inventory discrepancies, flag inactive employee assets, and identify unregistered devices before they become audit findings"},
+        {id:"d", label:"First: ghost assets — devices present in the environment but absent from inventory, unmanaged and outside security controls. Second: stale records — assets still active in inventory after employees departed, creating accountability confusion and potential unauthorized access risk. Third: shadow IT — assets acquired outside formal processes, bypassing tagging, classification, and owner assignment entirely"},
+      ],
+      correct:"d",
+      explanation:"Each finding represents a distinct asset tracking failure. Ghost assets: devices present in the environment but missing from inventory — they receive no patch management, monitoring, or security policy enforcement. Stale records: departed employees' assets still active in inventory create accountability confusion and may mean devices were not collected, wiped, or decommissioned — a data security and access control risk. Shadow IT: assets acquired outside formal processes bypass vendor vetting, procurement approval, asset tagging, classification, and owner assignment simultaneously — they exist entirely outside the security management framework.",
+      exam_tip:"Ghost assets = in environment, not in inventory (unmanaged). Stale records = in inventory, no longer valid (accountability gap). Shadow IT = acquired outside process, no tags/classification/owner. All three are asset tracking failures with distinct security implications.",
+    },
+    {
+      id:"q5",
+      q:"An IT manager is decommissioning 15 servers. Before scheduling physical disposal, the security team insists on completing a formal decommissioning workflow. The manager asks why the assets can't simply be sent for recycling immediately. Which option BEST explains the purpose and required steps of a formal decommissioning workflow?",
+      options:[
+        {id:"a", label:"Decommissioning workflow ensures before physical disposal: access credentials are revoked, data is sanitized or destroyed, the asset is removed from inventory and monitoring systems, ownership is released, and a decommissioning certificate is issued. Skipping risks data exposure, orphaned accounts, continued billing, and assets that disappear without documented disposal"},
+        {id:"b", label:"Formal decommissioning applies only to assets that processed classified or regulated data — standard production servers used for general business operations can be sent for physical recycling without completing a security workflow or documentation step"},
+        {id:"c", label:"Decommissioning workflow is primarily an accounting and finance process — it ensures assets are removed from depreciation schedules and capital records, but the steps involved have no meaningful security implications for the organization's risk posture"},
+        {id:"d", label:"Formal decommissioning workflow is only triggered when assets are transferred to or sold to external third parties — assets recycled or destroyed internally through a contracted disposal vendor do not require credential revocation, inventory updates, or documentation"},
+      ],
+      correct:"a",
+      explanation:"Decommissioning is a multi-step security process, not a physical event. Required steps include: revoking all access credentials and service accounts associated with the asset, sanitizing or destroying data storage, removing the asset from inventory and monitoring systems (so it stops generating alerts and billing), formally releasing ownership, and issuing a certificate of decommissioning as an auditable record. Bypassing these steps creates concrete risks: data exposure from drives that were not wiped, orphaned service accounts that remain active, assets that disappear from inventory without documented disposal, and regulatory compliance gaps.",
+      exam_tip:"Decommissioning = multi-step process before physical disposal. Steps: revoke access → sanitize/destroy data → remove from inventory → release ownership → issue certificate. Certificate of decommissioning = auditable record of proper disposal. Skipping creates data exposure, orphaned accounts, inventory gaps.",
+    },
+    {
+      id:"q6",
+      q:"A security team must select disposal methods for four assets. A decommissioned server with confidential financial records that will be resold to a third party. An SSD from a classified government project that cannot be resold under any circumstances. A malfunctioning laptop with a physically damaged drive that cannot be accessed by any software tool. A USB drive containing trade secret intellectual property being permanently retired. Which disposal approach CORRECTLY addresses all four scenarios?",
+      options:[
+        {id:"a", label:"All four assets should be physically destroyed regardless of resale intent — destruction is always the most secure disposal method and the residual asset value does not justify the risk of any sanitization process potentially failing to remove all data"},
+        {id:"b", label:"Server: sanitization enables safe resale while protecting confidential records. SSD (classified): destruction required — classified data prohibits resale and demands irrecoverability. Damaged laptop: destruction — software sanitization cannot be verified on a physically inaccessible drive. USB (trade secret): destruction — sensitivity level warrants highest assurance over asset recovery"},
+        {id:"c", label:"All four assets should be sanitized using certified overwrite or cryptographic erase methods — modern sanitization standards are sufficient for all sensitivity levels including classified data and trade secrets, while enabling maximum hardware recovery value for the organization"},
+        {id:"d", label:"Server: destruction — financial data always requires physical destruction regardless of resale plans. SSD: sanitization is sufficient for classified government data when performed by a certified vendor. Damaged laptop: sanitization using specialized recovery tools. USB: retain for potential future use"},
+      ],
+      correct:"b",
+      explanation:"Disposal method selection depends on data sensitivity, regulatory requirements, and physical condition. Sanitization (overwrite, cryptographic erase, degaussing) removes data while preserving hardware for reuse — appropriate when resale is permitted and data sensitivity allows it. Destruction (shredding, disintegration, incineration) physically renders the media irrecoverable — required when classified regulations prohibit resale, when physical damage prevents software sanitization, or when data sensitivity warrants the highest assurance. The damaged drive case is important: a physically inaccessible drive cannot be verified as sanitized — destruction is the only reliable option.",
+      exam_tip:"Sanitization = data removed, hardware reusable. Use when: resale permitted, data sensitivity allows. Destruction = physically irrecoverable. Use when: classified/regulated, physically damaged media, highest sensitivity. Damaged media cannot be verified sanitized — always destroy. Method follows sensitivity + condition + regulatory requirement.",
+    },
+    {
+      id:"q7",
+      q:"A legal team issues three data retention directives. First: all emails related to an ongoing litigation must be preserved exactly as they exist and cannot be deleted or modified, regardless of the organization's normal 90-day email retention policy. Second: all financial transaction records must be retained for seven years per regulatory requirement, even after they are no longer operationally needed. Third: customer support tickets older than two years with no associated legal or regulatory hold may be deleted per standard policy. Which retention concepts apply to each directive?",
+      options:[
+        {id:"a", label:"All three directives represent the same retention concept — organizational data retention policy governs all data uniformly regardless of litigation status, regulatory category, or operational age, with a single retention schedule applied across the entire data estate"},
+        {id:"b", label:"First: regulatory retention — the litigation emails fall under a compliance framework mandating preservation. Second: legal hold — financial records require suspension of normal deletion due to an active investigation. Third: destruction certificate — support tickets past their retention period require certified destruction documentation before deletion"},
+        {id:"c", label:"First: legal hold — litigation requires preserving specific data outside normal schedules, suspending deletion policies for its duration. Second: regulatory retention — compliance frameworks mandate minimum periods for specific data types regardless of operational need. Third: standard retention policy — data with no legal or regulatory constraint follows normal schedules and should be disposed of when the period expires"},
+        {id:"d", label:"All three require indefinite retention — once data has been created and stored in any system it must be preserved permanently to ensure availability for future litigation, regulatory inquiries, or operational needs that cannot be anticipated at time of creation"},
+      ],
+      correct:"c",
+      explanation:"Data retention has three distinct drivers. Legal hold: when litigation or investigation is reasonably anticipated, specific data must be preserved in its current state — normal deletion policies are suspended for the duration. Destroying data under legal hold is spoliation, which can result in severe legal penalties. Regulatory retention: compliance frameworks (SOX, HIPAA, PCI-DSS) mandate minimum retention periods for specific data categories — organizations must retain this data for the required period regardless of operational relevance. Standard retention policy: data with no legal or regulatory constraint follows organizational policy — it should be disposed of when the retention period expires to reduce storage costs and data breach exposure.",
+      exam_tip:"Legal hold = litigation/investigation triggered, suspend deletion, preserve current state. Regulatory retention = compliance-mandated minimum period (SOX 7yr, HIPAA 6yr). Standard policy = dispose when period expires. Three distinct drivers, three distinct responses. Destroying data under legal hold = spoliation.",
+    },
+  ],
+};
+
+
+const D4L3={
+  pbq:{
+    type:"match",
+    cia_tag:"⚑ C · I · A",
+    scenario:"A vulnerability management team is reviewing six open findings from the latest assessment cycle. For each vulnerability scenario, select the MOST appropriate remediation strategy from the option pool. Consider the nature of the vulnerability, operational constraints, and risk context for each decision.",
+    instruction:"Match each vulnerability scenario to its most appropriate remediation strategy.",
+    rows:[
+      {
+        id:"sc1",
+        label:"Finding 1",
+        requirement:"A critical CVSSv3 9.8 remote code execution vulnerability exists in the web server software running on a public-facing e-commerce platform. The vendor released a patch 14 days ago. The application has a maintenance window available this weekend. No compensating controls are currently in place.",
+        answer:"rm1",
+        explanation:"Patching is the correct response when a vendor-supplied fix is available, the vulnerability is critical, and an appropriate maintenance window exists. A CVSSv3 9.8 RCE on a public-facing system represents maximum urgency — compensating controls or segmentation would only reduce exposure temporarily. The available maintenance window removes the primary operational objection to patching.",
+      },
+      {
+        id:"sc2",
+        label:"Finding 2",
+        requirement:"An ICS/SCADA system controlling a manufacturing floor has a known vulnerability. The vendor confirmed the system cannot be patched without shutting down production for four weeks and voiding regulatory certification. The system processes no internet traffic and handles only internal manufacturing data.",
+        answer:"rm2",
+        explanation:"Segmentation is the correct compensating strategy when patching is not feasible due to operational or regulatory constraints. Placing the ICS system in an isolated network segment with strict access controls and no internet connectivity reduces the attack surface without requiring downtime. This is the canonical ICS/SCADA remediation pattern when patching is blocked.",
+      },
+      {
+        id:"sc3",
+        label:"Finding 3",
+        requirement:"A vulnerability scanner reports that a legacy authentication system has weak password hashing. The system cannot be patched or replaced for 18 months due to a contractual dependency. The system handles internal HR data for 200 employees. The security team must reduce risk without replacing the system.",
+        answer:"rm3",
+        explanation:"A compensating control addresses risk when patching and replacement are not available. In this case, implementing MFA on top of the weak authentication system, restricting network access to authorized hosts only, and increasing monitoring compensates for the underlying weakness without requiring system replacement. Compensating controls are documented, time-bounded risk reductions accepted while a permanent fix is pursued.",
+      },
+      {
+        id:"sc4",
+        label:"Finding 4",
+        requirement:"A third-party risk assessment identifies that a critical business partner's file transfer portal has an unpatched vulnerability. The organization has no ability to remediate the partner's systems. A data breach through this channel could expose customer PII and result in regulatory fines estimated at $2–5M. The organization's cyber insurance policy covers third-party breach scenarios.",
+        answer:"rm4",
+        explanation:"Insurance is the appropriate risk response when the organization cannot control the vulnerability (third-party system), the potential financial impact is quantifiable, and an insurance policy exists that covers the specific scenario. Insurance does not eliminate the vulnerability but transfers the financial risk. It should be combined with contractual pressure on the partner and monitoring, but it is the primary remediation lever available.",
+      },
+      {
+        id:"sc5",
+        label:"Finding 5",
+        requirement:"A vulnerability scan flags an open port on a development server as a finding. The security team confirms the port is intentionally open, required for a specific development workflow, documented in the system's approved configuration, and reviewed and accepted by the system owner and CISO. The risk has been formally evaluated and accepted.",
+        answer:"rm5",
+        explanation:"An exception or exemption is the correct response when a finding has been formally reviewed, the risk has been evaluated and accepted by appropriate stakeholders, and the configuration is intentional and documented. Applying a patch or compensating control to an intentional, accepted configuration would be operationally incorrect. The exception documents the accepted risk with owner accountability and a review date.",
+      },
+      {
+        id:"sc6",
+        label:"Finding 6",
+        requirement:"A vulnerability scan identifies a low-severity CVSS 2.9 finding on an internal-only reporting tool used by two analysts. The tool has no patch available. The security team evaluates the finding: exploitation requires authenticated local access, the tool contains no sensitive data, and implementing compensating controls would cost significantly more than the estimated impact of a successful exploit. Leadership reviews the analysis and formally documents their decision with a scheduled re-evaluation date.",
+        answer:"rm6",
+        explanation:"Risk Acceptance is the correct response when the cost of remediation or compensating controls exceeds the potential impact, no patch is available, and the residual risk has been formally evaluated and documented by appropriate stakeholders. This is distinct from an Exception/Exemption — which is a documented deviation from a specific policy control. Risk Acceptance is a broader risk management decision: the organization acknowledges the risk exists, quantifies the impact, and consciously chooses to accept it with a scheduled review. The low CVSS score, authenticated-only access requirement, and absence of sensitive data all support this decision.",
+      },
+    ],
+    solutions:[
+      {id:"rm3", name:"Compensating Control"},
+      {id:"rm6", name:"Risk Acceptance"},
+      {id:"rm5", name:"Exception / Exemption"},
+      {id:"rm1", name:"Patching"},
+      {id:"rm4", name:"Insurance"},
+      {id:"rm7", name:"Penetration Testing"},
+      {id:"rm2", name:"Segmentation"},
+    ],
+  },
+  mcqs:[
+    {
+      id:"q1",
+      q:"A security team uses three different methods to identify vulnerabilities. The first method runs automated tools against systems to detect known vulnerabilities, misconfigurations, and missing patches without attempting exploitation. The second method involves authorized security professionals attempting to actively exploit vulnerabilities to demonstrate real-world attack impact. The third method reviews security controls, processes, and configurations against a defined standard through documentation review and interviews. Which option CORRECTLY identifies all three methods and their primary distinction?",
+      options:[
+        {id:"a", label:"All three methods are equivalent approaches to vulnerability scanning — they differ only in the tools used and the depth of automated checks performed against target systems"},
+        {id:"b", label:"First: vulnerability scan — automated detection of known issues without exploitation, identifies what exists. Second: penetration testing — authorized active exploitation to demonstrate real attack impact and attack paths. Third: system/process audit — structured review of controls and configurations against a defined standard through documentation and interviews"},
+        {id:"c", label:"First: penetration testing — automated tools perform active exploitation. Second: vulnerability scan — human testers identify misconfigurations manually. Third: penetration testing — audits are a type of penetration test focused on compliance validation"},
+        {id:"d", label:"First: system audit — automated scans review configurations against documented standards. Second: vulnerability scan — manual testing attempts exploitation of identified weaknesses. Third: penetration test — auditors interview staff to identify exploitable vulnerabilities in human processes"},
+      ],
+      correct:"b",
+      explanation:"Vulnerability scanning is automated and non-exploitative — it identifies known vulnerabilities by comparing system states against vulnerability databases without attempting to use them. Penetration testing is active and human-driven — testers attempt real exploitation to demonstrate attack paths and business impact. System/process audits are structured assessments — they evaluate whether controls meet a defined standard through documentation review, configuration inspection, and interviews. The key distinctions are exploitation (scan vs pentest) and methodology (technical vs procedural).",
+      exam_tip:"Vulnerability scan = automated, non-exploitative, identifies what exists. Penetration test = authorized exploitation, demonstrates impact. Audit = control review against standard, documentation and interviews. Each answers a different question: scan = what vulnerabilities exist; pentest = what can be exploited; audit = are controls meeting requirements.",
+    },
+    {
+      id:"q2",
+      q:"A development security team applies three testing methods to a web application before release. The first reviews source code without executing it, using automated tools to flag insecure patterns, hardcoded credentials, and injection vulnerabilities. The second runs the compiled application and sends malformed inputs, observing how the running application responds to unexpected data. The third continuously monitors third-party libraries and dependencies used by the application for newly disclosed vulnerabilities after deployment. Which option CORRECTLY maps each method to its name and timing in the development lifecycle?",
+      options:[
+        {id:"a", label:"First: dynamic analysis — tools execute code automatically during review. Second: static analysis — runtime behavior is observed passively without sending inputs. Third: penetration testing — post-deployment dependency monitoring is performed by external testers"},
+        {id:"b", label:"First: package monitoring — source code libraries are scanned before compilation. Second: dynamic analysis — the application is running during testing. Third: static analysis — post-deployment code review identifies newly introduced vulnerabilities in updated source files"},
+        {id:"c", label:"First: static analysis — source code reviewed without execution, pre-compilation. Second: dynamic analysis — application tested while running, observing live behavior. Third: package monitoring — continuous post-deployment monitoring of third-party dependencies for newly disclosed CVEs"},
+        {id:"d", label:"All three are forms of static analysis — any automated security testing of application code before production release is classified as static analysis regardless of whether the application is running during the test"},
+      ],
+      correct:"c",
+      explanation:"Static analysis examines source code without executing it — tools parse code structure, data flows, and patterns to identify vulnerabilities pre-compilation. Dynamic analysis tests the running application — sending inputs and observing behavior reveals runtime vulnerabilities like injection flaws that may not be visible in source code. Package monitoring is ongoing post-deployment — it tracks third-party libraries and dependencies against vulnerability databases, alerting when a component in use has a newly disclosed CVE. Each method covers a different phase and catches different vulnerability classes.",
+      exam_tip:"Static = code reviewed without execution, pre-compile, finds code-level flaws. Dynamic = application running, live inputs sent, finds runtime behavior flaws. Package monitoring = post-deployment, tracks dependencies for new CVEs. SAST = static, DAST = dynamic. All three together provide coverage across the full development lifecycle.",
+    },
+    {
+      id:"q3",
+      q:"A threat intelligence team sources vulnerability and threat data from four channels. The first aggregates publicly available information from forums, social media, security blogs, and public vulnerability databases at no cost. The second is a subscription service from a commercial security vendor providing curated, high-confidence indicators and vulnerability intelligence. The third involves membership in an industry group where organizations share threat data observed in their own environments under agreed protocols. The fourth involves monitoring underground forums and marketplaces where threat actors sell exploits and discuss active attack campaigns. Which option CORRECTLY identifies all four sources?",
+      options:[
+        {id:"a", label:"First: OSINT — publicly available, no cost, open sources. Second: proprietary/third-party feed — commercial vendor, curated, subscription-based. Third: information-sharing organization — member organizations sharing observed threat data under agreed protocols. Fourth: dark web — underground forums where threat actors discuss exploits and active campaigns"},
+        {id:"b", label:"First: proprietary feed — public sources require commercial aggregation to be usable. Second: OSINT — vendor feeds compile open-source data. Third: dark web — underground groups share threat actor data. Fourth: information-sharing organization — coordinated underground monitoring programs"},
+        {id:"c", label:"All four are OSINT sources — any threat intelligence that can be accessed by a security team without exploiting systems is classified as open-source intelligence regardless of cost or access method"},
+        {id:"d", label:"First: information-sharing organization — public forums are coordinated sharing programs. Second: OSINT — commercial feeds compile publicly available data. Third: proprietary feed — industry groups sell curated threat data. Fourth: OSINT — dark web forums are publicly accessible open sources"},
+      ],
+      correct:"a",
+      explanation:"OSINT is freely available public information — no cost, no special access required. Proprietary/third-party feeds are commercial products — curated, high-confidence, subscription-based. Information-sharing organizations (ISACs, ISAOs) facilitate structured sharing of threat data among member organizations — each contributor shares what they observe, receiving collective intelligence in return. Dark web monitoring accesses underground forums and marketplaces where threat actors operate — requiring specialized tools and significant ethical and legal consideration. Each source has different cost, access requirements, and intelligence quality characteristics.",
+      exam_tip:"OSINT = free, public, open. Proprietary = paid, commercial, curated. Information-sharing org = ISAC/ISAO, member-contributed, sector-specific. Dark web = underground forums, threat actor activity, specialized access. Intelligence quality and timeliness vary significantly across these four sources.",
+    },
+    {
+      id:"q4",
+      q:"A software company wants to identify vulnerabilities in its products before malicious actors exploit them. They implement two programs. The first establishes a formal channel where external security researchers can privately report discovered vulnerabilities directly to the company before public disclosure, giving the company time to develop and release a fix. The second offers financial rewards to external researchers who discover and report valid vulnerabilities through the formal channel, incentivizing broader participation. Which option CORRECTLY describes both programs and their relationship?",
+      options:[
+        {id:"a", label:"Both programs are penetration testing engagements — external researchers performing security testing under contract are classified as penetration testers regardless of how they report findings or whether they receive payment"},
+        {id:"b", label:"First: bug bounty program — financial rewards are the defining characteristic of responsible disclosure. Second: responsible disclosure — the formal reporting channel is a separate concept from the incentive structure"},
+        {id:"c", label:"First: responsible disclosure program — establishes a structured private reporting channel giving the vendor time to patch before public disclosure. Second: bug bounty program — adds financial incentives to the responsible disclosure framework, expanding the researcher pool and increasing discovery rate"},
+        {id:"d", label:"Both programs are vulnerability scanning initiatives — automated and manual external scanning programs that report findings to the vendor for remediation with optional compensation structures"},
+      ],
+      correct:"c",
+      explanation:"Responsible disclosure establishes the ethical and procedural framework — researchers report privately, the vendor receives time to remediate, and coordinated public disclosure follows after a fix is available. It protects users by ensuring patches precede public knowledge of vulnerabilities. Bug bounty programs add financial incentives to this framework — rewards increase participation, attract higher-skill researchers, and expand coverage beyond what internal teams can achieve. Bug bounty is built on top of responsible disclosure; they are complementary, not competing programs.",
+      exam_tip:"Responsible disclosure = private report to vendor, coordinated disclosure after fix, protects users. Bug bounty = financial reward added to responsible disclosure framework, incentivizes external researcher participation. Bug bounty requires a responsible disclosure foundation — you can't have bug bounty without a disclosure process.",
+    },
+    {
+      id:"q5",
+      q:"A vulnerability scanner reports 847 findings from a network scan. During analysis, the team identifies two types of errors in the results. The first type includes findings where the scanner flagged a vulnerability that does not actually exist on the system — the software version is not affected, but the scanner incorrectly identified it as vulnerable. The second type involves systems that have a real vulnerability the scanner did not detect and did not report. Which option CORRECTLY identifies both error types and their security implications?",
+      options:[
+        {id:"a", label:"First: false negative — incorrectly reported findings waste analyst time but represent no security risk since the vulnerability does not exist. Second: false positive — missed vulnerabilities are lower priority because the scanner's confidence threshold filtered them out intentionally"},
+        {id:"b", label:"Both are false positives — any scanner result that does not accurately reflect the true state of the system is classified as a false positive regardless of whether the error is an over-report or an under-report"},
+        {id:"c", label:"First: true positive — confirmed vulnerabilities reported by the scanner are always true positives by definition. Second: true negative — vulnerabilities the scanner did not report were correctly excluded based on the scanner's confidence threshold settings"},
+        {id:"d", label:"First: false positive — scanner reported a vulnerability that does not exist, consuming analyst time investigating non-issues and potentially causing unnecessary patching of unaffected systems. Second: false negative — scanner missed a real vulnerability, leaving it undetected and unremediated, representing actual unaddressed risk in the environment"},
+      ],
+      correct:"d",
+      explanation:"False positive: the scanner reported a vulnerability that does not actually exist — the system is not vulnerable. Impact: analyst time wasted investigating non-issues, risk of unnecessary changes to unaffected systems, alert fatigue reducing trust in scan results. False negative: a real vulnerability exists but the scanner did not detect it — it is absent from the report. Impact: the vulnerability remains unaddressed because the team does not know it exists. False negatives are the more dangerous error — false positives waste time, false negatives leave real risk unmanaged.",
+      exam_tip:"False positive = reported but doesn't exist, wastes analyst time. False negative = exists but not reported, leaves real risk undetected. False negatives are more dangerous — unknown risk cannot be remediated. Tuning scanners reduces false positives but risks increasing false negatives.",
+    },
+    {
+      id:"q6",
+      q:"A vulnerability analyst is reviewing two standardized systems used to track and prioritize vulnerabilities. The first assigns a numeric score from 0 to 10 based on exploitability, impact, and attack complexity, allowing organizations to compare severity across different vulnerabilities and prioritize remediation. The second is a standardized naming system that assigns each publicly disclosed vulnerability a unique identifier, enabling consistent reference to the same vulnerability across different tools, vendors, and databases. Which option CORRECTLY identifies both systems and their distinct purposes?",
+      options:[
+        {id:"a", label:"Both systems serve the same purpose — CVSS and CVE are two names for the same vulnerability tracking standard maintained by the same organization for the same use case"},
+        {id:"b", label:"First: CVSS — numeric severity scoring system 0–10, enables prioritization by exploitability and impact. Second: CVE — standardized unique identifier for each publicly disclosed vulnerability, enables consistent cross-tool and cross-vendor reference"},
+        {id:"c", label:"First: CVE — numeric scoring from 0–10 enables cross-vulnerability severity comparison and remediation prioritization. Second: CVSS — unique identifiers assigned to each vulnerability enable consistent cross-tool reference and database lookup"},
+        {id:"d", label:"First: CVSS — a database maintained by NIST containing detailed descriptions of all known vulnerabilities. Second: CVE — a scoring algorithm applied by individual vendors to rate the severity of vulnerabilities in their own products"},
+      ],
+      correct:"b",
+      explanation:"CVSS (Common Vulnerability Scoring System) provides a numeric severity score — Base, Temporal, and Environmental metrics combine to produce a 0–10 score. It answers 'how severe is this vulnerability' and enables prioritization across different findings. CVE (Common Vulnerability Enumeration) provides a unique identifier — CVE-YYYY-NNNNN format — for each publicly disclosed vulnerability. It answers 'which specific vulnerability are we talking about' and enables consistent reference across scanners, patch management tools, threat feeds, and vendor advisories. CVSS scores the severity; CVE names the vulnerability.",
+      exam_tip:"CVSS = severity score 0–10, prioritization tool, how bad is it. CVE = unique identifier CVE-YYYY-NNNNN, naming system, which vulnerability is it. NVD (National Vulnerability Database) hosts CVE entries with CVSS scores. They work together: CVE identifies, CVSS scores.",
+    },
+    {
+      id:"q7",
+      q:"A risk analyst is prioritizing 200 vulnerabilities from a recent assessment. Four factors influence the prioritization decision for each finding. A web server vulnerability has a CVSS base score of 7.5 but the affected system is isolated from the internet with no external access. A database vulnerability scores 6.2 but sits in a regulated environment where exploitation would trigger mandatory breach notification affecting 50,000 customers. A workstation vulnerability scores 8.1 but the organization has accepted higher risk tolerance for endpoint systems compared to servers. A firewall vulnerability scores 7.8 and the affected system is one of only two controlling all external traffic. Which factor MOST changes the effective priority of each finding from its base CVSS score?",
+      options:[
+        {id:"a", label:"CVSS base scores should be used as-is without adjustment — modifying priority based on environmental factors introduces subjectivity that undermines consistent vulnerability management across the organization"},
+        {id:"b", label:"All four should be prioritized equally at their CVSS base scores — environmental adjustments are only applied during the reporting phase and do not influence the initial triage and prioritization workflow"},
+        {id:"c", label:"Web server: risk tolerance — the security team accepts risk on all internet-isolated systems by policy. Database: exposure factor — regulated data classification increases the measurable attack surface score. Workstation: environmental variables — endpoint systems occupy a different network tier. Firewall: industry impact — firewall vulnerabilities by definition affect the entire industry sector"},
+        {id:"d", label:"Web server: exposure factor — isolation reduces exploitation likelihood regardless of base score. Database: industry/organizational impact — regulatory breach notification amplifies business impact beyond technical score. Workstation: risk tolerance — accepted higher endpoint risk reduces effective priority. Firewall: environmental variables — single points of control amplify exploitation consequences"},
+      ],
+      correct:"d",
+      explanation:"CVSS base scores measure technical severity in isolation — they do not account for organizational context. Exposure factor adjusts priority based on how exploitable a vulnerability actually is in the specific environment — an isolated system has lower exposure regardless of CVSS score. Organizational/industry impact incorporates business consequences beyond technical impact — regulatory breach notification amplifies the real-world cost of exploitation. Risk tolerance reflects deliberate organizational decisions about acceptable risk in specific asset categories. Environmental variables capture asset criticality and architectural significance — a vulnerability on a single point of control is more consequential than the same score on a redundant system.",
+      exam_tip:"CVSS base score = technical severity in isolation. Exposure factor = how reachable/exploitable in this environment. Environmental variables = asset criticality, architecture. Organizational impact = business/regulatory consequences. Risk tolerance = accepted risk thresholds. Effective priority = base score adjusted by all four contextual factors.",
+    },
+    {
+      id:"q8",
+      q:"A vulnerability management team completes remediation on a critical finding and must now confirm the fix was effective. They perform three validation activities. The first re-runs the original vulnerability scan against the affected system to check whether the finding still appears. The second has an independent party review the change record, confirm the patch was applied correctly, and validate that no compensating controls were bypassed. The third has the system owner confirm that the application still functions correctly and no unintended changes were introduced by the remediation. Which validation activities do these three steps represent and why is each necessary?",
+      options:[
+        {id:"a", label:"First: rescanning — re-running the scan confirms the vulnerability no longer appears in automated detection. Second: audit — independent review validates remediation was performed correctly per change management records. Third: verification — system owner confirms correct function and absence of unintended side effects from remediation. All three together provide complete validation"},
+        {id:"b", label:"All three activities are forms of rescanning — repeating the vulnerability scan with different configurations, from different network positions, and with application-layer probes covers all validation requirements without separate audit or functional confirmation steps"},
+        {id:"c", label:"First: audit — automated scanners perform formal configuration audits after remediation. Second: verification — reviewing change management records verifies patch application. Third: rescanning — functional testing is conducted by re-running scans with application-layer and behavioral analysis probes"},
+        {id:"d", label:"First: verification — initial scan results verify that the vulnerability existed before remediation. Second: rescanning — independent parties rescan from external network positions to validate. Third: audit — post-remediation functional testing audits application behavior for security regressions"},
+      ],
+      correct:"a",
+      explanation:"Remediation validation requires three distinct confirmations. Rescanning re-runs automated detection to confirm the vulnerability signature no longer appears — it validates the technical fix from the scanner's perspective but cannot confirm the patch was applied correctly or that nothing broke. Audit provides independent review of the remediation process — confirming the correct patch version was applied, change management procedures were followed, and no controls were bypassed. Verification confirms functional integrity — the system owner validates the application still works correctly and the remediation did not introduce new issues. Each addresses a different failure mode: rescanning catches incomplete fixes, audit catches process failures, verification catches functional regressions.",
+      exam_tip:"Rescanning = scan again, confirms vulnerability no longer detected. Audit = independent review of remediation process and change records. Verification = system owner confirms correct function post-remediation. All three together = complete validation. Rescanning alone is insufficient — it confirms scanner doesn't see it but not that the fix was correct.",
+    },
+  ],
+};
+
+
+const D4L4={
+  pbq:{
+    type:"alert_triage",
+    cia_tag:"⚑ C · I · A",
+    scenario:"A SOC analyst is reviewing six security alerts from the monitoring platform. For each alert, select the MOST appropriate immediate response action. Consider the nature of the alert, confidence level, and operational context before deciding.",
+    instruction:"Select the correct response action for each alert.",
+    responses:[
+      {id:"quarantine",  label:"Quarantine",         color:"var(--red)",   bg:"rgba(239,68,68,0.14)"},
+      {id:"investigate", label:"Investigate",        color:"var(--amber)", bg:"rgba(217,119,6,0.14)"},
+      {id:"tune",        label:"Alert Tuning",       color:"#60a5fa",      bg:"rgba(96,165,250,0.14)"},
+      {id:"validate",    label:"Validate Remediation",color:"var(--green)",bg:"rgba(34,197,94,0.14)"},
+    ],
+    alerts:[
+      {
+        id:"al1",
+        label:"Antivirus Detection",
+        description:"The endpoint antivirus platform generates a high-confidence alert: a known ransomware binary (Ryuk variant, SHA-256 hash confirmed against three threat feeds) has been detected executing on a finance department workstation. The workstation has active network connections to two file servers and the domain controller.",
+        answer:"quarantine",
+        explanation:"Quarantine is the correct immediate response to a confirmed, high-confidence malware execution alert — especially ransomware with active network connections. Isolating the workstation immediately prevents lateral movement to the file servers and domain controller. The hash confirmation across multiple threat feeds eliminates false positive concern. Investigation follows quarantine, not instead of it — containment is the priority when active execution is confirmed.",
+      },
+      {
+        id:"al2",
+        label:"DLP Policy Alert",
+        description:"The DLP system generates an alert: a user attempted to email a file containing what appears to be credit card numbers to an external address. Upon review, the analyst finds the file is a test dataset used by the QA team, containing synthetic card numbers generated specifically for software testing. The same alert has fired 47 times in the past 30 days for the same user and file type.",
+        answer:"tune",
+        explanation:"Alert tuning is correct when an alert consistently fires on legitimate, known activity — the definition of a false positive pattern. 47 identical alerts for the same user and synthetic test data confirm this is a tuning issue, not a genuine data exfiltration event. Adding a DLP exception for the QA team's synthetic test datasets eliminates the noise without reducing genuine detection capability. Investigating or quarantining a known false positive wastes analyst time and degrades trust in the alerting system.",
+      },
+      {
+        id:"al3",
+        label:"SIEM Correlation Rule",
+        description:"The SIEM fires a medium-confidence correlation alert: a user account authenticated from two geographically distant locations within 20 minutes — the first login from the organization's Chicago office, the second from an IP address geolocating to Eastern Europe. The account belongs to a senior developer. No prior travel was documented. The account is still active.",
+        answer:"investigate",
+        explanation:"Investigate is the correct response to a medium-confidence indicator that may represent account compromise — impossible travel is a classic credential theft indicator but not definitive. The analyst should verify with the user or manager whether travel is occurring, check VPN usage that might explain the geolocation, review recent account activity for other anomalies, and determine whether the Eastern Europe session is active. Quarantining or disabling the account without investigation risks disrupting a legitimate user. Alert tuning would be premature without first determining whether this is a true or false positive.",
+      },
+      {
+        id:"al4",
+        label:"Vulnerability Scanner Finding",
+        description:"A vulnerability scan identifies a critical CVSSv3 9.1 vulnerability on a web server. The security team applied a vendor patch three days ago and submitted a remediation ticket. The scan was re-run after patching. The same finding appears again in the new scan results at the same severity.",
+        answer:"validate",
+        explanation:"Validate Remediation is the correct response when a vulnerability finding persists after a patch was applied. The reappearance of the same finding post-patch indicates the remediation may have been incomplete, applied to the wrong system, or the patch did not address the specific vulnerable component. Validation requires confirming the patch version applied, verifying it was deployed to the correct asset, and potentially escalating to the vendor if the patch is ineffective. This is distinct from investigation — the cause is a known remediation failure, not an unknown threat.",
+      },
+      {
+        id:"al5",
+        label:"NetFlow Anomaly",
+        description:"NetFlow analysis identifies unusual traffic: a workstation in the finance network is transmitting 4.2GB of outbound data to an external IP address over port 443 during business hours. The workstation belongs to a contractor who joined two weeks ago. The destination IP has no prior connection history with the organization and does not resolve to a known cloud service.",
+        answer:"investigate",
+        explanation:"Investigate is correct for an anomalous but unconfirmed data transfer event. Large outbound transfers to unknown IPs can indicate data exfiltration, but also legitimate business activity — cloud backup, software download, or authorized data transfer the analyst is unaware of. The contractor context adds risk but does not confirm malicious intent. The analyst should identify the destination, review the contractor's role and authorized activities, check whether the transfer was sanctioned, and examine what data was transferred before escalating to quarantine or DLP enforcement.",
+      },
+      {
+        id:"al6",
+        label:"SNMP Trap Alert",
+        description:"The network monitoring platform receives SNMP traps from a core router indicating interface utilization has exceeded 95% for 12 consecutive minutes. The same alert fires every weekday between 8:45 AM and 9:15 AM — the period when employees arrive and authenticate to the network. No security incident has ever been associated with these alerts. The alert has fired 312 times in the past year.",
+        answer:"tune",
+        explanation:"Alert tuning is correct for a high-frequency, predictable, operationally-explained alert that has never been associated with a security incident. The 8:45–9:15 AM pattern directly correlates with the employee arrival authentication surge — a known, expected network behavior. 312 identical alerts with zero security outcomes is alert fatigue, not monitoring value. Tuning the threshold or adding a scheduled suppression window for the known peak period eliminates noise while preserving alerting for genuine anomalous utilization spikes outside the expected pattern.",
+      },
+    ],
+  },
+  mcqs:[
+    {
+      id:"q1",
+      q:"A security operations team is designing a monitoring strategy. They identify three categories of assets requiring visibility. The first category includes operating systems, running processes, CPU utilization, and patch status on individual machines. The second category covers web application errors, API response times, authentication failures, and database query anomalies. The third category monitors network devices, cloud infrastructure health, physical security systems, and power and environmental controls. Which option CORRECTLY maps each category to its monitoring scope and explains why each requires distinct monitoring approaches?",
+      options:[
+        {id:"a", label:"All three categories are monitored identically — a single unified monitoring agent deployed on each server captures system, application, and infrastructure data simultaneously with no need for separate monitoring approaches"},
+        {id:"b", label:"First: application monitoring — process and CPU data are application performance metrics. Second: infrastructure monitoring — web applications are infrastructure components. Third: systems monitoring — network devices are individual systems requiring the same monitoring approach as servers"},
+        {id:"c", label:"First: systems monitoring — OS, processes, and patch state are host-level metrics requiring endpoint agents or OS-level telemetry. Second: application monitoring — app errors, API behavior, and auth failures require application instrumentation or log parsing. Third: infrastructure monitoring — network devices, cloud health, and physical systems require SNMP, cloud APIs, and infrastructure-specific protocols"},
+        {id:"d", label:"First: infrastructure monitoring — individual machines are infrastructure components managed at the data center level. Second: systems monitoring — applications run on systems, so application data is captured through system-level monitoring. Third: application monitoring — network devices run software applications that generate the same telemetry as web servers"},
+      ],
+      correct:"c",
+      explanation:"Systems monitoring focuses on host-level metrics — OS state, running processes, resource utilization, and patch status — typically collected via endpoint agents or OS-level instrumentation. Application monitoring targets application behavior — errors, performance, authentication events — requiring application-aware logging or instrumentation that understands application context. Infrastructure monitoring covers network devices, cloud services, and physical systems using protocols and APIs specific to those platforms (SNMP for network devices, cloud provider APIs for cloud health, BMS for physical controls). Each scope requires different tools and collection methods because each asset type exposes telemetry differently.",
+      exam_tip:"Systems = host-level (OS, processes, patch). Applications = app behavior (errors, auth, API). Infrastructure = network devices, cloud, physical (SNMP, cloud APIs). Three distinct scopes requiring distinct collection methods — one monitoring agent cannot cover all three equally.",
+    },
+    {
+      id:"q2",
+      q:"A security manager is explaining four monitoring activities to a new analyst. Log aggregation collects and centralizes logs. Reporting produces summaries for stakeholders. Archiving stores logs for long-term retention. A fourth activity automatically stores 90 days of logs in compressed cold storage after the active analysis window closes, ensuring they are preserved for future forensic or compliance needs but are not immediately searchable. The analyst asks: isn't archiving and that fourth activity the same thing? Which option CORRECTLY explains the distinction?",
+      options:[
+        {id:"a", label:"The analyst is correct — archiving and long-term cold storage are identical concepts. Any log retention beyond the active analysis window is called archiving regardless of whether the logs are compressed, tiered to cold storage, or remain in the active SIEM index"},
+        {id:"b", label:"Archiving is a real-time activity — logs are archived as they arrive before aggregation occurs. Reporting is the long-term storage activity — reports are stored indefinitely for compliance. The fourth activity is log aggregation because compression is part of the aggregation pipeline"},
+        {id:"c", label:"Archiving only applies to system logs — application and network logs are retained through reporting. The fourth activity is a scanning function because compressed cold storage is used by vulnerability scanners to access historical system states for comparison"},
+        {id:"d", label:"Archiving is the process of moving logs to long-term storage after the active retention window — it preserves data for compliance, legal hold, or forensic needs with defined retention periods and retrieval procedures. The fourth activity described is archiving. Reporting produces summaries and dashboards for stakeholders — it is a separate activity that consumes aggregated data but does not store it"},
+      ],
+      correct:"d",
+      explanation:"Archiving is the process of moving logs from active storage to long-term retention after the active analysis window — it preserves data for compliance mandates, legal hold requirements, and forensic investigations, with defined retention periods and retrieval processes. The fourth activity described is archiving. Reporting is a distinct activity — it produces summaries, dashboards, and structured outputs for stakeholders and management from aggregated log data, but does not itself store logs. The confusion arises because archiving is often automated and invisible, while reporting is the visible output — they serve different audiences and different purposes.",
+      exam_tip:"Log aggregation = centralize and normalize. Alerting = generate notifications on conditions. Scanning = active probing for vulnerabilities or changes. Reporting = produce summaries for stakeholders. Archiving = long-term retention after active window, compliance and forensic preservation. Archiving ≠ reporting — one stores, one communicates.",
+    },
+    {
+      id:"q3",
+      q:"A SOC team documents three alert response procedures. The first procedure activates when an endpoint antivirus confirms active malware execution — the affected system is immediately isolated from the network. The second activates when a SIEM rule generates 500 identical low-severity alerts per day for a known scheduled task — the rule threshold is adjusted to suppress the known-good activity. The third activates after a critical vulnerability patch is deployed — the vulnerability scanner is re-run and the change management ticket is reviewed to confirm the fix was applied correctly. Which procedures map to which response actions?",
+      options:[
+        {id:"a", label:"First: alert tuning — confirmed malware triggers threshold adjustment. Second: quarantine — repeated alerts indicate the system should be isolated. Third: investigate — post-patch scanning initiates a new investigation cycle for each remediated finding"},
+        {id:"b", label:"First: validate remediation — malware detection validates that endpoint controls are working. Second: investigate — 500 daily alerts require analysis before any tuning decision. Third: quarantine — post-patch systems should be isolated until the fix is confirmed effective"},
+        {id:"c", label:"First: quarantine — confirmed active malware execution requires immediate network isolation to prevent lateral movement. Second: alert tuning — 500 identical alerts for known-good activity is a false positive pattern requiring threshold or rule adjustment. Third: validate remediation — rescanning and change record review confirms whether the patch was successfully applied"},
+        {id:"d", label:"All three procedures are investigation steps — quarantine, tuning, and validation are all sub-tasks within a unified investigation workflow that applies to every alert type regardless of confidence level or context"},
+      ],
+      correct:"c",
+      explanation:"Quarantine immediately isolates a confirmed-threat system to prevent lateral movement — used when confidence is high and active threat is present. Alert tuning adjusts rules or thresholds when alerts consistently fire on known-good activity, reducing false positive volume without eliminating genuine detection capability. Validate remediation confirms that a fix was effective — rescanning after patching and reviewing change records are the standard validation steps. These three responses target different situations: quarantine addresses active confirmed threats, tuning addresses alert quality, validation addresses remediation completeness.",
+      exam_tip:"Quarantine = isolate confirmed active threat, prevent spread. Alert tuning = reduce false positives, adjust rules/thresholds for known-good activity. Validate remediation = confirm fix worked, rescan + change record review. Each applies to a different alert confidence and context level.",
+    },
+    {
+      id:"q4",
+      q:"A security architect is evaluating SIEM platforms for a large enterprise. The requirements include: collecting logs from 400 sources including endpoints, network devices, cloud services, and applications; correlating events across sources to detect attack patterns that no single source would reveal; generating alerts when correlated events match known threat patterns; and providing a central investigation interface for analysts. A junior analyst suggests that deploying more antivirus agents would meet the same requirements. Which option BEST explains why SIEM specifically addresses these requirements?",
+      options:[
+        {id:"a", label:"The junior analyst is correct — enterprise antivirus platforms include log aggregation, cross-source correlation, and centralized investigation capabilities that are functionally equivalent to SIEM for organizations with standardized endpoint fleets"},
+        {id:"b", label:"SIEM provides centralized ingestion and normalization of logs from heterogeneous sources, cross-source event correlation to detect multi-stage attack patterns, rule-based and behavioral alerting, and a unified analyst investigation interface. Antivirus operates at the endpoint level only — it detects malware on individual systems but cannot correlate events across network devices, cloud services, and applications to identify attack chains that span multiple systems"},
+        {id:"c", label:"SIEM and antivirus are interchangeable for log collection — the difference is only in the interface. SIEM provides a web dashboard while antivirus uses a desktop console, but both ingest logs from the same sources and apply the same correlation logic to detect threats across the environment"},
+        {id:"d", label:"SIEM is only required for regulatory compliance reporting — organizations without compliance mandates can meet all detection and investigation requirements using antivirus, endpoint detection tools, and manual log review without a centralized correlation platform"},
+      ],
+      correct:"b",
+      explanation:"SIEM (Security Information and Event Management) provides capabilities that no single-source tool can replicate: centralized ingestion from heterogeneous log sources, normalization to a common schema, cross-source correlation to detect attack chains spanning multiple systems, rule-based and behavioral alerting, and a unified investigation interface. Antivirus detects malware at the endpoint level — it has no visibility into network device logs, cloud activity, or application behavior. A lateral movement attack that starts with a phishing email, uses credential theft, and moves through network shares would generate signals across email, endpoint, network, and directory sources — only SIEM can correlate all four into a single alert.",
+      exam_tip:"SIEM = centralized log ingestion + normalization + cross-source correlation + alerting + investigation interface. Not replaceable by single-source tools. Key capability: correlation across heterogeneous sources. SIEM detects what individual tools miss because it sees the full picture across all log sources simultaneously.",
+    },
+    {
+      id:"q5",
+      q:"A security team deploys three endpoint monitoring tools serving different purposes. The first continuously monitors file system activity, process behavior, and network connections on each endpoint, blocking known malicious signatures and behavioral patterns. The second monitors data movement — scanning outbound emails, USB transfers, and cloud uploads for patterns matching sensitive data classifications like PII, financial records, and intellectual property. The third periodically scans endpoints against a vulnerability database to identify missing patches, misconfigurations, and known CVEs. Which option CORRECTLY identifies all three tools?",
+      options:[
+        {id:"a", label:"First: antivirus — monitors endpoint behavior and blocks malicious activity. Second: DLP (Data Loss Prevention) — monitors and controls sensitive data movement across channels. Third: vulnerability scanner — identifies missing patches, misconfigurations, and known CVEs on scanned systems"},
+        {id:"b", label:"First: DLP — file system and process monitoring detects unauthorized data access. Second: antivirus — scanning outbound transfers for malicious content is malware detection. Third: SIEM — vulnerability scanning feeds into the centralized log correlation platform"},
+        {id:"c", label:"First: vulnerability scanner — behavioral monitoring identifies vulnerable system states. Second: antivirus — outbound transfer scanning is a malware detection function. Third: DLP — patch identification prevents data loss by maintaining system integrity"},
+        {id:"d", label:"All three are antivirus functions — modern endpoint protection platforms combine malware detection, data movement monitoring, and vulnerability assessment into a single unified agent that replaces standalone DLP and vulnerability scanning tools"},
+      ],
+      correct:"a",
+      explanation:"Antivirus (endpoint protection) monitors process behavior, file activity, and network connections in real time — blocking known signatures and detecting behavioral anomalies on the endpoint. DLP monitors data movement — it classifies outbound data flows and enforces policy on email, removable media, and cloud uploads to prevent sensitive data from leaving the organization. Vulnerability scanners actively probe systems against vulnerability databases — identifying patch gaps, misconfigurations, and CVEs that represent exploitable weaknesses. Each tool addresses a distinct security concern: antivirus addresses malicious execution, DLP addresses unauthorized data exfiltration, vulnerability scanners address exploitable weaknesses.",
+      exam_tip:"Antivirus = malware detection and blocking, endpoint behavior. DLP = sensitive data movement monitoring and control. Vulnerability scanner = patch gaps, misconfigs, CVEs. Three distinct tools, three distinct threat categories: execution, exfiltration, exploitability.",
+    },
+    {
+      id:"q6",
+      q:"A network security team uses two different telemetry sources for network visibility. The first passively captures metadata about network conversations — source IP, destination IP, port, protocol, byte count, and duration — without capturing packet payloads. It provides visibility into traffic patterns, unusual volumes, and connection behavior across the entire network. The second generates event-driven notifications from network devices when specific threshold conditions are met — such as interface utilization exceeding 90%, a device rebooting unexpectedly, or a link going down. Which option CORRECTLY identifies both sources and their primary security use cases?",
+      options:[
+        {id:"a", label:"First: SNMP traps — conversation metadata is collected by SNMP polling. Second: NetFlow — threshold breach notifications are generated by flow analysis engines monitoring traffic volume"},
+        {id:"b", label:"Both are NetFlow implementations — passive metadata and threshold notifications are two data streams produced by the same NetFlow protocol running on different network device configurations"},
+        {id:"c", label:"First: NetFlow — passive traffic metadata (IPs, ports, bytes, duration) enables traffic pattern analysis, anomaly detection, and lateral movement identification without capturing payloads. Second: SNMP traps — event-driven notifications from network devices when thresholds are exceeded or device state changes occur, enabling infrastructure health monitoring and availability alerting"},
+        {id:"d", label:"First: SNMP traps — source/destination IP metadata is the core data element of SNMP device monitoring. Second: NetFlow — flow analysis generates event notifications when unusual traffic volumes are detected between monitored endpoints"},
+      ],
+      correct:"c",
+      explanation:"NetFlow is a passive traffic metadata protocol — it captures flow records (source/destination IP, port, protocol, bytes, duration) without inspecting payloads. It enables traffic baseline analysis, detection of anomalous volumes, identification of lateral movement patterns, and bandwidth analysis. SNMP traps are event-driven notifications — network devices send traps when configured threshold conditions are met (interface utilization, link state change, device reboot). SNMP traps provide infrastructure health visibility; NetFlow provides traffic behavior visibility. Both are network monitoring tools but answer different questions: NetFlow asks 'who talked to whom and how much', SNMP traps ask 'what changed on this device'.",
+      exam_tip:"NetFlow = passive traffic metadata, no payloads, flow records (src/dst IP, port, bytes, duration), traffic pattern analysis. SNMP traps = event-driven device notifications, threshold breaches, infrastructure health. NetFlow = behavior visibility. SNMP = device state visibility. Both are network monitoring, different questions.",
+    },
+    {
+      id:"q7",
+      q:"A compliance team is implementing automated security configuration management. They deploy a framework that uses standardized machine-readable formats to express security policies, check system configurations against those policies, and report compliance status automatically across 600 servers. They also configure each server with a security benchmark that defines the minimum acceptable configuration state. Finally, they debate whether to deploy lightweight software on each server to collect configuration data or use network-based scanning without installing anything on the target systems. Which option CORRECTLY identifies the framework, the configuration standard, and the two collection approaches?",
+      options:[
+        {id:"a", label:"Framework: CVE — standardized vulnerability identifiers automate policy expression across servers. Configuration standard: CVSS — scoring benchmarks define minimum severity thresholds. Collection approaches: active scanning vs passive monitoring — active sends probes, passive only listens"},
+        {id:"b", label:"Framework: SCAP (Security Content Automation Protocol) — standardized formats for expressing, checking, and reporting security configurations automatically. Configuration standard: security benchmark (CIS, DISA STIG) — defines minimum acceptable configuration state per system type. Collection approaches: agent-based (lightweight software installed on each system) vs agentless (network-based scanning without installation, using existing protocols)"},
+        {id:"c", label:"Framework: SIEM — centralized log collection automates compliance checking across servers. Configuration standard: DLP policy — data classification rules define minimum acceptable configuration. Collection approaches: cloud vs on-premises — cloud agents collect remotely, on-premises agents install locally"},
+        {id:"d", label:"Framework: NetFlow — flow-based protocol automates configuration collection across network devices. Configuration standard: SNMP MIB — management information base defines acceptable device state thresholds. Collection approaches: SNMP polling vs SNMP traps — polling actively requests data, traps receive event notifications"},
+      ],
+      correct:"b",
+      explanation:"SCAP (Security Content Automation Protocol) is a NIST framework providing standardized formats — XCCDF, OVAL, CVE, CVSS — for automating security configuration checking and compliance reporting at scale. Security benchmarks (CIS Benchmarks, DISA STIGs) define minimum acceptable configuration states for specific system types — they are the content that SCAP tools check against. Agent-based monitoring installs lightweight software on each target system, providing continuous real-time visibility and access to internal system state. Agentless monitoring uses network protocols (SSH, WMI, SNMP) to collect data without installing software — simpler to deploy but with less depth and dependent on network access.",
+      exam_tip:"SCAP = automation framework for security configuration checking, uses XCCDF/OVAL. Benchmarks = CIS/DISA STIG, defines minimum config state. Agent = installed software, continuous, deep visibility. Agentless = network-based, no install, simpler deployment, less depth. SCAP + benchmarks = automated compliance checking at scale.",
+    },
+  ],
+};
+
+const LEVEL_DATA={d1l1:D1L1,d1l2:D1L2,d1l3:D1L3,d1l4:D1L4,d1l5:D1L5,d2l1:D2L1,d2l2:D2L2,d2l3:D2L3,d2l4:D2L4,d2l5:D2L5,d2l6:D2L6,d3l1:D3L1,d3l2:D3L2,d3l3:D3L3,d3l4:D3L4,d3l5:D3L5,d4l1:D4L1,d4l2:D4L2,d4l3:D4L3,d4l4:D4L4};
 
 // ── PROGRESS ─────────────────────────────────────────────────────────────────
 function loadP(){try{return JSON.parse(localStorage.getItem('sp_v2')||'{}')}catch{return{}}}
@@ -2526,7 +3213,7 @@ function migrateXP(){
   if(dirty)saveP(p);
 }
 function unlocked(id){
-  if(id==='d1l1'||id==='d1l2'||id==='d1l3'||id==='d1l4'||id==='d1l5'||id==='d2l1'||id==='d2l2'||id==='d2l3'||id==='d2l4'||id==='d2l5'||id==='d2l6'||id==='d3l1'||id==='d3l2'||id==='d3l3'||id==='d3l4'||id==='d3l5')return true;
+  if(id==='d1l1'||id==='d1l2'||id==='d1l3'||id==='d1l4'||id==='d1l5'||id==='d2l1'||id==='d2l2'||id==='d2l3'||id==='d2l4'||id==='d2l5'||id==='d2l6'||id==='d3l1'||id==='d3l2'||id==='d3l3'||id==='d3l4'||id==='d3l5'||id==='d4l1'||id==='d4l2'||id==='d4l3'||id==='d4l4')return true;
   for(const r of REALMS){
     const i=r.levels.findIndex(l=>l.id===id);
     if(i>0)return getLP(r.levels[i-1].id).completed;
@@ -2554,7 +3241,7 @@ function renderRealm(){
   const list=document.getElementById('realm-list');list.innerHTML='';
   REALMS.forEach((r,ri)=>{
     const done=r.levels.filter(l=>p[l.id]?.completed).length;
-    const lock=ri>0&&!REALMS[ri-1].levels.every(l=>p[l.id]?.completed)&&!['d2','d3'].includes(r.id);
+    const lock=ri>0&&!REALMS[ri-1].levels.every(l=>p[l.id]?.completed)&&!['d2','d3','d4'].includes(r.id);
     const c=r.color;
     const card=document.createElement('div');
     card.className='realm-card ai'+(lock?' locked':'');
@@ -2623,18 +3310,18 @@ function initRunner(){
   document.getElementById('r-obj').textContent=CL.type==='review'?'REALM REVIEW':'OBJ '+CL.obj;
   document.getElementById('r-obj').style.color=c;
   document.getElementById('r-name').textContent=CL.name;
-  const isRevLevel=!LEVEL_DATA[CL.id].pbq;document.getElementById('r-pbq').textContent=isRevLevel?'—':'60 pts';
+  const isRevLevel=!LEVEL_DATA[CL.id].pbq;const pbqPts=LEVEL_DATA[CL.id].pbq?.type==='yesno'?'40 pts':'60 pts';document.getElementById('r-pbq').textContent=isRevLevel?'—':pbqPts;
   document.getElementById('r-pbq').style.color='var(--muted)';
-  document.getElementById('r-mcq').textContent=isRevLevel?'100 pts':'40 pts';
+  document.getElementById('r-mcq').textContent=isRevLevel?'100 pts':(LEVEL_DATA[CL.id].pbq?.type==='yesno'?'60 pts':'40 pts');
   document.getElementById('r-mcq').style.color='var(--muted)';
   document.getElementById('r-back').onclick=()=>showLevel(r.id);
-  RS={phase:'pbq',color:c,data:LEVEL_DATA[CL.id],levelId:CL.id,conSels:{},triageSels:{},matchSels:{},scenarioSels:{},socSels:{},match2Sels:{},hotspotSels:{},sequenceOrder:[],
+  RS={phase:'pbq',color:c,data:LEVEL_DATA[CL.id],levelId:CL.id,conSels:{},triageSels:{},matchSels:{},scenarioSels:{},socSels:{},match2Sels:{},hotspotSels:{},sequenceOrder:[],yesnoSels:{},gapSels:{},
       pbqScore:0,mcqScore:0,missedPBQ:[],missedMCQ:[],
       catSels:{},typeSels:{},pbqDone:false,
       mcqIdx:0,mcqSel:null,mcqDone:false,mcqScores:[]};
   renderPhase();
 }
-function renderPhase(){if(RS.phase==='pbq'){if(!RS.data.pbq){RS.phase='mcq';rMCQ();return;}if(RS.data.pbq.type==='triage')rTriagePBQ();else if(RS.data.pbq.type==='match')rMatchPBQ();else if(RS.data.pbq.type==='match2')rMatch2PBQ();else if(RS.data.pbq.type==='scenario_builder')rScenarioBuilder();else if(RS.data.pbq.type==='soc_triage')rSOCTriage();else if(RS.data.pbq.type==='hotspot')rHotspotPBQ();else if(RS.data.pbq.type==='sequence')rSequencePBQ();else if(RS.data.pbq.concepts)rClassifyPBQ();else rPBQ();}else if(RS.phase==='mcq')rMCQ();else rResult();}
+function renderPhase(){if(RS.phase==='pbq'){if(!RS.data.pbq){RS.phase='mcq';rMCQ();return;}if(RS.data.pbq.type==='triage')rTriagePBQ();else if(RS.data.pbq.type==='match')rMatchPBQ();else if(RS.data.pbq.type==='match2')rMatch2PBQ();else if(RS.data.pbq.type==='scenario_builder')rScenarioBuilder();else if(RS.data.pbq.type==='soc_triage')rSOCTriage();else if(RS.data.pbq.type==='hotspot')rHotspotPBQ();else if(RS.data.pbq.type==='sequence')rSequencePBQ();else if(RS.data.pbq.type==='yesno')rYesNoPBQ();else if(RS.data.pbq.type==='fillagap')rFillAGapPBQ();else if(RS.data.pbq.type==='alert_triage')rAlertTriage();else if(RS.data.pbq.concepts)rClassifyPBQ();else rPBQ();}else if(RS.phase==='mcq')rMCQ();else rResult();}
 
 // ── PHASE BAR ─────────────────────────────────────────────────────────────────
 function phaseBar(phase,c){
@@ -2733,7 +3420,7 @@ function gotoMCQ(){RS.phase='mcq';RS.mcqIdx=0;RS.mcqSel=null;RS.mcqDone=false;RS
 // ── MCQ ───────────────────────────────────────────────────────────────────────
 function rMCQ(){
   const s=RS;const mcqs=s.data.mcqs;const q=mcqs[s.mcqIdx];const c=s.color;
-  const isLast=s.mcqIdx===mcqs.length-1;const isReview=RS.data.pbq===null;const MPQ=isReview?100/mcqs.length:40/mcqs.length;
+  const isLast=s.mcqIdx===mcqs.length-1;const isReview=RS.data.pbq===null;const MPQ=isReview?100/mcqs.length:(RS.data.pbq?.type==='yesno'?60/mcqs.length:40/mcqs.length);
   let h=phaseBar('mcq',c);
   const dots=mcqs.map((_,i)=>`<div class="mcq-dot" style="background:${i<s.mcqIdx?'var(--green)':i===s.mcqIdx?c:'rgba(255,255,255,0.12)'}"></div>`).join('');
   h+=`<div class="mcq-prog">
@@ -2768,7 +3455,7 @@ function rMCQ(){
 }
 function selMCQ(id){if(RS.mcqDone)return;RS.mcqSel=id;rMCQ();}
 function submitMCQ(){
-  const s=RS;const q=s.data.mcqs[s.mcqIdx];const MPQ=40/s.data.mcqs.length;
+  const s=RS;const q=s.data.mcqs[s.mcqIdx];const MPQ=(s.data.pbq?.type==='yesno'?60:40)/s.data.mcqs.length;
   const ok=s.mcqSel===q.correct;
   s.mcqDone=true;s.mcqScores.push(ok?MPQ:0);
   if(!ok)s.missedMCQ.push({id:q.id,q:q.q,
@@ -2781,8 +3468,8 @@ function nextMCQ(){
   const s=RS;const isLast=s.mcqIdx===s.data.mcqs.length-1;
   if(isLast){
     s.mcqScore=s.mcqScores.reduce((a,b)=>a+b,0);
-    const isRev=RS.data.pbq===null;document.getElementById('r-mcq').textContent=Math.round(s.mcqScore)+(isRev?'/100':'/40');
-    document.getElementById('r-mcq').style.color=s.mcqScore>=(isRev?70:28)?'var(--green)':'var(--amber)';
+    const isRev=RS.data.pbq===null;const mcqMax=isRev?100:(RS.data.pbq?.type==='yesno'?60:40);document.getElementById('r-mcq').textContent=Math.round(s.mcqScore)+'/'+mcqMax;
+    document.getElementById('r-mcq').style.color=s.mcqScore>=(isRev?70:Math.round(mcqMax*0.7))?'var(--green)':'var(--amber)';
     s.phase='result';saveResult();rResult();window.scrollTo(0,0);
   } else {
     s.mcqIdx++;s.mcqSel=null;s.mcqDone=false;rMCQ();window.scrollTo(0,0);
@@ -2796,6 +3483,345 @@ function nextMCQ(){
 
 
 
+
+
+
+
+// ── ALERT TRIAGE PBQ (configurable response options per alert) ────────────────
+function rAlertTriage(){
+  const s=RS;const pbq=s.data.pbq;const c=s.color;
+  const PPI=60/pbq.alerts.length;
+  const selCount=Object.keys(s.triageSels).length;
+  const allSet=selCount===pbq.alerts.length;
+  const sub=s.pbqDone;
+
+  let h=phaseBar('pbq',c);
+  h+=`<div class="meta-pills">
+    <span class="mpill" style="background:color-mix(in srgb,${c} 14%,transparent);color:${c};border-color:color-mix(in srgb,${c} 28%,transparent)">ALERT TRIAGE</span>
+    <span class="mpill" style="background:rgba(220,38,38,0.14);color:var(--d2);border-color:rgba(220,38,38,0.28)">${pbq.alerts.length} ALERTS</span>
+    <span class="mpill" style="background:rgba(217,119,6,0.14);color:var(--amber);border-color:rgba(217,119,6,0.28)">HARD</span>
+  </div>
+  <div class="meta-note">${pbq.alerts.length} alerts · ${Math.round(PPI)} pts each · 60 pts total</div>`;
+
+  h+=`<div class="scenario-box">
+    <div class="sc-hdr"><span class="sc-tag" style="color:${c}">◉ SCENARIO</span><span class="sc-cia">${pbq.cia_tag}</span></div>
+    <div class="sc-txt">${pbq.scenario}</div>
+  </div><div class="instr">${pbq.instruction}</div>`;
+
+  // Response legend
+  h+=`<div style="display:flex;gap:6px;flex-wrap:wrap;margin-bottom:14px">`;
+  pbq.responses.forEach(r=>{
+    h+=`<div style="font-family:var(--mono);font-size:9px;font-weight:700;padding:4px 10px;border-radius:20px;border:1px solid ${r.color};color:${r.color};background:${r.bg}">${r.label}</div>`;
+  });
+  h+=`</div>`;
+
+  pbq.alerts.forEach((alert,ai)=>{
+    const sel=s.triageSels[alert.id];
+    const correct=sub&&sel===alert.answer;
+    const wrong=sub&&sel&&sel!==alert.answer;
+    const correctResp=pbq.responses.find(r=>r.id===alert.answer);
+    const selResp=pbq.responses.find(r=>r.id===sel);
+
+    let cardBorder,cardBg;
+    if(sub&&correct){cardBorder='rgba(34,197,94,0.45)';cardBg='rgba(34,197,94,0.04)';}
+    else if(sub&&(wrong||!sel)){cardBorder='rgba(239,68,68,0.45)';cardBg='rgba(239,68,68,0.04)';}
+    else if(sel){cardBorder=`color-mix(in srgb,${c} 45%,transparent)`;cardBg=`color-mix(in srgb,${c} 4%,transparent)`;}
+    else{cardBorder='rgba(255,255,255,0.1)';cardBg='rgba(255,255,255,0.02)';}
+
+    h+=`<div style="border-radius:12px;padding:14px;border:1.5px solid ${cardBorder};background:${cardBg};margin-bottom:10px">
+      <div style="display:flex;justify-content:space-between;align-items:flex-start;gap:8px;margin-bottom:10px">
+        <div style="flex:1">
+          <div style="font-family:var(--mono);font-size:9px;font-weight:700;color:${c};letter-spacing:.06em;margin-bottom:5px">ALERT ${ai+1} — ${alert.label}</div>
+          <div style="font-size:15px;color:#CBD5E1;line-height:1.65">${alert.description}</div>
+        </div>
+        ${sub?`<div style="font-family:var(--mono);font-size:9px;font-weight:700;color:${correct?'var(--green)':'var(--red)'};flex-shrink:0">${correct?'✓ CORRECT':'✗ INCORRECT'}</div>`:''}
+      </div>`;
+
+    if(!sub){
+      h+=`<div style="display:flex;gap:6px;flex-wrap:wrap">`;
+      pbq.responses.forEach(r=>{
+        const isSel=sel===r.id;
+        h+=`<button onclick="selAlertTriage('${alert.id}','${r.id}')"
+          style="padding:8px 14px;border-radius:9px;font-family:var(--mono);font-size:11px;font-weight:700;
+          border:1.5px solid ${isSel?r.color:'rgba(255,255,255,0.12)'};
+          background:${isSel?r.bg:'transparent'};
+          color:${isSel?r.color:'#475569'};cursor:pointer;transition:all .12s">${r.label}</button>`;
+      });
+      h+=`</div>`;
+    } else {
+      h+=`<div style="display:flex;gap:8px;margin-bottom:8px;flex-wrap:wrap">
+        <div style="padding:6px 13px;border-radius:20px;font-family:var(--mono);font-size:11px;font-weight:700;
+          background:${correct?'rgba(34,197,94,0.18)':'rgba(239,68,68,0.18)'};
+          border:1.5px solid ${correct?'var(--green)':'var(--red)'};
+          color:${correct?'var(--green)':'var(--red)'}">
+          ${correct?'✓':'✗'} ${selResp?.label||'Not answered'}</div>
+        ${!correct?`<div style="padding:6px 13px;border-radius:20px;font-family:var(--mono);font-size:11px;font-weight:700;background:rgba(34,197,94,0.18);border:1.5px solid var(--green);color:var(--green)">→ ${correctResp?.label}</div>`:''}
+      </div>
+      <div class="expl" style="border-color:${correct?'var(--green)':'var(--red)'};font-size:12px">${alert.explanation}</div>`;
+    }
+    h+=`</div>`;
+  });
+
+  if(!sub){
+    h+=`<button class="sbtn" ${allSet?'':'disabled'}
+      style="background:${allSet?`linear-gradient(135deg,color-mix(in srgb,${c} 90%,#000),${c})`:''}; color:${allSet?'#fff':''}"
+      onclick="submitAlertTriage()">
+      ${allSet?'SUBMIT TRIAGE':`TRIAGE ALL ALERTS TO SUBMIT (${selCount}/${pbq.alerts.length})`}</button>`;
+  } else {
+    h+=`<button class="sbtn" onclick="gotoMCQ()" style="background:linear-gradient(135deg,color-mix(in srgb,${c} 90%,#000),${c});color:#fff">CONTINUE TO MCQ (${Math.round(s.pbqScore)}/60) →</button>`;
+  }
+  document.getElementById('r-content').innerHTML=h;
+}
+
+function submitAlertTriage(){
+  const s=RS;const pbq=s.data.pbq;
+  const PPI=60/pbq.alerts.length;
+  let sc=0;s.missedPBQ=[];
+  pbq.alerts.forEach(alert=>{
+    const sel=s.triageSels[alert.id];
+    const correct=sel===alert.answer;
+    if(correct){sc+=PPI;}
+    else{
+      const correctResp=pbq.responses.find(r=>r.id===alert.answer);
+      const selResp=pbq.responses.find(r=>r.id===sel);
+      s.missedPBQ.push({
+        id:alert.id,label:alert.label,
+        yourCat:selResp?.label||'Not answered',
+        correctCat:correctResp?.label,
+        yourType:'',correctType:'',
+        explanation:alert.explanation,
+      });
+    }
+  });
+  s.pbqScore=Math.round(sc);s.pbqDone=true;
+  document.getElementById('r-pbq').textContent=Math.round(sc)+'/60';
+  document.getElementById('r-pbq').style.color=sc>=42?'var(--green)':'var(--amber)';
+  rAlertTriage();window.scrollTo(0,0);
+}
+
+// ── FILL-A-GAP PBQ ────────────────────────────────────────────────────────────
+function rFillAGapPBQ(){
+  const s=RS;const pbq=s.data.pbq;const c=s.color;
+  const PPG=Math.round(60/pbq.gaps.length);
+  const answered=Object.keys(s.gapSels).length;
+  const allAnswered=answered===pbq.gaps.length;
+  const sub=s.pbqDone;
+  const usedOpts=Object.values(s.gapSels);
+
+  let h=phaseBar('pbq',c);
+  h+=`<div class="meta-pills">
+    <span class="mpill" style="background:color-mix(in srgb,${c} 14%,transparent);color:${c};border-color:color-mix(in srgb,${c} 28%,transparent)">FILL THE GAP</span>
+    <span class="mpill" style="background:rgba(220,38,38,0.14);color:var(--d2);border-color:rgba(220,38,38,0.28)">${pbq.gaps.length} GAPS</span>
+    <span class="mpill" style="background:rgba(217,119,6,0.14);color:var(--amber);border-color:rgba(217,119,6,0.28)">MEDIUM</span>
+  </div>
+  <div class="meta-note">${pbq.gaps.length} blanks · ${PPG} pts each · 60 pts total</div>`;
+
+  h+=`<div class="scenario-box">
+    <div class="sc-hdr"><span class="sc-tag" style="color:${c}">◉ SCENARIO</span><span class="sc-cia">${pbq.cia_tag}</span></div>
+    <div class="sc-txt">${pbq.scenario}</div>
+  </div><div class="instr">${pbq.instruction}</div>`;
+
+  // Build document with inline gap dropdowns
+  let doc=pbq.document;
+  pbq.gaps.forEach((gap,gi)=>{
+    const sel=s.gapSels[gap.id];
+    const correct=sub&&sel===gap.answer;
+    const wrong=sub&&sel&&sel!==gap.answer;
+    let slotHtml;
+    if(!sub){
+      const shuffledOpts=[...pbq.options].sort(()=>Math.random()-0.5);
+      let opts=`<option value="">— select —</option>`;
+      shuffledOpts.forEach(opt=>{
+        const taken=usedOpts.includes(opt)&&sel!==opt;
+        opts+=`<option value="${opt}" ${sel===opt?'selected':''} ${taken?'disabled':''}>${opt}</option>`;
+      });
+      slotHtml=`<select onchange="selGap('${gap.id}',this.value)"
+        style="font-family:var(--mono);font-size:11px;font-weight:700;
+        padding:3px 8px;border-radius:7px;cursor:pointer;
+        border:1.5px solid ${sel?`color-mix(in srgb,${c} 60%,transparent)`:'rgba(255,255,255,0.2)'};
+        background:${sel?`color-mix(in srgb,${c} 14%,transparent)`:'rgba(255,255,255,0.05)'};
+        color:${sel?c:'#94A3B8'}">${opts}</select>`;
+    } else {
+      slotHtml=`<span style="font-family:var(--mono);font-size:11px;font-weight:700;
+        padding:3px 10px;border-radius:7px;
+        border:1.5px solid ${correct?'var(--green)':wrong?'var(--red)':'rgba(255,255,255,0.2)'};
+        background:${correct?'rgba(34,197,94,0.15)':wrong?'rgba(239,68,68,0.15)':'transparent'};
+        color:${correct?'var(--green)':wrong?'var(--red)':'#94A3B8'}">
+        ${sel||'—'}${wrong?` → <span style="color:var(--green)">${gap.answer}</span>`:''}
+        </span>`;
+    }
+    doc=doc.replace(`<span class="gap-slot" data-id="${gap.id}">___</span>`,slotHtml);
+  });
+
+  h+=`<div style="background:rgba(255,255,255,0.03);border:1.5px solid rgba(255,255,255,0.08);border-radius:14px;padding:16px 18px;margin-bottom:16px">${doc}</div>`;
+
+  // Post-submit explanations
+  if(sub){
+    h+=`<div style="display:flex;flex-direction:column;gap:8px;margin-bottom:16px">`;
+    pbq.gaps.forEach(gap=>{
+      const sel=s.gapSels[gap.id];
+      const correct=sel===gap.answer;
+      h+=`<div style="padding:10px 14px;border-radius:10px;border:1.5px solid ${correct?'rgba(34,197,94,0.35)':'rgba(239,68,68,0.35)'};background:${correct?'rgba(34,197,94,0.04)':'rgba(239,68,68,0.04)'}">
+        <div style="font-family:var(--mono);font-size:10px;font-weight:700;color:${correct?'var(--green)':'var(--red)'};margin-bottom:4px">
+          ${correct?'✓':' ✗'} GAP ${pbq.gaps.indexOf(gap)+1}: <span style="color:var(--green)">${gap.answer}</span>${!correct&&sel?` (you selected: ${sel})`:''}
+        </div>
+        <div style="font-size:12px;color:#64748B;line-height:1.6">${gap.explanation}</div>
+      </div>`;
+    });
+    h+=`</div>`;
+    h+=`<button class="sbtn" onclick="gotoMCQ()" style="background:linear-gradient(135deg,color-mix(in srgb,${c} 90%,#000),${c});color:#fff">CONTINUE TO MCQ (${Math.round(s.pbqScore)}/60) →</button>`;
+  } else {
+    h+=`<button class="sbtn" ${allAnswered?'':'disabled'}
+      style="background:${allAnswered?`linear-gradient(135deg,color-mix(in srgb,${c} 90%,#000),${c})`:''}; color:${allAnswered?'#fff':''}"
+      onclick="submitFillAGap()">
+      ${allAnswered?'SUBMIT POLICY':`FILL ALL GAPS TO SUBMIT (${answered}/${pbq.gaps.length})`}</button>`;
+  }
+  document.getElementById('r-content').innerHTML=h;
+}
+
+function selGap(id,val){
+  if(RS.pbqDone)return;
+  if(val)RS.gapSels[id]=val;
+  else delete RS.gapSels[id];
+  rFillAGapPBQ();
+}
+
+function submitFillAGap(){
+  const s=RS;const pbq=s.data.pbq;
+  const PPG=60/pbq.gaps.length;
+  let sc=0;s.missedPBQ=[];
+  pbq.gaps.forEach(gap=>{
+    const sel=s.gapSels[gap.id];
+    const correct=sel===gap.answer;
+    if(correct){sc+=PPG;}
+    else{
+      s.missedPBQ.push({
+        id:gap.id,label:`Gap: ${gap.answer}`,
+        yourCat:sel||'Not answered',correctCat:gap.answer,
+        yourType:'',correctType:'',
+        explanation:gap.explanation,
+      });
+    }
+  });
+  s.pbqScore=Math.round(sc);s.pbqDone=true;
+  document.getElementById('r-pbq').textContent=Math.round(sc)+'/60';
+  document.getElementById('r-pbq').style.color=sc>=42?'var(--green)':'var(--amber)';
+  rFillAGapPBQ();window.scrollTo(0,0);
+}
+
+// ── YES/NO PBQ (hardens / weakens per statement) ─────────────────────────────
+function rYesNoPBQ(){
+  const s=RS;const pbq=s.data.pbq;const c=s.color;
+  const PPItem=40/pbq.statements.length;
+  const answered=Object.keys(s.yesnoSels).length;
+  const allAnswered=answered===pbq.statements.length;
+  const sub=s.pbqDone;
+
+  let h=phaseBar('pbq',c);
+  h+=`<div class="meta-pills">
+    <span class="mpill" style="background:color-mix(in srgb,${c} 14%,transparent);color:${c};border-color:color-mix(in srgb,${c} 28%,transparent)">HARDENING REVIEW</span>
+    <span class="mpill" style="background:rgba(220,38,38,0.14);color:var(--d2);border-color:rgba(220,38,38,0.28)">${pbq.statements.length} STATEMENTS</span>
+    <span class="mpill" style="background:rgba(217,119,6,0.14);color:var(--amber);border-color:rgba(217,119,6,0.28)">MEDIUM</span>
+  </div>
+  <div class="meta-note">${pbq.statements.length} configuration statements · ${Math.round(PPItem)} pts each · 40 pts total</div>`;
+
+  h+=`<div class="scenario-box">
+    <div class="sc-hdr"><span class="sc-tag" style="color:${c}">◉ SCENARIO</span><span class="sc-cia">${pbq.cia_tag}</span></div>
+    <div class="sc-txt">${pbq.scenario}</div>
+  </div><div class="instr">${pbq.instruction}</div>`;
+
+  h+=`<div style="display:flex;flex-direction:column;gap:10px;margin-bottom:16px">`;
+  pbq.statements.forEach((stmt,si)=>{
+    const sel=s.yesnoSels[stmt.id];
+    const isAnswered=sel!==undefined;
+    const correct=sub&&sel===stmt.answer;
+    const wrong=sub&&sel!==undefined&&sel!==stmt.answer;
+    const missed=sub&&sel===undefined;
+
+    let cardBorder,cardBg;
+    if(sub&&correct){cardBorder='rgba(34,197,94,0.45)';cardBg='rgba(34,197,94,0.04)';}
+    else if(sub&&(wrong||missed)){cardBorder='rgba(239,68,68,0.45)';cardBg='rgba(239,68,68,0.04)';}
+    else if(isAnswered){cardBorder=`color-mix(in srgb,${c} 45%,transparent)`;cardBg=`color-mix(in srgb,${c} 4%,transparent)`;}
+    else{cardBorder='rgba(255,255,255,0.1)';cardBg='rgba(255,255,255,0.02)';}
+
+    h+=`<div style="border-radius:12px;padding:12px 14px;border:2px solid ${cardBorder};background:${cardBg};transition:all .12s">
+      <div style="display:flex;justify-content:space-between;align-items:flex-start;gap:8px;margin-bottom:8px;flex-wrap:wrap">
+        <div style="font-family:var(--mono);font-size:9px;font-weight:700;color:${c};letter-spacing:.06em">${stmt.device}</div>
+        ${sub?`<div style="font-family:var(--mono);font-size:9px;font-weight:700;color:${correct?'var(--green)':'var(--red)'}">${correct?'✓ CORRECT':'✗ INCORRECT'}</div>`:''}
+      </div>
+      <div style="font-size:13px;color:#CBD5E1;line-height:1.65;margin-bottom:10px">${stmt.text}</div>`;
+
+    if(!sub){
+      h+=`<div style="display:flex;gap:8px">
+        <button onclick="selYesNo('${stmt.id}','hardens')"
+          style="flex:1;padding:9px;border-radius:9px;font-family:var(--mono);font-size:11px;font-weight:700;
+          border:1.5px solid ${sel==='hardens'?'var(--green)':'rgba(34,197,94,0.2)'};
+          background:${sel==='hardens'?'rgba(34,197,94,0.18)':'transparent'};
+          color:${sel==='hardens'?'var(--green)':'#475569'};cursor:pointer">⬆ HARDENS</button>
+        <button onclick="selYesNo('${stmt.id}','weakens')"
+          style="flex:1;padding:9px;border-radius:9px;font-family:var(--mono);font-size:11px;font-weight:700;
+          border:1.5px solid ${sel==='weakens'?'var(--red)':'rgba(239,68,68,0.2)'};
+          background:${sel==='weakens'?'rgba(239,68,68,0.18)':'transparent'};
+          color:${sel==='weakens'?'var(--red)':'#475569'};cursor:pointer">⬇ WEAKENS</button>
+      </div>`;
+    } else {
+      const correctLabel=stmt.answer==='hardens'?'⬆ HARDENS':'⬇ WEAKENS';
+      const yourLabel=sel==='hardens'?'⬆ HARDENS':sel==='weakens'?'⬇ WEAKENS':'Not answered';
+      h+=`<div style="display:flex;gap:8px;margin-bottom:8px">
+        <div style="flex:1;padding:8px;border-radius:9px;text-align:center;font-family:var(--mono);font-size:11px;font-weight:700;
+          border:1.5px solid ${correct?'var(--green)':'var(--red)'};
+          background:${correct?'rgba(34,197,94,0.12)':'rgba(239,68,68,0.12)'};
+          color:${correct?'var(--green)':'var(--red)'}">
+          ${correct?yourLabel:`✗ ${yourLabel}`}
+        </div>
+        ${!correct?`<div style="flex:1;padding:8px;border-radius:9px;text-align:center;font-family:var(--mono);font-size:11px;font-weight:700;
+          border:1.5px solid var(--green);background:rgba(34,197,94,0.12);color:var(--green)">✓ ${correctLabel}</div>`:''}
+      </div>
+      <div class="expl" style="border-color:${correct?'var(--green)':'var(--red)'};font-size:12px">${stmt.explanation}</div>`;
+    }
+    h+=`</div>`;
+  });
+  h+=`</div>`;
+
+  if(!sub){
+    h+=`<button class="sbtn" ${allAnswered?'':'disabled'}
+      style="background:${allAnswered?`linear-gradient(135deg,color-mix(in srgb,${c} 90%,#000),${c})`:''}; color:${allAnswered?'#fff':''}"
+      onclick="submitYesNoPBQ()">
+      ${allAnswered?'SUBMIT REVIEW':`ANSWER ALL STATEMENTS TO SUBMIT (${answered}/${pbq.statements.length})`}</button>`;
+  } else {
+    h+=`<button class="sbtn" onclick="gotoMCQ()" style="background:linear-gradient(135deg,color-mix(in srgb,${c} 90%,#000),${c});color:#fff">CONTINUE TO MCQ (${Math.round(s.pbqScore)}/40) →</button>`;
+  }
+  document.getElementById('r-content').innerHTML=h;
+}
+
+function selYesNo(id,val){
+  if(RS.pbqDone)return;
+  RS.yesnoSels[id]=val;
+  rYesNoPBQ();
+}
+
+function submitYesNoPBQ(){
+  const s=RS;const pbq=s.data.pbq;
+  const PPItem=40/pbq.statements.length;
+  let sc=0;s.missedPBQ=[];
+  pbq.statements.forEach(stmt=>{
+    const sel=s.yesnoSels[stmt.id];
+    const correct=sel===stmt.answer;
+    if(correct){sc+=PPItem;}
+    else{
+      s.missedPBQ.push({
+        id:stmt.id,label:stmt.device,
+        yourCat:sel||'Not answered',correctCat:stmt.answer,
+        yourType:'',correctType:'',
+        explanation:stmt.explanation,
+      });
+    }
+  });
+  s.pbqScore=Math.round(sc);s.pbqDone=true;
+  document.getElementById('r-pbq').textContent=Math.round(sc)+'/40';
+  document.getElementById('r-pbq').style.color=sc>=28?'var(--green)':'var(--amber)';
+  rYesNoPBQ();window.scrollTo(0,0);
+}
 
 // ── SEQUENCE PBQ (drag-and-drop ordering) ─────────────────────────────────────
 function initSequence(){
@@ -3857,6 +4883,11 @@ function selTriage(fieldId,val){
   RS.triageSels[fieldId]=val;
   rTriagePBQ();
 }
+function selAlertTriage(alertId,val){
+  if(RS.pbqDone)return;
+  RS.triageSels[alertId]=val;
+  rAlertTriage();
+}
 
 function submitTriagePBQ(){
   const s=RS;const pbq=s.data.pbq;const PPI=60/pbq.fields.length;
@@ -4012,8 +5043,8 @@ function rResult(){
     ${passed?`<div style="margin-top:12px;font-family:var(--mono);font-size:13px;font-weight:700;color:${total===100?'#fbbf24':sc}">+${total===100?CL.xp:CL.xp===175?135:CL.xp===125?95:CL.xp===150?115:75} XP ${total===100?'⭐ Perfect Score':'earned'}</div>`:'<div style="margin-top:10px;font-family:var(--mono);font-size:11px;color:var(--muted)">No XP awarded below 70 — retry to pass</div>'}
   </div>`;
   h+=`<div class="bdown"><div class="bdown-title">Score Breakdown</div>
-    ${RS.data.pbq?sbar(RS.data.pbq.type==='triage'?'PBQ — Change Request Triage':RS.data.pbq.type==='match'?'PBQ — Scenario Match':RS.data.pbq.type==='match2'?'PBQ — Architecture Analysis':RS.data.pbq.type==='scenario_builder'?'PBQ — Attack Scenario Builder':RS.data.pbq.type==='soc_triage'?'PBQ — SOC Incident Triage':RS.data.pbq.type==='hotspot'?'PBQ — Data Field Analysis':RS.data.pbq.type==='sequence'?'PBQ — Recovery Sequence':RS.data.pbq.concepts?'PBQ — Concept Classification':'PBQ — Dual-Axis Classification',s.pbqScore,60,c):''}
-    ${sbar(RS.data.pbq?'MCQ — '+RS.data.mcqs.length+' Questions':'MCQ — 10 Questions (Realm Review)',s.mcqScore,RS.data.pbq?40:100,'var(--d3)')}
+    ${RS.data.pbq?sbar(RS.data.pbq.type==='triage'?'PBQ — Change Request Triage':RS.data.pbq.type==='match'?'PBQ — Scenario Match':RS.data.pbq.type==='match2'?'PBQ — Architecture Analysis':RS.data.pbq.type==='scenario_builder'?'PBQ — Attack Scenario Builder':RS.data.pbq.type==='soc_triage'?'PBQ — SOC Incident Triage':RS.data.pbq.type==='hotspot'?'PBQ — Data Field Analysis':RS.data.pbq.type==='sequence'?'PBQ — Recovery Sequence':RS.data.pbq.type==='yesno'?'PBQ — Hardening Review':RS.data.pbq.type==='fillagap'?'PBQ — Procurement Policy':RS.data.pbq.type==='alert_triage'?'PBQ — Alert Triage':RS.data.pbq.concepts?'PBQ — Concept Classification':'PBQ — Dual-Axis Classification',s.pbqScore,60,c):''}
+    ${sbar(RS.data.pbq?'MCQ — '+RS.data.mcqs.length+' Questions':'MCQ — '+RS.data.mcqs.length+' Questions (Realm Review)',s.mcqScore,RS.data.pbq?(RS.data.pbq.type==='yesno'?60:40):100,'var(--d3)')}
     <div class="divider"></div>${sbar('Total',total,100,sc)}</div>`;
 
   // Missed summary
@@ -4083,6 +5114,5 @@ function retryLevel(){
 migrateXP();
 showRealm();
 </script>
-
 </body>
 </html>
