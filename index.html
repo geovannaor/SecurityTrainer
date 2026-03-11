@@ -102,9 +102,9 @@ body::before{content:'';position:fixed;inset:0;z-index:9999;pointer-events:none;
 .mcq-dot{width:8px;height:8px;border-radius:50%;transition:background .3s}
 .qbox{background:rgba(0,0,0,0.4);border-radius:12px;padding:14px 15px;margin-bottom:14px;border-left:3px solid}
 .qlbl{font-family:var(--mono);font-size:9px;font-weight:700;text-transform:uppercase;letter-spacing:.1em;margin-bottom:8px}
-.qtxt{font-size:16px;font-weight:600;line-height:1.6}
+.qtxt{font-size:13px;font-weight:600;line-height:1.55}
 .opts{display:flex;flex-direction:column;gap:9px;margin-bottom:14px}
-.opt{padding:12px 14px;border-radius:10px;border:2px solid rgba(255,255,255,0.1);background:rgba(255,255,255,0.03);cursor:pointer;display:flex;align-items:flex-start;gap:10px;font-size:15px;font-weight:600;line-height:1.45;min-height:48px;text-align:left;font-family:var(--sans);color:#94A3B8;width:100%;transition:all .15s}
+.opt{padding:10px 12px;border-radius:10px;border:2px solid rgba(255,255,255,0.1);background:rgba(255,255,255,0.03);cursor:pointer;display:flex;align-items:flex-start;gap:10px;font-size:13px;font-weight:600;line-height:1.45;min-height:44px;text-align:left;font-family:var(--sans);color:#94A3B8;width:100%;transition:all .15s}
 .opt:disabled{cursor:default}
 .opt.sel{border-color:var(--sel-c,var(--d1));background:rgba(124,58,237,0.12);color:#fff}
 .opt.oc{border-color:var(--green)!important;background:rgba(34,197,94,0.12)!important;color:var(--green)!important}
@@ -151,7 +151,7 @@ body::before{content:'';position:fixed;inset:0;z-index:9999;pointer-events:none;
 .m-correct{color:var(--green)}
 .m-exp{font-size:12px;color:#94A3B8;line-height:1.6;border-top:1px solid rgba(255,255,255,0.06);padding-top:8px}
 .m-mcq-item{padding:12px 13px;border-radius:10px;margin-bottom:8px;background:rgba(239,68,68,0.06);border:1px solid rgba(239,68,68,0.2)}
-.m-mcq-q{font-size:15px;font-weight:600;color:#E2E8F0;margin-bottom:8px;line-height:1.4}
+.m-mcq-q{font-size:13px;font-weight:600;color:#E2E8F0;margin-bottom:8px;line-height:1.45}
 .m-mcq-ans{display:flex;flex-direction:column;gap:3px;margin-bottom:8px;font-family:var(--mono);font-size:11px}
 .m-mcq-tip{font-size:12px;color:#94A3B8;line-height:1.6;border-top:1px solid rgba(255,255,255,0.06);padding-top:8px}
 .focus-hint{padding:12px 14px;border-radius:10px;margin-bottom:14px;background:rgba(217,119,6,0.08);border:1px solid rgba(217,119,6,0.25);font-size:15px;color:#CBD5E1;line-height:1.65}
@@ -230,7 +230,7 @@ const REALMS=[
   {id:"d2",num:"2.0",name:"Threats, Vulnerabilities & Mitigations",weight:22,icon:"⚠️",color:"var(--d2)",levels:[{id:"d2l1",obj:"2.1",name:"Threat Actors & Motivations",type:"dual_classify",xp:100},{id:"d2l2",obj:"2.2",name:"Threat Vectors & Attack Surfaces",type:"scenario_builder",xp:100},{id:"d2l3",obj:"2.3",name:"Vulnerability Types",type:"classify",xp:100},{id:"d2l4",obj:"2.4",name:"Indicators of Malicious Activity",type:"soc_triage",xp:100},{id:"d2l5",obj:"2.5",name:"Mitigation Techniques",type:"match",xp:100},{id:"d2l6",obj:"2.0",name:"Realm 2 Review",type:"review",xp:150}]},
   {id:"d3",num:"3.0",name:"Security Architecture",weight:18,icon:"🏗️",color:"var(--d3)",levels:[{id:"d3l1",obj:"3.1",name:"Architecture Models & Implications",type:"match2",xp:125},{id:"d3l2",obj:"3.2",name:"Secure Enterprise Infrastructure",type:"match2",xp:125},{id:"d3l3",obj:"3.3",name:"Data Protection Concepts",type:"hotspot",xp:125},{id:"d3l4",obj:"3.4",name:"Resilience & Recovery Architecture",type:"sequence",xp:125},{id:"d3l5",obj:"3.0",name:"Realm 3 Review",type:"review",xp:175}]},
   {id:"d4",num:"4.0",name:"Security Operations",weight:28,icon:"⚙️",color:"var(--d4)",levels:[{id:"d4l1",obj:"4.1",name:"Security Techniques & Hardening",type:"yesno",xp:125},{id:"d4l2",obj:"4.2",name:"Asset Management Lifecycle",type:"fillagap",xp:100},{id:"d4l3",obj:"4.3",name:"Vulnerability Management",type:"match",xp:125},{id:"d4l4",obj:"4.4",name:"Security Alerting & Monitoring",type:"alert_triage",xp:125},{id:"d4l5",obj:"4.5",name:"Enterprise Security Enhancement",type:"config_table",xp:150},{id:"d4l6",obj:"4.6",name:"Identity & Access Management",type:"classify",xp:150},{id:"d4l7",obj:"4.7",name:"Automation & Orchestration",type:"automation_risk",xp:150},{id:"d4l8",obj:"4.8",name:"Incident Response",type:"sequence",xp:150},{id:"d4l9",obj:"4.9",name:"Investigation Data Sources",type:"match",xp:150},{id:"d4l10",obj:"4.0",name:"Realm 4 Review",type:"review",xp:200}]},
-  {id:"d5",num:"5.0",name:"Security Program Management",weight:20,icon:"📋",color:"var(--d5)",levels:[]},
+  {id:"d5",num:"5.0",name:"Security Program Management",weight:20,icon:"📋",color:"var(--d5)",levels:[{id:"d5l1",obj:"5.1",name:"Security Governance",type:"classify",xp:125},{id:"d5l2",obj:"5.2",name:"Risk Management",type:"config_table",xp:125},{id:"d5l3",obj:"5.3",name:"Third-Party Risk",type:"match",xp:125}]},
 ];
 const ALL_LEVELS=REALMS.flatMap(r=>r.levels);
 const TOTAL_XP=ALL_LEVELS.reduce((s,l)=>s+l.xp,0)||100;
@@ -4290,7 +4290,565 @@ const D4L10={
   ],
 };
 
-const LEVEL_DATA={d1l1:D1L1,d1l2:D1L2,d1l3:D1L3,d1l4:D1L4,d1l5:D1L5,d2l1:D2L1,d2l2:D2L2,d2l3:D2L3,d2l4:D2L4,d2l5:D2L5,d2l6:D2L6,d3l1:D3L1,d3l2:D3L2,d3l3:D3L3,d3l4:D3L4,d3l5:D3L5,d4l1:D4L1,d4l2:D4L2,d4l3:D4L3,d4l4:D4L4,d4l5:D4L5,d4l6:D4L6,d4l7:D4L7,d4l8:D4L8,d4l9:D4L9,d4l10:D4L10};
+
+const D5L1={
+  pbq:{
+    type:"classify",
+    cia_tag:"⚑ Governance · Compliance",
+    scenario:"A newly appointed CISO is reviewing all security documentation across the organization. Each document below has been submitted without a category label. The CISO must classify each document as a Policy, Standard, Procedure, or Guideline before the governance audit begins.",
+    instruction:"Classify each document into the correct governance document type.",
+    concepts:[
+      {id:"guide",name:"Guideline"},
+      {id:"ctrl", name:"Control"},
+      {id:"pol",  name:"Policy"},
+      {id:"plan", name:"Plan"},
+      {id:"proc", name:"Procedure"},
+      {id:"std",  name:"Standard"},
+    ],
+    items:[
+      {
+        id:"gd4",
+        label:"Document: 'When configuring web application session management, developers are encouraged to set session timeouts between 15 and 30 minutes for user-facing applications. Shorter timeouts improve security; longer timeouts may improve usability in low-risk contexts. Teams should assess their specific use case.' — Application Security Team.",
+        desc:"Non-mandatory recommended practice for a specific context.",
+      },
+      {
+        id:"gd7",
+        label:"Document: 'The organization is committed to protecting the confidentiality, integrity, and availability of all information assets. All employees, contractors, and third-party users are responsible for complying with the organization's security requirements. The Chief Information Security Officer is responsible for maintaining this program.' — Signed by CEO.",
+        desc:"High-level organizational intent statement with accountability assignment.",
+      },
+      {
+        id:"gd2",
+        label:"Document: 'User account passwords must be a minimum of 14 characters, include at least one uppercase letter, one number, and one special character, and must not be reused within the previous 12 password cycles.' — Enforced by Active Directory group policy.",
+        desc:"Specific measurable technical requirement enforced by a system.",
+      },
+      {
+        id:"gd6",
+        label:"Document: 'Step 1: HR notifies IT of a new hire via the onboarding portal 5 business days before start date. Step 2: IT creates the user account and assigns role-based permissions per the access matrix. Step 3: The manager confirms access is correct before the employee's first day. Step 4: IT sends credentials via encrypted email.' — HR and IT Operations.",
+        desc:"Sequential instructions for a repeatable operational task.",
+      },
+      {
+        id:"gd1",
+        label:"Document: 'All employees are prohibited from using company-owned systems to access, store, or transmit personal content unrelated to business operations. Violations may result in disciplinary action up to and including termination.' — Applies to all staff. Approved by the Board.",
+        desc:"Mandatory organizational rule with consequences for non-compliance.",
+      },
+      {
+        id:"gd5",
+        label:"Document: 'The organization requires that all data classified as Confidential or higher must be encrypted at rest using AES-256 and in transit using TLS 1.2 or higher. Any system processing Confidential data that does not meet this requirement must have a documented exception approved by the CISO.' — Enterprise Architecture.",
+        desc:"Specific measurable encryption requirement for a defined data classification.",
+      },
+      {
+        id:"gd8",
+        label:"Document: 'Remote desktop connections to production servers should use dedicated jump hosts rather than connecting directly. While direct RDP is not prohibited in all cases, the security team recommends jump host architecture as a preferred practice to reduce attack surface.' — Infrastructure Security.",
+        desc:"Non-mandatory preferred practice recommendation.",
+      },
+      {
+        id:"gd3",
+        label:"Document: 'Step 1: Submit a change request ticket in the ITSM portal with a description, risk assessment, and rollback plan. Step 2: The Change Advisory Board reviews requests every Tuesday. Step 3: Approved changes are scheduled during the maintenance window (Saturdays 02:00–06:00 UTC). Step 4: Changes are implemented and results logged within 24 hours.' — IT Operations team.",
+        desc:"Sequential operational instructions for performing a specific task.",
+      },
+        ],
+    answers:{
+      gd1:"pol",
+      gd2:"std",
+      gd3:"proc",
+      gd4:"guide",
+      gd5:"std",
+      gd6:"proc",
+      gd7:"pol",
+      gd8:"guide",
+    },
+    explanations:{
+      gd1:"POLICY — Policies are mandatory organizational rules that define what is required or prohibited. The key indicators: mandatory language ('are prohibited'), applies to all staff, approved at board level, and specifies consequences for non-compliance. Policies state the what and why — they do not specify how to comply. The AUP (Acceptable Use Policy) is a classic example.",
+      gd2:"STANDARD — Standards define specific, measurable technical requirements that must be met to comply with a policy. The key indicators: specific numbers (14 characters, 12 cycles), enforced by a technical system (Active Directory), and no flexibility in the requirement. Password standards translate the general policy intent ('protect accounts') into exact compliance metrics.",
+      gd3:"PROCEDURE — Procedures are step-by-step operational instructions for completing a specific task. The key indicators: numbered sequential steps, specific actors (ITSM portal, Change Advisory Board), defined timeframes, and an operational outcome. Change management procedures operationalize the change management policy.",
+      gd4:"GUIDELINE — Guidelines are non-mandatory recommended practices. The key indicators: 'are encouraged,' 'should assess their specific use case,' and the flexibility language ('shorter... longer... teams should'). Guidelines provide expert recommendations without mandating compliance. Teams can deviate from guidelines based on their context.",
+      gd5:"STANDARD — Standards specify measurable technical requirements. The key indicators: specific algorithms (AES-256), specific protocol versions (TLS 1.2+), and a defined exception process. The exception process is a hallmark of standards — systems that cannot meet the standard require documented exceptions rather than informal deviation.",
+      gd6:"PROCEDURE — Procedures are sequential, task-specific operational instructions. The key indicators: numbered steps, specific systems (onboarding portal), specific timeframes (5 business days), specific actors (HR, IT, manager), and a defined end state (credentials sent). Onboarding procedures operationalize the access control policy.",
+      gd7:"POLICY — High-level organizational intent statements approved by senior leadership are policies. The key indicators: broad scope (all employees, contractors, third parties), no specific technical requirements, accountability assignment (CISO), and CEO signature indicating organizational mandate. This is an Information Security Policy — the top-level governance document.",
+      gd8:"GUIDELINE — Non-mandatory preferred practice recommendations are guidelines. The key indicators: 'should use,' 'not prohibited in all cases,' and 'recommends... as a preferred practice.' The explicit statement that direct RDP is not prohibited confirms this is advisory rather than mandatory. A standard would prohibit direct RDP; a guideline recommends against it.",
+    },
+  },
+  mcqs:[
+    {
+      id:"q1",
+      q:"A security manager is organizing the organization's governance documentation. She has four documents: (1) 'The organization requires all employees to complete annual security awareness training. Failure to complete training within the required window will result in account suspension.' — Signed by the CEO. (2) 'Security awareness training must be completed within 30 days of hire and annually thereafter, with a minimum passing score of 80%.' (3) 'Recommended topics for security awareness content include phishing simulation, password hygiene, and social engineering recognition — teams should prioritize based on their threat profile.' (4) 'Step 1: Enroll new hire in the LMS on Day 1. Step 2: Assign the onboarding training module. Step 3: Send reminder at Day 14 if incomplete. Step 4: Notify manager and suspend account at Day 31 if still incomplete.' Which option CORRECTLY classifies all four documents?",
+      options:[
+        {id:"a", label:"(1) Guideline — CEO-signed recommendations are guidelines. (2) Policy — specific requirements with scores are policies. (3) Standard — recommended topics define a content standard. (4) Procedure — step-by-step instructions are procedures"},
+        {id:"b", label:"(1) Policy — mandatory organizational requirement with consequences, CEO-approved. (2) Standard — specific measurable requirements (30-day deadline, 80% score) that define how to comply with the policy. (3) Guideline — non-mandatory recommended content topics with flexibility language. (4) Procedure — sequential step-by-step operational instructions for executing the requirement"},
+        {id:"c", label:"(1) Standard — CEO-signed documents with consequences are standards. (2) Policy — minimum score requirements are policy-level mandates. (3) Procedure — topic recommendations define the training procedure. (4) Guideline — LMS steps are recommended but not required"},
+        {id:"d", label:"All four are policies — any document that defines security requirements for employees is a policy regardless of its specificity, format, or whether it contains step-by-step instructions"},
+      ],
+      correct:"b",
+      explanation:"Policy = mandatory organizational requirement with consequences, executive-approved. Standard = specific measurable compliance metrics (deadlines, scores, versions). Guideline = non-mandatory recommendation with flexibility language ('should'). Procedure = sequential numbered steps for operational execution. The hierarchy: policy states the requirement → standard defines the measurable threshold → procedure defines how to execute → guideline recommends preferred approaches.",
+      exam_tip:"Policy = what is required/prohibited, consequences, executive approval. Standard = specific numbers/metrics, measurable, mandatory. Guideline = recommended, non-mandatory, flexibility language (should/encouraged). Procedure = sequential steps, how-to, operational. The trap: CEO signature = policy, not guideline. Specific metrics = standard, not policy. Step-by-step = procedure, not standard.",
+    },
+    {
+      id:"q2",
+      q:"A security auditor reviews five documents and must identify which type of security policy each represents. Document A: defines what employees may and may not do with company-owned technology, internet access, email, and social media — violations result in termination. Document B: describes the organization's approach to maintaining critical business functions when a natural disaster, cyberattack, or supply chain failure disrupts normal operations — includes recovery time objectives and alternate site activation criteria. Document C: defines security requirements that must be embedded at each phase of application development — requirements gathering, design review, code review, testing, and deployment sign-off. Document D: specifies how the organization will detect, contain, eradicate, and recover from security incidents, including roles, communication chains, and escalation criteria. Document E: governs how changes to production systems are requested, reviewed, approved, and implemented to prevent unauthorized or destabilizing modifications. Which option CORRECTLY identifies all five documents?",
+      options:[
+        {id:"a", label:"A: Information security policy. B: Incident response policy. C: Change management policy. D: Business continuity policy. E: SDLC policy"},
+        {id:"b", label:"A: AUP — correctly identified. B: Disaster recovery policy — DR addresses natural disasters. C: Incident response policy — SDLC is an incident handling framework. D: Change management policy — incident response governs changes to systems. E: Business continuity policy — change management maintains business continuity"},
+        {id:"c", label:"A: Acceptable use policy (AUP). B: Business continuity policy (BCP). C: SDLC policy. D: Incident response policy. E: Change management policy"},
+        {id:"d", label:"A: Change management policy — AUPs govern technology changes. B: BCP — correctly identified. C: Information security policy — SDLC is a subset of the overall information security program. D: SDLC policy — incident response is a development lifecycle activity. E: Incident response policy — change control is a reactive incident response process"},
+      ],
+      correct:"c",
+      explanation:"AUP (Acceptable Use Policy) governs employee use of organizational technology resources — it defines permitted and prohibited behaviors and specifies consequences. BCP (Business Continuity Policy/Plan) addresses maintaining operations through disruption — RTO, RPA, alternate sites. SDLC policy embeds security requirements at each development phase — requirements, design, code, test, deploy. Incident response policy defines detection, containment, eradication, and recovery procedures with roles and escalation. Change management policy governs the request, review, approval, and implementation of system changes.",
+      exam_tip:"AUP = employee technology use, permitted/prohibited, consequences. BCP = operational continuity through disruption, RTO/RPO, alternate sites. SDLC = security at each development phase. IR policy = detect/contain/eradicate/recover, roles and escalation. Change management = request/review/approve/implement changes. Trap: BCP vs DR — BCP is broader (maintain operations); DR is specifically about recovering IT systems after a disaster.",
+    },
+    {
+      id:"q3",
+      q:"A compliance team is auditing four technical standards. Standard 1: specifies that all user accounts must use passwords of at least 12 characters, prohibits dictionary words, and requires rotation every 90 days for privileged accounts. Standard 2: requires that all remote access connections use TLS 1.3 and that data classified as Restricted must use AES-256 at rest — any legacy system using DES or RC4 must be remediated or decommissioned. Standard 3: requires that all server rooms and data centers use badge-plus-PIN access, that visitor access be logged with timestamps, and that CCTV coverage include all entry points with 90-day retention. Standard 4: specifies that all user accounts follow the principle of least privilege, that privileged access require separate accounts from standard accounts, and that shared accounts are prohibited. Which option CORRECTLY maps each standard to its governance category?",
+      options:[
+        {id:"a", label:"Standard 1: password standard — minimum length, complexity, rotation requirements. Standard 2: encryption standard — TLS version, AES-256, legacy algorithm remediation. Standard 3: physical security standard — badge/PIN, visitor logging, CCTV retention. Standard 4: access control standard — least privilege, privileged account separation, shared account prohibition"},
+        {id:"b", label:"Standard 1: access control standard. Standard 2: physical security standard. Standard 3: encryption standard. Standard 4: password standard"},
+        {id:"c", label:"Standard 1: encryption standard — hashing passwords is an encryption function. Standard 2: access control standard — TLS controls who can access remote systems. Standard 3: access control standard — badge and PIN systems are access control mechanisms. Standard 4: physical security standard — separating accounts provides physical separation of duties"},
+        {id:"d", label:"All four are policies — any document that specifies a minimum requirement for a security control is a policy, not a standard. Standards only apply to industry-wide frameworks like ISO 27001 or NIST"},
+      ],
+      correct:"a",
+      explanation:"Standards define specific, measurable technical requirements within a domain. Password standards: minimum length, complexity rules, rotation schedules. Encryption standards: specific algorithms (AES-256), protocol versions (TLS 1.3), and legacy remediation requirements. Physical security standards: access control mechanisms (badge+PIN), logging requirements, CCTV retention periods. Access control standards: least privilege implementation, account separation, shared account policy. Each standard translates a policy intent into a measurable, auditable requirement.",
+      exam_tip:"Standards = specific and measurable within a domain. Password standard = length, complexity, rotation, reuse. Encryption standard = specific algorithms and versions (AES-256, TLS 1.3). Physical security standard = badge/PIN requirements, logging, CCTV retention. Access control standard = least privilege, account separation, shared account prohibition. Trap: standards are not the same as industry frameworks (NIST, ISO) — organizational standards are internally defined measurable requirements.",
+    },
+    {
+      id:"q4",
+      q:"A security operations manager is reviewing three operational documents to determine whether they are procedures or playbooks. Document 1: 'When a new employee joins, IT must: (1) create an AD account using the standard naming convention; (2) assign permissions from the role-based access matrix; (3) issue hardware from inventory; (4) configure MFA enrollment; (5) send welcome credentials via encrypted email on Day 1.' Document 2: 'When an analyst detects a phishing email reported by a user: (1) retrieve the email headers; (2) analyze the sending domain against threat intelligence; (3) if malicious: quarantine all instances from the mail gateway, block the domain at the firewall, notify affected users, and open an incident ticket; (4) preserve evidence for 90 days.' Document 3: 'When an employee separates from the organization: (1) HR notifies IT on the last day; (2) IT disables the AD account immediately; (3) IT revokes all access tokens and SSO sessions; (4) IT transfers mailbox ownership; (5) hardware is retrieved and sanitized.' Which option CORRECTLY identifies the document types and explains the distinction?",
+      options:[
+        {id:"a", label:"All three are playbooks — any security operational document with numbered steps is a playbook. Procedures are only used in manufacturing and IT change management, not in security operations"},
+        {id:"b", label:"Documents 1 and 3 are guidelines — onboarding and offboarding steps are recommended workflows that vary by department. Document 2 is a procedure — phishing response has fixed steps without decision branches"},
+        {id:"c", label:"Document 1 is a policy — onboarding requirements are mandatory organizational rules. Document 2 is a procedure — incident response steps are general procedures. Document 3 is a guideline — offboarding steps are recommendations that HR can adapt"},
+        {id:"d", label:"Documents 1 and 3 are procedures — sequential, task-specific operational instructions for recurring HR/IT lifecycle events (onboarding, offboarding). Document 2 is a playbook — a pre-defined response guide for a specific security event type (phishing), including detection triggers, decision branches, containment actions, and evidence preservation. Playbooks are a specific type of procedure scoped to security incident response scenarios"},
+      ],
+      correct:"d",
+      explanation:"Procedures are sequential, task-specific operational instructions for recurring activities — onboarding and offboarding are HR/IT lifecycle procedures that follow the same steps each time. Playbooks are a specialized subset of procedures designed for security event response — they include detection triggers, decision logic (if/then branches), specific containment actions, and evidence handling. Document 2 has all playbook characteristics: a trigger condition (phishing report), a decision branch (if malicious), specific response actions (quarantine, block, notify), and evidence preservation. Playbooks are referenced in the CompTIA 5.1 objectives as a distinct procedure type.",
+      exam_tip:"Procedure = sequential steps for any recurring operational task. Playbook = security incident response procedure with trigger conditions, decision branches, and containment/evidence actions. Playbooks are a type of procedure specific to security operations. Onboarding/offboarding = HR/IT lifecycle procedures. Change management procedure = request/approval/implementation steps. The trap: all playbooks are procedures but not all procedures are playbooks.",
+    },
+    {
+      id:"q5",
+      q:"A multinational company is designing its security governance structure. In Model A, the corporate CISO sets all security policies, standards, and controls — regional offices implement the global standards without local modification. All security decisions route through the central security team. In Model B, each regional office has its own security team that sets local policies and controls appropriate for their regulatory environment — the corporate level sets only high-level principles and minimum baselines. A board-level Audit Committee reviews the CISO's annual security program report and approves the security budget. A cross-functional Security Steering Committee meets quarterly to review risk posture and align security priorities with business objectives. Which option CORRECTLY identifies the governance models and explains the committee roles?",
+      options:[
+        {id:"a", label:"Model A: decentralized governance — routing decisions through one central team is a form of distributed decision-making. Model B: centralized governance — minimum baselines from corporate are a centralized control. The Audit Committee and Steering Committee are both forms of regulatory oversight with no internal governance function"},
+        {id:"b", label:"Model A: centralized governance — single authority sets all policies and controls, implemented uniformly. Model B: decentralized governance — regional teams have authority to set local policies within corporate principles. The Audit Committee provides board-level oversight and budget authority over the security program. The Security Steering Committee is a cross-functional governance body that aligns security with business strategy — a committee governance structure within the broader program"},
+        {id:"c", label:"Model A: federated governance — central policy with regional implementation is federation. Model B: distributed governance — regional authority is distributed governance. The Audit Committee is a government entity. The Steering Committee is a centralized governance body"},
+        {id:"d", label:"Both models are centralized governance — any governance model that has a CISO is centralized because a single named executive holds security authority regardless of how policies are distributed or implemented"},
+      ],
+      correct:"b",
+      explanation:"Centralized governance: single authority (corporate CISO) creates and owns all policies and controls — regions execute but do not modify. Provides consistency and uniform standards but may lack flexibility for local regulatory requirements. Decentralized governance: regional teams have authority to create local policies within high-level corporate principles — provides regulatory flexibility but risks inconsistency. Board-level governance structures (Audit Committee) provide independent oversight, budget approval, and executive accountability. Security committees (Steering Committee) provide cross-functional alignment between security priorities and business objectives — a committee governance structure.",
+      exam_tip:"Centralized = one authority sets all policy, uniform implementation. Decentralized = regional/local authority within principles. Boards = independent oversight, fiduciary/budget authority, external accountability. Committees = cross-functional, advisory or decision-making, operational alignment. Government entities = regulatory authorities that impose external governance requirements. Trap: a CISO does not define centralization — the question is who has authority to create and modify policy.",
+    },
+    {
+      id:"q6",
+      q:"A healthcare organization processes patient records. Four roles interact with patient data: Role A — the cardiology department head who determines that cardiologists need access to full patient records but billing staff only need financial data — she defines what data is collected, why, and who can access it. Role B — the database administrator who implements the access controls, performs backups, maintains encryption at rest, and ensures data integrity — he does not determine why data is collected or who should have access. Role C — under GDPR, the healthcare organization that collects patient data and determines the purpose and means of processing it. Role D — the cloud backup service that stores encrypted patient record backups on behalf of the healthcare organization under a data processing agreement — they process the data as instructed but have no authority over its purpose or use. Which option CORRECTLY identifies all four roles?",
+      options:[
+        {id:"a", label:"Role A: custodian — department heads maintain data on behalf of the organization. Role B: owner — the DBA owns the technical infrastructure. Role C: processor — the organization processes data for patients. Role D: controller — the cloud provider controls where data is stored"},
+        {id:"b", label:"Role A: controller — defines processing purposes, which is a controller function under GDPR. Role B: processor — the DBA processes data through technical operations. Role C: custodian — the organization custodies patient data. Role D: owner — the cloud provider owns the infrastructure that stores the data"},
+        {id:"c", label:"Role A: data owner — determines data purpose, access requirements, and classification. Has business accountability for the data. Role B: custodian/steward — implements and maintains technical controls as directed by the owner. Has operational responsibility but not decision authority. Role C: controller (GDPR) — the entity that determines the purpose and means of processing personal data. Role D: processor (GDPR) — processes personal data on behalf of the controller under a data processing agreement, with no independent authority over its purpose"},
+        {id:"d", label:"All four roles are the same — data ownership, stewardship, control, and processing are different terms for the same governance responsibility distributed across departments"},
+      ],
+      correct:"c",
+      explanation:"Data owner: business role with accountability for a dataset — determines classification, access requirements, retention, and acceptable use. Data custodian/steward: technical role that implements controls on behalf of the owner — backup, encryption, access implementation. Does not set policy; executes it. GDPR Controller: the legal entity that determines the purpose and means of processing personal data — legally accountable for compliance. GDPR Processor: processes data on behalf of the controller under a data processing agreement — follows controller instructions without independent authority over purpose.",
+      exam_tip:"Owner = business accountability, determines purpose + access + classification. Custodian/steward = technical implementation, executes owner's decisions. Controller (GDPR) = determines purpose and means of processing, legally accountable. Processor (GDPR) = processes on behalf of controller under DPA, no independent authority. Key trap: owner ≠ controller — these are different frameworks. Owner is an organizational role; controller is a GDPR legal designation. A DBA is a custodian, not an owner.",
+    },
+    {
+      id:"q7",
+      q:"A compliance team is categorizing four governance requirements that drive the organization's security controls. Requirement 1: the organization must implement specific cybersecurity controls for its industrial control systems because it operates in the energy sector — these controls are mandated by a federal agency with authority over critical infrastructure. Requirement 2: the organization must preserve all emails and financial records for 7 years because it is publicly traded — failure to comply with this requirement can result in court sanctions and SEC enforcement action. Requirement 3: the organization wants to qualify for a major retail client's vendor program — to do so it must demonstrate compliance with a security framework that the retail industry developed to protect payment card data. Requirement 4: the organization operates manufacturing facilities in three countries — each country has different data residency laws that dictate where employee and customer data may be stored and processed. Which option CORRECTLY maps each requirement to its governance driver?",
+      options:[
+        {id:"a", label:"Requirement 1: regulatory — a federal agency mandate for a specific sector (energy/critical infrastructure) is a regulatory requirement. Requirement 2: legal — court sanctions and SEC enforcement create legal obligations for records retention. Requirement 3: industry — PCI DSS is an industry-developed standard (not a government regulation) required for participation in the payment card ecosystem. Requirement 4: local/regional/national/global — data residency laws vary by country, creating multi-jurisdictional compliance obligations"},
+        {id:"b", label:"Requirement 1: legal — federal court orders mandate ICS security. Requirement 2: industry — financial record retention is an industry best practice. Requirement 3: regulatory — PCI DSS is a government regulation. Requirement 4: national — data residency in multiple countries is a national requirement"},
+        {id:"c", label:"Requirement 1: industry — energy sector frameworks are voluntary industry standards. Requirement 2: regulatory — the SEC is a regulatory body. Requirement 3: legal — contractual vendor requirements are legal obligations. Requirement 4: regulatory — GDPR is a regulatory framework that covers multinational data residency"},
+        {id:"d", label:"All four are regulatory requirements — any external requirement that an organization must comply with is regulatory by definition, regardless of whether it comes from a government agency, court, industry body, or foreign government"},
+      ],
+      correct:"a",
+      explanation:"Regulatory: requirements imposed by government agencies with legal authority over a sector — federal energy sector mandates (NERC CIP) are regulatory. Legal: obligations created by law or court action — SEC records retention rules and litigation hold requirements create legal obligations distinct from sector-specific regulation. Industry: standards developed by industry bodies (not government) that organizations adopt for business participation — PCI DSS is maintained by the Payment Card Industry Security Standards Council, not a government. Local/regional/national/global: data residency and privacy laws that vary by jurisdiction — GDPR (EU), PIPL (China), and national data sovereignty laws create overlapping multi-jurisdictional compliance requirements.",
+      exam_tip:"Regulatory = government agency mandate, sector-specific authority (NERC CIP, HIPAA, FedRAMP). Legal = court orders, litigation holds, statutory obligations (SEC, SOX). Industry = non-government standard required for business participation (PCI DSS, SOC 2, ISO 27001). Local/regional/national/global = jurisdiction-specific laws (GDPR, data residency, privacy). Trap: PCI DSS is NOT a regulation — it is an industry standard. HIPAA IS a regulation. ISO 27001 is NOT a regulation — it is a voluntary international standard.",
+    },
+    {
+      id:"q8",
+      q:"A security governance program has been in place for three years without formal review. A new CISO conducts an assessment and finds: (1) the AUP still references technologies that were retired two years ago; (2) password standards require 8-character minimum passwords, which no longer meet current security baselines; (3) the incident response policy has never been tested against a real incident — a tabletop exercise was conducted once at program launch; (4) the encryption standard still permits TLS 1.0 and TLS 1.1, which are deprecated; (5) there is no mechanism to track whether new regulatory requirements trigger policy updates. Which governance lifecycle activity addresses ALL five findings simultaneously?",
+      options:[
+        {id:"a", label:"Deploying a SIEM — a Security Information and Event Management platform would detect when policies are being violated and trigger automatic updates to outdated standards"},
+        {id:"b", label:"Appointing a Data Protection Officer — a DPO is responsible for maintaining all organizational security documentation and would update the AUP, password standards, IR policy, encryption standards, and regulatory tracking as part of their statutory duties"},
+        {id:"c", label:"Conducting a penetration test — penetration testing identifies gaps between documented security controls and actual implementation, which would reveal all five governance deficiencies"},
+        {id:"d", label:"Implementing a formal governance monitoring and revision program — this includes scheduled policy review cycles (annual/biennial), change triggers that prompt review (technology changes, regulatory updates, incidents, audit findings), version control for all governance documents, and a testing/validation process that confirms policies reflect current threat, technology, and regulatory environments"},
+      ],
+      correct:"d",
+      explanation:"Governance monitoring and revision is the lifecycle activity that ensures security policies, standards, procedures, and guidelines remain accurate, current, and effective. It encompasses: scheduled review cycles to catch outdated content (findings 1, 2, 4), testing and validation mechanisms to verify effectiveness (finding 3), change management triggers that initiate review when technology, threats, or regulations change (finding 5), and version control to document what changed, when, and why. A governance program without monitoring and revision drifts from the current environment — policies become shelfware that no longer reflects operational reality.",
+      exam_tip:"Governance monitoring and revision = scheduled review cycles + change triggers + testing/validation + version control. Review triggers: regulatory changes, technology changes, incident findings, audit findings, organizational changes. Governance without revision = policy drift (documents no longer reflect current environment). The trap: a SIEM monitors technical controls, not governance documents. A DPO is a GDPR-specific role, not a general governance maintainer.",
+    },
+  ],
+};
+
+
+const D5L2={
+  pbq:{
+    type:"config_table",
+    meta_label:"RISK TREATMENT DECISION",
+    cia_tag:"⚑ Risk Management",
+    scenario:"A risk analyst is reviewing six risk register entries for the organization's annual risk treatment cycle. Each entry includes the asset value, exposure factor (EF), single loss expectancy (SLE), annualized rate of occurrence (ARO), and annualized loss expectancy (ALE). The analyst must assign the correct risk treatment strategy to each entry. Note: SLE = Asset Value × EF. ALE = SLE × ARO.",
+    instruction:"For each risk entry, select the correct treatment strategy.",
+    headers:["SYSTEM","ASSET VALUE","EF","SLE","ARO / ALE"],
+    row_label:"RISK",
+    actions:[
+      {id:"mitigate",  lbl:"MITIGATE",            col:"#60a5fa",     bg:"rgba(96,165,250,0.15)"},
+      {id:"transfer",  lbl:"TRANSFER",             col:"#a78bfa",     bg:"rgba(167,139,250,0.15)"},
+      {id:"avoid",     lbl:"AVOID",                col:"var(--red)",  bg:"rgba(239,68,68,0.15)"},
+      {id:"accept",    lbl:"ACCEPT",               col:"var(--green)",bg:"rgba(34,197,94,0.15)"},
+      {id:"exemption", lbl:"ACCEPT · EXEMPTION",   col:"var(--amber)",bg:"rgba(217,119,6,0.15)"},
+      {id:"exception", lbl:"ACCEPT · EXCEPTION",   col:"#f472b6",     bg:"rgba(244,114,182,0.15)"},
+    ],
+    rules:[
+      {
+        id:"r1",
+        num:"1",
+        dir:"Web App Server",
+        src:"$180,000",
+        dst:"45%",
+        port:"$81,000",
+        aro:"3×/yr", ale:"$243,000",
+        answer:"mitigate",
+        explanation:"MITIGATE — The ALE is $243,000/year. A WAF, patch management program, and secure SDLC controls cost an estimated $40,000/year to implement. When mitigation cost ($40,000) is significantly less than the ALE ($243,000), mitigation is the correct strategy — it reduces the risk to an acceptable level at a fraction of the loss exposure. Mitigate = implement controls to reduce likelihood or impact when cost of control < ALE.",
+      },
+      {
+        id:"r2",
+        num:"2",
+        dir:"Legacy Printer Fleet",
+        src:"$12,000",
+        dst:"10%",
+        port:"$1,200",
+        aro:"0.5×/yr", ale:"$600",
+        answer:"accept",
+        explanation:"ACCEPT — The ALE is $600/year. The cost to remediate (replace the printer fleet) is $85,000. When the cost of treatment far exceeds the ALE, accepting the risk is the rational decision. Risk acceptance means the organization acknowledges the risk, documents it in the risk register, and monitors it. Accept = ALE is low enough that the cost of treatment is not justified.",
+      },
+      {
+        id:"r3",
+        num:"3",
+        dir:"Customer PII Database",
+        src:"$2,500,000",
+        dst:"80%",
+        port:"$2,000,000",
+        aro:"1×/yr", ale:"$2,000,000",
+        answer:"transfer",
+        explanation:"TRANSFER — The ALE is $2,000,000/year. The organization cannot technically eliminate this risk (the database must remain operational), and the loss exposure is catastrophic. Cyber liability insurance with a $2M policy limit costs $95,000/year in premiums — shifting the financial consequence of a breach to the insurer. Transfer = shift financial liability to a third party (insurance, contract) when risk cannot be eliminated and loss is catastrophic.",
+      },
+      {
+        id:"r4",
+        num:"4",
+        dir:"Unvetted AI Code Pipeline",
+        src:"$900,000",
+        dst:"70%",
+        port:"$630,000",
+        aro:"2×/yr", ale:"$1,260,000",
+        answer:"avoid",
+        explanation:"AVOID — The ALE is $1,260,000/year from the risk of introducing vulnerable or malicious code into production via an unvetted AI-generated code pipeline. The organization determines that no available controls can reduce the risk to an acceptable level given current AI code quality assurance maturity. The correct treatment is to discontinue use of the unvetted pipeline entirely — eliminating the risk by stopping the activity. Avoid = cease the activity that introduces the risk when it cannot be adequately controlled.",
+      },
+      {
+        id:"r5",
+        num:"5",
+        dir:"Legacy ICS Controller",
+        src:"$400,000",
+        dst:"60%",
+        port:"$240,000",
+        aro:"0.8×/yr", ale:"$192,000",
+        answer:"exemption",
+        explanation:"ACCEPT · EXEMPTION — The legacy ICS controller cannot meet the organization's encryption and patching standards because the vendor no longer supports the platform and no compliant replacement is available within the operational budget cycle. The CISO grants a permanent policy exemption — the system is documented as non-compliant with a compensating control (network segmentation) in place. Exemption = permanent waiver from a policy requirement, granted when compliance is structurally impossible and the situation is unlikely to change.",
+      },
+      {
+        id:"r6",
+        num:"6",
+        dir:"Cloud Migration Project",
+        src:"$600,000",
+        dst:"35%",
+        port:"$210,000",
+        aro:"1×/yr", ale:"$210,000",
+        answer:"exception",
+        explanation:"ACCEPT · EXCEPTION — During the 90-day cloud migration window, the organization's data classification policy requires encryption of all data in transit, but the legacy integration layer cannot support TLS during migration without halting the project. The security team documents a temporary policy exception — valid for 90 days — while compensating controls (network isolation, enhanced monitoring) are in place. The exception expires when migration completes and TLS is implemented. Exception = temporary waiver from a policy requirement, time-bounded, with a defined remediation path.",
+      },
+    ],
+  },
+  mcqs:[
+    {
+      id:"q1",
+      q:"A security team follows a structured risk management process. Activity A: the team reviews threat intelligence feeds, conducts asset inventories, and interviews department heads to compile a list of potential threats to organizational assets — no analysis has been performed yet. Activity B: the team evaluates each identified threat by determining the likelihood of occurrence, the potential business impact, and whether existing controls are adequate — producing a prioritized list of risks. Activity C: the team applies qualitative and quantitative methods to each prioritized risk to calculate precise loss values (SLE, ALE) and determine which risks exceed the organization's thresholds. Which option CORRECTLY maps each activity to its risk management phase and explains the sequence?",
+      options:[
+        {id:"a", label:"Activity A: risk analysis — compiling threat intelligence and asset lists is the analytical phase that quantifies exposure. Activity B: risk identification — evaluating likelihood and impact identifies which threats are relevant. Activity C: risk assessment — applying SLE and ALE formulas completes the assessment that produces the prioritized risk register"},
+        {id:"b", label:"Activity A: risk identification — compiling potential threats and assets without analysis. Activity B: risk assessment — evaluating likelihood, impact, and control adequacy to prioritize risks. Activity C: risk analysis — applying qualitative or quantitative methods to calculate loss values and compare against thresholds. The sequence is always identification → assessment → analysis, each phase building on the previous"},
+        {id:"c", label:"All three activities are risk assessment — identification, evaluation, and quantitative analysis are all sub-tasks of the unified risk assessment process. CompTIA uses assessment as the umbrella term covering enumeration, prioritization, and loss calculation within a single iterative phase"},
+        {id:"d", label:"Activity A: risk assessment — asset inventories and threat intelligence feeds are assessment inputs used to evaluate the current risk posture. Activity B: risk analysis — likelihood and impact evaluation is the qualitative analysis step. Activity C: risk identification — calculating SLE and ALE identifies which risks exceed thresholds and require formal management attention"},
+      ],
+      correct:"b",
+      explanation:"Risk identification: discover and document potential threats and vulnerabilities — no evaluation yet, just enumeration. Risk assessment: evaluate identified risks by likelihood, impact, and current control effectiveness — produces a prioritized risk list. Risk analysis: apply methods (qualitative or quantitative) to understand risk magnitude — calculates SLE, ALE, and compares against thresholds. The phases are sequential and cumulative: you cannot assess what you haven't identified, and you cannot analyze what you haven't assessed.",
+      exam_tip:"Identification = find and list risks. Assessment = evaluate likelihood + impact + controls, prioritize. Analysis = quantify or qualify magnitude, calculate SLE/ALE, compare to thresholds. The trap: assessment and analysis sound similar but are sequential — assessment prioritizes; analysis calculates. Impact is evaluated during assessment; SLE/ALE are calculated during analysis.",
+    },
+    {
+      id:"q2",
+      q:"A risk manager is choosing an analysis method for two risk scenarios. Scenario X: the organization needs to evaluate the risk of reputational damage from a social media crisis. There is no historical data on occurrence frequency, and the potential financial impact is highly variable and difficult to model. The risk manager needs a fast, expert-judgment-based assessment to brief the board next week. Scenario Y: the organization needs to evaluate the risk of ransomware attacking its ERP system. Historical breach data, asset valuations, cyber insurance actuarial tables, and industry ARO statistics are all available. The CFO requires a dollar-denominated risk report to justify a $2M security investment. Which option CORRECTLY identifies the appropriate analysis method for each scenario and explains the key difference?",
+      options:[
+        {id:"a", label:"Scenario X: quantitative — financial impact requires precise dollar calculation even without historical data, because estimation models can substitute for empirical ARO data. Scenario Y: qualitative — ransomware risk involves too many interdependent variables for reliable quantitative modeling, so expert judgment and a High/Medium/Low rating is more defensible for board communication"},
+        {id:"b", label:"Scenario X: quantitative — board briefings require numerical outputs to be actionable, so qualitative ratings are insufficient regardless of data availability. Scenario Y: qualitative — when historical data exists, analysts should still apply qualitative methods first to validate that the data supports the quantitative inputs before running SLE and ALE calculations"},
+        {id:"c", label:"Scenario X: qualitative analysis — uses expert judgment, descriptive ratings (High/Medium/Low), and subjective likelihood assessment when hard data is unavailable or the impact is difficult to quantify. Fast and practical for board communication. Scenario Y: quantitative analysis — uses numerical data (ARO, asset value, EF) to calculate precise dollar-denominated loss values (SLE, ALE). Required when financial justification for investment is needed. Key difference: qualitative = descriptive ratings, no formulas; quantitative = numerical inputs, formula-driven outputs"},
+        {id:"d", label:"Both scenarios require quantitative analysis — all risk assessments presented to a CFO or board must produce dollar-denominated outputs to ensure consistent comparison, defensible investment decisions, and audit trail compliance. Qualitative ratings are internal tools only and should never be used as the primary output for executive-level risk communication"},
+      ],
+      correct:"c",
+      explanation:"Qualitative analysis uses expert judgment and descriptive scales (High/Medium/Low, likelihood matrices) — it is appropriate when historical data is unavailable, impact is difficult to quantify, or a rapid assessment is needed. Output: risk rating (e.g., High). Quantitative analysis uses numerical inputs and formulas to produce precise financial figures — it requires data (asset value, EF, ARO) and produces SLE and ALE. Output: dollar amount. The choice depends on data availability and the audience's needs — boards may prefer qualitative ratings for strategic decisions; CFOs require quantitative figures for investment justification.",
+      exam_tip:"Qualitative = expert judgment, descriptive ratings (H/M/L), no hard numbers required, fast. Quantitative = numerical data, formulas (SLE=AV×EF, ALE=SLE×ARO), dollar outputs, requires historical data. Use qualitative when: no data, fast assessment needed, strategic audience. Use quantitative when: data available, financial justification needed, investment decision required.",
+    },
+    {
+      id:"q3",
+      q:"A risk analyst is calculating quantitative risk values for a database server. The server has an asset value of $500,000. A threat analysis determines that a successful SQL injection attack would corrupt approximately 40% of the database, requiring partial restoration. Historical data shows that SQL injection attacks successfully breach similar systems about twice per year on average. Using the standard quantitative risk formulas, which option CORRECTLY calculates the SLE, ARO, and ALE, and identifies what each value represents?",
+      options:[
+        {id:"a", label:"SLE = $500,000 × 40% = $200,000 — the estimated loss from one successful attack. ARO = 2 — the expected number of attacks per year. ALE = $200,000 × 2 = $400,000 — the expected annual loss from this threat. The exposure factor (40%) represents the percentage of asset value lost per incident"},
+        {id:"b", label:"SLE = $500,000 × 2 = $1,000,000 — ARO is multiplied by asset value first to account for annualized frequency before applying the exposure factor. ALE = $1,000,000 × 40% = $400,000 — EF is then applied to the annualized figure. This sequence produces the correct ALE even though the intermediate SLE differs from the alternative formula approach"},
+        {id:"c", label:"SLE = $500,000 ÷ 40% = $1,250,000 — exposure factor is divided into asset value because EF represents the fraction of value that survives, not the fraction lost. ARO = 2. ALE = $1,250,000 × 2 = $2,500,000 — represents the gross annualized exposure before insurance or compensating controls reduce the net expected loss"},
+        {id:"d", label:"SLE = 40% expressed as $200,000 — the exposure factor directly equals the SLE when asset value is normalized. ALE = SLE × ARO = $200,000 × 0.5 = $100,000 — ARO of 2 attacks per year means each individual attack has a 0.5 annualized weight, so ALE is halved from the SLE to reflect the per-occurrence expected value"},
+      ],
+      correct:"a",
+      explanation:"EF (Exposure Factor): the percentage of asset value lost in a single incident — 40% here. SLE (Single Loss Expectancy) = Asset Value × EF = $500,000 × 0.40 = $200,000 — the expected dollar loss from one occurrence. ARO (Annualized Rate of Occurrence): how many times the threat is expected to occur per year — 2. ALE (Annualized Loss Expectancy) = SLE × ARO = $200,000 × 2 = $400,000 — the expected total loss per year from this threat. ALE is the primary input for risk treatment decisions — compare ALE to the cost of controls to determine whether mitigation is financially justified.",
+      exam_tip:"EF = % of asset destroyed per incident (0–100%). SLE = Asset Value × EF (dollar loss per incident). ARO = occurrences per year (can be fractional: 0.1 = once per 10 years). ALE = SLE × ARO (annual expected loss). Formula chain: AV × EF = SLE → SLE × ARO = ALE. The exam gives you 3 values and asks for the 4th. ALE drives treatment decisions: if ALE > cost of controls → mitigate. If ALE < cost of controls → accept.",
+    },
+    {
+      id:"q4",
+      q:"A CISO is reviewing four risk scenarios and must select the appropriate treatment strategy for each. Scenario 1: a critical vulnerability exists in the customer portal — a $25,000 patch and WAF implementation would reduce the ALE from $180,000 to $15,000. Scenario 2: a legacy manufacturing system has an ALE of $8,000/year — replacing the system costs $200,000 and patching is not possible. Scenario 3: the organization is considering launching a new cryptocurrency trading service — legal analysis determines the regulatory risk exposure is unquantifiable and potentially enterprise-threatening. Scenario 4: the organization's headquarters building faces flood risk — a $50,000/year flood insurance policy would cover the $2M replacement cost of equipment in the event of a 100-year flood. Which option CORRECTLY maps each scenario to its treatment strategy?",
+      options:[
+        {id:"a", label:"Scenario 1: transfer — engaging a managed security provider to implement the patch and WAF transfers both the technical risk and the financial liability to the vendor. Scenario 2: avoid — a system that cannot be patched and poses ongoing risk should be decommissioned to eliminate the exposure entirely. Scenario 3: mitigate — compliance programs, legal counsel, and regulatory engagement can reduce the unquantifiable regulatory risk to an acceptable level. Scenario 4: accept — flood events at headquarters are low-frequency and the $50,000 annual premium exceeds the risk-adjusted expected loss for a 100-year event"},
+        {id:"b", label:"Scenario 1: mitigate — cost of controls ($25,000) is far less than ALE ($180,000), making control implementation financially justified. Scenario 2: accept — ALE ($8,000) is far less than remediation cost ($200,000), making acceptance the rational economic decision. Scenario 3: avoid — when risk cannot be adequately controlled and exposure is potentially enterprise-threatening, the correct response is to not pursue the activity. Scenario 4: transfer — shifting the financial consequence of a low-frequency, high-impact event to an insurer through a policy"},
+        {id:"c", label:"Scenario 1: avoid — critical vulnerabilities in customer-facing systems represent existential reputational risk that cannot be adequately mitigated through technical controls alone, making avoidance the only defensible strategy. Scenario 2: mitigate — even low-ALE systems should be hardened when technically feasible, because accepting risk on legacy systems creates a pattern of deferred security investment. Scenario 3: transfer — regulatory risk exposure from financial services can be insured through professional liability and regulatory defense policies. Scenario 4: mitigate — physical flood barriers, elevated equipment racks, and drainage systems reduce flood impact more effectively than insurance, which only covers costs after loss occurs"},
+        {id:"d", label:"Scenario 1: mitigate — correctly identified. Scenario 2: transfer — purchasing a maintenance contract with the legacy system vendor transfers patching liability and reduces ALE through contractual SLA guarantees. Scenario 3: accept — unquantifiable risk cannot be formally managed, so it defaults to acceptance with monitoring. Scenario 4: avoid — the organization should relocate headquarters to a lower flood-risk location to eliminate the exposure rather than paying ongoing insurance premiums for a preventable risk"},
+      ],
+      correct:"b",
+      explanation:"Mitigate: implement controls when cost of controls < ALE — $25,000 vs $180,000 ALE makes mitigation clearly justified. Accept: acknowledge and document the risk when treatment cost exceeds ALE — $200,000 remediation vs $8,000 ALE makes acceptance rational. Avoid: cease the activity when risk cannot be controlled and exposure is enterprise-threatening — unquantifiable regulatory risk on a new business line justifies not launching. Transfer: shift financial liability to a third party (insurance, contract) — flood insurance transfers a low-frequency, high-impact financial loss to an insurer.",
+      exam_tip:"Mitigate = controls cost < ALE, reduce likelihood or impact. Accept = ALE < treatment cost, document and monitor. Avoid = stop the activity, risk cannot be controlled or is enterprise-threatening. Transfer = insurance or contract shifts financial liability. Residual risk = risk remaining after mitigation — never zero. Transfer does not eliminate risk; it shifts financial consequence.",
+    },
+    {
+      id:"q5",
+      q:"A security team encounters two policy compliance situations. Situation 1: a hospital's medical imaging system runs on Windows Server 2008 R2, which cannot be patched and does not support the organization's required endpoint encryption standard. The vendor has stated no upgrade path exists for this model, and replacing the system costs $1.2M — outside the current capital budget for the foreseeable future. The CISO documents the non-compliance, implements compensating controls (network segmentation, enhanced monitoring), and formally waives the policy requirement for this system indefinitely. Situation 2: during a 60-day ERP system migration, the data-at-rest encryption standard cannot be met because the migration tool is incompatible with the encryption layer. The security team documents the gap, implements additional access controls during the migration window, and obtains sign-off from the CISO for a 60-day waiver that automatically expires upon migration completion. Which option CORRECTLY identifies both situations and explains the critical distinction?",
+      options:[
+        {id:"a", label:"Both situations are exceptions — any formal policy waiver that requires CISO approval and compensating controls is classified as an exception under CompTIA's framework. The duration of the waiver affects the review cycle but not the classification: both permanent and temporary waivers are exceptions because they both deviate from an existing policy requirement"},
+        {id:"b", label:"Both situations are exemptions — Situation 1 is clearly an exemption because no remediation path exists. Situation 2 qualifies as an exemption rather than an exception because the 60-day window is driven by a technical incompatibility outside the organization's control, not by a discretionary business decision — making it structurally impossible to comply during the migration period"},
+        {id:"c", label:"Situation 1: exemption — a permanent policy waiver granted when compliance is structurally impossible and no remediation path exists in the foreseeable future. Situation 2: exception — a temporary, time-bounded policy waiver granted when compliance will be achieved after a defined remediation period. Critical distinction: exemptions are permanent (no fix coming); exceptions are temporary (fix is planned and scheduled)"},
+        {id:"d", label:"Situation 1: risk acceptance — documenting non-compliance with compensating controls is risk acceptance, not a formal exemption. Exemptions only apply to regulatory compliance frameworks like HIPAA or PCI DSS, not internal policy requirements. Situation 2: risk acceptance — a time-bounded waiver with a remediation plan is also risk acceptance with a defined exit date, not a formal exception under CompTIA's risk management framework"},
+      ],
+      correct:"c",
+      explanation:"Exemption: permanent policy waiver — granted when a system or process structurally cannot comply and no realistic remediation path exists. The non-compliance is documented, compensating controls are implemented, and the exemption is reviewed periodically but is not expected to resolve. Exception: temporary policy waiver — granted for a defined period with a specific remediation plan. The exception has an expiration date and automatically expires when the remediation condition is met. The critical test: is there a fix coming? Yes = exception. No foreseeable fix = exemption.",
+      exam_tip:"Exception = temporary waiver, time-bounded, remediation planned, auto-expires. Exemption = permanent waiver, no fix available, compensating controls required. Both require: documentation, CISO/leadership approval, compensating controls, periodic review. The trap: both involve formal approval — the distinction is duration and whether remediation is planned. Think: Exception = temporary Exception to the rule while you fix it. Exemption = Exempt forever because you can't fix it.",
+    },
+    {
+      id:"q6",
+      q:"A board meeting includes three statements from different executives about risk. Statement 1 — CFO: 'As a growth-stage company, we are willing to accept elevated risk across our technology and market investments in pursuit of competitive advantage. We deliberately take on more risk than the industry average because we believe the return potential justifies the exposure.' Statement 2 — CISO: 'While we accept elevated risk strategically, we require that no single cybersecurity incident result in regulatory fines exceeding $500,000 or data exposure affecting more than 10,000 customers.' Statement 3 — Risk Committee: 'If our quarterly vulnerability scan shows that more than 15% of critical systems have unpatched critical CVEs, an automatic escalation to the board is triggered and remediation must begin within 72 hours.' Which option CORRECTLY classifies all three statements?",
+      options:[
+        {id:"a", label:"Statement 1: risk tolerance — defining the organization's willingness to accept elevated risk across technology and market investments sets the boundary of acceptable loss, which is the definition of tolerance. Statement 2: risk appetite — the CISO's specific numerical limits ($500K fines, 10K customers) express the security team's appetite for cyber risk. Statement 3: risk threshold — correctly identified as a quantitative escalation trigger"},
+        {id:"b", label:"Statement 1: risk appetite — the organization's strategic willingness to accept risk in pursuit of objectives. Expansionary appetite: deliberately accepting more risk than average for competitive gain. Statement 2: risk tolerance — the specific boundaries of acceptable loss within the stated appetite. Defines the maximum acceptable impact (fine amount, customers affected). Statement 3: risk threshold — a quantitative trigger point that initiates a defined response when crossed. Thresholds are measurable tripwires that operationalize the tolerance"},
+        {id:"c", label:"Statement 1: risk threshold — the board-level decision to accept elevated risk defines the organization's maximum risk threshold across all domains. Statement 2: risk appetite — the CISO's numerical limits represent the security team's appetite for how much cyber risk it is willing to carry. Statement 3: risk tolerance — the 15% CVE benchmark and 72-hour remediation window define the operational tolerance boundaries for vulnerability management"},
+        {id:"d", label:"All three are risk appetite statements — appetite, tolerance, and threshold are layered expressions of the same underlying concept at different levels of specificity. Statement 1 expresses enterprise appetite, Statement 2 expresses domain-level appetite, and Statement 3 expresses operational appetite. CompTIA does not distinguish between tolerance and threshold as separate constructs in the SY0-701 framework"},
+      ],
+      correct:"b",
+      explanation:"Risk appetite: the broad, strategic level of risk an organization is willing to accept in pursuit of objectives — expansionary (more risk than average), conservative (less), or neutral. It is a qualitative posture statement. Risk tolerance: the specific, operational boundaries within the appetite — maximum acceptable loss thresholds (dollar amounts, customer counts, downtime hours). Risk threshold: a measurable, quantitative tripwire that triggers a defined response when crossed — it operationalizes the tolerance into an automated or procedural action. Hierarchy: appetite (strategic posture) → tolerance (operational boundaries) → threshold (measurable trigger).",
+      exam_tip:"Risk appetite = how much risk we want to take strategically (expansionary/conservative/neutral). Risk tolerance = specific boundaries of acceptable loss within the appetite (max fine, max downtime). Risk threshold = quantitative trigger that initiates a response when crossed (15% unpatched = escalate). Hierarchy: appetite → tolerance → threshold. Expansionary appetite = willing to take more risk than average. Conservative = less. Neutral = industry average.",
+    },
+    {
+      id:"q7",
+      q:"A risk manager is reviewing a risk register entry for completeness. The entry reads: 'Risk: ransomware attack on the ERP system. Likelihood: High. Impact: Critical. Current Controls: backup solution in place. Notes: reviewed last year.' The risk manager flags the entry as incomplete. Which option identifies ALL missing or deficient elements and explains their purpose in a complete risk register entry?",
+      options:[
+        {id:"a", label:"Missing elements: (1) Risk owner — a named individual accountable for managing and monitoring this specific risk. Without an owner, no one is responsible for ensuring controls are maintained or updated. (2) Key risk indicator (KRI) — a measurable metric that provides early warning when the risk is increasing (e.g., number of phishing attempts blocked per week). (3) Risk threshold — the specific level at which the KRI triggers escalation or action. (4) Assessment type — whether this is a recurring (scheduled), ad hoc (event-triggered), or continuous assessment. (5) Risk treatment decision — the documented strategy (mitigate/transfer/accept/avoid) with rationale. 'Backup solution in place' describes a control but not a treatment decision"},
+        {id:"b", label:"The entry is missing only the risk score — likelihood rated as High and impact rated as Critical should be combined using a risk matrix to produce a numerical score (e.g., 4×5=20 on a 25-point scale). Without a quantitative score, risks cannot be ranked or compared across the register, which makes prioritization subjective and inconsistent across different reviewers. All other elements — likelihood, impact, current controls, and review date — are present and collectively sufficient for an actionable, auditable risk register entry under standard frameworks"},
+        {id:"c", label:"The entry is missing quantitative financial values — all risk register entries must include asset value, exposure factor, SLE, ARO, and ALE to be complete and auditable. Qualitative ratings like High and Critical are informal placeholders that cannot support investment justification, insurance underwriting, or regulatory audit. The backup control note is also insufficient without documenting the backup frequency, retention period, and tested recovery time — and the last-year review date does not meet the continuous monitoring requirement for a critical ERP system"},
+        {id:"d", label:"The entry is complete for a qualitative risk register — likelihood, impact, current controls, and a review note are the standard four elements required by ISO 27001 and NIST SP 800-30. Risk owners and KRIs are optional enhancements that improve accountability and early warning capability but are not required for a baseline-compliant entry. The annual review cadence is appropriate for a Medium-tier risk and does not need to be changed to continuous monitoring unless the risk rating escalates above the defined threshold"},
+      ],
+      correct:"a",
+      explanation:"A complete risk register entry includes: risk description, likelihood and impact ratings, current controls, risk owner (named individual accountable), risk treatment decision (accept/mitigate/transfer/avoid), key risk indicators (measurable early-warning metrics), risk threshold (the KRI level that triggers escalation), assessment frequency (recurring/ad hoc/continuous/one-time), and next review date. The entry in the question is missing risk owner, KRI, risk threshold, treatment decision, and assessment type — making it a documentation stub rather than an actionable risk register entry.",
+      exam_tip:"Risk register must-haves: description, likelihood/impact, controls, risk owner (named person), treatment decision, KRI (measurable metric), risk threshold (trigger level), assessment type (recurring/ad hoc/continuous/one-time). Risk owner = accountable individual, not a team or department. KRI = leading indicator that warns risk is increasing. Threshold = the KRI level that triggers a response. Ad hoc = triggered by an event. Recurring = scheduled. Continuous = ongoing automated monitoring.",
+    },
+    {
+      id:"q8",
+      q:"A business continuity team is defining recovery requirements for four systems after a tabletop exercise reveals gaps. System A — patient monitoring system in a hospital ICU: any data loss is clinically unacceptable and the system must be operational within 15 minutes of a failure. System B — email system: the organization can tolerate losing up to 4 hours of emails and can operate without email for up to 8 hours before business impact becomes severe. System C — the database server has failed 4 times in the past year, with each failure taking an average of 3 hours to restore to operational status. System D — the same database server's failure history shows an average of 90 days between each failure event. Which option CORRECTLY maps each system/metric to its BIA term and explains each?",
+      options:[
+        {id:"a", label:"System A data loss (zero tolerable): RTO of near-zero — the 15-minute operational requirement defines recovery time, and zero data loss is a sub-component of that RTO target. System A operational (15 min): RPO of 15 minutes — RPO defines how quickly the system must be recovered to its last operational state. System B email loss (4 hrs): MTBF of 4 hours — the average time between email system failure events is 4 hours based on organizational experience. System B operational (8 hrs): MTTR of 8 hours — the average time to repair and restore email service is 8 hours"},
+        {id:"b", label:"System A data loss (zero): MTTR near-zero — mean time to repair must be near-zero to prevent any data loss on the ICU system. System A operational (15 min): MTBF of 15 minutes — the system must fail no more frequently than every 15 minutes to meet the ICU availability requirement. System B email loss (4 hrs): RTO of 4 hours — recovery time for email is 4 hours based on business impact analysis. System B operational (8 hrs): RPO of 8 hours — the organization can lose up to 8 hours of email backups before recovery point becomes unacceptable"},
+        {id:"c", label:"System A data loss (zero tolerable): RPO of near-zero — RPO defines the maximum acceptable data loss, measured as time since last backup/sync. System A operational (15 min): RTO of 15 minutes — RTO defines the maximum acceptable downtime before recovery must be complete. System B email loss (4 hrs): RPO of 4 hours — organization accepts losing up to 4 hours of email data. System B operational (8 hrs): RTO of 8 hours — organization can tolerate 8 hours of downtime. System C (3 hrs avg repair): MTTR of 3 hours — average time to repair and restore a failed system. System D (90 days between failures): MTBF of 90 days — average time between failure events, indicating system reliability"},
+        {id:"d", label:"System A: RPO and RTO are both near-zero because ICU systems must have synchronous replication and instant failover — the 15-minute figure applies to both metrics simultaneously. System B: RTO of 4 hours and RPO of 8 hours — RTO measures data loss tolerance in hours and RPO measures downtime tolerance in hours, making email RTO shorter than its RPO. System C: MTBF of 3 hours — the 3-hour average between failures indicates a highly unreliable system requiring immediate replacement. System D: MTTR of 90 days — a 90-day repair window is acceptable for non-critical systems with adequate redundancy"},
+      ],
+      correct:"c",
+      explanation:"RPO (Recovery Point Objective): maximum acceptable data loss measured as time — how old can the most recent backup/restore point be? Near-zero RPO = synchronous replication required. RTO (Recovery Time Objective): maximum acceptable downtime — how long can the system be unavailable? 15-minute RTO = hot standby or near-instant failover required. MTTR (Mean Time To Repair): average time to restore a failed system to operation — a historical/operational metric measuring response efficiency. MTBF (Mean Time Between Failures): average time between failure events — a reliability metric indicating how often a system fails.",
+      exam_tip:"RPO = data loss tolerance (time since last good backup). RTO = downtime tolerance (how long until recovery must complete). MTTR = average repair/restore time (how long repairs take). MTBF = average time between failures (reliability). RPO and RTO are forward-looking objectives (targets). MTTR and MTBF are backward-looking operational metrics (actuals). Trap: RPO is about DATA (how much can you lose?); RTO is about TIME (how long can you be down?). Lower RPO = more frequent backups. Lower RTO = faster recovery infrastructure.",
+    },
+  ],
+};
+
+
+const D5L3={
+  pbq:{
+    type:"match",
+    cia_tag:"⚑ Confidentiality · Integrity · Availability",
+    scenario:"A vendor management team is reviewing seven third-party agreement excerpts collected during a contract audit. Each excerpt contains language that identifies the agreement type. Match each excerpt to the correct agreement type.",
+    instruction:"Match each agreement excerpt to its correct agreement type.",
+    rows:[
+      {
+        id:"ag1",
+        answer:"sla",
+        label:"Excerpt 1",
+        requirement:"'The vendor shall ensure 99.9% uptime for the hosted payroll platform, measured monthly. Incident response time for Priority 1 outages shall not exceed 15 minutes. In the event of SLA breach, the client is entitled to service credits of 10% of the monthly fee per 0.1% downtime below the guaranteed threshold.'",
+        explanation:"SERVICE-LEVEL AGREEMENT (SLA) — SLAs define measurable performance commitments between a service provider and customer. The defining characteristics are: quantified uptime guarantee (99.9%), defined response time metrics (15 minutes for P1), and financial remedies for non-performance (service credits). SLAs are operational agreements focused on service quality metrics, penalties, and enforcement mechanisms. They are typically attached to or incorporated into an MSA.",
+      },
+      {
+        id:"ag2",
+        answer:"nda",
+        label:"Excerpt 2",
+        requirement:"'The receiving party agrees to hold all Confidential Information in strict confidence and not to disclose it to any third party without prior written consent. This obligation survives termination of the business relationship for a period of five years. Confidential Information includes technical specifications, customer data, pricing, and any information marked CONFIDENTIAL.'",
+        explanation:"NON-DISCLOSURE AGREEMENT (NDA) — NDAs protect confidential information shared between parties. The defining characteristics are: confidentiality obligation, prohibition on third-party disclosure without consent, survival clause (obligation continues after relationship ends), and definition of what constitutes confidential information. NDAs are typically signed before any substantive business discussions begin to protect sensitive information shared during evaluation, negotiation, or engagement.",
+      },
+      {
+        id:"ag3",
+        answer:"sow",
+        label:"Excerpt 3",
+        requirement:"'Scope of Work: The vendor shall conduct a web application penetration test of the three applications listed in Appendix A. Deliverables: (1) reconnaissance report within 5 business days; (2) final penetration test report with CVSS-scored findings within 15 business days of engagement start. Timeline: 20 business days total. Payment: $45,000 fixed fee upon delivery of the final report.'",
+        explanation:"STATEMENT OF WORK (SOW) / WORK ORDER (WO) — SOWs define the specific deliverables, timeline, and payment terms for a discrete project or engagement. The defining characteristics are: specific named scope (three applications), defined deliverables with deadlines, fixed project timeline, and fixed-price payment tied to delivery. SOWs operate under the umbrella of an MSA and govern individual engagements rather than the ongoing relationship. A Work Order (WO) is functionally equivalent — a specific task authorization under a broader agreement.",
+      },
+      {
+        id:"ag4",
+        answer:"mou",
+        label:"Excerpt 4",
+        requirement:"'This Memorandum of Understanding establishes a framework for information sharing between City Emergency Management and Regional Hospital Network regarding cyber incident notifications. Both parties acknowledge a mutual interest in coordinating cybersecurity incident response. This document does not create legally binding obligations and does not authorize expenditure of funds by either party.'",
+        explanation:"MEMORANDUM OF UNDERSTANDING (MOU) — MOUs establish a shared understanding and intent between parties without creating legally binding obligations. The defining characteristics are: framework for cooperation, mutual acknowledgment of shared interests, and explicit statement that it is NOT legally binding and does not authorize spending. MOUs are common between government agencies, non-profits, or organizations in pre-contractual relationships where formal contracts are premature but alignment is needed.",
+      },
+      {
+        id:"ag5",
+        answer:"msa",
+        label:"Excerpt 5",
+        requirement:"'This Master Service Agreement governs all services provided by TechCorp to Client across all current and future engagements. Terms including liability limitations, dispute resolution, intellectual property ownership, payment terms, and termination rights established herein apply to all subsequent Work Orders and Statements of Work. Individual engagements shall be authorized through separately executed Work Orders referencing this Agreement.'",
+        explanation:"MASTER SERVICE AGREEMENT (MSA) — MSAs establish the overarching legal and commercial terms that govern an ongoing vendor relationship across multiple engagements. The defining characteristics are: applies to all current and future work, establishes umbrella terms (liability, IP, payment, termination), and explicitly references that individual projects will be authorized through separate SOWs/WOs. The MSA eliminates the need to renegotiate fundamental terms for each engagement — only the project-specific details change.",
+      },
+      {
+        id:"ag6",
+        answer:"bpa",
+        label:"Excerpt 6",
+        requirement:"'This Business Partners Agreement establishes the terms of the strategic partnership between FinCorp and PayProcess for the joint development and distribution of integrated payment solutions. Both parties agree to share development costs, revenue, customer data under the attached DPA, technical resources, and co-marketing obligations. Each party retains ownership of its pre-existing intellectual property.'",
+        explanation:"BUSINESS PARTNERS AGREEMENT (BPA) — BPAs govern strategic partnerships where both parties contribute resources, share risks, and collaborate toward a joint business objective. The defining characteristics are: mutual obligations (shared costs, revenue, resources), co-development or co-marketing arrangement, IP ownership provisions for pre-existing assets, and a data processing attachment. BPAs differ from vendor agreements where one party simply purchases services — both parties are active contributors with shared stakes in the outcome.",
+      },
+      {
+        id:"ag7",
+        answer:"moa",
+        label:"Excerpt 7",
+        requirement:"'This Memorandum of Agreement between the Department of Defense Cyber Command and SecureDefense Inc. authorizes SecureDefense to provide cybersecurity monitoring services for classified network segments as defined in Attachment A. Both parties are bound by the terms herein. This agreement authorizes expenditure of $2.4M in government funds for the period 1 October 2024 through 30 September 2025.'",
+        explanation:"MEMORANDUM OF AGREEMENT (MOA) — MOAs are legally binding agreements that authorize specific actions and expenditures. The defining characteristics: binding obligation on both parties, explicit authorization of fund expenditure, defined period of performance, and government/agency context. MOAs differ from MOUs in that MOAs ARE legally binding and DO authorize spending — they are essentially formal contracts used in government and inter-agency contexts. The MOU/MOA distinction: MOU = intent only, non-binding. MOA = binding, authorizes action and funds.",
+      },
+    ],
+    solutions:[
+      {id:"mou",  name:"MOU"},
+      {id:"bpa",  name:"BPA"},
+      {id:"sla",  name:"SLA"},
+      {id:"roe",  name:"Rules of Engagement"},
+      {id:"msa",  name:"MSA"},
+      {id:"nda",  name:"NDA"},
+      {id:"moa",  name:"MOA"},
+      {id:"sow",  name:"SOW / WO"},
+    ],
+  },
+  mcqs:[
+    {
+      id:"q1",
+      q:"A CISO is designing the vendor assessment program for a financial institution that relies on four critical third-party providers. For Provider A (cloud ERP), the team reviews a report produced by an independent CPA firm that evaluated the provider's security controls against SOC 2 Type II criteria — the provider had no involvement in producing the report. For Provider B (payment processor), the team requests access to the provider's own internal audit department's most recent findings and remediation tracking logs. For Provider C (network infrastructure vendor), the team discovers the vendor sources components from three sub-vendors in regions with known hardware supply chain compromise risks. For Provider D (security operations center), the team conducts a simulated attack against the provider's own detection and response capabilities with the provider's consent. Which option CORRECTLY identifies the assessment method used for each provider?",
+      options:[
+        {id:"a", label:"Provider A: internal audit evidence — the CPA firm reviewed internal controls, making it an internal assessment. Provider B: independent assessment — external auditors always produced internal audit evidence when reviewing a vendor. Provider C: penetration testing — testing supplier components for vulnerabilities is a form of penetration testing. Provider D: supply chain analysis — testing a SOC's detection capabilities analyzes the security supply chain"},
+        {id:"b", label:"Provider A: independent assessment — conducted by a third-party firm with no vendor involvement, evaluating controls against an objective standard (SOC 2 Type II). Provider B: internal audit evidence — the vendor's own internal audit department produced the findings, making this an internal self-assessment artifact. Provider C: supply chain analysis — evaluating the security posture of sub-vendors and component sourcing is supply chain risk analysis. Provider D: penetration testing — authorized simulated attack against the provider's environment to evaluate real detection and response capability"},
+        {id:"c", label:"Provider A: independent assessment — correctly identified. Provider B: questionnaire — vendor-produced audit logs are functionally equivalent to questionnaire responses because both are self-reported. Provider C: right-to-audit — reviewing supply chain sourcing exercises the organization's audit rights over the vendor's procurement process. Provider D: independent assessment — a consent-based simulated attack conducted by the client is an independent assessment of the SOC provider"},
+        {id:"d", label:"All four methods are forms of vendor assessment questionnaires — independent reports, internal audits, supply chain reviews, and penetration tests are all structured data-gathering activities that feed into the questionnaire-based vendor assessment framework used in third-party risk management programs"},
+      ],
+      correct:"b",
+      explanation:"Independent assessment: conducted by a neutral third party with no vendor involvement — SOC 2 Type II reports by CPA firms are the canonical example. Internal audit evidence: artifacts produced by the vendor's own audit function — self-assessed but still valuable as evidence of internal governance maturity. Supply chain analysis: evaluating the security posture of the vendor's own suppliers, component sources, and sub-contractors — critical for hardware vendors and software with open-source dependencies. Penetration testing: authorized adversarial simulation — when directed at a vendor's own environment, it provides empirical evidence of actual security capability beyond documentation.",
+      exam_tip:"Independent assessment = third-party evaluator, no vendor involvement, objective standard (SOC 2, ISO 27001). Internal audit evidence = vendor's own audit team findings, self-assessed. Supply chain analysis = evaluate sub-vendors, component sourcing, software dependencies. Penetration testing = authorized attack simulation, empirical testing of controls. Right-to-audit = contractual right to inspect — separate from the assessment methods themselves.",
+    },
+    {
+      id:"q2",
+      q:"A procurement team is evaluating two potential vendors for a contract to manage the organization's HR data. During evaluation of Vendor X, the team discovers that the vendor's CEO previously served on the board of a competitor and that the CEO's spouse currently holds equity in a firm that would benefit if Vendor X wins the contract. During evaluation of Vendor Y, the team conducts background checks, reviews the vendor's financial stability reports, requests references from three existing clients, reviews the vendor's security certifications (ISO 27001, SOC 2 Type II), and verifies that the vendor's subcontractors have undergone equivalent security reviews. Which option CORRECTLY identifies the concern with Vendor X and the process applied to Vendor Y?",
+      options:[
+        {id:"a", label:"Vendor X: supply chain risk — prior board membership at a competitor introduces supply chain compromise risk because insider knowledge of competitive systems could be weaponized. Vendor Y: independent assessment — reviewing certifications and references constitutes an independent assessment of the vendor's security posture rather than a due diligence process"},
+        {id:"b", label:"Vendor X: due diligence failure — the procurement team identified the conflict through due diligence, making this a due diligence finding rather than a separate conflict of interest concern. Vendor Y: conflict of interest screening — verifying subcontractors screens for conflicts of interest in the vendor's own supply chain, making the entire process a conflict of interest review"},
+        {id:"c", label:"Vendor X: conflict of interest — the CEO's prior competitive board role and spouse's financial stake in a beneficiary firm create undisclosed financial and loyalty conflicts that could compromise procurement integrity and the vendor's objectivity in serving the organization. Vendor Y: due diligence — systematic pre-contract investigation covering financial stability, references, security certifications, and subcontractor vetting to verify the vendor is trustworthy and capable before contract award"},
+        {id:"d", label:"Vendor X: conflict of interest — correctly identified. Vendor Y: vendor monitoring — the activities described (background checks, reference calls, certification reviews) are ongoing monitoring activities conducted after contract award, not pre-contract due diligence activities"},
+      ],
+      correct:"c",
+      explanation:"Conflict of interest: a situation where a vendor's personnel have undisclosed financial, personal, or loyalty interests that could compromise their objectivity or the procurement process. The CEO's prior competitor board membership creates a loyalty conflict; the spouse's financial stake creates an undisclosed financial interest — both must be disclosed and evaluated. Due diligence: systematic pre-contract investigation to verify a vendor's trustworthiness, financial stability, security posture, and capability before award. It includes background checks, reference verification, certification review, and subcontractor vetting.",
+      exam_tip:"Conflict of interest = undisclosed financial stake, personal relationship, or loyalty conflict that could compromise objectivity. Must be disclosed and managed before contract award. Due diligence = pre-contract systematic investigation: financial stability, references, certifications, subcontractor review, legal history. Due diligence happens BEFORE contract award; vendor monitoring happens AFTER. Subcontractor vetting is part of due diligence — the prime vendor's supply chain is part of your risk.",
+    },
+    {
+      id:"q3",
+      q:"A legal team is reviewing three vendor relationship documents. Document 1: a 47-page agreement signed once that establishes liability caps at $5M, defines dispute resolution as binding arbitration in Delaware, specifies that all IP created under the engagement belongs to the client, sets net-30 payment terms, and states that it governs all future projects with this vendor. Document 2: a 3-page document referencing Document 1 that authorizes a specific data migration project — it lists six deliverables, a 90-day timeline, a $180,000 fixed fee, and acceptance criteria for each deliverable. Document 3: a 2-page monthly report card that tracks whether the vendor met its committed 99.95% uptime, sub-2-second response time, and 4-hour incident response targets — and calculates service credits owed for the current month. Which option CORRECTLY identifies all three documents and explains the relationship between them?",
+      options:[
+        {id:"a", label:"Document 1: MSA — establishes umbrella legal and commercial terms (liability, IP, payment, dispute resolution) governing all future engagements. Document 2: SOW/WO — a specific project authorization referencing the MSA, defining deliverables, timeline, and fixed-fee payment for one discrete engagement. Document 3: SLA — defines and tracks measurable performance metrics (uptime, response time, incident SLA) with financial consequences for non-performance. Relationship: MSA sets the rules → SOW authorizes specific work under those rules → SLA measures ongoing service performance"},
+        {id:"b", label:"Document 1: SOW — a long, detailed document defining project scope is a statement of work. Document 2: MSA — short project authorizations are master agreements that govern the SOW. Document 3: SLA — correctly identified as a performance tracking document. The relationship: SOW establishes terms, MSA executes specific work, SLA measures performance"},
+        {id:"c", label:"Document 1: BPA — a comprehensive agreement covering IP ownership and payment terms is a business partners agreement establishing a strategic partnership. Document 2: MOU — a short non-binding document referencing a larger agreement is a memorandum of understanding. Document 3: SLA — correctly identified. The relationship: BPA establishes the partnership, MOU documents project intent, SLA enforces performance standards"},
+        {id:"d", label:"All three are components of a single MSA — liability terms, project deliverables, and performance metrics are all standard sections of a master service agreement. Organizations that separate these into multiple documents are creating unnecessary administrative overhead without additional legal protection"},
+      ],
+      correct:"a",
+      explanation:"MSA: establishes the overarching legal framework for the entire vendor relationship — signed once, governs all future work. Contains: liability caps, dispute resolution, IP ownership, payment terms, termination rights. SOW/WO: project-specific authorization that operates under the MSA — contains: specific deliverables, timeline, fixed fee, acceptance criteria. References the MSA but only governs one engagement. SLA: performance measurement agreement — defines metrics (uptime %, response time, incident SLA), measurement methodology, and financial consequences (service credits) for non-performance.",
+      exam_tip:"MSA = overarching framework, signed once, governs all future work. SOW/WO = specific project authorization under the MSA, deliverables + timeline + price. SLA = performance metrics + penalties, measures ongoing service quality. Hierarchy: MSA (rules) → SOW (specific work) → SLA (performance standards). The exam tests: which document governs the overall relationship (MSA), which authorizes specific work (SOW), which measures performance (SLA).",
+    },
+    {
+      id:"q4",
+      q:"A government agency and a university research center are establishing three different inter-organizational arrangements. Arrangement A: both organizations sign a document expressing their mutual intent to share cybersecurity threat intelligence — the document explicitly states it creates no legal obligations, does not commit either party's budget, and is subject to revision at any time. Arrangement B: the same two organizations later sign a formal agreement that authorizes the university to access classified threat feeds, commits the agency to fund $400,000 in research activities, and legally binds both parties to confidentiality and data handling requirements. Arrangement C: a regional healthcare network and a hospital system sign an agreement establishing their ongoing partnership for shared IT services, joint security operations, and revenue-sharing from a co-developed patient portal — each party contributes staff, infrastructure, and IP under defined terms. Which option CORRECTLY identifies all three arrangements?",
+      options:[
+        {id:"a", label:"Arrangement A: MOA — government documents that don't commit funds are still MOAs because the agency context makes all inter-organizational documents binding. Arrangement B: MOU — authorizing fund expenditure is a memorandum of understanding between government and academic partners. Arrangement C: MSA — revenue-sharing and resource-sharing between organizations is governed by a master service agreement"},
+        {id:"b", label:"Arrangement A: MOU — non-binding statement of shared intent, no legal obligations, no budget commitment, subject to revision. Arrangement B: MOA — legally binding agreement that authorizes specific actions and fund expenditure, creates enforceable obligations on both parties. Arrangement C: BPA — strategic partnership agreement where both parties contribute resources, share revenue, and co-develop products — mutual obligations distinguish it from a vendor-client relationship"},
+        {id:"c", label:"Arrangement A: BPA — establishing a framework for information sharing between organizations creates a business partnership. Arrangement B: SLA — committing $400,000 and defining data handling requirements creates a service-level agreement with financial commitments. Arrangement C: MOA — resource-sharing and revenue agreements between healthcare organizations are memoranda of agreement in regulated industries"},
+        {id:"d", label:"Arrangements A and B are both MOUs — the distinction between binding and non-binding inter-organizational documents is a legal technicality that CompTIA does not test. Both are memoranda used between government and research organizations. Arrangement C: BPA — correctly identified as a strategic partnership with mutual contributions"},
+      ],
+      correct:"b",
+      explanation:"MOU: non-binding statement of mutual intent and understanding — establishes a cooperative framework without legal obligations or budget commitments. Used when formal contracts are premature but alignment documentation is needed. MOA: legally binding agreement that authorizes specific actions and fund expenditure — used when parties need enforceable commitments. Critical distinction: MOU = intent only, non-binding. MOA = binding, authorizes action and spending. BPA: strategic partnership with mutual contributions — both parties contribute resources, share costs/revenue, and co-develop.",
+      exam_tip:"MOU = non-binding, intent only, no fund authorization, subject to revision. MOA = legally binding, authorizes specific actions and fund expenditure. BPA = strategic partnership, mutual contributions, shared revenue/costs/IP. MOU vs MOA: the binding force and fund authorization are the critical discriminators. Trap: both MOU and MOA use 'memorandum' — binding force is the distinguishing test.",
+    },
+    {
+      id:"q5",
+      q:"A technology company is structuring its third-party agreements for three different situations. Situation 1: before sharing its proprietary source code and architecture diagrams with a potential acquisition target during due diligence, the company's legal team requires the target to sign a document preventing them from disclosing or using the shared information for competitive purposes — the obligation must survive if the acquisition falls through. Situation 2: the company enters a co-development agreement with a hardware manufacturer to build a new security appliance — both companies will share engineering resources, split development costs, and co-own the resulting IP under defined terms. Situation 3: the company provides cloud services to a healthcare client — the service agreement must address how the company handles, protects, and is permitted to use the client's patient data under HIPAA. Which option CORRECTLY identifies the appropriate agreement for each situation and explains the distinctions?",
+      options:[
+        {id:"a", label:"Situation 1: BPA — pre-acquisition information sharing requires a business partners agreement because the parties are exploring a strategic relationship. Situation 2: NDA — co-development requires strict confidentiality to protect the shared engineering work before a formal partnership agreement is executed. Situation 3: SLA — HIPAA data handling requirements are service-level commitments that belong in the SLA performance metrics section"},
+        {id:"b", label:"Situation 1: NDA — correctly identified. Situation 2: MSA — a master service agreement governs long-term relationships with shared resources and IP provisions. Situation 3: BPA — a business partners agreement addresses data sharing obligations between organizations in regulated industries and satisfies HIPAA's data handling requirements for cloud service providers"},
+        {id:"c", label:"Situation 1: NDA — protects confidential information (source code, architecture) shared during due diligence, with a survival clause ensuring obligations persist if the deal fails. Situation 2: BPA — governs a strategic co-development partnership where both parties contribute resources, share costs, and co-own IP — mutual obligations distinguish it from a client-vendor NDA. Situation 3: neither NDA nor BPA alone is sufficient — HIPAA requires a Business Associate Agreement (BAA), which is a specific legal instrument defining permissible data uses and security obligations for entities handling protected health information on behalf of a covered entity"},
+        {id:"d", label:"Situation 1: NDA — correctly identified. Situation 2: BPA — correctly identified. Situation 3: NDA — a mutual non-disclosure agreement covering patient data satisfies HIPAA's requirements for cloud service providers because it prohibits disclosure and defines confidentiality obligations equivalent to a business associate agreement"},
+      ],
+      correct:"c",
+      explanation:"NDA: protects confidential information shared between parties — survival clauses ensure obligations persist after the relationship ends, making them essential for due diligence scenarios where sensitive IP is shared before a deal closes. BPA: governs strategic co-development partnerships with mutual resource contributions, cost-sharing, and co-ownership of jointly created IP. HIPAA Business Associate Agreement (BAA): a specific legal instrument required by HIPAA when a covered entity shares PHI with a service provider — defines permissible data uses, security requirements, and breach notification obligations. A standard NDA does not satisfy HIPAA's BAA requirement.",
+      exam_tip:"NDA = confidentiality protection, survives relationship termination, pre-deal due diligence. BPA = strategic partnership, mutual contributions, shared costs/IP. HIPAA BAA = required for any vendor handling PHI — NDA alone is insufficient. The exam may test NDA vs BAA: an NDA protects confidentiality but does not satisfy HIPAA's specific BAA requirements for PHI handling.",
+    },
+    {
+      id:"q6",
+      q:"A vendor management team is evaluating how to enforce compliance requirements against three critical vendors after contract award. Situation 1: the team wants the ability to send its own auditors to inspect the vendor's data center, review security logs, and interview vendor staff at any time with 10 days' written notice — this right must be established in the contract. Situation 2: the team sends all three vendors an annual 150-question security assessment covering patch management maturity, incident response procedures, access control practices, and physical security controls — vendors must provide evidence for each response. Situation 3: after a vendor experiences a security incident, the team escalates the vendor from annual assessment to quarterly reviews, requests updated penetration test reports, and adds the vendor to a watchlist requiring monthly risk score updates. Which option CORRECTLY identifies each vendor management activity?",
+      options:[
+        {id:"a", label:"Situation 1: right-to-audit clause — a contractual provision granting the client the right to inspect, audit, and review vendor security controls on demand or with notice. Must be negotiated and included in the contract before it can be exercised. Situation 2: vendor questionnaire — a structured set of security questions used to assess vendor controls, maturity, and compliance on a scheduled basis. Situation 3: vendor monitoring — ongoing oversight activity that adapts intensity based on vendor risk level, including reassessment triggers, enhanced review cycles, and continuous risk scoring after a security event"},
+        {id:"b", label:"Situation 1: vendor monitoring — conducting site visits is an ongoing monitoring activity. Situation 2: due diligence — annual security assessments are pre-contract due diligence repeated annually. Situation 3: right-to-audit — escalating a vendor to quarterly reviews exercises the organization's audit rights under the contract"},
+        {id:"c", label:"Situation 1: independent assessment — sending the organization's own auditors to a vendor site is an independent assessment because the auditors are independent of the vendor. Situation 2: vendor monitoring — annual questionnaires are a form of continuous vendor monitoring. Situation 3: penetration testing — requiring updated pen test reports is the primary activity in Situation 3, making it a penetration testing requirement rather than a monitoring escalation"},
+        {id:"d", label:"All three situations are forms of vendor monitoring — right-to-audit clauses, questionnaires, and reassessment escalations are all sub-components of the unified vendor monitoring program. CompTIA does not distinguish between the contractual right to audit and the exercise of that right as separate concepts in the third-party risk management framework"},
+      ],
+      correct:"a",
+      explanation:"Right-to-audit clause: a contractual provision — it must be negotiated before contract award and grants the client the legal right to audit the vendor. Without this clause, the client has no enforceable right to inspect. Vendor questionnaire: a structured assessment instrument used for scheduled reviews, collecting self-reported evidence of security maturity. Vendor monitoring: ongoing post-contract oversight that adapts to vendor risk level, triggers reassessment after incidents, and uses continuous risk scoring.",
+      exam_tip:"Right-to-audit = contractual right, must be in contract before it can be exercised, allows client to inspect vendor directly. Questionnaire = structured self-assessment, periodic, evidence-based. Vendor monitoring = ongoing oversight, risk-based intensity, reassessment triggers. The right-to-audit clause is what enables direct inspection — questionnaires are self-reported.",
+    },
+    {
+      id:"q7",
+      q:"A security team is preparing for a third-party penetration test of its internet-facing infrastructure. Before the engagement begins, the team and the testing firm negotiate and document the parameters of the engagement. The documentation specifies: the IP ranges and domains that are in scope; systems explicitly excluded from testing (production payment systems during business hours); the types of testing permitted (network scanning, web application testing, social engineering — but not physical intrusion); the maximum data exfiltration simulation permitted; a 24/7 emergency contact list for both parties; a process for the testing firm to pause and notify the client if critical infrastructure is at risk of disruption; and written authorization signed by the CISO confirming the engagement is legally sanctioned. Which option CORRECTLY identifies this documentation and explains why each element is required?",
+      options:[
+        {id:"a", label:"This is a Statement of Work (SOW) — the scope, exclusions, permitted activities, contacts, and authorization are standard SOW components that define the commercial terms of the penetration testing engagement. The CISO signature is the standard project authorization required for any third-party service engagement"},
+        {id:"b", label:"This is the Rules of Engagement (ROE) — the pre-engagement document that defines authorized scope (in-scope IP ranges), exclusions (production payment systems), permitted test types (network, web app, social engineering), operational limits (max exfiltration simulation), emergency contacts, pause/notify procedures, and signed legal authorization. Each element prevents unauthorized activity, protects production systems, establishes legal sanction for the engagement, and defines escalation paths if testing risks disruption"},
+        {id:"c", label:"This is a vendor questionnaire — documenting the scope, exclusions, and permitted activities before a penetration test is equivalent to the pre-engagement questionnaire that testing firms use to gather information about the target environment. The CISO authorization converts it from a questionnaire into a binding assessment instrument"},
+        {id:"d", label:"This is a Master Service Agreement (MSA) — the comprehensive documentation of scope, exclusions, contacts, authorization, and operational procedures establishes the overarching legal framework governing the penetration testing relationship. Individual test engagements would then be authorized through SOWs referencing this MSA-equivalent rules document"},
+      ],
+      correct:"b",
+      explanation:"Rules of Engagement (ROE) define the boundaries and authorization for a security testing engagement. Required elements: in-scope targets (prevents testing unauthorized systems), explicit exclusions (protects sensitive/production systems), permitted test types (limits activity to agreed methods), operational limits (prevents accidental damage), emergency contacts (enables rapid coordination), pause/notify procedures (prevents disruption), and signed authorization (establishes legal sanction — without this, testing may constitute unauthorized computer access). ROE protects both parties: the client's production environment and the testing firm's legal exposure.",
+      exam_tip:"Rules of Engagement = pre-engagement authorization document for security testing. Required elements: scope (what's in), exclusions (what's out), permitted methods, operational limits, emergency contacts, pause/notify procedures, signed legal authorization. Without ROE: testing = unauthorized access. ROE != SOW — SOW covers commercial terms (price, timeline, deliverables). ROE covers operational authorization and boundaries. Both are typically required for a penetration test engagement.",
+    },
+    {
+      id:"q8",
+      q:"A third-party risk manager is reviewing the vendor portfolio after three incidents occurred in the same quarter. Incident 1: a critical SaaS vendor suffered a ransomware attack — the organization had no visibility into the event until the vendor's system became unavailable, because no ongoing monitoring program existed. Incident 2: a hardware component vendor was acquired by a foreign state-owned entity — the organization only discovered this six months later during an annual review. Incident 3: a managed security services provider was found to be routing the organization's security telemetry through an undisclosed sub-processor in a jurisdiction prohibited by the organization's data residency policy. Which option CORRECTLY identifies the root cause of each gap and maps it to the vendor management control that would have prevented or detected it?",
+      options:[
+        {id:"a", label:"Incident 1: missing right-to-audit clause — the organization could not audit the vendor's ransomware preparedness. Incident 2: missing NDA — the vendor's acquisition was not disclosed because no confidentiality agreement required notification of ownership changes. Incident 3: missing SLA — an SLA with sub-processor disclosure requirements would have mandated the vendor list all data routing destinations"},
+        {id:"b", label:"Incident 1: absence of vendor monitoring — continuous or periodic monitoring would have provided early warning of the vendor's security posture deterioration or the ransomware event itself. Incident 2: absence of vendor monitoring with change notification triggers — ongoing monitoring should include alerts for material changes to vendor ownership, financial status, and corporate structure. Incident 3: insufficient due diligence and vendor questionnaire — pre-contract due diligence and periodic questionnaires should have identified and prohibited undisclosed sub-processors; contract language should have required sub-processor disclosure and approval"},
+        {id:"c", label:"Incident 1: missing vendor questionnaire — an annual questionnaire asking about ransomware preparedness would have revealed the vendor's vulnerability before the attack occurred. Incident 2: missing supply chain analysis — analyzing the vendor's ownership structure is a supply chain analysis activity. Incident 3: missing right-to-audit clause — exercising audit rights would have revealed the undisclosed sub-processor routing"},
+        {id:"d", label:"All three incidents share the same root cause: missing penetration testing requirements — mandatory penetration test reports from all vendors would have revealed the ransomware vulnerability, ownership change risks, and sub-processor routing issues through the security testing process before they became incidents"},
+      ],
+      correct:"b",
+      explanation:"Vendor monitoring gap (Incident 1): ongoing monitoring — security ratings, threat intelligence feeds, and vendor security bulletins — provides early warning of vendor security deterioration. Waiting for annual reviews means incidents may be discovered only after they cause client impact. Monitoring with change notification triggers (Incident 2): material changes to vendor ownership, financial stability, or corporate structure are monitored events — acquisition by a foreign state-owned entity is a significant risk change that should trigger immediate reassessment. Due diligence and questionnaire gaps (Incident 3): pre-contract due diligence should identify all sub-processors and data flows; ongoing questionnaires should require updated sub-processor disclosures; contract language should require prior approval for sub-processor changes.",
+      exam_tip:"Vendor monitoring = ongoing post-contract oversight, catches deterioration and changes between reviews. Change notification = contracts should require vendors to disclose material changes (ownership, financial, legal). Due diligence = pre-contract investigation, includes sub-processor and data flow mapping. Questionnaire = periodic evidence-based self-assessment, should include sub-processor disclosure. The trap: questionnaires and monitoring are different — questionnaires are periodic snapshots; monitoring is continuous. Both are required for a complete vendor oversight program.",
+    },
+  ],
+};
+
+const LEVEL_DATA={d1l1:D1L1,d1l2:D1L2,d1l3:D1L3,d1l4:D1L4,d1l5:D1L5,d2l1:D2L1,d2l2:D2L2,d2l3:D2L3,d2l4:D2L4,d2l5:D2L5,d2l6:D2L6,d3l1:D3L1,d3l2:D3L2,d3l3:D3L3,d3l4:D3L4,d3l5:D3L5,d4l1:D4L1,d4l2:D4L2,d4l3:D4L3,d4l4:D4L4,d4l5:D4L5,d4l6:D4L6,d4l7:D4L7,d4l8:D4L8,d4l9:D4L9,d4l10:D4L10,d5l1:D5L1,d5l2:D5L2,d5l3:D5L3};
 
 // ── PROGRESS ─────────────────────────────────────────────────────────────────
 function loadP(){try{return JSON.parse(localStorage.getItem('sp_v2')||'{}')}catch{return{}}}
@@ -4308,7 +4866,7 @@ function migrateXP(){
   if(dirty)saveP(p);
 }
 function unlocked(id){
-  if(id==='d1l1'||id==='d1l2'||id==='d1l3'||id==='d1l4'||id==='d1l5'||id==='d2l1'||id==='d2l2'||id==='d2l3'||id==='d2l4'||id==='d2l5'||id==='d2l6'||id==='d3l1'||id==='d3l2'||id==='d3l3'||id==='d3l4'||id==='d3l5'||id==='d4l1'||id==='d4l2'||id==='d4l3'||id==='d4l4'||id==='d4l5'||id==='d4l6'||id==='d4l7'||id==='d4l8'||id==='d4l9'||id==='d4l10')return true;
+  if(id==='d1l1'||id==='d1l2'||id==='d1l3'||id==='d1l4'||id==='d1l5'||id==='d2l1'||id==='d2l2'||id==='d2l3'||id==='d2l4'||id==='d2l5'||id==='d2l6'||id==='d3l1'||id==='d3l2'||id==='d3l3'||id==='d3l4'||id==='d3l5'||id==='d4l1'||id==='d4l2'||id==='d4l3'||id==='d4l4'||id==='d4l5'||id==='d4l6'||id==='d4l7'||id==='d4l8'||id==='d4l9'||id==='d4l10'||id==='d5l1'||id==='d5l2'||id==='d5l3')return true;
   for(const r of REALMS){
     const i=r.levels.findIndex(l=>l.id===id);
     if(i>0)return getLP(r.levels[i-1].id).completed;
@@ -4336,7 +4894,7 @@ function renderRealm(){
   const list=document.getElementById('realm-list');list.innerHTML='';
   REALMS.forEach((r,ri)=>{
     const done=r.levels.filter(l=>p[l.id]?.completed).length;
-    const lock=ri>0&&!REALMS[ri-1].levels.every(l=>p[l.id]?.completed)&&!['d2','d3','d4'].includes(r.id);
+    const lock=ri>0&&!REALMS[ri-1].levels.every(l=>p[l.id]?.completed)&&!['d2','d3','d4','d5'].includes(r.id);
     const c=r.color;
     const card=document.createElement('div');
     card.className='realm-card ai'+(lock?' locked':'');
@@ -4704,7 +5262,7 @@ function rConfigTablePBQ(){
   const sub=s.pbqDone;
   if(!s.configSels)s.configSels={};
 
-  const ACTIONS=[
+  const ACTIONS=pbq.actions||[
     {id:'keep',        lbl:'KEEP',                   col:'var(--green)', bg:'rgba(34,197,94,0.15)'},
     {id:'remove',      lbl:'REMOVE',                 col:'var(--red)',   bg:'rgba(239,68,68,0.15)'},
     {id:'modify_src',  lbl:'MOD · restrict source',  col:'#60a5fa',     bg:'rgba(96,165,250,0.15)'},
@@ -4714,7 +5272,7 @@ function rConfigTablePBQ(){
 
   let h=phaseBar('pbq',c);
   h+=`<div class="meta-pills">
-    <span class="mpill" style="background:color-mix(in srgb,${c} 14%,transparent);color:${c};border-color:color-mix(in srgb,${c} 28%,transparent)">FIREWALL RULE REVIEW</span>
+    <span class="mpill" style="background:color-mix(in srgb,${c} 14%,transparent);color:${c};border-color:color-mix(in srgb,${c} 28%,transparent)">${pbq.meta_label||'FIREWALL RULE REVIEW'}</span>
     <span class="mpill" style="background:rgba(220,38,38,0.14);color:var(--d2);border-color:rgba(220,38,38,0.28)">${pbq.rules.length} RULES</span>
     <span class="mpill" style="background:rgba(217,119,6,0.14);color:var(--amber);border-color:rgba(217,119,6,0.28)">HARD</span>
   </div>
@@ -4737,22 +5295,22 @@ function rConfigTablePBQ(){
 
     // Card header bar
     h+=`<div style="padding:8px 12px;background:rgba(255,255,255,0.04);border-bottom:1px solid rgba(255,255,255,0.08)">
-      <span style="font-family:var(--mono);font-size:11px;font-weight:700;color:${c}">RULE ${rule.num}</span>
+      <span style="font-family:var(--mono);font-size:11px;font-weight:700;color:${c}">${pbq.row_label||'RULE'} ${rule.num}</span>
     </div>`;
 
     // Field rows — label above value
     h+=`<div style="display:grid;grid-template-columns:1fr 1fr 1fr 1fr 1fr;border-bottom:1px solid rgba(255,255,255,0.08)">
-      ${[
-        {lbl:'DIR',  val:rule.dir},
-        {lbl:'SRC',  val:rule.src},
-        {lbl:'DST',  val:rule.dst},
-        {lbl:'PORT', val:rule.port},
-        {lbl:'STATUS',val:rule.current},
-      ].map((f,i)=>`
+      ${(()=>{const H=pbq.headers||['DIR','SRC','DST','PORT','STATUS'];return[
+        {lbl:H[0], val:rule.dir},
+        {lbl:H[1], val:rule.src},
+        {lbl:H[2], val:rule.dst},
+        {lbl:H[3], val:rule.port},
+        {lbl:H[4], val:rule.current, aro:rule.aro, ale:rule.ale},
+      ]})().map((f,i)=>`
         <div style="padding:8px 10px;${i<4?'border-right:1px solid rgba(255,255,255,0.06)':''}">
           <div style="font-family:var(--mono);font-size:8px;color:var(--muted);margin-bottom:3px">${f.lbl}</div>
-          <div style="font-family:var(--mono);font-size:${f.lbl==='PORT'?'12px':'11px'};font-weight:700;
-            color:${f.lbl==='PORT'?c:f.lbl==='STATUS'?(f.val==='ALLOW'?'var(--green)':'var(--red)'):'#CBD5E1'}">${f.val}</div>
+          ${f.aro!==undefined?`<div style="font-family:var(--mono);font-size:11px;font-weight:700;color:#CBD5E1">ARO: ${f.aro}</div><div style="font-family:var(--mono);font-size:11px;font-weight:700;color:var(--red)">ALE: ${f.ale}</div>`:`<div style="font-family:var(--mono);font-size:${f.lbl==='PORT'?'12px':'11px'};font-weight:700;
+            color:${f.lbl==='PORT'?c:f.lbl==='STATUS'?(f.val==='ALLOW'?'var(--green)':'var(--red)'):'#CBD5E1'}">${f.val}</div>`}
         </div>`).join('')}
     </div>`;
 
