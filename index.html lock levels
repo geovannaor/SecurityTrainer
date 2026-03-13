@@ -1,5 +1,4 @@
 <!DOCTYPE html>
-
 <html lang="en">
 <head>
 <meta charset="UTF-8">
@@ -168,7 +167,6 @@ body::before{content:'';position:fixed;inset:0;z-index:9999;pointer-events:none;
 <body>
 
 <!-- REALM MAP -->
-
 <div id="v-realm" class="view active">
   <div class="hdr">
     <div class="hdr-left"><div class="sub">SY0-701 TRAINER</div><div class="title">Security+</div></div>
@@ -193,7 +191,6 @@ body::before{content:'';position:fixed;inset:0;z-index:9999;pointer-events:none;
 </div>
 
 <!-- LEVEL MAP -->
-
 <div id="v-level" class="view">
   <div class="hdr">
     <button class="hdr-back" onclick="showRealm()">← REALMS</button>
@@ -207,7 +204,6 @@ body::before{content:'';position:fixed;inset:0;z-index:9999;pointer-events:none;
 </div>
 
 <!-- RUNNER -->
-
 <div id="v-runner" class="view">
   <div class="hdr">
     <button class="hdr-back" id="r-back">← LEVELS</button>
@@ -7793,6 +7789,5 @@ function retryLevel(){
 migrateXP();
 showRealm();
 </script>
-
 </body>
 </html>
