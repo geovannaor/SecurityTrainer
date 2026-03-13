@@ -187,6 +187,7 @@ body::before{content:'';position:fixed;inset:0;z-index:9999;pointer-events:none;
         <div class="xp-lbl" id="g-xp-lbl">0 / 100 XP</div>
       </div>
     </div>
+    <div style="font-family:var(--mono);font-size:10px;color:var(--muted);text-align:center;margin:-4px 0 14px;letter-spacing:.04em">Score 70% or higher to unlock the next level</div>
     <div class="realm-list" id="realm-list"></div>
   </div>
 </div>
@@ -5631,12 +5632,18 @@ function migrateXP(){
   });
   if(dirty)saveP(p);
 }
+function passed(id){return(loadP()[id]?.mastery||0)>=70;}
 function unlocked(id){
-  if(id==='d1l1'||id==='d1l2'||id==='d1l3'||id==='d1l4'||id==='d1l5'||id==='d2l1'||id==='d2l2'||id==='d2l3'||id==='d2l4'||id==='d2l5'||id==='d2l6'||id==='d3l1'||id==='d3l2'||id==='d3l3'||id==='d3l4'||id==='d3l5'||id==='d4l1'||id==='d4l2'||id==='d4l3'||id==='d4l4'||id==='d4l5'||id==='d4l6'||id==='d4l7'||id==='d4l8'||id==='d4l9'||id==='d4l10'||id==='d5l1'||id==='d5l2'||id==='d5l3'||id==='d5l4'||id==='d5l5'||id==='d5l6'||id==='d5review')return true;
+  if(id==='d1l1')return true;
   for(const r of REALMS){
     const i=r.levels.findIndex(l=>l.id===id);
-    if(i>0)return getLP(r.levels[i-1].id).completed;
-    if(i===0){const ri=REALMS.indexOf(r);return ri===0||REALMS[ri-1].levels.every(l=>getLP(l.id).completed)}
+    if(i<0)continue;
+    if(i>0)return passed(r.levels[i-1].id);
+    // first level of realm — previous realm's last level must be passed
+    const ri=REALMS.indexOf(r);
+    if(ri===0)return true;
+    const prev=REALMS[ri-1].levels;
+    return passed(prev[prev.length-1].id);
   }
   return false;
 }
@@ -5660,7 +5667,7 @@ function renderRealm(){
   const list=document.getElementById('realm-list');list.innerHTML='';
   REALMS.forEach((r,ri)=>{
     const done=r.levels.filter(l=>p[l.id]?.completed).length;
-    const lock=ri>0&&!REALMS[ri-1].levels.every(l=>p[l.id]?.completed)&&!['d2','d3','d4','d5'].includes(r.id);
+    const lock=ri>0&&!passed(REALMS[ri-1].levels[REALMS[ri-1].levels.length-1].id);
     const c=r.color;
     const card=document.createElement('div');
     card.className='realm-card ai'+(lock?' locked':'');
@@ -5668,13 +5675,13 @@ function renderRealm(){
     if(!lock)card.onclick=()=>showLevel(r.id);
     const pips=r.levels.map(l=>{
       const lp=p[l.id];const lu=unlocked(l.id);
-      return`<div class="pip" style="background:${lp?.completed?`color-mix(in srgb,${c} 18%,transparent)`:'rgba(255,255,255,0.05)'};border-color:${lp?.completed?c:lu?'rgba(255,255,255,0.2)':'rgba(255,255,255,0.07)'};color:${lp?.completed?c:lu?'#94A3B8':'#374151'}">${lp?.completed?'✓ ':lu?'▶ ':'🔒 '}${l.obj}</div>`;
+      return`<div class="pip" style="background:${lp?.completed?`color-mix(in srgb,${c} 18%,transparent)`:'rgba(255,255,255,0.05)'};border-color:${lp?.completed?c:lu?'rgba(255,255,255,0.2)':'rgba(255,255,255,0.07)'};color:${lp?.completed?c:lu?'#94A3B8':'#374151'}">${lp?.completed?'✓ ':''}${l.obj}</div>`;
     }).join('');
     const realmXP=r.levels.reduce((s,l)=>s+l.xp,0);
     const earnedXP=r.levels.reduce((s,l)=>s+(p[l.id]?.xp||0),0);
     card.innerHTML=`<div class="realm-top" style="background:linear-gradient(135deg,color-mix(in srgb,${c} 7%,transparent),transparent)">
       <div class="realm-card-left"><div class="realm-icon">${r.icon}</div>
-      <div><div class="realm-w" style="color:${c}">REALM ${ri+1} · ${r.weight}% OF EXAM${lock?' · 🔒':''}</div><div class="realm-n">${r.name}</div></div></div>
+      <div><div class="realm-w" style="color:${c}">REALM ${ri+1} · ${r.weight}% OF EXAM</div><div class="realm-n">${r.name}</div></div></div>
       <div class="realm-ct">
         <div class="num" style="color:${c}">${done}/${r.levels.length}</div><div class="lbl">levels</div>
         <div style="font-family:var(--mono);font-size:10px;margin-top:4px;color:${earnedXP>0?c:'var(--muted)'}">
@@ -7752,11 +7759,22 @@ function rResult(){
     h+=`<div class="focus-hint">${s.pbqScore<36?'Focus: PBQ. Key trap zones — Managerial vs Operational, and Directive vs Deterrent vs Preventive. Re-read each item explanation carefully.':'Focus: MCQs. Re-read each Exam Tip. The Directive/Deterrent distinction and the Compensating control definition are the sharpest edges in this objective.'}</div>`;
   }
 
+  // Next level unlock notification
+  let unlockMsg='';
+  if(passed){
+    const allLevels=ALL_LEVELS;
+    const idx=allLevels.findIndex(l=>l.id===RS.levelId);
+    if(idx>=0&&idx<allLevels.length-1){
+      const next=allLevels[idx+1];
+      unlockMsg=`<div style="margin:12px 0;padding:12px 14px;border-radius:10px;background:rgba(34,197,94,0.08);border:1px solid rgba(34,197,94,0.25);font-family:var(--mono);font-size:11px;color:#4ade80;letter-spacing:.04em">🔓 UNLOCKED · ${next.name}</div>`;
+    }
+  }
+
   const r=REALMS.find(r=>r.levels.some(l=>l.id===RS.levelId));
   h+=`<div class="res-btns">
-    <button class="btn-sec" style="border-color:${c};color:${c}" onclick="retryLevel()">↻ RETRY</button>
+    ${!passed?`<button class="btn-sec" style="border-color:${c};color:${c}" onclick="retryLevel()">↻ RETRY</button>`:''}
     <button class="btn-pri" style="background:linear-gradient(135deg,color-mix(in srgb,${c} 90%,#000),${c})" onclick="showLevel('${r.id}')">← LEVELS</button>
-  </div>`;
+  </div>${unlockMsg}`;
   document.getElementById('r-content').innerHTML=h;
 }
 
