@@ -256,7 +256,7 @@ body::before{content:'';position:fixed;inset:0;z-index:9999;pointer-events:none;
 
 <div id="v-exam" class="view">
   <div class="hdr">
-    <div style="font-family:var(--mono);font-size:11px;color:#fbbf24;letter-spacing:.06em">MASTERY CHALLENGE</div>
+    <button class="hdr-back" onclick="exitExam()">← REALMS</button>
     <div style="text-align:center">
       <div class="exam-q-counter" id="ex-counter">Q1 of 90</div>
       <div class="exam-timer" id="ex-timer">00:00</div>
@@ -8108,6 +8108,12 @@ function retryLevel(){
 }
 
 // ── MASTERY CHALLENGE ───────────────────────────────────────────────────────────────
+
+function exitExam(){
+  clearInterval(examTimer);
+  EX={};
+  showRealm();
+}
 
 function examUnlocked(){
   return true; // TODO: restore gate before release
