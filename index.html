@@ -1,4 +1,5 @@
 <!DOCTYPE html>
+
 <html lang="en">
 <head>
 <meta charset="UTF-8">
@@ -162,16 +163,46 @@ body::before{content:'';position:fixed;inset:0;z-index:9999;pointer-events:none;
 .ai{animation:fadeIn .25s ease both}
 ::-webkit-scrollbar{width:3px}
 ::-webkit-scrollbar-thumb{background:#1e293b;border-radius:2px}
+/* ── MASTERY CHALLENGE ── */
+.exam-realm-card{border:1.5px solid rgba(251,191,36,0.35);background:linear-gradient(135deg,rgba(251,191,36,0.06),rgba(251,191,36,0.02));border-radius:14px;padding:0;overflow:hidden;cursor:pointer;transition:border-color .2s,transform .15s}
+.exam-realm-card:active{transform:scale(0.98)}
+.exam-realm-card.locked{opacity:.4;cursor:not-allowed;border-color:rgba(255,255,255,0.06)}
+.exam-top{padding:16px;display:flex;justify-content:space-between;align-items:center;background:linear-gradient(135deg,rgba(251,191,36,0.07),transparent)}
+.exam-badge-earned{display:inline-flex;align-items:center;gap:6px;font-family:var(--mono);font-size:11px;color:#fbbf24;background:rgba(251,191,36,0.12);border:1px solid rgba(251,191,36,0.3);border-radius:20px;padding:4px 10px;margin-top:6px}
+.shield-hdr{font-size:18px;margin-left:6px;vertical-align:middle;display:none}
+.shield-hdr.visible{display:inline}
+.exam-q-counter{font-family:var(--mono);font-size:11px;color:rgba(251,191,36,0.7);letter-spacing:.06em;margin-bottom:4px}
+.exam-timer{font-family:var(--mono);font-size:13px;color:#fbbf24;letter-spacing:.08em}
+.exam-progress{height:3px;background:rgba(255,255,255,0.06);position:relative}
+.exam-progress-fill{height:100%;background:linear-gradient(90deg,#f59e0b,#fbbf24);transition:width .4s ease}
+.node-grid{display:grid;grid-template-columns:1fr;gap:10px;margin:14px 0}
+.node-card{border:1.5px solid rgba(255,255,255,0.1);border-radius:10px;padding:14px;background:var(--surface)}
+.node-card-top{display:flex;justify-content:space-between;align-items:flex-start;gap:10px;margin-bottom:10px}
+.node-label{font-family:var(--mono);font-size:11px;color:#fbbf24;letter-spacing:.05em}
+.node-desc{font-size:13px;color:var(--text);line-height:1.55;flex:1}
+.node-options{display:flex;gap:8px;flex-wrap:wrap}
+.node-opt{padding:6px 14px;border-radius:20px;font-family:var(--mono);font-size:11px;border:1.5px solid rgba(255,255,255,0.15);background:transparent;color:#94A3B8;cursor:pointer;transition:all .15s}
+.node-opt.selected-vuln{border-color:#ef4444;background:rgba(239,68,68,0.15);color:#ef4444}
+.node-opt.selected-hard{border-color:#22c55e;background:rgba(34,197,94,0.15);color:#22c55e}
+.node-opt.selected-misc{border-color:#f59e0b;background:rgba(245,158,11,0.15);color:#f59e0b}
+.exam-result-state{font-size:22px;font-weight:700;font-family:var(--sans);margin:8px 0 4px}
+.domain-breakdown{margin:16px 0}
+.domain-row{display:flex;align-items:center;gap:10px;margin-bottom:8px}
+.domain-row-label{font-family:var(--mono);font-size:10px;color:var(--muted);width:80px;flex-shrink:0}
+.domain-row-bar{flex:1;height:6px;background:rgba(255,255,255,0.06);border-radius:3px;overflow:hidden}
+.domain-row-fill{height:100%;border-radius:3px;transition:width .6s ease}
+.domain-row-pct{font-family:var(--mono);font-size:11px;width:36px;text-align:right;flex-shrink:0}
 </style>
 </head>
 <body>
 
 <!-- REALM MAP -->
+
 <div id="v-realm" class="view active">
   <div class="hdr">
     <div class="hdr-left"><div class="sub">SY0-701 TRAINER</div><div class="title">Security+</div></div>
     <div class="hdr-stats">
-      <div class="stat"><div class="lbl">TOTAL XP</div><div class="val" id="h-xp" style="color:var(--d1)">0</div></div>
+      <div class="stat"><div class="lbl">TOTAL XP</div><div class="val" id="h-xp" style="color:var(--d1)">0<span class="shield-hdr" id="h-shield">🛡️</span></div></div>
       <div class="stat"><div class="lbl">DONE</div><div class="val" id="h-done" style="color:var(--muted)">0/1</div></div>
     </div>
   </div>
@@ -191,6 +222,7 @@ body::before{content:'';position:fixed;inset:0;z-index:9999;pointer-events:none;
 </div>
 
 <!-- LEVEL MAP -->
+
 <div id="v-level" class="view">
   <div class="hdr">
     <button class="hdr-back" onclick="showRealm()">← REALMS</button>
@@ -204,6 +236,7 @@ body::before{content:'';position:fixed;inset:0;z-index:9999;pointer-events:none;
 </div>
 
 <!-- RUNNER -->
+
 <div id="v-runner" class="view">
   <div class="hdr">
     <button class="hdr-back" id="r-back">← LEVELS</button>
@@ -219,6 +252,21 @@ body::before{content:'';position:fixed;inset:0;z-index:9999;pointer-events:none;
   <div class="content" id="r-content"></div>
 </div>
 
+<!-- MASTERY CHALLENGE RUNNER -->
+
+<div id="v-exam" class="view">
+  <div class="hdr">
+    <div style="font-family:var(--mono);font-size:11px;color:#fbbf24;letter-spacing:.06em">MASTERY CHALLENGE</div>
+    <div style="text-align:center">
+      <div class="exam-q-counter" id="ex-counter">Q1 of 90</div>
+      <div class="exam-timer" id="ex-timer">00:00</div>
+    </div>
+    <div style="font-family:var(--mono);font-size:11px;color:var(--muted);text-align:right">SY0-701</div>
+  </div>
+  <div class="exam-progress"><div class="exam-progress-fill" id="ex-prog" style="width:0%"></div></div>
+  <div class="content" id="ex-content"></div>
+</div>
+
 <script>
 // ── DATA ─────────────────────────────────────────────────────────────────────
 const REALMS=[
@@ -231,6 +279,279 @@ const REALMS=[
 ];
 const ALL_LEVELS=REALMS.flatMap(r=>r.levels);
 const TOTAL_XP=ALL_LEVELS.reduce((s,l)=>s+l.xp,0)||100;
+
+// ── MASTERY CHALLENGE DATA ───────────────────────────────────────────────────────────
+const EXAM_Q1_PBQ={
+  type:'topology_threat',domain:'D1_D3',points:10,
+  title:'Network Topology Threat Mapping',
+  scenario:'A security architect is reviewing a newly inherited network environment prior to submitting a remediation plan to the board. The diagram below describes eight nodes in the organization\'s infrastructure. For each node, classify its current security posture as VULNERABLE, HARDENED, or MISCONFIGURED based on the configuration details provided. All three classifications must be used. Partial credit is awarded — each correct classification earns points.',
+  instruction:'Classify each node: VULNERABLE (exploitable as-is), HARDENED (properly secured), or MISCONFIGURED (security control present but incorrectly implemented).',
+  nodes:[
+    {id:'n1',label:'NODE A',name:'Internet-Facing Web Server',desc:'Running Apache 2.4.49. No WAF in place. TLS 1.2 configured. OS patches current as of 90 days ago. Port 22 open to 0.0.0.0/0.',answer:'VULNERABLE',explanation:'Apache 2.4.49 contains CVE-2021-41773 (path traversal/RCE). OS patches 90 days old on an internet-facing system and port 22 open to all IPs compound the exposure. Actively exploitable as-is.'},
+    {id:'n2',label:'NODE B',name:'Internal DNS Server',desc:'DNSSEC enabled and validated. Recursive queries restricted to internal subnets only. Zone transfers limited to secondary DNS IP. Logging forwarded to SIEM. Last patched 7 days ago.',answer:'HARDENED',explanation:'All four DNS hardening controls are correctly implemented: DNSSEC validates integrity, recursive query restriction prevents external abuse, zone transfer restriction prevents reconnaissance, and active logging provides visibility.'},
+    {id:'n3',label:'NODE C',name:'Employee VPN Gateway',desc:'MFA enforced for all connections. Split tunneling enabled — only corporate subnet traffic routes through VPN. IDS signature updates paused for 60 days pending vendor contract renewal. Certificate expires in 4 days.',answer:'MISCONFIGURED',explanation:'MFA and certificate presence indicate security intent, but split tunneling bypasses inspection for internet-bound traffic, the IDS is blind with 60-day-old signatures, and an expiring certificate will break trust chains. Controls are present but incorrectly maintained.'},
+    {id:'n4',label:'NODE D',name:'Legacy SCADA Controller',desc:'Running Windows XP Embedded. No network segmentation — connected directly to corporate LAN. Vendor states patching is not supported. No monitoring agent installed.',answer:'VULNERABLE',explanation:'End-of-life OS with no patch support, no network isolation from corporate systems, and no monitoring visibility. No compensating controls are in place — textbook unmitigated vulnerability.'},
+    {id:'n5',label:'NODE E',name:'Cloud Storage Bucket (S3)',desc:'Bucket policy restricts access to specific IAM roles. Server-side encryption enabled (AES-256). Public access block enabled. MFA delete enabled. Access logging active.',answer:'HARDENED',explanation:'Every major S3 hardening control is correctly applied: IAM-based access restriction, encryption at rest, public access blocked, MFA delete prevents unauthorized deletion, and logging provides audit trail.'},
+    {id:'n6',label:'NODE F',name:'Core Firewall',desc:'Default deny outbound policy. Inbound rules permit ports 80, 443, and 3389 from any source IP. Rule review last performed 18 months ago. No egress filtering on DNS (port 53).',answer:'MISCONFIGURED',explanation:'Default deny is correct baseline posture, but RDP (3389) open from any source IP is a critical misconfiguration — RDP should never be internet-exposed without IP restriction. Stale rule review and unrestricted DNS egress (common C2 exfiltration path) compound the problem.'},
+    {id:'n7',label:'NODE G',name:'Active Directory Domain Controller',desc:'SMBv1 disabled. LDAP signing enforced. AdminSDHolder reviewed quarterly. Privileged accounts restricted to dedicated admin workstations. Last password audit: 14 months ago.',answer:'MISCONFIGURED',explanation:'Strong AD hardening practices are present — SMBv1 disabled, LDAP signing, PAW enforcement. However, a 14-month password audit gap means stale or compromised credentials may exist undetected. The control framework is sound but not fully maintained.'},
+    {id:'n8',label:'NODE H',name:'Backup Server',desc:'Backups encrypted with AES-256 at rest. Offsite replication to geographically separate data center. Backup server has no inbound network access from user VLANs. Restoration tested quarterly. Immutable backup copies enabled.',answer:'HARDENED',explanation:'All five backup hardening criteria are met: encryption at rest, geographic redundancy, network isolation from user segments, verified restoration testing, and immutability protection against ransomware.'},
+  ]
+};
+
+const EXAM_QUESTIONS=[
+  {qNum:1,type:'pbq',data:EXAM_Q1_PBQ},
+
+  // ── Q2-21 MCQs ────────────────────────────────────────────────────────────
+  {qNum:2,type:'mcq',domain:'D1',data:{
+    q:"A TLS 1.3 session is established between a client and a web server. The server's long-term RSA private key is later compromised. Which property of TLS 1.3 ensures that previously recorded sessions cannot be decrypted using the compromised key?",
+    opts:[
+      {id:'a',label:"Perfect forward secrecy — ephemeral key pairs are generated per session and discarded after use, so the long-term key cannot derive past session keys"},
+      {id:'b',label:"HSTS — HTTP Strict Transport Security forces TLS and prevents protocol downgrade attacks that could expose session content"},
+      {id:'c',label:"Mutual TLS — requiring client certificates ensures both parties are authenticated, preventing unauthorized decryption"},
+      {id:'d',label:"Certificate pinning — the client rejects any certificate not matching the pinned value, preventing retroactive decryption"}
+    ],
+    answer:'a',
+    explanation:"Perfect forward secrecy (PFS) is the property that protects past sessions when long-term keys are compromised. TLS 1.3 mandates ephemeral Diffie-Hellman key exchange — a unique session key is derived and then discarded after each session. The server's long-term RSA key is used only for authentication, not key derivation. Certificate pinning prevents impersonation but does not protect recorded traffic. HSTS prevents downgrade attacks but does not provide retroactive protection. Mutual TLS authenticates both endpoints but does not change the key derivation model.",
+    exam_tip:"PFS = ephemeral session keys, discarded after use, past sessions safe even if long-term key is later compromised. TLS 1.3 mandates PFS. TLS 1.2 supports it optionally via ECDHE/DHE cipher suites."
+  }},
+  {qNum:3,type:'mcq',domain:'D2',data:{
+    q:"A threat intelligence team analyzes an intrusion. The attacker operated exclusively during UTC+8 business hours, reused a custom lateral movement tool previously attributed to a nation-state group, and targeted only defense contractors within a specific geographic region. The exfiltrated data included technical schematics rather than financial records. Which threat actor classification BEST fits this profile and what is the primary attribution signal?",
+    opts:[
+      {id:'a',label:"Insider threat — the precision of targeting and familiarity with contractor networks suggests an insider with prior access to the affected organizations"},
+      {id:'b',label:"Hacktivist — geographic targeting and specific sector focus indicate ideological motivation; the custom tooling reflects organizational capability"},
+      {id:'c',label:"Cybercriminal — financial motivation is implied by the targeting of high-value defense contractors; custom tooling indicates a well-funded criminal organization"},
+      {id:'d',label:"Nation-state APT — operational hours align with a specific time zone, tool reuse links to a known state actor, sector targeting and data type (schematics vs. financial) indicate strategic intelligence collection"}
+    ],
+    answer:'d',
+    explanation:"Nation-state APT attribution rests on behavioral convergence across multiple signals: operational hours correlating to a specific time zone suggest state-employed operators on a work schedule; tool reuse creates a forensic link to prior attributions; exclusive targeting of defense contractors in one region reflects strategic national interest; and collection of technical schematics rather than financial data indicates intelligence gathering rather than financial crime. No single signal is conclusive, but convergence across all four makes APT the correct classification. Hacktivists typically claim credit and prefer disruptive over stealthy operations. Cybercriminals prioritize monetizable data.",
+    exam_tip:"APT attribution signals: operational hour patterns (timezone), tooling reuse/signature, target sector alignment with national interests, data type collected (intelligence vs financial). Nation-states prefer stealth and strategic data; cybercriminals prefer speed and monetizable data."
+  }},
+  {qNum:4,type:'mcq',domain:'D1',data:{
+    q:"An organization is implementing zero trust architecture across a hybrid environment. Employees connect from personal and corporate devices to both cloud-hosted and on-premises applications. The security team must select the control that MOST directly operationalizes the zero trust principle of 'never trust, always verify' at the access decision point.",
+    opts:[
+      {id:'a',label:"Deploy a VPN concentrator at the network perimeter — all remote traffic tunnels through the corporate network before reaching applications, ensuring consistent policy enforcement"},
+      {id:'b',label:"Enforce MFA for all authentication events — requiring a second factor at login satisfies continuous verification requirements for all users and devices"},
+      {id:'c',label:"Implement a policy engine that evaluates device posture, user identity, and resource sensitivity continuously at each access request — granting least-privilege access dynamically based on real-time trust signals"},
+      {id:'d',label:"Segment the network with VLANs separating personal and corporate devices — preventing lateral movement between device classes enforces implicit trust boundaries"}
+    ],
+    answer:'c',
+    explanation:"Zero trust's core access decision model requires continuous, contextual evaluation — not a one-time check at login. A policy engine that combines device posture (is the device compliant?), user identity (is this the right user?), and resource sensitivity (what is being accessed?) at every request operationalizes 'never trust, always verify' most directly. VPNs establish a trusted network perimeter — the opposite of zero trust's assumption. MFA satisfies authentication but does not evaluate device posture or resource context, and is a point-in-time check. VLANs segment the network but enforce static boundaries, not dynamic trust evaluation.",
+    exam_tip:"Zero trust = continuous verification at every access request, not just at login. Policy engine evaluates: identity + device posture + resource sensitivity + behavior. VPN creates trusted perimeter (contradicts ZT). MFA alone is insufficient — it is authentication, not continuous authorization."
+  }},
+  {qNum:5,type:'mcq',domain:'D3',data:{
+    q:"A healthcare organization is migrating its patient records system to a public cloud provider. The compliance team raises concerns about data residency requirements under HIPAA and applicable state law. The CISO must select an architecture that maintains regulatory compliance while preserving cloud scalability benefits. Which consideration MOST directly governs where patient data can be stored and processed?",
+    opts:[
+      {id:'a',label:"Contractual and regulatory requirements specifying geographic boundaries for data storage and processing — the organization retains compliance responsibility regardless of where infrastructure is hosted"},
+      {id:'b',label:"The cloud provider's SOC 2 Type II certification — this certification confirms that the provider meets data residency requirements for all regulated industries including healthcare"},
+      {id:'c',label:"The cloud provider's shared responsibility model — the provider assumes full compliance responsibility for data stored in its infrastructure, relieving the organization of residency obligations"},
+      {id:'d',label:"The organization's data classification policy — if patient data is classified as confidential, it cannot be stored in public cloud environments regardless of geographic controls"}
+    ],
+    answer:'a',
+    explanation:"Data residency is governed by contractual obligations and applicable law — HIPAA, state privacy statutes, and any BAA terms with the cloud provider. The organization retains compliance accountability regardless of who operates the infrastructure. The shared responsibility model divides security duties between provider and customer but does not transfer regulatory liability to the provider. Data classification policies govern handling and access controls but do not categorically prohibit cloud storage. SOC 2 Type II confirms operational controls and availability commitments but does not satisfy sector-specific data residency requirements like HIPAA.",
+    exam_tip:"Shared responsibility model: provider secures the cloud infrastructure; customer is responsible for data, access controls, and compliance. Regulatory data residency requirements (HIPAA, GDPR) follow the data, not the infrastructure. A BAA with the cloud provider is required for HIPAA-covered data."
+  }},
+  {qNum:6,type:'mcq',domain:'D2',data:{
+    q:"A SOC analyst reviews the following sequence of events on a corporate endpoint over 72 hours: (1) User opens a macro-enabled document received via spearphishing email. (2) A new scheduled task is created under the user's profile. (3) Outbound connections to an IP on port 443 begin occurring every four hours. (4) Internal SMB scanning activity originates from the same host. (5) A compressed archive is created in a temp directory and transferred outbound. Which stage of the attack lifecycle does event 4 MOST specifically represent?",
+    opts:[
+      {id:'a',label:"Initial access — SMB scanning identifies the initial entry point used to compromise the endpoint"},
+      {id:'b',label:"Persistence — creating scheduled tasks and scanning internal hosts are both persistence mechanisms ensuring continued access"},
+      {id:'c',label:"Lateral movement — scanning internal hosts via SMB after establishing a foothold indicates the attacker is identifying targets for propagation within the network"},
+      {id:'d',label:"Exfiltration — SMB transfers are the primary method used to stage data before external transfer"}
+    ],
+    answer:'c',
+    explanation:"Event 4 — internal SMB scanning from a compromised host — is the hallmark of lateral movement. After establishing initial access (event 1, macro execution), persistence (event 2, scheduled task), and C2 communication (event 3, beaconing), the attacker scans internal hosts to identify additional targets for propagation. SMB is a common lateral movement protocol used in tools like EternalBlue and Mimikatz pass-the-hash. Event 5 (archive + outbound transfer) is exfiltration. Lateral movement and exfiltration are distinct phases — movement expands access, exfiltration removes data.",
+    exam_tip:"Attack chain sequence: Recon → Initial Access → Execution → Persistence → Privilege Escalation → Defense Evasion → C2 → Lateral Movement → Exfiltration. Internal scanning after foothold = lateral movement. Beaconing on fixed intervals = C2. Scheduled task creation = persistence."
+  }},
+  {qNum:7,type:'mcq',domain:'D4',data:{
+    q:"A security engineer must harden a Linux web server that is internet-facing and runs only HTTPS traffic on port 443. Time is limited and only one action can be taken immediately. The server currently has: SSH open on port 22 to all IPs, three unused services running (FTP, Telnet, SNMP v1), and OS patches 45 days outstanding. Which single action provides the GREATEST immediate reduction in attack surface?",
+    opts:[
+      {id:'a',label:"Restrict SSH access to a specific admin IP range — reducing the SSH exposure from 0.0.0.0/0 to authorized IPs eliminates brute-force and exploit exposure on port 22"},
+      {id:'b',label:"Enable a WAF in front of port 443 — the server's only legitimate traffic is HTTPS, so a WAF provides the most targeted protection for the active attack surface"},
+      {id:'c',label:"Apply all outstanding OS patches — 45-day-old patches on an internet-facing server may leave critical CVEs unmitigated"},
+      {id:'d',label:"Disable all unused services (FTP, Telnet, SNMP v1) — removing three unnecessary services eliminates multiple attack vectors simultaneously"}
+    ],
+    answer:'d',
+    explanation:"Disabling three unused services eliminates multiple attack vectors in a single action — FTP carries credential exposure risk, Telnet transmits in cleartext, and SNMPv1 has no authentication and is exploitable for reconnaissance and DoS. Removing services that serve no legitimate function is the highest-leverage single hardening action. Patching addresses known CVEs but takes longer and doesn't remove services. SSH restriction reduces one exposure point. A WAF protects only the HTTPS surface but leaves the unused services running. When forced to prioritize one action, eliminating multiple unnecessary services outweighs single-vector mitigations.",
+    exam_tip:"Hardening priority: (1) remove/disable what shouldn't exist, (2) restrict what must exist, (3) patch what's running. Unused services = unnecessary attack surface. FTP + Telnet + SNMPv1 are all insecure legacy protocols — disabling all three in one step is higher leverage than restricting one exposure."
+  }},
+  {qNum:8,type:'mcq',domain:'D1',data:{
+    q:"A hospital cannot replace its legacy radiology system for 18 months due to vendor support constraints. The system runs an end-of-life OS with no available patches. The security team implements network isolation, placing the system in a dedicated VLAN with firewall rules permitting only the specific IP addresses of authorized radiology workstations. Which control type BEST describes this implementation, and why is it distinct from a corrective control?",
+    opts:[
+      {id:'a',label:"Preventive — the firewall rules block unauthorized access before it occurs, which is the definition of a preventive control; corrective controls are only applied after an incident"},
+      {id:'b',label:"Compensating — the control substitutes for a control that cannot be implemented (patching) due to operational constraints, reducing risk without eliminating the underlying vulnerability; corrective controls restore systems after a security event"},
+      {id:'c',label:"Detective — network isolation generates logs that would detect unauthorized access attempts; corrective controls remediate rather than detect"},
+      {id:'d',label:"Corrective — isolating the system corrects the vulnerability by removing network exposure; preventive controls would have patched the OS before the vulnerability existed"}
+    ],
+    answer:'b',
+    explanation:"A compensating control is applied when the standard control cannot be implemented — in this case, patching is impossible due to EOL status and vendor constraints. Network isolation with firewall rules reduces the risk without fixing the underlying vulnerability, which is the defining characteristic of a compensating control. It is distinct from a corrective control because corrective controls restore normal operation after a security event has occurred (e.g., restoring from backup, reimaging a system). The isolation is preventive in effect but compensating in nature — it exists specifically because the primary control is unavailable.",
+    exam_tip:"Compensating control = substitute for a control that cannot be implemented, reduces risk without eliminating vulnerability. Corrective = restores state after an incident. Preventive = stops incidents from occurring. Detective = identifies incidents. Compensating controls require documented justification in compliance frameworks like PCI-DSS."
+  }},
+  {qNum:9,type:'mcq',domain:'D2',data:{
+    q:"During forensic analysis of a compromised endpoint, investigators find no malicious files on disk. However, memory analysis reveals injected shellcode running inside a legitimate svchost.exe process, and PowerShell execution logs show encoded commands that downloaded and executed a payload directly in memory. The endpoint's AV software reported no detections throughout the incident. Which malware execution technique does this MOST accurately describe, and what made it effective against the AV?",
+    opts:[
+      {id:'a',label:"Fileless malware using process injection — executing entirely in memory and injecting into a legitimate process leaves no disk artifacts for signature-based AV to scan, bypassing file-based detection entirely"},
+      {id:'b',label:"Polymorphic malware — the payload mutated its signature on each execution, causing the AV to miss the changing hash values; process injection was used to sustain execution"},
+      {id:'c',label:"Logic bomb — the payload was pre-installed and triggered by a specific condition; memory execution prevented disk forensics from recovering the trigger condition"},
+      {id:'d',label:"Rootkit — the malware modified kernel structures to hide its presence from the AV; rootkits operate at the OS level and intercept system calls to suppress detection"}
+    ],
+    answer:'a',
+    explanation:"Fileless malware executes entirely in memory without writing a payload to disk. PowerShell downloading and executing code directly in memory, combined with process injection into a legitimate process like svchost.exe, produces no disk artifacts — the primary detection surface for signature-based AV. The AV cannot scan what doesn't exist on disk. Process injection into a trusted process also abuses the process's legitimate network and execution permissions, evading behavioral controls that whitelist known-good processes. Rootkits modify kernel structures but are typically persistent on disk. Polymorphic malware changes signatures but still writes to disk. Logic bombs require a pre-installed component.",
+    exam_tip:"Fileless malware = executes in memory, no disk artifacts, evades signature-based AV. Common techniques: PowerShell encoded commands, WMI subscriptions, process injection (injecting shellcode into legitimate processes like svchost.exe, explorer.exe). Detection requires memory forensics and behavioral analysis, not file scanning."
+  }},
+  {qNum:10,type:'mcq',domain:'D3',data:{
+    q:"A data governance team reviews three datasets held by their organization. Dataset A contains employee first names only. Dataset B contains employee job titles and department assignments. Dataset C contains employee work schedule patterns and office entry/exit badge times. Each dataset is individually classified as non-sensitive. A privacy officer raises a concern. Which data aggregation principle does this scenario MOST directly illustrate?",
+    opts:[
+      {id:'a',label:"Data remanence — retaining datasets beyond their retention period creates compounding privacy risk as datasets are cross-referenced over time"},
+      {id:'b',label:"Inference attack vulnerability — each dataset independently enables inference of sensitive attributes, making individual classification insufficient for privacy protection"},
+      {id:'c',label:"Data minimization — the organization is collecting more personal data than necessary for its stated business purpose, violating GDPR minimization requirements"},
+      {id:'d',label:"The aggregation problem — combining individually non-sensitive datasets can produce a combined dataset that is sensitive, because the correlation of name, role, and movement patterns could enable physical surveillance or targeted attacks"}
+    ],
+    answer:'d',
+    explanation:"The aggregation problem occurs when individually non-sensitive data elements become sensitive in combination. A first name alone is harmless. A job title alone is harmless. A movement pattern alone is harmless. Combined, they produce a profile that identifies a specific named individual, their role and access level, and their physical location patterns — sufficient for targeted social engineering, physical surveillance, or building an attack profile. This is the core principle behind data aggregation risk and is why classification must consider combined sensitivity, not just individual field sensitivity.",
+    exam_tip:"Aggregation problem = individually non-sensitive data becomes sensitive when combined. Classic example: name + employer + medical condition = sensitive health record from three non-sensitive pieces. Data classification must account for what combinations reveal, not just what individual fields contain."
+  }},
+  {qNum:11,type:'mcq',domain:'D4',data:{
+    q:"A cloud security team investigates anomalous API calls in their AWS environment. CloudTrail logs show that a Lambda function's execution role, which was granted read-only S3 access, is now making IAM CreateRole and AttachRolePolicy API calls that it was never authorized to perform. No changes to the Lambda's permissions were made by the team. Which attack technique MOST likely explains this activity?",
+    opts:[
+      {id:'a',label:"Server-side request forgery — the Lambda function was exploited via SSRF to retrieve the EC2 instance metadata credentials, which had broader IAM permissions than the Lambda role"},
+      {id:'b',label:"Credential stuffing — the attacker used a list of compromised IAM credentials to authenticate as the Lambda execution role and escalate permissions"},
+      {id:'c',label:"Privilege escalation via misconfigured IAM policy — the execution role's policy contained an overly permissive wildcard or the role had iam:PassRole rights that allowed it to create and attach higher-privilege roles without explicit IAM modification"},
+      {id:'d',label:"Golden ticket attack — the attacker forged a Kerberos ticket granting access to all AWS services, bypassing IAM permission boundaries"}
+    ],
+    answer:'c',
+    explanation:"IAM privilege escalation via misconfigured policy is the most likely explanation. If the Lambda execution role had iam:PassRole, iam:CreateRole, or iam:AttachRolePolicy permissions — even combined with seemingly limited other permissions — an attacker who compromised the Lambda (or the function code itself) could create a new high-privilege role and attach it to themselves. This is a well-documented AWS privilege escalation path that requires no external credential compromise. The CloudTrail evidence of CreateRole and AttachRolePolicy from the Lambda's role identity is the signature of this technique. Golden ticket attacks are Kerberos-specific, not applicable to AWS IAM. SSRF could retrieve EC2 metadata credentials, but the scenario describes the Lambda role itself making the calls.",
+    exam_tip:"AWS IAM privilege escalation: overly permissive policies (wildcards, iam:PassRole, iam:CreateRole) allow roles to self-escalate without explicit permission grants. Principle of least privilege prevents this — roles should only have the exact permissions required. CloudTrail is the primary detection source for IAM abuse."
+  }},
+  {qNum:12,type:'mcq',domain:'D1',data:{
+    q:"A security analyst discovers that a certificate presented by an internal application was signed by an intermediate CA whose own certificate was revoked three weeks ago. The root CA and the end-entity certificate are both valid and unexpired. A junior analyst suggests the end-entity certificate is still trustworthy because the root CA is valid. Which statement CORRECTLY explains why the chain of trust is broken?",
+    opts:[
+      {id:'a',label:"The junior analyst is correct — trust is anchored at the root CA, and as long as the root CA certificate is valid, all certificates it has signed or delegated remain trustworthy"},
+      {id:'b',label:"The end-entity certificate is invalid because PKI trust chains require every certificate in the chain to be valid and unrevoked — a revoked intermediate CA invalidates all certificates it signed, regardless of root CA status"},
+      {id:'c',label:"The end-entity certificate is invalid only if it was signed after the intermediate CA was revoked — certificates signed before revocation remain valid under retroactive trust rules"},
+      {id:'d',label:"The intermediate CA revocation only affects new certificate issuance — existing certificates signed by the revoked intermediate remain valid until their own expiration date"}
+    ],
+    answer:'b',
+    explanation:"PKI chain of trust validation requires every certificate in the chain — root CA, all intermediate CAs, and the end-entity certificate — to be valid and unrevoked. When an intermediate CA is revoked, it signals that the CA itself is no longer trustworthy, which invalidates all certificates it issued, regardless of when they were signed. The root CA's validity is necessary but not sufficient — every link in the chain must hold. Revoking an intermediate CA is a common response to key compromise, and its effect is intentionally propagated to all issued certificates to prevent use of potentially compromised certificates.",
+    exam_tip:"PKI chain validation: Root CA → Intermediate CA(s) → End-entity certificate. Every link must be valid. Revoked intermediate CA = all its issued certificates are untrusted. CRL (Certificate Revocation List) and OCSP (Online Certificate Status Protocol) are the two mechanisms for checking revocation status."
+  }},
+  {qNum:13,type:'mcq',domain:'D2',data:{
+    q:"A financial analyst receives a phone call from someone claiming to be the company's external auditor. The caller knows the analyst's name, their manager's name, the current audit engagement number, and references a specific spreadsheet the analyst worked on last week. The caller requests verbal confirmation of three account numbers for 'audit reconciliation.' No email preceded the call, and the request bypasses the standard data-sharing protocol. Which attack technique does this scenario BEST represent?",
+    opts:[
+      {id:'a',label:"Vishing with pretexting — the attacker uses a phone call (vishing) combined with a fabricated but credible scenario built from prior reconnaissance (pretexting) to manipulate the target into disclosing sensitive data"},
+      {id:'b',label:"Spearphishing — the attacker has researched the target specifically and crafted a highly personalized request, which is the defining characteristic of spearphishing regardless of the communication channel"},
+      {id:'c',label:"Watering hole attack — the attacker has compromised a resource frequently used by the target (the audit system) to gather the operational details used in the call"},
+      {id:'d',label:"Business email compromise — the attacker is impersonating a trusted business partner to fraudulently obtain financial information, which is the definition of BEC regardless of whether email is used"}
+    ],
+    answer:'a',
+    explanation:"This is vishing (voice phishing) combined with pretexting. Vishing specifically refers to social engineering conducted over a phone call. Pretexting is the construction of a fabricated but plausible scenario using prior reconnaissance — the caller's knowledge of the analyst's name, manager, audit number, and spreadsheet details constitutes pretexting. The combination creates a highly convincing attack. Spearphishing is specifically an email-based attack — the channel matters in CompTIA definitions. Watering hole attacks compromise websites to infect visitors. BEC is an email-based attack category by definition, even when the goal is financial fraud.",
+    exam_tip:"Vishing = voice/phone social engineering. Pretexting = fabricated scenario using prior research to establish false credibility. Spearphishing = targeted email attack. BEC = email-based impersonation of business partners or executives. Channel matters in CompTIA taxonomy: phone = vishing, email = phishing/BEC."
+  }},
+  {qNum:14,type:'mcq',domain:'D3',data:{
+    q:"An industrial manufacturer operates both a corporate IT network and an OT (operational technology) network controlling manufacturing floor equipment. A security architect must design a segmentation approach. The OT systems use legacy protocols that cannot be encrypted, require deterministic low-latency communication, and cannot tolerate network interruptions. The corporate network handles email, ERP, and internet access. Which architecture BEST balances operational requirements with security isolation?",
+    opts:[
+      {id:'a',label:"Air-gap the OT network completely — physical separation provides absolute isolation and is the only architecture that fully protects legacy OT protocols from network-based attacks"},
+      {id:'b',label:"Deploy a next-generation firewall between IT and OT networks with deep packet inspection — NGFW can inspect OT protocols and enforce policy while maintaining connectivity"},
+      {id:'c',label:"Place both networks on the same VLAN with ACLs restricting traffic between segments — VLANs provide sufficient logical isolation while preserving the low-latency requirements of OT protocols"},
+      {id:'d',label:"Implement a DMZ with a data historian between the OT and IT networks — the historian brokers data exchange, the OT network has no direct IP routing to corporate systems, and a unidirectional security gateway (data diode) enforces one-way data flow from OT to IT"}
+    ],
+    answer:'d',
+    explanation:"A DMZ with a data historian and unidirectional security gateway is the correct architecture for IT/OT convergence. The historian aggregates OT data and exposes it to IT systems without creating a routable path back into the OT network. A data diode (unidirectional gateway) physically enforces one-way data flow — OT data can reach IT, but no IT-originated traffic can reach OT. This preserves OT determinism and availability while preventing lateral movement from corporate into production systems. A shared VLAN with ACLs is insufficient — logical controls can be misconfigured or bypassed. A complete air-gap prevents operational data sharing required for ERP integration. NGFW deep packet inspection can introduce latency incompatible with real-time OT requirements.",
+    exam_tip:"IT/OT segmentation: data historian + data diode (unidirectional gateway) is the standard architecture. Data diode = hardware-enforced one-way data flow, cannot be misconfigured. OT networks prioritize availability and determinism over confidentiality. Air-gap = maximum isolation but prevents operational integration."
+  }},
+  {qNum:15,type:'mcq',domain:'D4',data:{
+    q:"A vulnerability management team receives scan results showing four findings on their environment. They must prioritize remediation order. Finding 1: CVSS 9.8, internet-facing web server, public exploit available, no WAF, handles no sensitive data. Finding 2: CVSS 7.4, internal database server, no public exploit, stores all customer PII, accessible only from application tier. Finding 3: CVSS 9.8, internal development server, public exploit available, isolated network segment, no production data. Finding 4: CVSS 6.1, primary authentication server for all employees, no public exploit, exploitation would expose all Active Directory credentials. Which prioritization order is CORRECT?",
+    opts:[
+      {id:'a',label:"Finding 1, Finding 3, Finding 2, Finding 4 — CVSS base score is the authoritative prioritization metric; both 9.8 findings rank above lower-scored findings regardless of context"},
+      {id:'b',label:"Finding 1, Finding 4, Finding 2, Finding 3 — Finding 1 is critical due to internet exposure and available exploit; Finding 4 ranks above Finding 2 despite lower CVSS because AD credential exposure affects the entire organization; Finding 3 deprioritizes due to isolation; Finding 2 ranks third due to PII exposure despite no public exploit"},
+      {id:'c',label:"Finding 4, Finding 1, Finding 2, Finding 3 — authentication infrastructure should always be remediated first regardless of CVSS score; credential compromise enables all subsequent attacks"},
+      {id:'d',label:"Finding 2, Finding 1, Finding 4, Finding 3 — PII exposure creates the highest regulatory liability and should drive remediation priority above technical severity scores"}
+    ],
+    answer:'b',
+    explanation:"Effective vulnerability prioritization uses CVSS as a starting point, adjusted by environmental context. Finding 1 ranks first: internet-facing, active public exploit, no compensating controls — highest immediate exploitation risk. Finding 4 ranks second despite a 6.1 CVSS: the primary AD authentication server serves all employees, and credential exposure would enable lateral movement and privilege escalation across the entire organization — organizational impact elevates its effective priority. Finding 2 ranks third: PII exposure creates regulatory liability and the database stores sensitive data, but internal-only access and no public exploit reduce immediacy. Finding 3 ranks last: same CVSS as Finding 1 but isolated segment, no production data, and no external exposure significantly reduce actual risk.",
+    exam_tip:"Vulnerability prioritization factors: CVSS base score + internet exposure + public exploit availability + asset criticality + data sensitivity + compensating controls. CVSS alone is insufficient — a 6.1 on a critical authentication server may outrank a 9.8 on an isolated dev box."
+  }},
+  {qNum:16,type:'mcq',domain:'D1',data:{
+    q:"An enterprise architect must select an authentication protocol for three distinct use cases: (A) Federated SSO between the corporate identity provider and a third-party SaaS application over the internet. (B) Network access authentication for wired and wireless clients against a centralized policy server that integrates with Active Directory. (C) Web application delegated authorization allowing users to grant a third-party app access to their calendar data without sharing credentials. Which option CORRECTLY maps each protocol to its use case?",
+    opts:[
+      {id:'a',label:"A: RADIUS — centralized authentication for internet-facing SSO with AD backend. B: SAML — assertion framework for wired/wireless network policy enforcement. C: LDAP — directory protocol for scoped credential delegation"},
+      {id:'b',label:"A: Kerberos — federated ticket-granting for internet SSO. B: LDAP — directory lookups authenticate clients against AD. C: SAML — assertion-based authorization for delegated API access"},
+      {id:'c',label:"A: SAML — XML-based assertions carry identity claims between IdP and SaaS SP over the internet. B: RADIUS — authenticates network clients against a centralized policy server with AD integration. C: OAuth 2.0 — delegated authorization framework allowing scoped access grants without credential sharing"},
+      {id:'d',label:"A: OAuth 2.0 — token-based internet-scale SSO for SaaS federation. B: Kerberos — ticket-based authentication for network access against AD. C: SAML — XML assertions used for delegated calendar API authorization"}
+    ],
+    answer:'c',
+    explanation:"SAML (Security Assertion Markup Language) is the correct protocol for federated SSO between an identity provider and a service provider over the internet — it carries signed XML assertions that the SP trusts without the user sharing credentials with the SP. RADIUS is the standard protocol for network access authentication (802.1X wired/wireless), forwarding authentication requests to a backend directory like Active Directory. OAuth 2.0 is a delegated authorization framework — it allows a resource owner to grant a third-party application scoped access to their resources (like calendar data) without sharing the owner's credentials. Kerberos is an internal network authentication protocol not suited for internet federation. LDAP is a directory access protocol, not an authentication protocol for network access control.",
+    exam_tip:"SAML = federated SSO, XML assertions, IdP to SP. RADIUS = network access authentication (802.1X), wired/wireless, integrates with AD/LDAP. OAuth 2.0 = delegated authorization, access tokens, third-party app access without credential sharing. Kerberos = internal Windows domain authentication, ticket-based."
+  }},
+  {qNum:17,type:'mcq',domain:'D4',data:{
+    q:"A SOC analyst reviews an IDS alert: 'Potential port scan detected — source 10.10.5.22, 1,247 connection attempts to sequential ports over 90 seconds.' The analyst checks asset inventory and finds 10.10.5.22 is the organization's authenticated vulnerability scanner, scheduled to run every Tuesday at 02:00. The current time is Tuesday 02:14. Which classification and response is MOST appropriate?",
+    opts:[
+      {id:'a',label:"True negative — the scanner's activity confirms normal operations; the IDS is functioning correctly and no action is required"},
+      {id:'b',label:"False negative — the IDS failed to detect the actual malicious scan behind the authorized scanner traffic; a deeper investigation is required to identify the hidden threat"},
+      {id:'c',label:"True positive — any port scan detection is a confirmed attack indicator regardless of source; the analyst should escalate to incident response and isolate 10.10.5.22 pending investigation"},
+      {id:'d',label:"False positive — the activity matches the scheduled vulnerability scanner operating within its authorized window; the alert should be documented, the rule tuned to exclude the scanner's IP during scheduled windows, and no escalation is warranted"}
+    ],
+    answer:'d',
+    explanation:"This is a false positive — the IDS correctly detected the behavior pattern (port scan) but the source is an authorized, scheduled vulnerability scanner operating within its defined maintenance window. The appropriate response has three components: document the false positive for reporting and trend analysis, tune the IDS rule to exclude the scanner's IP during its authorized windows (suppression rule or whitelist), and take no escalation action since no threat exists. Escalating and isolating the scanner would disrupt authorized security operations. A true negative would mean no alert was generated for benign activity — an alert was generated, making this a false positive, not a true negative.",
+    exam_tip:"FP = alert generated for benign activity. FN = no alert for malicious activity. TP = alert for actual threat. TN = no alert for benign activity. False positive response: document + tune the rule (whitelist, suppression, threshold adjustment). Authorized scanners, internal tools, and known maintenance windows are common FP sources."
+  }},
+  {qNum:18,type:'mcq',domain:'D3',data:{
+    q:"A financial services firm requires that its trading platform maintain a recovery time objective (RTO) of less than 2 minutes and a recovery point objective (RPO) of zero — no transactions can be lost under any failure scenario. The platform processes 4,000 transactions per second. Which architecture MOST directly satisfies both requirements simultaneously?",
+    opts:[
+      {id:'a',label:"Warm standby with hourly snapshots — the standby environment can be activated within minutes, and hourly snapshots reduce data loss to a maximum of one hour of transactions"},
+      {id:'b',label:"Cold site with daily tape backup — operational costs are minimized and the RTO of same-day restoration is sufficient for non-critical systems"},
+      {id:'c',label:"Synchronous replication to an active-active secondary site with automatic failover — transactions are written to both sites before being acknowledged, guaranteeing zero data loss (RPO=0), and automatic failover satisfies the sub-2-minute RTO"},
+      {id:'d',label:"Asynchronous replication to a hot standby with 30-second replication lag — the hot standby can take over within seconds and the 30-second lag is negligible for most transaction volumes"}
+    ],
+    answer:'c',
+    explanation:"RPO=0 requires synchronous replication — every transaction must be committed to both sites before being acknowledged to the client. Asynchronous replication introduces lag, meaning in-flight transactions are lost on failover. Active-active with automatic failover satisfies the sub-2-minute RTO by eliminating manual promotion steps — the secondary is already actively processing and takes over without a startup sequence. Warm standby cannot achieve RPO=0 because it requires a promotion period. Cold site fails both requirements. Asynchronous replication explicitly cannot achieve RPO=0 by definition — the 30-second lag means up to 30 seconds of transactions are lost on failover.",
+    exam_tip:"RPO=0 requires synchronous replication — both sites acknowledge before committing. Asynchronous = some data loss tolerance. RTO requirements: Hot site (<minutes, active-active), Warm site (hours), Cold site (days). Active-active = both sites handle live traffic, instant failover. Active-passive = secondary promotes on failure."
+  }},
+  {qNum:19,type:'mcq',domain:'D4',data:{
+    q:"A threat hunter investigates a suspected lateral movement incident. A privileged service account that normally only authenticates to two specific servers has authenticated to eleven different hosts over a four-hour window, including workstations in the finance and HR departments. The hunter needs to determine the exact authentication path — which hosts were accessed in which sequence and what credentials were used at each step. Which data source MOST directly provides this information?",
+    opts:[
+      {id:'a',label:"Windows Security Event Logs (Event ID 4624, 4648, 4672) from the affected hosts and the domain controller — logon events record the authenticating account, source host, logon type, and timestamp, reconstructing the exact authentication sequence"},
+      {id:'b',label:"Vulnerability scanner output — identifying unpatched systems across the eleven hosts reveals which vulnerabilities were exploited to enable lateral movement"},
+      {id:'c',label:"DNS query logs — resolving the hostnames contacted by the service account reveals the lateral movement path through naming patterns"},
+      {id:'d',label:"NetFlow data — network flow records show source and destination IPs and ports for all traffic, providing the complete connection sequence between hosts"}
+    ],
+    answer:'a',
+    explanation:"Windows Security Event Logs contain the precise authentication data required: Event ID 4624 (successful logon) records the account name, source IP, logon type (network, interactive, Kerberos, NTLM), and timestamp; Event ID 4648 records explicit credential use (pass-the-hash or pass-the-ticket indicators); Event ID 4672 records special privilege assignment at logon. Correlated across domain controller logs and individual host logs, these events reconstruct the exact authentication sequence — which account authenticated to which host, in what order, using what method. NetFlow shows network connections but not which credentials were used or authentication success/failure. Vulnerability scanner output shows patch status, not authentication history. DNS logs show name resolution, not authentication events.",
+    exam_tip:"Lateral movement investigation: Windows Event ID 4624 (logon), 4648 (explicit credentials), 4672 (privileged logon), 4768/4769 (Kerberos TGT/service ticket). Correlate DC logs + endpoint logs for complete authentication path. NetFlow = connections. Event logs = authentication. EDR = process execution."
+  }},
+  {qNum:20,type:'mcq',domain:'D5',data:{
+    q:"A risk analyst assesses a vulnerability in a public-facing e-commerce application that handles credit card data. The vulnerability has a CVSS score of 8.9 but the estimated remediation cost is $340,000 — primarily due to required application refactoring. The organization's cyber liability insurance policy covers breaches up to $2M with a $50,000 deductible. The risk analyst calculates annualized loss expectancy (ALE) at $180,000. The security team recommends patching. The finance team recommends relying on insurance. Which risk response strategy does the finance team's recommendation represent, and what critical gap does it leave?",
+    opts:[
+      {id:'a',label:"Risk avoidance — the organization avoids the risk by transferring financial exposure to the insurer; the gap is that insurance does not prevent reputational damage from a breach"},
+      {id:'b',label:"Risk transference — insurance shifts financial consequences to a third party; the gap is that insurance does not eliminate the vulnerability, meaning a breach can still occur, the deductible applies, and PCI-DSS requires active vulnerability remediation regardless of insurance coverage"},
+      {id:'c',label:"Risk acceptance — the organization formally accepts that the vulnerability may be exploited; the gap is that ALE exceeds the deductible, making acceptance financially suboptimal"},
+      {id:'d',label:"Risk mitigation — purchasing insurance reduces the organization's exposure, which is the definition of mitigation; the gap is that mitigation only reduces rather than eliminates risk"}
+    ],
+    answer:'b',
+    explanation:"Insurance is risk transference — financial consequences of a realized risk are shifted to a third party (the insurer). The critical gaps are: (1) the vulnerability remains unpatched, so a breach can still occur — insurance pays after the fact but does not prevent harm to customers or the organization's data; (2) the $50,000 deductible is a direct cost that applies per incident; (3) PCI-DSS mandates active vulnerability management for cardholder data environments — an organization cannot satisfy PCI-DSS requirements by insuring against breaches instead of remediating known vulnerabilities. Risk acceptance would involve a formal documented decision to accept the risk without transferring it. Risk avoidance would mean discontinuing the activity that creates the risk.",
+    exam_tip:"Risk responses: Mitigate (reduce likelihood/impact), Transfer (insurance, contracts), Accept (formal documented decision, residual risk), Avoid (stop the activity). Insurance = transfer. Transfer does not eliminate the risk — it shifts financial consequence. Compliance frameworks (PCI-DSS, HIPAA) may require mitigation regardless of insurance."
+  }},
+  {qNum:21,type:'mcq',domain:'D5',data:{
+    q:"A compliance officer must map four organizational control requirements to their source frameworks. Requirement 1: The organization must implement controls protecting payment cardholder data and maintain quarterly vulnerability scans of systems in scope. Requirement 2: Employees must be notified of monitoring activities, and personal data collected about EU residents must have a documented legal basis for processing. Requirement 3: The organization must maintain audit trails of financial reporting systems and executive officers must personally certify the accuracy of financial controls. Requirement 4: The organization must conduct annual risk assessments, implement a contingency planning program, and designate a Privacy Officer for protected health information. Which mapping is CORRECT?",
+    opts:[
+      {id:'a',label:"1: HIPAA, 2: SOX, 3: GDPR, 4: PCI-DSS — healthcare data requirements align with payment frameworks and financial reporting aligns with privacy law"},
+      {id:'b',label:"1: PCI-DSS, 2: GDPR, 3: SOX, 4: HIPAA — payment card controls map to PCI-DSS; EU personal data legal basis requirements map to GDPR; executive financial certification maps to SOX; PHI risk assessment and Privacy Officer map to HIPAA"},
+      {id:'c',label:"1: SOX, 2: PCI-DSS, 3: HIPAA, 4: GDPR — financial reporting controls include payment system requirements; healthcare privacy applies to all personal data in the EU"},
+      {id:'d',label:"1: GDPR, 2: HIPAA, 3: PCI-DSS, 4: SOX — data protection requirements originate from GDPR regardless of data type; healthcare certification requirements include financial controls"}
+    ],
+    answer:'b',
+    explanation:"PCI-DSS governs payment cardholder data protection and requires quarterly vulnerability scans for in-scope systems. GDPR requires a lawful basis for processing personal data of EU residents and mandates transparency about monitoring activities. SOX (Sarbanes-Oxley) requires executive certification of financial controls (Section 302/906) and audit trails for financial reporting systems. HIPAA requires annual risk assessments, a contingency planning program, and designation of a Privacy Officer for covered entities handling protected health information. Each framework is domain-specific: PCI-DSS=payments, GDPR=EU personal data, SOX=public company financial reporting, HIPAA=US healthcare.",
+    exam_tip:"Framework quick map: PCI-DSS = payment card data, quarterly scans, 12 requirements. GDPR = EU personal data, lawful basis, data subject rights, DPO. SOX = public company financial controls, Section 302 executive certification, audit trails. HIPAA = PHI, covered entities, Privacy Officer, annual risk assessment, BAA."
+  }},
+  // Q22 PBQ — Phase 3 (placeholder)
+  // Q2-21 MCQs — Phase 2 — COMPLETE
+  // Q22 PBQ — Phase 3
+  // Q23-44 MCQs — Phase 4
+  // Q45 PBQ — Phase 5
+  // Q46-66 MCQs — Phase 6
+  // Q67 PBQ — Phase 7
+  // Q68-89 MCQs — Phase 8
+  // Q90 PBQ — Phase 9
+];
 
 const D1L1={
   pbq:{
@@ -5688,6 +6009,7 @@ function renderRealm(){
     <div class="realm-bot">${r.levels.length?pips:'<div style="font-family:var(--mono);font-size:10px;color:var(--muted)">Coming soon</div>'}</div>`;
     list.appendChild(card);
   });
+  renderExamCard(list);
 }
 
 // ── LEVEL MAP ─────────────────────────────────────────────────────────────────
@@ -7785,9 +8107,332 @@ function retryLevel(){
   initRunner();window.scrollTo(0,0);
 }
 
+// ── MASTERY CHALLENGE ───────────────────────────────────────────────────────────────
+
+function examUnlocked(){
+  return true; // TODO: restore gate before release
+  // const reviewIds=['d1l5','d2l6','d3l5','d4l10','d5review'];
+  // return reviewIds.every(id=>passed(id));
+}
+
+function getExamP(){try{return JSON.parse(localStorage.getItem('sp_exam')||'{}')}catch{return{}}}
+function saveExamP(d){localStorage.setItem('sp_exam',JSON.stringify(d))}
+function getShield(){return localStorage.getItem('sp_shield')==='1'}
+function setShield(){localStorage.setItem('sp_shield','1')}
+
+function renderExamCard(list){
+  const unlocked=examUnlocked();
+  const ep=getExamP();
+  const shield=getShield();
+  const card=document.createElement('div');
+  card.className='exam-realm-card ai'+(unlocked?'':' locked');
+  if(unlocked)card.onclick=()=>startExam();
+  card.innerHTML=`<div class="exam-top">
+    <div>
+      <div style="font-family:var(--mono);font-size:10px;color:#fbbf24;letter-spacing:.06em;margin-bottom:4px">SY0-701 EXPERIENCE · ALL DOMAINS${unlocked?'':' · 🔒 Complete all realms to unlock'}</div>
+      <div style="font-size:18px;font-weight:700;font-family:var(--sans)">Mastery Challenge</div>
+      <div style="font-family:var(--mono);font-size:10px;color:var(--muted);margin-top:4px">90 Questions · 5 PBQs · 85 MCQs · 83% for Gold Shield</div>
+      ${shield?'<div class="exam-badge-earned">🛡️ GOLD SHIELD EARNED</div>':''}
+      ${ep.attempts>0&&!shield?`<div style="font-family:var(--mono);font-size:10px;color:var(--muted);margin-top:4px">Best: ${ep.best||0}% · Attempts: ${ep.attempts}</div>`:''}
+    </div>
+    <div style="font-size:36px">${shield?'🛡️':'🎯'}</div>
+  </div>`;
+  list.appendChild(card);
+}
+
+// ── EXAM STATE ────────────────────────────────────────────────────────────────
+let EX={};
+let examTimer=null;
+
+function startExam(){
+  EX={
+    qIndex:0,
+    answers:{},       // qNum -> {correct:bool, domain:str, points:number, earned:number}
+    pbqAnswers:{},    // nodeId -> classification
+    startTime:Date.now(),
+    elapsed:0,
+  };
+  clearInterval(examTimer);
+  examTimer=setInterval(()=>{
+    EX.elapsed=Math.floor((Date.now()-EX.startTime)/1000);
+    const m=String(Math.floor(EX.elapsed/60)).padStart(2,'0');
+    const s=String(EX.elapsed%60).padStart(2,'0');
+    const el=document.getElementById('ex-timer');
+    if(el)el.textContent=m+':'+s;
+  },1000);
+  show('v-exam');
+  renderExamQ();
+}
+
+function renderExamQ(){
+  const q=EXAM_QUESTIONS[EX.qIndex];
+  if(!q){finalizeExam();return;}
+  const total=EXAM_QUESTIONS.length;
+  document.getElementById('ex-counter').textContent='Q'+(EX.qIndex+1)+' of '+total;
+  document.getElementById('ex-prog').style.width=((EX.qIndex/total)*100)+'%';
+  if(q.type==='pbq') renderExamPBQ(q);
+  else renderExamMCQ(q);
+}
+
+// ── Q1 PBQ RENDERER ───────────────────────────────────────────────────────────
+function renderExamPBQ(q){
+  const pbq=q.data;
+  EX.pbqAnswers={};
+  let h=`<div style="padding:16px">
+    <div style="font-family:var(--mono);font-size:10px;color:#fbbf24;letter-spacing:.06em;margin-bottom:8px">PBQ · ${pbq.title}</div>
+    <div style="font-size:13px;color:#CBD5E1;line-height:1.65;margin-bottom:6px">${pbq.scenario}</div>
+    <div style="font-family:var(--mono);font-size:11px;color:var(--muted);margin-bottom:14px;padding:10px;background:rgba(251,191,36,0.06);border-radius:8px;border-left:3px solid rgba(251,191,36,0.4)">${pbq.instruction}</div>
+    <div class="node-grid" id="ex-node-grid">`;
+  pbq.nodes.forEach(node=>{
+    h+=`<div class="node-card" id="nc-${node.id}">
+      <div class="node-card-top">
+        <div>
+          <div class="node-label">${node.label} · ${node.name}</div>
+          <div class="node-desc" style="margin-top:6px">${node.desc}</div>
+        </div>
+      </div>
+      <div class="node-options">
+        <button class="node-opt" id="opt-${node.id}-VULNERABLE" onclick="selectNodeClass('${node.id}','VULNERABLE')">VULNERABLE</button>
+        <button class="node-opt" id="opt-${node.id}-HARDENED" onclick="selectNodeClass('${node.id}','HARDENED')">HARDENED</button>
+        <button class="node-opt" id="opt-${node.id}-MISCONFIGURED" onclick="selectNodeClass('${node.id}','MISCONFIGURED')">MISCONFIGURED</button>
+      </div>
+    </div>`;
+  });
+  h+=`</div>
+    <div style="margin-top:16px;padding:10px 14px;background:rgba(255,255,255,0.03);border-radius:8px;font-family:var(--mono);font-size:10px;color:var(--muted)" id="ex-pbq-status">0 of ${pbq.nodes.length} nodes classified</div>
+    <button onclick="submitExamPBQ()" id="ex-pbq-submit" style="margin-top:12px;width:100%;padding:14px;border-radius:10px;font-family:var(--mono);font-size:12px;font-weight:700;border:none;background:rgba(251,191,36,0.15);color:#fbbf24;cursor:pointer;opacity:0.5;letter-spacing:.04em" disabled>SUBMIT PBQ → CONTINUE</button>
+  </div>`;
+  document.getElementById('ex-content').innerHTML=h;
+}
+
+function selectNodeClass(nodeId, cls){
+  const clsMap={VULNERABLE:'selected-vuln',HARDENED:'selected-hard',MISCONFIGURED:'selected-misc'};
+  ['VULNERABLE','HARDENED','MISCONFIGURED'].forEach(c=>{
+    const btn=document.getElementById('opt-'+nodeId+'-'+c);
+    if(btn){btn.className='node-opt'+(c===cls?' '+clsMap[c]:'');}
+  });
+  EX.pbqAnswers[nodeId]=cls;
+  const pbq=EXAM_QUESTIONS[EX.qIndex].data;
+  const count=Object.keys(EX.pbqAnswers).length;
+  const status=document.getElementById('ex-pbq-status');
+  if(status)status.textContent=count+' of '+pbq.nodes.length+' nodes classified';
+  const submitBtn=document.getElementById('ex-pbq-submit');
+  if(submitBtn){
+    const allDone=count===pbq.nodes.length;
+    submitBtn.disabled=!allDone;
+    submitBtn.style.opacity=allDone?'1':'0.5';
+    submitBtn.style.background=allDone?'rgba(251,191,36,0.25)':'rgba(251,191,36,0.15)';
+  }
+}
+
+function submitExamPBQ(){
+  const q=EXAM_QUESTIONS[EX.qIndex];
+  const pbq=q.data;
+  let correct=0;
+  pbq.nodes.forEach(node=>{
+    const userAns=EX.pbqAnswers[node.id];
+    const isCorrect=userAns===node.answer;
+    if(isCorrect)correct++;
+    // Store for review
+    if(!isCorrect){
+      if(!EX.missedPBQ)EX.missedPBQ=[];
+      EX.missedPBQ.push({qNum:q.qNum,label:node.label+' · '+node.name,yours:userAns,correct:node.answer,explanation:node.explanation});
+    }
+  });
+  const earned=Math.round((correct/pbq.nodes.length)*pbq.points);
+  EX.answers[q.qNum]={type:'pbq',correct:correct===pbq.nodes.length,domain:pbq.domain,points:pbq.points,earned};
+  EX.qIndex++;
+  renderExamQ();
+}
+
+// ── EXAM MCQ RENDERER (stub — Phase 2) ───────────────────────────────────────
+function renderExamMCQ(q){
+  const mcq=q.data;
+  const domainColor={'D1':'var(--d1)','D2':'var(--d2)','D3':'var(--d3)','D4':'var(--d4)','D5':'var(--d5)'}[q.domain]||'var(--muted)';
+  let h=`<div style="padding:16px">
+    <div style="font-family:var(--mono);font-size:10px;color:${domainColor};letter-spacing:.06em;margin-bottom:10px">MCQ · Q${q.qNum} OF 90 · ${q.domain.replace('_','/')}</div>
+    <div style="font-size:14px;color:var(--text);line-height:1.7;margin-bottom:18px">${mcq.q}</div>
+    <div id="ex-mcq-opts">`;
+  mcq.opts.forEach(opt=>{
+    h+=`<div class="mcq-opt" id="examopt-${opt.id}" onclick="selectExamMCQ('${opt.id}')" style="border:1.5px solid rgba(255,255,255,0.1);border-radius:10px;padding:14px;margin-bottom:10px;cursor:pointer;background:var(--surface);transition:all .15s">
+      <span style="font-family:var(--mono);font-size:11px;color:var(--muted);margin-right:10px">${opt.id.toUpperCase()}.</span>
+      <span style="font-size:13px;color:var(--text);line-height:1.6">${opt.label}</span>
+    </div>`;
+  });
+  h+=`</div>
+    <button onclick="submitExamMCQ()" id="ex-mcq-submit" style="margin-top:8px;width:100%;padding:14px;border-radius:10px;font-family:var(--mono);font-size:12px;font-weight:700;border:none;background:rgba(255,255,255,0.06);color:var(--muted);cursor:pointer;opacity:0.5;letter-spacing:.04em" disabled>SELECT AN ANSWER TO CONTINUE</button>
+  </div>`;
+  document.getElementById('ex-content').innerHTML=h;
+  window.examMCQSelected=null;
+}
+
+function selectExamMCQ(id){
+  window.examMCQSelected=id;
+  const q=EXAM_QUESTIONS[EX.qIndex];
+  const domainColor={'D1':'var(--d1)','D2':'var(--d2)','D3':'var(--d3)','D4':'var(--d4)','D5':'var(--d5)'}[q.domain]||'var(--muted)';
+  q.data.opts.forEach(opt=>{
+    const el=document.getElementById('examopt-'+opt.id);
+    if(el){
+      el.style.borderColor=opt.id===id?domainColor:'rgba(255,255,255,0.1)';
+      el.style.background=opt.id===id?`color-mix(in srgb,${domainColor} 10%,var(--surface))`:'var(--surface)';
+    }
+  });
+  const btn=document.getElementById('ex-mcq-submit');
+  if(btn){btn.disabled=false;btn.style.opacity='1';btn.style.background='rgba(255,255,255,0.1)';btn.style.color='var(--text)';btn.textContent='CONFIRM → NEXT';}
+}
+
+function submitExamMCQ(){
+  const q=EXAM_QUESTIONS[EX.qIndex];
+  const mcq=q.data;
+  const selected=window.examMCQSelected;
+  const correct=selected===mcq.answer;
+  const totalMCQPts=50;
+  const mcqCount=EXAM_QUESTIONS.filter(q=>q.type==='mcq').length;
+  const ptsEach=totalMCQPts/mcqCount;
+  EX.answers[q.qNum]={type:'mcq',correct,domain:q.domain,points:ptsEach,earned:correct?ptsEach:0};
+  if(!correct){
+    if(!EX.missedMCQ)EX.missedMCQ=[];
+    const correctOpt=mcq.opts.find(o=>o.id===mcq.answer);
+    const yourOpt=mcq.opts.find(o=>o.id===selected)||{label:'No answer'};
+    EX.missedMCQ.push({qNum:q.qNum,q:mcq.q,yours:yourOpt.label,correct:correctOpt.label,explanation:mcq.explanation,exam_tip:mcq.exam_tip,domain:q.domain});
+  }
+  EX.qIndex++;
+  renderExamQ();
+}
+
+// ── EXAM FINALIZE & RESULTS ───────────────────────────────────────────────────
+function finalizeExam(){
+  clearInterval(examTimer);
+  const answered=Object.values(EX.answers);
+  const mcqCount=EXAM_QUESTIONS.filter(q=>q.type==='mcq').length||85;
+  const pbqEarned=Math.round(answered.filter(a=>a.type==='pbq').reduce((s,a)=>s+a.earned,0));
+  const mcqRaw=answered.filter(a=>a.type==='mcq').reduce((s,a)=>s+a.earned,0);
+  const mcqEarned=Math.round((mcqRaw/(50/mcqCount*mcqCount))*50);
+  const total=Math.min(100,pbqEarned+mcqEarned);
+  const mastery=total>=83;
+  const pass=total>=70;
+  if(mastery)setShield();
+  // Domain breakdown
+  const domains=['D1','D2','D3','D4','D5'];
+  const domainStats={};
+  domains.forEach(d=>{
+    const dqs=answered.filter(a=>a.domain&&a.domain.includes(d));
+    const earned=dqs.reduce((s,a)=>s+a.earned,0);
+    const total_pts=dqs.reduce((s,a)=>s+a.points,0);
+    domainStats[d]=total_pts>0?Math.round((earned/total_pts)*100):0;
+  });
+  EX.domainStats=domainStats;
+  // Save attempt
+  const ep=getExamP();
+  ep.attempts=(ep.attempts||0)+1;
+  ep.best=Math.max(ep.best||0,total);
+  if(mastery)ep.shield=true;
+  saveExamP(ep);
+  updateShieldDisplay();
+  renderExamResult(total,pbqEarned,mcqEarned,mastery,pass);
+}
+
+function updateShieldDisplay(){
+  const el=document.getElementById('h-shield');
+  if(el&&getShield())el.classList.add('visible');
+}
+
+function renderExamResult(total,pbqEarned,mcqEarned,mastery,pass){
+  const c='#fbbf24';
+  const sc=mastery?'#fbbf24':pass?'var(--green)':'var(--amber)';
+  const m=String(Math.floor(EX.elapsed/60)).padStart(2,'0');
+  const s=String(EX.elapsed%60).padStart(2,'0');
+  const ds=EX.domainStats||{};
+  const domainData=[
+    {label:'Domain 1',pct:ds.D1||0,color:'var(--d1)'},
+    {label:'Domain 2',pct:ds.D2||0,color:'var(--d2)'},
+    {label:'Domain 3',pct:ds.D3||0,color:'var(--d3)'},
+    {label:'Domain 4',pct:ds.D4||0,color:'var(--d4)'},
+    {label:'Domain 5',pct:ds.D5||0,color:'var(--d5)'},
+  ];
+  let stateMsg='',stateSub='';
+  if(mastery){
+    stateMsg='🛡️ Gold Shield Earned';
+    stateSub='Mastery confirmed — SY0-701 exam-ready';
+  } else if(pass){
+    stateMsg='✓ Passed';
+    stateSub='Review your weakest domains and retry for your gold shield';
+  } else {
+    // Find weakest domains
+    const sorted=[...domainData].sort((a,b)=>a.pct-b.pct);
+    const weak=sorted.slice(0,2).map(d=>d.label).join(' and ');
+    stateMsg='↻ Not Passed';
+    stateSub='Weakest domains: '+weak;
+  }
+  let h=`<div style="padding:16px">
+    <div style="border:1.5px solid ${mastery?'rgba(251,191,36,0.5)':pass?'rgba(34,197,94,0.4)':'rgba(245,158,11,0.4)'};border-radius:14px;padding:18px;background:${mastery?'rgba(251,191,36,0.06)':pass?'rgba(34,197,94,0.05)':'rgba(245,158,11,0.05)'};margin-bottom:16px;text-align:center">
+      <div style="font-family:var(--mono);font-size:10px;color:var(--muted);letter-spacing:.06em;margin-bottom:6px">MASTERY CHALLENGE · SY0-701 · ${m}:${s} elapsed</div>
+      <div style="font-size:64px;font-weight:700;font-family:var(--mono);color:${sc};line-height:1">${total}</div>
+      <div style="font-size:12px;color:var(--muted);margin-bottom:10px">out of 100 · 83% mastery · 70% pass</div>
+      <div class="exam-result-state" style="color:${sc}">${stateMsg}</div>
+      <div style="font-size:12px;color:var(--muted);margin-top:4px">${stateSub}</div>
+    </div>
+    <div style="font-family:var(--mono);font-size:11px;color:var(--muted);letter-spacing:.05em;margin-bottom:10px">SCORE BREAKDOWN</div>
+    <div style="display:flex;gap:10px;margin-bottom:16px">
+      <div style="flex:1;background:var(--surface);border:1px solid var(--border);border-radius:10px;padding:14px;text-align:center">
+        <div style="font-family:var(--mono);font-size:10px;color:var(--muted);margin-bottom:4px">PBQ (5 questions)</div>
+        <div style="font-family:var(--mono);font-size:24px;font-weight:700;color:#fbbf24">${pbqEarned}<span style="font-size:13px;color:var(--muted)">/50</span></div>
+      </div>
+      <div style="flex:1;background:var(--surface);border:1px solid var(--border);border-radius:10px;padding:14px;text-align:center">
+        <div style="font-family:var(--mono);font-size:10px;color:var(--muted);margin-bottom:4px">MCQ (85 questions)</div>
+        <div style="font-family:var(--mono);font-size:24px;font-weight:700;color:var(--d3)">${mcqEarned}<span style="font-size:13px;color:var(--muted)">/50</span></div>
+      </div>
+    </div>
+    <div style="font-family:var(--mono);font-size:11px;color:var(--muted);letter-spacing:.05em;margin-bottom:10px">DOMAIN BREAKDOWN</div>
+    <div class="domain-breakdown">`;
+  domainData.forEach(d=>{
+    h+=`<div class="domain-row">
+      <div class="domain-row-label">${d.label}</div>
+      <div class="domain-row-bar"><div class="domain-row-fill" style="width:${d.pct}%;background:${d.color}"></div></div>
+      <div class="domain-row-pct" style="color:${d.pct>=83?'var(--green)':d.pct>=70?d.color:'var(--amber)'}">${d.pct}%</div>
+    </div>`;
+  });
+  h+=`</div>`;
+  // Missed PBQ items
+  if(EX.missedPBQ&&EX.missedPBQ.length){
+    h+=`<div style="font-family:var(--mono);font-size:11px;color:var(--muted);letter-spacing:.05em;margin-bottom:10px">⚑ MISSED PBQ ITEMS (${EX.missedPBQ.length})</div>`;
+    EX.missedPBQ.forEach(m=>{
+      h+=`<div style="background:var(--surface);border:1px solid rgba(239,68,68,0.2);border-radius:10px;padding:12px;margin-bottom:8px">
+        <div style="font-family:var(--mono);font-size:10px;color:#ef4444;margin-bottom:6px">${m.label}</div>
+        <div style="font-size:12px;margin-bottom:6px"><span style="color:#ef4444">✗ ${m.yours||'No answer'}</span> → <span style="color:var(--green)">✓ ${m.correct}</span></div>
+        <div style="font-size:12px;color:#94A3B8;line-height:1.55">${m.explanation}</div>
+      </div>`;
+    });
+  }
+  if(EX.missedMCQ&&EX.missedMCQ.length){
+    const domainColor={'D1':'var(--d1)','D2':'var(--d2)','D3':'var(--d3)','D4':'var(--d4)','D5':'var(--d5)'};
+    h+=`<div style="font-family:var(--mono);font-size:11px;color:var(--muted);letter-spacing:.05em;margin:16px 0 10px">⚑ MISSED MCQ (${EX.missedMCQ.length})</div>`;
+    EX.missedMCQ.forEach(m=>{
+      const dc=domainColor[m.domain]||'var(--muted)';
+      h+=`<div style="background:var(--surface);border:1px solid rgba(255,255,255,0.07);border-radius:10px;padding:14px;margin-bottom:10px">
+        <div style="font-family:var(--mono);font-size:10px;color:${dc};margin-bottom:8px">Q${m.qNum} · ${m.domain}</div>
+        <div style="font-size:13px;color:var(--text);line-height:1.65;margin-bottom:10px">${m.q}</div>
+        <div style="font-size:12px;margin-bottom:8px;padding:8px;background:rgba(239,68,68,0.06);border-radius:6px"><span style="color:#ef4444">✗ Your answer: </span><span style="color:#94A3B8">${m.yours}</span></div>
+        <div style="font-size:12px;margin-bottom:10px;padding:8px;background:rgba(34,197,94,0.06);border-radius:6px"><span style="color:var(--green)">✓ Correct: </span><span style="color:#94A3B8">${m.correct}</span></div>
+        <div style="font-size:12px;color:#94A3B8;line-height:1.6;margin-bottom:8px">${m.explanation}</div>
+        <div style="font-family:var(--mono);font-size:10px;color:${dc};padding:8px;background:color-mix(in srgb,${dc} 6%,transparent);border-radius:6px;line-height:1.6">📌 ${m.exam_tip}</div>
+      </div>`;
+    });
+  }
+  h+=`<div style="display:flex;gap:10px;margin-top:16px">
+    <button onclick="startExam()" style="flex:1;padding:14px;border-radius:10px;font-family:var(--mono);font-size:12px;font-weight:700;border:1.5px solid #fbbf24;background:transparent;color:#fbbf24;cursor:pointer;letter-spacing:.04em">↻ RETRY</button>
+    <button onclick="showRealm()" style="flex:1;padding:14px;border-radius:10px;font-family:var(--mono);font-size:12px;font-weight:700;border:none;background:linear-gradient(135deg,#92400e,#fbbf24);color:#000;cursor:pointer;letter-spacing:.04em">← REALMS</button>
+  </div></div>`;
+  document.getElementById('ex-content').innerHTML=h;
+  document.getElementById('ex-counter').textContent='Results';
+  document.getElementById('ex-prog').style.width='100%';
+}
+
 // ── INIT ──────────────────────────────────────────────────────────────────────
 migrateXP();
+updateShieldDisplay();
 showRealm();
 </script>
+
 </body>
 </html>
