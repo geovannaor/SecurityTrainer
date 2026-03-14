@@ -6952,7 +6952,7 @@ function showRunner(lid){CL=ALL_LEVELS.find(l=>l.id===lid);if(CL&&unlocked(lid))
 // ── REALM MAP ─────────────────────────────────────────────────────────────────
 function renderRealm(){
   const p=loadP();
-  const xpE=ALL_LEVELS.reduce((s,l)=>s+(p[l.id]?.xp||0),0);
+  const xpE=ALL_LEVELS.reduce((s,l)=>s+(p[l.id]?.xp||0),0)+(p['exam_xp']||0);
   const done=ALL_LEVELS.filter(l=>p[l.id]?.completed).length;
   document.getElementById('h-xp').textContent=xpE;
   document.getElementById('h-done').textContent=done+'/'+ALL_LEVELS.length;
@@ -9093,9 +9093,8 @@ function exitExam(){
 }
 
 function examUnlocked(){
-  return true; // TODO: restore gate before release
-  // const reviewIds=['d1l5','d2l6','d3l5','d4l10','d5review'];
-  // return reviewIds.every(id=>passed(id));
+  const reviewIds=['d1l5','d2l6','d3l5','d4l10','d5review'];
+  return reviewIds.every(id=>passed(id));
 }
 
 function getExamP(){try{return JSON.parse(localStorage.getItem('sp_exam')||'{}')}catch{return{}}}
@@ -9608,6 +9607,9 @@ function finalizeExam(){
   const total=Math.min(100,pbqEarned+mcqEarned);
   const mastery=total>=83;
   const pass=total>=70;
+  const partial=total>=50&&total<70;
+  // XP award
+  const xpAward=mastery||pass?775:partial?400:0;
   if(mastery)setShield();
   // Domain breakdown
   const domains=['D1','D2','D3','D4','D5'];
@@ -9619,11 +9621,25 @@ function finalizeExam(){
     domainStats[d]=total_pts>0?Math.round((earned/total_pts)*100):0;
   });
   EX.domainStats=domainStats;
-  // Save attempt
+  EX.xpAward=xpAward;
+  // Award XP to global counter (only award once - track in exam profile)
   const ep=getExamP();
   ep.attempts=(ep.attempts||0)+1;
   ep.best=Math.max(ep.best||0,total);
   if(mastery)ep.shield=true;
+  // Only add XP if this attempt earned more than previously awarded
+  const prevXP=ep.xpAwarded||0;
+  if(xpAward>prevXP){
+    const delta=xpAward-prevXP;
+    ep.xpAwarded=xpAward;
+    // Add to global profile XP via a special exam key
+    const p=loadP();
+    p['exam_xp']=(p['exam_xp']||0)+delta;
+    saveP(p);
+    EX.xpDelta=delta;
+  } else {
+    EX.xpDelta=0;
+  }
   saveExamP(ep);
   updateShieldDisplay();
   renderExamResult(total,pbqEarned,mcqEarned,mastery,pass);
@@ -9647,19 +9663,27 @@ function renderExamResult(total,pbqEarned,mcqEarned,mastery,pass){
     {label:'Domain 4',pct:ds.D4||0,color:'var(--d4)'},
     {label:'Domain 5',pct:ds.D5||0,color:'var(--d5)'},
   ];
-  let stateMsg='',stateSub='';
+  let stateMsg='',stateSub='',xpMsg='';
+  const xpAward=EX.xpAward||0;
+  const xpDelta=EX.xpDelta||0;
   if(mastery){
     stateMsg='🛡️ Gold Shield Earned';
-    stateSub='Mastery confirmed  -  SY0-701 exam-ready';
+    stateSub='Mastery confirmed - SY0-701 exam-ready';
+    xpMsg=xpDelta>0?`+${xpDelta} XP earned`:(xpAward>0?'XP already awarded for this milestone':'');
   } else if(pass){
     stateMsg='✓ Passed';
     stateSub='Review your weakest domains and retry for your gold shield';
+    xpMsg=xpDelta>0?`+${xpDelta} XP earned`:(xpAward>0?'XP already awarded for this milestone':'');
+  } else if(total>=50){
+    stateMsg='↻ Keep Going';
+    stateSub='You\'re past halfway - strengthen your weakest domains and retry';
+    xpMsg=xpDelta>0?`+${xpDelta} XP earned`:(xpAward>0?'XP already awarded for this milestone':'');
   } else {
-    // Find weakest domains
     const sorted=[...domainData].sort((a,b)=>a.pct-b.pct);
     const weak=sorted.slice(0,2).map(d=>d.label).join(' and ');
-    stateMsg='↻ Not Passed';
-    stateSub='Weakest domains: '+weak;
+    stateMsg='↻ Not Yet';
+    stateSub='Focus on '+weak+' and retry when ready';
+    xpMsg='Score 50% or higher to earn XP';
   }
   let h=`<div style="padding:16px">
     <div style="border:1.5px solid ${mastery?'rgba(251,191,36,0.5)':pass?'rgba(34,197,94,0.4)':'rgba(245,158,11,0.4)'};border-radius:14px;padding:18px;background:${mastery?'rgba(251,191,36,0.06)':pass?'rgba(34,197,94,0.05)':'rgba(245,158,11,0.05)'};margin-bottom:16px;text-align:center">
@@ -9668,6 +9692,7 @@ function renderExamResult(total,pbqEarned,mcqEarned,mastery,pass){
       <div style="font-size:12px;color:var(--muted);margin-bottom:10px">out of 100 · 83% mastery · 70% pass</div>
       <div class="exam-result-state" style="color:${sc}">${stateMsg}</div>
       <div style="font-size:12px;color:var(--muted);margin-top:4px">${stateSub}</div>
+      ${xpMsg?`<div style="margin-top:12px;display:inline-block;padding:6px 16px;border-radius:20px;background:rgba(99,102,241,0.15);border:1px solid rgba(99,102,241,0.3);font-family:var(--mono);font-size:12px;font-weight:700;color:#a5b4fc">${xpMsg}</div>`:''}
     </div>
     <div style="font-family:var(--mono);font-size:11px;color:var(--muted);letter-spacing:.05em;margin-bottom:10px">SCORE BREAKDOWN</div>
     <div style="display:flex;gap:10px;margin-bottom:16px">
