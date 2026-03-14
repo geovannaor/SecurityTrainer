@@ -716,7 +716,7 @@ const EXAM_QUESTIONS=[
     exam_tip:"GDPR right to erasure (Article 17) exceptions include: legal obligation compliance, public interest, legal claims. Legal holds = preservation obligation that can lawfully override erasure requests. Data sovereignty = data in a jurisdiction is subject to that jurisdiction's laws. Cross-border replication creates multi-jurisdiction compliance obligations."
   }},
   {qNum:35,type:'mcq',domain:'D2',data:{
-    q:"A security analyst reviews anomalous activity flagged by the UEBA (User and Entity Behavior Analytics) system for a senior database administrator. The flagged behaviors over 30 days include: bulk downloads of customer records outside business hours, repeated access to HR compensation files outside their job function, printing of network diagrams on the last day before their announced resignation, and disabling of their own activity logging for a 45-minute window. Which threat category does this MOST represent, and what distinguishes it from an external threat actor using the same account?",
+    q:"A security analyst reviews anomalous activity flagged by the UBA (User Behavior Analytics) system for a senior database administrator. The flagged behaviors over 30 days include: bulk downloads of customer records outside business hours, repeated access to HR compensation files outside their job function, printing of network diagrams on the last day before their announced resignation, and disabling of their own activity logging for a 45-minute window. Which threat category does this MOST represent, and what distinguishes it from an external threat actor using the same account?",
     opts:[
       {id:'a',label:"Credential stuffing  -  an external attacker obtained the DBA's credentials from a prior breach and is conducting automated reconnaissance; the off-hours access pattern and sequential enumeration of HR files indicate scripted credential testing rather than deliberate insider activity"},
       {id:'b',label:"Privileged insider threat  -  the behavioral pattern of data staging, scope expansion beyond job function, logging evasion, and activity concentrated in the weeks before an announced resignation collectively indicate intentional pre-departure exfiltration that only behavioral correlation over time reveals"},
@@ -725,7 +725,7 @@ const EXAM_QUESTIONS=[
     ],
     answer:'b',
     explanation:"This is a textbook insider threat  -  specifically a malicious insider conducting pre-departure data exfiltration. The pattern is diagnostic: bulk data staging (customer records), scope expansion beyond job function (HR files), operational intelligence gathering (network diagrams), and active defense evasion (logging disable)  -  all occurring after announcing resignation. The critical distinction from an external actor using the same credentials is that an insider has legitimate baseline access. Individual actions may each be explicable in isolation; it is the behavioral correlation across time that reveals intent. UEBA is specifically designed to surface this pattern. An external actor would more likely trigger authentication anomalies (impossible travel, new device) before behavioral anomalies. Logging disable by an insider is a deliberate evasion tactic, not evidence of external sophistication.",
-    exam_tip:"Insider threat indicators: data staging before departure, access outside job function, logging evasion, resignation correlation. UEBA detects behavioral baselines over time  -  designed specifically for insider threat detection. Key distinction: insiders have legitimate access, so individual actions appear normal; behavioral correlation reveals intent."
+    exam_tip:"Insider threat indicators: data staging before departure, access outside job function, logging evasion, resignation correlation. UBA (User Behavior Analytics) detects behavioral baselines over time  -  designed specifically for insider threat detection. Key distinction: insiders have legitimate access, so individual actions appear normal; behavioral correlation reveals intent."
   }},
   {qNum:36,type:'mcq',domain:'D4',data:{
     q:"A security engineer is hardening Windows endpoints across a 2,000-seat enterprise using Group Policy. The baseline configuration must align with a recognized security standard. During testing, the engineer discovers that the CIS Level 1 benchmark recommendation to disable NTLM authentication causes authentication failures for 12 legacy line-of-business applications. Which approach BEST balances security hardening with operational continuity?",
@@ -1148,7 +1148,62 @@ const EXAM_QUESTIONS=[
     exam_tip:"Litigation hold = legal preservation obligation, suspends automated deletion, supersedes retention policy. GDPR Article 17 erasure exceptions: legal obligation compliance, legal claims, public interest. Hold overrides erasure request for its duration. Defensible deletion = deleting data on schedule per documented retention policy (demonstrates systematic deletion, not selective). Backup is not a retention system  -  retention policy governs primary records, not backup copies."
   }},
   // Q46-66 MCQs  -  Phase 6  -  COMPLETE
-  // Q67 PBQ  -  Phase 7
+
+  // -- Q67 PBQ ---------------------------------------------------------------
+  {qNum:67,type:'pbq',data:{
+    type:'exam_single_classify',
+    domain:'D1_D4',
+    points:10,
+    title:'Access Control Model Assignment',
+    scenario:"A security architect is reviewing access control implementations across six systems in a large organization. Each system uses a different access control model. For each scenario, identify which access control model is in use.",
+    instruction:"Tap the correct access control model for each scenario. All six must be classified before you can submit.",
+    axis:{label:'ACCESS CONTROL MODEL',key:'model',options:['MAC','DAC','RBAC','Rule-based','ABAC','Time-of-day']},
+    items:[
+      {
+        id:'ac1',
+        event:"A government agency assigns a sensitivity label to every classified document: Top Secret, Secret, or Unclassified. Each employee holds a clearance level. The system automatically enforces access based on label and clearance - no user can grant or change another user's access level, and no user can override the label on a document.",
+        hint:"Access is enforced by the system based on labels and clearances. No user controls who gets access.",
+        answers:{model:'MAC'},
+        explanation:"Mandatory Access Control (MAC) is identified by two characteristics: labels are assigned to resources by administrators, and the system enforces access based on those labels - users cannot grant or modify access. This is the model used in government and military classified environments where data confidentiality is paramount and user-driven access decisions cannot be permitted. DAC would allow users to grant their own access. RBAC uses job roles, not sensitivity labels."
+      },
+      {
+        id:'ac2',
+        event:"A developer creates a shared project folder on the corporate file server. She grants read access to three colleagues and edit access to one team lead. The following week she removes access from one colleague and adds a new contractor. No administrator approval is required for any of these changes.",
+        hint:"The resource owner controls who has access and can change it at will.",
+        answers:{model:'DAC'},
+        explanation:"Discretionary Access Control (DAC) is identified by the resource owner having full discretion over who can access their resources. The developer created the folder and controls access without requiring administrator approval. This is the model used in standard operating systems like Windows NTFS and Linux file permissions where file owners can set and modify permissions on their own objects. MAC would not allow the user to control access. RBAC would assign access based on job role, not owner decision."
+      },
+      {
+        id:'ac3',
+        event:"A hospital's EHR system automatically grants access to the clinical notes module for all employees with the job title 'Registered Nurse.' When a nurse is promoted to Nurse Manager, their job title changes in HR and their EHR access is automatically updated to include administrative modules. No individual access requests are needed.",
+        hint:"Access follows the job title, not the individual. It changes automatically when the title changes.",
+        answers:{model:'RBAC'},
+        explanation:"Role-Based Access Control (RBAC) assigns permissions to roles rather than to individuals. Every user with the Registered Nurse role inherits the same access permissions. When the role changes, permissions change automatically. This is the most common access control model in enterprise environments because it simplifies administration - adding a new nurse just requires assigning the role, not configuring individual permissions. ABAC would evaluate additional attributes beyond just the role."
+      },
+      {
+        id:'ac4',
+        event:"A cloud platform evaluates four attributes before granting access to a sensitive API: the requesting user's identity, whether their device has passed the latest compliance check, their geographic location, and whether the request falls within authorized business hours. Access is granted only when all four conditions are satisfied simultaneously.",
+        hint:"Multiple independent attributes are all evaluated together to make the access decision.",
+        answers:{model:'ABAC'},
+        explanation:"Attribute-Based Access Control (ABAC) makes access decisions by evaluating multiple attributes simultaneously - user attributes, resource attributes, and environmental attributes. In this scenario, identity (user attribute), device compliance (device attribute), location (environmental attribute), and time (environmental attribute) are all evaluated together. ABAC is the most flexible and granular access control model and is commonly used in cloud and zero trust architectures. RBAC uses only role membership. Rule-based uses fixed conditions on the resource, not dynamic attribute evaluation."
+      },
+      {
+        id:'ac5',
+        event:"A network firewall is configured to allow inbound traffic only on TCP ports 80 and 443 from any source address. All other inbound traffic is automatically denied regardless of who is requesting it or what their credentials are. The rules apply equally to all users and systems.",
+        hint:"The same fixed conditions apply to all traffic regardless of user identity.",
+        answers:{model:'Rule-based'},
+        explanation:"Rule-based access control applies a fixed set of rules to all subjects equally, regardless of their identity, role, or attributes. The firewall permits port 80 and 443 and denies everything else - this decision is based purely on the traffic characteristics defined in the rule, not on who is making the request. Rule-based control is common in network infrastructure (firewalls, routers, ACLs). Contrast with ABAC, which evaluates the identity and attributes of the requester. RBAC would require user identity to be evaluated."
+      },
+      {
+        id:'ac6',
+        event:"A financial services firm configures contractor accounts so that authentication is only permitted between 8:00 AM and 6:00 PM on weekdays. Any login attempt outside this window is automatically rejected by the identity provider, regardless of whether the credentials are valid.",
+        hint:"Access is restricted based purely on when the request is made.",
+        answers:{model:'Time-of-day'},
+        explanation:"Time-of-day restrictions limit access based on when a request is made, independent of user identity beyond authentication. The contractor's credentials may be valid but the system rejects the login because it falls outside the authorized window. This control is used to reduce the attack surface during off-hours and to enforce contractual work-hour limitations. It is listed as a distinct access control type in Security+ objective 4.6. It is often combined with RBAC - the user has a role, but that role is only active during permitted hours."
+      }
+    ]
+  }},
+  // Q67 PBQ  -  Phase 7  -  COMPLETE
   // Q68-89 MCQs  -  Phase 8
   // Q90 PBQ  -  Phase 9
 ];
@@ -8785,6 +8840,7 @@ function renderExamPBQ(q){
   const pbq=q.data;
   if(pbq.type==='exam_sequence'){renderExamSequencePBQ(q);return;}
   if(pbq.type==='exam_dual_classify'){renderExamDualClassify(q);return;}
+  if(pbq.type==='exam_single_classify'){renderExamSingleClassify(q);return;}
   EX.pbqAnswers={};
   let h=`<div style="padding:16px">
     <div style="font-family:var(--mono);font-size:10px;color:#fbbf24;letter-spacing:.06em;margin-bottom:8px">PBQ · ${pbq.title}</div>
@@ -9046,6 +9102,86 @@ function submitExamDualClassify(){
         label:`Event ${pbq.items.indexOf(item)+1}  -  ${protocolCorrect?'✓':'✗'} Protocol · ${exposureCorrect?'✓':'✗'} Exposure`,
         yours:`Protocol: ${ans.protocol||'None'} · Exposure: ${ans.exposure||'None'}`,
         correct:`Protocol: ${item.answers.protocol} · Exposure: ${item.answers.exposure}`,
+        explanation:item.explanation
+      });
+    }
+  });
+
+  earned=Math.round(earned);
+  EX.answers[q.qNum]={type:'pbq',domain:pbq.domain,points:pbq.points,earned};
+  EX.qIndex++;
+  renderExamQ();
+}
+
+// -- Q67 SINGLE CLASSIFY PBQ RENDERER ----------------------------------------
+function renderExamSingleClassify(q){
+  const pbq=q.data;
+  if(!EX.singleAnswers)EX.singleAnswers={};
+  pbq.items.forEach(item=>{
+    if(!EX.singleAnswers[item.id])EX.singleAnswers[item.id]=null;
+  });
+  paintExamSingleClassify(q);
+}
+
+function paintExamSingleClassify(q){
+  const pbq=q.data;
+  const complete=pbq.items.filter(item=>EX.singleAnswers[item.id]).length;
+  const allDone=complete===pbq.items.length;
+
+  let h=`<div style="padding:16px">
+    <div style="font-family:var(--mono);font-size:10px;color:#fbbf24;letter-spacing:.06em;margin-bottom:8px">PBQ - ${pbq.title}</div>
+    <div style="font-size:13px;color:#CBD5E1;line-height:1.65;margin-bottom:10px">${pbq.scenario}</div>
+    <div style="font-family:var(--mono);font-size:11px;color:var(--muted);margin-bottom:18px;padding:10px 12px;background:rgba(251,191,36,0.06);border-radius:8px;border-left:3px solid rgba(251,191,36,0.4);line-height:1.7">${pbq.instruction}</div>
+    <div style="display:flex;flex-direction:column;gap:14px">`;
+
+  pbq.items.forEach((item,idx)=>{
+    const sel=EX.singleAnswers[item.id];
+    const done=!!sel;
+    h+=`<div style="background:var(--surface);border:1.5px solid ${done?'rgba(34,197,94,0.3)':'rgba(255,255,255,0.08)'};border-radius:12px;padding:14px">
+      <div style="font-family:var(--mono);font-size:10px;color:#fbbf24;margin-bottom:8px">SCENARIO ${idx+1} ${done?'<span style="color:var(--green)">&#10003;</span>':''}</div>
+      <div style="font-size:13px;color:var(--text);line-height:1.65;margin-bottom:10px">${item.event}</div>
+      <div style="font-family:var(--mono);font-size:10px;color:rgba(148,163,184,0.6);font-style:italic;margin-bottom:12px;padding:6px 10px;background:rgba(255,255,255,0.02);border-radius:6px">&#128161; ${item.hint}</div>
+      <div style="font-family:var(--mono);font-size:10px;color:var(--d1);letter-spacing:.05em;margin-bottom:8px">${pbq.axis.label}</div>
+      <div style="display:flex;flex-wrap:wrap;gap:8px">`;
+    pbq.axis.options.forEach(opt=>{
+      const isSel=sel===opt;
+      h+=`<button onclick="singleClassifySelect('${item.id}','${opt.replace(/'/g,"\\'")}','${q.qNum}')" style="padding:8px 14px;border-radius:8px;border:1.5px solid ${isSel?'var(--d1)':'rgba(255,255,255,0.12)'};background:${isSel?'rgba(99,102,241,0.15)':'var(--bg)'};color:${isSel?'#a5b4fc':'var(--muted)'};font-family:var(--mono);font-size:11px;cursor:pointer;transition:all .15s">${opt}</button>`;
+    });
+    h+=`</div></div>`;
+  });
+
+  h+=`</div>
+    <div style="margin-top:14px;padding:10px 14px;background:rgba(255,255,255,0.03);border-radius:8px;font-family:var(--mono);font-size:10px;color:var(--muted)">${complete} of ${pbq.items.length} scenarios classified</div>
+    <button onclick="submitExamSingleClassify()" ${allDone?'':'disabled'} style="margin-top:12px;width:100%;padding:14px;border-radius:10px;font-family:var(--mono);font-size:12px;font-weight:700;border:none;background:${allDone?'rgba(251,191,36,0.25)':'rgba(251,191,36,0.1)'};color:#fbbf24;cursor:${allDone?'pointer':'default'};opacity:${allDone?'1':'0.45'};letter-spacing:.04em">SUBMIT PBQ - CONTINUE</button>
+  </div>`;
+
+  document.getElementById('ex-content').innerHTML=h;
+}
+
+function singleClassifySelect(itemId,value,qNum){
+  if(!EX.singleAnswers)EX.singleAnswers={};
+  EX.singleAnswers[itemId]=value;
+  paintExamSingleClassify(EXAM_QUESTIONS[EX.qIndex]);
+}
+
+function submitExamSingleClassify(){
+  const q=EXAM_QUESTIONS[EX.qIndex];
+  const pbq=q.data;
+  let earned=0;
+  const ptsEach=pbq.points/pbq.items.length;
+
+  pbq.items.forEach(item=>{
+    const ans=EX.singleAnswers[item.id];
+    const correct=ans===item.answers.model;
+    if(correct){
+      earned+=ptsEach;
+    } else {
+      if(!EX.missedPBQ)EX.missedPBQ=[];
+      EX.missedPBQ.push({
+        qNum:q.qNum,
+        label:`Scenario ${pbq.items.indexOf(item)+1}`,
+        yours:ans||'No answer',
+        correct:item.answers.model,
         explanation:item.explanation
       });
     }
